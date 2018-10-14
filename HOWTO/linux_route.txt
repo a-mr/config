@@ -1,0 +1,11 @@
+
+when 2 computers are on the same switch, but from different IP-subnetworks:
+to make packages transfer directly throug switch, not from remote gateway:
+
+route add -host $DESTINATION_IP dev $INTERFACE
+e.g. route add -host 1.2.3.4 dev eth0
+
+or add the following line to /etc/sysconfig/static-routes
+
+any host $DESTINATION_IP dev $INTERFACE
+

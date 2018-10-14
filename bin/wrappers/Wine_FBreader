@@ -1,0 +1,10 @@
+#!/bin/bash
+
+Dir=$HOME/.wine/drive_c/
+CMD1=`which FBReader` || CMD1=`which FBreader` || CMD1=`which fbreader`
+echo substitute C: to $Dir
+FILE1=`echo $1 | sed "s|C:|$Dir|g"`
+echo substitute "\\" to / by command "s/\\\\\\\\/\\//g"
+FILE2=`echo $FILE1 | sed "s/\\\\\\\\/\\//g"`
+echo Running $CMD1 $FILE2 ...
+$CMD1 "$FILE2" $2 $3 $4 $5 $6 $7 $8 $9

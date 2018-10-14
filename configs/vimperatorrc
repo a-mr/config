@@ -1,0 +1,10 @@
+nnoremap j <Down>
+nnoremap k <Up>
+nnoremap h 9h
+nnoremap l 9l
+"imap zz <Esc> 
+map <C-l> o
+imap <C-l> <Esc>o
+map  <C-k> ogoogle<Space>
+imap <C-k> <Esc>ogoogle<Space>
+colorscheme myzenburn

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=us layout
+Comment=
+Exec=setxkbmap -layout us
+Icon=
+Path=
+Terminal=false
+StartupNotify=false

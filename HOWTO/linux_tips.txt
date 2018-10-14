@@ -1,0 +1,71 @@
+
+--- grub rescue from liveCD ---
+mount /dev/disk /mnt/disk
+grub-setup -d /mnt/disk/boot/grub /dev/disk
+
+OR
+grub-install --root-directory=/mnt/disk /dev/disk
+OR, if it complains about map absence,
+grub-install --root-directory=/mnt/disk --recheck /dev/disk
+
+=== download site by wget====================================================
+
+wget -m protocol://site
+
+to resume download use oprtion -c 
+
+wget -c -m protocol://site
+
+You may need --user= and --password= options.
+
+=== find files ===============================================================
+
+Find files modified last 3 days:
+
+find . -type f -mtime -3
+
+=== Disc summary =============================================================
+
+lsblk --output NAME,FSTYPE,MODEL,SIZE,STATE
+lsblk --output NAME,FSTYPE,MODEL,SIZE,STATE,UUID
+
+=== check file systems =======================================================
+
+fsck /dev/disk
+
+full check:
+fsck -f /dev/disk 
+
+=== create password hash =====================================================
+
+openssl passwd -1 -salt ihlrowCw
+
+(format: $1$ihlrowCw$.....................)
+
+=== Mounting a hard disk image including partitions using Linux ==============
+
+parted hda.img
+unit
+B
+print
+quit
+
+# 'Start' gives offset
+
+mount -o loop,ro,offset=N hda.img /mnt/a
+
+=== configure linux host as gateway ==========================================
+
+Assuming eth1 is internet, eth2 is local net.
+
+iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+iptables -A FORWARD -i eth2 -j ACCEPT
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+And put correct dns servers in client's /etc/resolv.conf
+
+=== show fonts ================================================================
+
+fc-list|cut -d: -f2|sort|uniq
+specify language 'russian':
+fc-list :lang=ru|cut -d: -f2|sort|uniq

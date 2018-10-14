@@ -1,0 +1,4 @@
+
+http://www.easysw.com/~mike/serial/serial.html
+http://www.tldp.org/HOWTO/Serial-Programming-HOWTO/x115.html
+

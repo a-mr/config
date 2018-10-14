@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=se keyboard layout
+Comment=
+Exec=setxkbmap se
+Icon=
+Path=
+Terminal=false
+StartupNotify=false

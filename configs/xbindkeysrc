@@ -1,0 +1,30 @@
+# vol up
+#"amixer sset Master unmute 5%+"
+#  m:0x10 + c:176
+"amixer sset Master unmute 5%+"
+  XF86AudioRaiseVolume
+# vol dn
+#"amixer sset Master unmute 5%-"
+#  m:0x10 + c:174
+"amixer sset Master unmute 5%-"
+  XF86AudioLowerVolume
+# vol mute/unmute
+"amixer set Master toggle"
+  m:0x10 + c:160
+"amixer set Master toggle"
+  XF86AudioMute
+# play/pause
+"dbus-send --session --type=method_call --print-reply --dest=org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+  XF86AudioPlay
+# back
+"dbus-send --session --type=method_call --print-reply --dest=org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+  XF86AudioPrev
+# forward
+"dbus-send --session --type=method_call --print-reply --dest=org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+  XF86AudioNext
+# stop
+"dbus-send --session --type=method_call --print-reply --dest=org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+  XF86AudioStop
+#touchpad
+"~/bin/toggletouchpad.sh"
+  XF86TouchpadToggle

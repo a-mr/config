@@ -1,0 +1,16 @@
+
+====================================
+cmake
+===============================
+HOWTO: make uninstal
+  xargs rm < install_manifest.txt
+
+
+======================================================
+YUM (rhel,fedora,scientific,centos)
+======================================================
+yum list installed | cut -f 1 -d' ' | sed '/^$/d' > ilist.pack
+for i in `cat ilist.pack`; do echo `basename $i .i686` >> ilist2.pack; done
+for i in `cat ilist.pack`; do echo `basename $i .x86_64` >> ilist2.pack; done
+
+

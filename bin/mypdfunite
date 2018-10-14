@@ -1,0 +1,6 @@
+#!/bin/bash
+
+out="$1"
+shift 1
+echo o=$out i=$@
+gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE="$out" -dBATCH $@

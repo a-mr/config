@@ -1,0 +1,9 @@
+#!/bin/bash
+
+FILE=`find . -wholename "*$1*"`
+SUBFILE=`find . -wholename "*$2*"` 
+
+echo Found $FILE and subfile $SUBFILE
+#xine s2e1\ The\ Avatar\ Stater\(RUS\,ENG\).avi#subtitle:sub/Avatar\ The\ Last\ Airbender\ -\ 2x01\ -\ The\ Avatar\ State.en.srt
+xine "$FILE"#subtitle:"$SUBFILE" $3 $4 $5 $6 $7 $8 $9
+

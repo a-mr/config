@@ -1,0 +1,6 @@
+
+print source code by a2ps:
+   a2ps * -o evilwm.ps --toc -1 --left-footer="evilwm (window manager)" --left-title=23.04.2012 --right-footer=""
+
+   -B  turn off headers/footers
+

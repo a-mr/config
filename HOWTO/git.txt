@@ -1,0 +1,51 @@
+
+===============================================================================
+<url> format is as usual:
+	ssh://<USER>@<HOST>/~/rep/DIR
+OR	<HOST>:rep/DIR
+
+===============================================================================
+Set default remote repository:
+> git remote set-url origin <url>
+
+===============================================================================
+Make empty-working-copy repository (e.g. for remote usage)
+> git clone --bare <url>
+
+===============================================================================
+git checkout test will NOT work in modern git if you have multiple remotes.
+In this case use git checkout -b test <name of remote>/test
+
+> git checkout remotes/origin/release-0.6
+> git status
+HEAD detached at origin/release-0.6
+nothing to commit, working tree clean
+
+> git checkout -b release-0.6 remotes/origin/release-0.6
+(OK)
+
+===============================================================================
+submodules:
+make git to checkout all submodules:
+> git submodule update --init
+
+The git submodule update command actually tells Git that you want your submodules to each check out the commit already specified in the index of the superproject. If you want to update your submodules to the latest commit available from their remote, you will need to do this directly in the submodules.
+
+# change to the submodule directory
+> cd submodule_dir
+
+# checkout desired branch
+> git checkout master
+
+# update
+> git pull
+
+# get back to your project root
+> cd ..
+
+# now the submodules are in the state you want, so
+> git commit -am "Pulled down update to submodule_dir"
+Or, if you're a busy person:
+
+> git submodule foreach git pull origin master
+===============================================================================

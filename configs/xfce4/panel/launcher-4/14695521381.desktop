@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=my keyboard layout
+Comment=
+Exec=bash -l -c mysetxkb
+Icon=
+Path=
+Terminal=false
+StartupNotify=false

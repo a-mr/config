@@ -1,0 +1,126 @@
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!! configure rxvt/rxvt-unicode
+Rxvt*loginShell: true
+Rxvt*font: xft:Liberation Mono:pixelsize=18
+Rxvt*background: #000000
+Rxvt*foreground: #bbbbbb
+Rxvt*saveLines: 2000
+!Rxvt*visualBell: true
+
+!black
+URxvt*color0:   #000000
+URxvt*color8:   #808080
+!red
+URxvt*color1:   #c00000
+URxvt*color9:   #ff6060
+!green
+URxvt*color2:   #008000
+URxvt*color10:  #00ff00
+!yellow
+URxvt*color3:   #808000
+URxvt*color11:  #ffff00
+!blue
+URxvt*color4:   #4d99e6
+URxvt*color12:  #7ca7c1
+!magenta
+URxvt*color5:   #c000c0
+URxvt*color13:  #ff40ff
+!cyan
+URxvt*color6:   #008080
+URxvt*color14:  #00ffff
+!white
+URxvt*color7:   #c0c0c0
+URxvt*color15:  #ffffff
+
+
+Rxvt*scrollBar:  true
+Rxvt*scrollstyle: rxvt
+!Rxvt*scrollBar_right: true
+Rxvt*thickness: 10
+
+URxvt*termName: rxvt-256color
+URxvt.keysym.M-C-0: command:\033]710;xft:Liberation Mono:pixelsize=8\007\033]711;xft:Liberation Mono:pixelsize=8\007
+URxvt.keysym.M-C-1: command:\033]710;xft:Liberation Mono:pixelsize=10\007\033]711;xft:Liberation Mono:pixelsize=10\007
+URxvt.keysym.M-C-2: command:\033]710;xft:Liberation Mono:pixelsize=12\007\033]711;xft:Liberation Mono:pixelsize=12\007
+URxvt.keysym.M-C-3: command:\033]710;xft:Liberation Mono:pixelsize=14\007\033]711;xft:Liberation Mono:pixelsize=14\007
+URxvt.keysym.M-C-4: command:\033]710;xft:Liberation Mono:pixelsize=16\007\033]711;xft:Liberation Mono:pixelsize=16\007
+URxvt.keysym.M-C-5: command:\033]710;xft:Liberation Mono:pixelsize=18\007\033]711;xft:Liberation Mono:pixelsize=18\007
+URxvt.keysym.M-C-6: command:\033]710;xft:Liberation Mono:pixelsize=22\007\033]711;xft:Liberation Mono:pixelsize=22\007
+URxvt.keysym.M-C-7: command:\033]710;xft:Liberation Mono:pixelsize=26\007\033]711;xft:Liberation Mono:pixelsize=26\007
+URxvt.keysym.M-C-8: command:\033]710;xft:Liberation Mono:pixelsize=30\007\033]711;xft:Liberation Mono:pixelsize=30\007
+URxvt.keysym.M-C-9: command:\033]710;xft:Liberation Mono:pixelsize=36\007\033]711;xft:Liberation Mono:pixelsize=36\007
+URxvt*fading: 20
+!URxvt.perl-ext-common:  default,matcher,urxvtclip,keyboard-select
+URxvt.perl-ext-common:  default,matcher
+!keyboard-select
+URxvt.url-launcher:      my-web-browser
+URxvt.matcher.button:   1
+!URxvt.keysym.M-u:     perl:url-select:select_next
+!URxvt.keysym.M-Escape:perl:keyboard-select:activate
+!URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+!URxvt.clipboard.copycmd:  xsel -ib
+!URxvt.clipboard.pastecmd: xsel -ob
+!URxvt.keysym.M-v: perl:clipboard:paste
+!URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+!unicode insert mode
+!URxvt.iso14755: False
+URxvt.iso14755: True
+!URxvt.keysym.M-Escape: perl:keyboard-select:activate
+! The following line overwrites the default Meta-s binding and allows to
+! activate keyboard-select directly in backward search mode:
+!URxvt.keysym.M-s: perl:keyboard-select:search
+URxvt.print-pipe: cat > $(TMPDIR=$HOME mktemp urxvt.XXXXXX)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+xterm*loginShell: true
+xterm*utf8: 1
+! xterm*faceName: Ubuntu Mono
+xterm*faceName: Liberation Mono
+!xterm*faceName: xft:iosevka:spacing=mono:pixelsize=13
+xterm*faceSize: 12
+!xterm*faceName: Input Mono Condensed
+xterm*saveLines: 4096
+! xterm*visualBell: true
+
+xterm*background: black
+xterm*foreground: grey
+
+!black
+xterm*color0:   #000000
+xterm*color8:   #808080
+!red
+xterm*color1:   #c00000
+xterm*color9:   #ff6060
+!green
+xterm*color2:   #008000
+xterm*color10:  #00ff00
+!yellow
+xterm*color3:   #808000
+xterm*color11:  #ffff00
+!blue
+xterm*color4:   #4d99e6
+xterm*color12:  #7ca7c1
+!magenta
+xterm*color5:   #c000c0
+xterm*color13:  #ff40ff
+!cyan
+xterm*color6:   #008080
+xterm*color14:  #00ffff
+!white
+xterm*color7:   #c0c0c0
+xterm*color15:  #ffffff
+
+
+xterm*scrollBar:  true
+xterm*rightScrollBar: true
+xterm*alternateScroll: true
+
+!when select copy to both X11 buffers
+XTerm*VT100.translations: #override <Btn1Up>: select-end(PRIMARY, CLIPBOARD, CUT_BUFFER0)
+XTerm*metaSendsEscape: true
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+xscreensaver.timeout: 30

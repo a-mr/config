@@ -1,0 +1,8 @@
+[general]
+engines-order=['xkb:us::eng', 'table:latex']
+use-system-keyboard-layout=true
+preload-engines=['xkb:us::eng', 'table:latex']
+version='1.5.9'
+
+[general/hotkey]
+triggers=['<Control>space']

@@ -1,0 +1,10 @@
+
+* Linux old monitor modeline configuration
+
+gtf 1600 1200 85
+xrandr --newmode "1600x1200_85.00"  234.76  1600 1720 1896 2192  1200 1201 1204 1260  -HSync +Vsync
+xrandr --addmode VGA-1 1600x1200_85.00
+xrandr -s 1600x1200 -r 85
+
+These lines can be added to /etc/gdm/Xsession
+ 

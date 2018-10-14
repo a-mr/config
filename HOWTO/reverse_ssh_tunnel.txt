@@ -1,0 +1,24 @@
+HOW TO "Reverse ssh tunnel"
+
+let suppose you want to login to computer 'C1' behind NAT router
+using any accesible-through-network ssh server on 'S1'. 
+
+this can be done via ssh following next steps,
+note, you need ssh user accounts 'usernameC1' on C1 and 'usernameS1' on S1,
+and root access to S1.
+
+1. Configure ssh server on S1, add to 'sshd_config':
+   GatewayPorts yes
+and restart service sshd
+
+give access to chosen port number 'P1' (for example, 6012) for firewall of S1
+(in redhat: edit /etc/sysconfig/iptables and restart service iptables)
+
+2. run on C1:
+   ssh -nNT -R S1:P1:localhost:22 usernameS1@S1
+then type your password for usernameS1@S1
+
+3. now you can login to C1 from any computer using this command:
+   ssh usernameC1@S1 -p P1
+
+P.S. if something goes wrong, run sshd server with debug option '-d'

@@ -1,0 +1,34 @@
+#XXkb.mainwindow.type:  tray
+#XXkb.mainwindow.geometry: 15x15+0+0
+#XXkb.mainwindow.image.1: en15.xpm
+#XXkb.mainwindow.image.2: ru15.xpm
+#XXkb.button.enable:  no
+XXkb.button.enable:  yes
+XXkb.button.border.width: 2
+XXkb.button.border.color: black
+XXkb.button.geometry: 15x15+0-40
+#XXkb.button.label.enable: yes
+XXkb.button.label.enable: no
+XXkb.image.path: /usr/share/xxkb
+XXkb.button.image.1: en15.xpm
+XXkb.button.image.2: ru15.xpm
+XXkb.button.image.3: il15.xpm
+XXkb.button.image.4: il15.xpm
+XXkb.controls.add_when_create: yes
+XXkb.controls.add_when_start: yes
+XXkb.controls.add_when_change: no
+#XXkb.controls.mainwindow_delete: no
+
+XXkb.mainwindow.enable: yes
+XXkb.mainwindow.label.enable: no
+XXkb.mainwindow.type: tray
+XXkb.mainwindow.geometry: 15x15+0+0
+XXkb.image.path: /usr/share/xxkb/
+XXkb.mainwindow.image.1: en15.xpm
+XXkb.mainwindow.image.2: ru15.xpm
+XXkb.mainwindow.image.3: il15.xpm
+XXkb.mainwindow.image.4: il15.xpm
+XXkb.bell.enable: yes
+XXkb.bell.percent: 100
+
+XXkb.app_list.wm_name.ignore: gkrellm

@@ -1,0 +1,29 @@
+# 
+
+# deb cdrom:[Debian GNU/Linux testing _Jessie_ - Official Snapshot amd64 NETINST Binary-1 20131223-05:45]/ jessie main
+
+#deb cdrom:[Debian GNU/Linux testing _Jessie_ - Official Snapshot amd64 NETINST Binary-1 20131223-05:45]/ jessie main
+
+deb http://mirror.yandex.ru/debian/ jessie main contrib non-free
+deb-src http://mirror.yandex.ru/debian/ jessie main contrib non-free
+
+deb http://security.debian.org/ jessie/updates main contrib non-free
+deb-src http://security.debian.org/ jessie/updates main contrib non-free
+
+# jessie-updates, previously known as 'volatile'
+deb http://mirror.yandex.ru/debian/ jessie-updates main contrib non-free
+deb-src http://mirror.yandex.ru/debian/ jessie-updates main contrib non-free
+
+# jessie-backports, previously on backports.debian.org
+deb http://mirror.yandex.ru/debian/ jessie-backports main
+deb-src http://mirror.yandex.ru/debian/ jessie-backports main
+
+#makarov: some packages were missing in jessie, but present in stable (or unstable)
+#deb http://mirror.yandex.ru/debian/ stable-backports main
+#deb-src http://mirror.yandex.ru/debian/ stable-backports main
+#deb http://mirror.yandex.ru/debian/ stable main
+#deb-src http://mirror.yandex.ru/debian/ stable main
+
+#makarov: for acroread
+deb http://www.deb-multimedia.org jessie main non-free
+

@@ -1,0 +1,35 @@
+
+wget http://www.haskell.org/ghc/dist/7.6.3/ghc-7.6.3-src.tar.bz2
+tar jxvf ghc-7.6.3-src.tar.bz2
+cd ghc-7.6.3
+./configure --prefix=/opt/haskell/ghc-7.6.3
+make -j9
+  OR just make if parallel compillation -j9 failed
+su -c "make install"                                            
+
+=== install Cabal ===
+
+get latest cabal-install from http://hackage.haskell.org/package/cabal-install
+
+VERSION=1.18.0.2
+wget http://hackage.haskell.org/packages/archive/cabal-install/$VERSION/cabal-install-$VERSION.tar.gz
+tar zxvf cabal-install-$VERSION.tar.gz
+cd cabal-install-$VERSION
+sh bootstrap.sh
+
+=== install packages ===
+
+cabal update
+#cabal install stm
+cabal install vector
+cabal install mwc-random
+
+add to ~/.cabal/config:
+remote-repo: <HOST>:http://<HOST>/~<USER>/lackage
+
+cabal install hep-root-plot
+
+cabal install reactive-banana reactive-banana-threepenny
+
+cabal install hoogle hlint
+cabal install pointfree

@@ -1,0 +1,15 @@
+
+=== ADD repository $REPO ===
+
+add-apt-repository ppa:$REPO
+apt-get update
+
+=== fix hibernate ===
+
+edit /etc/default/grub
+add resume= line to linux cmdline like:
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash resume=UUID=19290545-e656-4d69-b7d6-a699e87f7dc0"
+
+for working GUI edit
+/var/lib/polkit-1/localauthority/10-vendor.d/com.ubuntu.desktop.pkla
+found "Disable hibernate" entries and change ResultActive=no to yes

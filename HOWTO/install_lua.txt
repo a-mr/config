@@ -1,0 +1,16 @@
+
+install via luadist:
+
+1a) install binary from luadist.org
+
+1b) install by bootstrap
+git clone  --recursive git://github.com/LuaDist/bootstrap.git _bootstrap
+./bootstrap
+mv _install ~/opt/luadist-5.2
+
+2) instal luajit 
+~/opt/luadist-5.2/bin/luadist ~/opt/luadist-jit install luajit luadist-git 
+
+3) install libraries
+
+~/opt/luadist-jit/bin/luadist install lmapm

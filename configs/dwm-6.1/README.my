@@ -1,0 +1,5 @@
+patch -p1 < dwm-6.0-bstack.diff
+patch -p1 < dwm-6.1-fancybar.diff
+patch -p1 < dwm-6.1-systray.diff
+patch -p1 < dwm-6.1-pertag.diff
+

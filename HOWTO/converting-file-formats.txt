@@ -1,0 +1,17 @@
+
+===========================================
+PS -> PDF
+
+ps2pdf -sPAPERSIZE=a4 -dOptimize=true -dEmbedAllFonts=true YourPSFile.ps
+
+https://wiki.archlinux.org/index.php/Ps2pdf
+
+============================================
+TXT -> PS
+
+(utf-8 enabled)
+paps my.txt > my.ps
+paps --landscape --font="Nimbus Roman No9 L" --columns=2 my.txt >my.ps
+
+(old, without utf-8)
+mpage -1 -l -L70 file.txt > file.ps

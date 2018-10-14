@@ -1,0 +1,7 @@
+=== Restarting printer =========
+cupsenable $printername
+
+To prevent printer stopping on errors, change in /etc/cups/printers.conf
+"ErrorPolicy" from stop-printer to abort-job.
+or by command:
+lpadmin -p $printername -o printer-error-policy=abort-job

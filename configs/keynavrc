@@ -1,0 +1,22 @@
+ctrl+comma start, grid 4x4
+z end
+t warp,click 1
+n warp,click 2
+r warp,click 3
+b history-back
+u cell-select 1x1
+w cell-select 2x1
+i cell-select 3x1
+s cell-select 4x1
+y cell-select 1x2
+a cell-select 2x2
+e cell-select 3x2
+o cell-select 4x2
+minus cell-select 1x3
+period cell-select 2x3
+comma cell-select 3x3
+apostrophe cell-select 4x3
+0 cell-select 1x4
+1 cell-select 2x4
+2 cell-select 3x4
+3 cell-select 4x4

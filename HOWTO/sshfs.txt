@@ -1,0 +1,7 @@
+
+simplest use:
+sshfs $host:$src $dest
+
+sshfs -o idmap=file,uidfile=uids.txt,gidfile=gids.txt,nomap=ignore -o allow_other $host:$src $dest
+
+where {uids,gids}.txt have format "name:id\n..."

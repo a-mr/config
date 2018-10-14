@@ -1,0 +1,22 @@
+/etc/dhcp/dhcpd.conf:
+
+option domain-name "example.org";
+default-lease-time 600;
+max-lease-time 7200;
+log-facility local7;
+
+subnet 192.168.1.0 netmask 255.255.255.0 {
+  range 192.168.1.100 192.168.1.253;
+  option routers 192.168.1.1;
+}
+
+host mcp-1400-2000-mod1 {
+  hardware ethernet 00:40:9D:4C:34:3B;
+  fixed-address 192.168.1.128;
+}
+
+host mcp-3000-mod1 {
+  hardware ethernet 00:40:9D:4E:20:B5;
+  fixed-address 192.168.1.129;
+}
+

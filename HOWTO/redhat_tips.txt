@@ -1,0 +1,2 @@
+=== permanently disable selinux ===
+in /etc/selinux/config change SELINUX=enforcing to SELINUX=disabled

@@ -1,0 +1,62 @@
+{
+    "keyboard.dispatch": "keyCode",
+    "editor.fontSize": 18,
+    "editor.rulers": [80],
+    // "editor.fontFamily": "'Input Mono',Droid Sans Mono'"
+    "editor.renderWhitespace": "none",
+    "editor.wordWrap": "on",
+    "window.zoomLevel": 0,
+    // Controls the maximum amount of lines the terminal keeps in its buffer.
+    "terminal.integrated.scrollback": 5000,
+
+    
+    //"vim.useSystemClipboard": true,
+    //"vim.useCtrlKeys": false,
+    "vim.handleKeys":{
+        "<C-n>": false,
+    },
+    "vim.easymotion": true,
+    "vim.easymotionKeys": "abcdefghijklmnopqrstuvwxyz'.ABCDEFGHIJKLMNOPQRSTUVWXYZ,",
+    "vim.easymotionMarkerFontSize": "22",
+    "vim.easymotionMarkerHeight": 25,
+    "vim.easymotionMarkerWidthPerChar": 20,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["k"],
+            "after": ["leader", "leader", "F"]
+        },
+        {
+            "before": ["j"],
+            "after": ["leader", "leader", "f"]
+        },
+        {
+            "before": ["l"],
+            "after": ["leader", "leader", "w"]
+        },
+        {
+            "before": ["h"],
+            "after": ["leader", "leader", "b"]
+        },
+    ],
+    //"vim.easymotionMarkerBackgroundColor": "#ffffff",
+    "vim.easymotionMarkerForegroundColorOneChar": "#ffff00",
+    
+    // Alignment extension
+    "alignment.chars": {
+        ":": {
+            "spaceBefore": 2,
+            "spaceAfter": 2
+        },
+        "=": {
+            "spaceBefore": 1,
+            "spaceAfter": 1
+        },
+    },
+    //"python.formatting.provider": "yapf"
+    "terminal.integrated.fontFamily" : "monospace",
+    //"terminal.integrated.lineHeight": 0,
+    "terminal.integrated.fontSize": 18,
+    "[nim]": {
+        "editor.tabSize": 2
+    }
+}

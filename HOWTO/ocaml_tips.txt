@@ -1,0 +1,3 @@
+=== Editing in vim/merlin ====================================================
+Omni completion: <C-X><C-O>
+Get type of expression under cursor: :TypeOf

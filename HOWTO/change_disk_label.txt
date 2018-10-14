@@ -1,0 +1,20 @@
+==================================================
+USB Flash: FAT32
+==================================================
+
+mlabel -i <device> ::<label>
+ex.:
+  mlabel -i /dev/sdf1 ::makdisc
+
+If you get a message like this:
+  Total number of sectors (7831520) not a multiple of sectors per track (63)!
+You can easily ignore the check by running this command:
+  echo mtools_skip_check=1 >> ~/.mtoolsrc
+
+===================================================
+Ext4
+===================================================
+e2label /dev/sdc1 mak
+
+ntfslabel <device> <label>
+

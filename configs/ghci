@@ -1,0 +1,34 @@
+
+:set +m
+-- import qualified IPPrint
+import qualified Language.Haskell.HsColour as HsColour
+import qualified Language.Haskell.HsColour.Colourise as HsColour
+import qualified Language.Haskell.HsColour.Output as HsColour
+
+let myColourPrefs = HsColour.defaultColourPrefs { HsColour.conid = [HsColour.Foreground HsColour.Yellow, HsColour.Bold], HsColour.conop = [HsColour.Foreground HsColour.Yellow], HsColour.string = [HsColour.Foreground HsColour.Green], HsColour.char = [HsColour.Foreground HsColour.Cyan], HsColour.number = [HsColour.Foreground HsColour.Red, HsColour.Bold], HsColour.layout = [HsColour.Foreground HsColour.White], HsColour.keyglyph = [HsColour.Foreground HsColour.White] }
+
+let con :: String -> String
+    con [] = []
+    con li@(x:xs) 
+        | x == '\"' = '\"':str++"\""++(con rest)
+        | x == '\'' = '\'':char:'\'':(con rest')
+        | otherwise = x:con xs where
+            (str,rest):_ = reads li
+            (char,rest'):_ = reads li
+
+let myShow :: Show a => a -> String
+    myShow x = con (show x)
+
+
+let myPrint = putStrLn . HsColour.hscolour (HsColour.TTYg HsColour.XTerm256Compatible) myColourPrefs False False "" False . show
+
+:set -interactive-print=myPrint
+
+:set +t
+:set prompt  "\ESC[34mλ : \ESC[m"
+:set prompt2 "\ESC[34mλλ: \ESC[m"
+
+:set -fno-warn-unused-imports
+:def hlint const . return $ ":! hlint \"src\""
+:def hoogle \s -> return $ ":! hoogle --count=15 \"" ++ s ++ "\""
+:def pl \s -> return $ ":! pointfree \"" ++ s ++ "\""

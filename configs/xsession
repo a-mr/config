@@ -1,0 +1,47 @@
+#!/bin/bash
+
+. ~/.bashrc
+. ~/local.sh
+. ~/local-x.sh
+export PATH
+xrdb ~/.Xresources
+export XTERMINAL
+if [ "$XTERMINAL" = "" ]; then 
+	export XTERMINAL=gnome-terminal
+	xmessage "$ XTERMINAL was not defined; use $XTERMINAL instead" &
+fi
+
+# fast repeats keys (150) by 400 ms interval
+xset r rate 400 100
+# audio bell vol=100% 100Hz 10*0.01=0.1 sec
+xset b 100 100 10
+
+# Use XToolkit in java applications
+#export AWT_TOOLKIT=XToolkit
+
+# Enable core dumps in case something goes wrong
+#ulimit -c unlimited
+
+#export XMODIFIERS="@im=ibus"
+#export GTK_IM_MODULE=ibus
+#export QT_IM_MODULE=ibus
+#/usr/bin/ibus-daemon --xim -d
+
+#export GTK_IM_MODULE=fcitx
+#export QT_IM_MODULE=fcitx
+#export XMODIFIERS="@im=fcitx"
+#fcitx -d
+
+rm -f ~/.display-x11
+echo $DISPLAY > ~/.display-x11
+
+mysetxkb
+
+#graphical ssh window to unlock key when trying to login to ssh
+export $(gnome-keyring-daemon --start )
+
+shopt -s execfail
+xfce4-session || icewm
+
+#pkill -P $$
+

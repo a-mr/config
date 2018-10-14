@@ -1,0 +1,22 @@
+
+http://en.wikibooks.org/wiki/LaTeX/
+
+========================================
+Table: Colors of individual Cells
+
+\usepackage[table]{xcolor}
+
+% Enter this in the cell you wish to color a light grey.
+% NB: the word 'gray' here denotes the grayscale color scheme, not the color grey. '0.9' denotes how dark the grey is.
+\cellcolor[gray]{0.9}
+% The following will color the cell red.
+\cellcolor{red}
+
+============================================================
+Install texlive
+================
+1. download install-tl-unx.tar.gz
+2. run TEXLIVE_INSTALL_PREFIX=/opt/texlive ./install-tl --gui
+   in case of problems one may change -repository option (see http://ctan.org/mirrors )
+3. add /opt/texlive/2012/bin/x86_64-linux  to $PATH
+

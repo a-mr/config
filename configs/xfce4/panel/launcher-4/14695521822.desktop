@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=us/ru keyboard layout
+Comment=
+Exec=setxkbmap -layout "us,ru" -option "grp:alt_shift_toggle,grp_led:scroll"
+Icon=preferences-desktop-keyboard
+Path=
+Terminal=false
+StartupNotify=false

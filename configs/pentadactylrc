@@ -1,0 +1,13 @@
+set hintkeys=abcdefghijklmnopqrstuvwxyz
+
+
+"highlight -a Hint text-transform: uppercase; padding: 0 2px 0 1px; background-color: yellow; font: bold 12px “Droid Sans Mono”;
+highlight -a Hint text-transform: uppercase; padding: 0 2px 0 1px; font: bold 12px “Droid Sans Mono”;
+"highlight -a HintElem background-color: transparent;
+
+nnoremap j 9j
+nnoremap k 9k
+nnoremap h 9h
+nnoremap l 9l
+
+colorscheme zenburn

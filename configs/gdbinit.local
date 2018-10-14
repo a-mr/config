@@ -1,0 +1,4 @@
+
+# I have editing problem with colored prompt
+set $COLOREDPROMPT = 0
+#set $SHOWCPUREGISTERS = 0

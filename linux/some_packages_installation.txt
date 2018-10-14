@@ -1,0 +1,11 @@
+
+
+
+==========================================
+Plplot
+==========================================
+mkdir build_dir; cd build_dir
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/software/usr -DPLD_pstex:BOOL=ON .. >& cmake.out
+cat cmake.out
+make && make install
+cp install_manifest.txt ~/software/packages/plplot_install_manifest.txt

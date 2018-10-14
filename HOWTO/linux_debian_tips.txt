@@ -1,0 +1,12 @@
+
+=== configure timezone ===
+
+TZ="Europe/Moscow"
+echo $TZ > /etc/timezone
+cp /usr/share/zoneinfo/$TZ /etc/localtime
+
+=== upgrade ===
+
+apt-get upgrade
+apt-get dist-upgrade
+

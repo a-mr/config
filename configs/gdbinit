@@ -1,0 +1,19 @@
+#source ~/activity-public/computer-program-data/development/Gdbinit/gdbinit
+
+set history save
+set history filename ~/.gdb_history
+
+set disassembly-flavor att
+#set disassembly-flavor intel
+
+python
+import sys
+sys.path.insert(0, '/usr/share/glib-2.0/gdb')
+import glib_gdb
+import gobject_gdb
+glib_gdb.register(None)
+gobject_gdb.register(None)
+end
+
+# example for GList, list of char* :
+# gforeach s in list: print ((char *)$s)

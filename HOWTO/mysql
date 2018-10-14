@@ -1,0 +1,10 @@
+service mysqld restart
+/usr/bin/mysqladmin -u root password $PASSWORD
+/usr/bin/mysqladmin -u root -h $HOSTNAME password $PASSWORD
+
+
+function controldb() {mysql -u root -p control --password=$PASSWORD $@}
+
+sqlite3 test.db .dump|grep INSERT|perl -pe 's/INSERT INTO \"(.*)\" VALUES/INSERT INTO `\1` VALUES/'|controldb
+
+

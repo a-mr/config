@@ -1,0 +1,8 @@
+
+Get value of variable from variable name
+
+vlink=v
+
+bash: ${!vlink}
+zsh: ${(P)vlink}
+

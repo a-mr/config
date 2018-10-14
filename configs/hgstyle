@@ -1,0 +1,1 @@
+changeset = "{label('custom.rev',rev)} {node|short} {label('custom.author',author|person)}\n{label('custom.branch',branch)} {label('custom.bookmark',bookmarks)} {label('custom.bookmark',tags)} {date|isodate} parents: {p1rev} {p2rev}\n{label('custom.message',desc)}\n{label('custom.green',file_adds)} {label('custom.red',file_dels)} {label('custom.mod',file_mods)}\n\n"

@@ -1,0 +1,19 @@
+Patches were applied:
+	dwm-6.0-pertag.diff
+	dwm-6.0-systray.diff 
+	hide_tags.patch
+	dwm-6.0-bstack.diff
+
+total 200K
+-rw-r--r--. 1 makarov makarov 6.2K Oct 12 20:43 config.def.h
+-rw-r--r--. 1 makarov makarov 6.2K Feb  4 15:46 config.h
+-rw-r--r--. 1 makarov makarov  708 Oct 12 20:43 config.mk
+-rw-r--r--. 1 makarov makarov 5.1K Oct 12 20:43 dwm.1
+-rw-rw-r--. 1 makarov makarov 5.9K Oct 12 20:43 dwm-6.0-pertag.diff
+-rw-rw-r--. 1 makarov makarov  20K Oct 12 20:43 dwm-6.0-systray.diff
+-rw-r--r--. 1 makarov makarov  66K Oct 12 20:43 dwm.c
+-rw-r--r--. 1 makarov makarov  63K Oct 12 20:43 dwm.c.orig
+-rw-r--r--. 1 makarov makarov 1.7K Oct 12 20:43 LICENSE
+-rw-r--r--. 1 makarov makarov 1.5K Oct 12 20:43 Makefile
+-rw-r--r--. 1 makarov makarov 1.3K Oct 12 20:43 README
+-rw-rw-r--. 1 makarov makarov    0 Apr  2 19:15 README.my

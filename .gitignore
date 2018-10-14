@@ -1,0 +1,3 @@
+bin/*.pyc
+configs/textadept/session
+configs/vscode-User/workspaceStorage/

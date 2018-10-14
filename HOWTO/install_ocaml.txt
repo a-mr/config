@@ -1,0 +1,69 @@
+
+#===== quick way ==============================================================
+wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh
+sh ./opam_installer.sh ~/opt/opam
+
+eval `opam config env`
+
+#====== long way (old)  =======================================================
+DIR="`pwd`"
+mkdir -p save
+cd save
+wget "http://caml.inria.fr/pub/distrib/ocaml-4.00/ocaml-4.00.1.tar.bz2"
+tar jxvf ocaml-4.00.1.tar.bz2
+cd ocaml-4.00.1
+./configure -prefix $DIR/opt/ocaml
+make world
+make opt
+make opt.opt
+make install
+
+cd ..
+wget "https://github.com/OCamlPro/opam/tarball/0.7.7"
+tar zxvf 0.7.7
+cd OCamlPro-opam-*
+./configure -prefix $DIR/opt/opam
+make
+make install
+
+eval `opam config env`
+
+#====== Install packages ======================================================
+# for Redhat
+
+opam install ocamlfind
+opam install lablgtk  
+  for RHEL6:
+  opam install lablgtk.2.14.2-oasis8 
+  OR correct .opam/repo/default/packages/lablgtk.2.16.0/opam
+   ["./configure" "--without-gtksourceview2" "--prefix" "%{prefix}%"]
+  AND remove state.cache
+opam install utop core async dbm camlidl pa_monad_custom gsl cairo piqi merlin
+
+#opam install 
+
+# install plplot
+svn checkout svn://svn.code.sf.net/p/plplot/code/trunk plplot-code
+mkdir build_dir
+cd build_dir
+export C_INCLUDE_PATH=`ocamlfind query camlidl`
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/opt/plplot ..
+
+patch
+
+find_path(CAMLIDL_LIB_DIR libcamlidl.a PATHS ${OCAML_LIB_PATH})
+
+to
+
+execute_process(COMMAND ${OCAMLFIND} query camlidl
+    OUTPUT_VARIABLE OCAMLFIND_CAMLIDL_PATH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+  message(STATUS "OCAMLFIND_CAMLIDL_PATH = ${OCAMLFIND_CAMLIDL_PATH}")
+  find_path(CAMLIDL_LIB_DIR libcamlidl.a PATHS ${OCAML_LIB_PATH} ${OCAMLFIND_CAMLIDL_PATH} )
+
+make
+make install
+
+add <HOME>/opt/plplot/lib/ocaml to path in ~/.opam/4.00.1/lib/findlib.conf
+

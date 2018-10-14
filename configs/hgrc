@@ -1,0 +1,94 @@
+[ui]
+username = Andrey Makarov
+%include ~/local-hgrc
+verbose = True
+#merge = meld
+merge = internal:merge
+[defaults]
+revert = --no-backup
+[revsetalias]
+wip = (parents(not public()) or not public() or . or head()) and (not obsolete() or unstable()^) and not closed()
+[extensions]
+purge = 
+hgk =
+hgext.convert=
+color=
+record=
+rebase=
+mq=
+#(for strip)
+graphlog=
+pager =
+largefiles =
+#git = 
+extdiff =
+[git]
+intree = 1
+[extdiff]
+cmd.vimdiff =
+cmd.gvimdiff =
+# options to not fork and detach 
+opts.gvimdiff = -f
+[alias]
+unlock = phase -f -d
+push. = push -r .
+pushall = push
+# never try to push all branches by push command
+push = push -r .
+sta  = status
+staa = status --all
+#find common ancestor of 2 revisions: hg anc branch1 branch2
+anc = debugancestor
+anc. = debugancestor .
+wop = commit -m WOP
+# swap 2 previous changesets
+swap = rebase -s . -d .~1
+revertmerge = update -C -r .
+# set contents of current branch to another branch's contents, e.g. hg set_to another_branch_name
+set_to = revert --all -r
+uncommit = strip --keep --rev .
+#unite current and previous commits
+squash = rebase --dest .~2 --base . --collapse
+l = log -G --style ~/.hgstyle
+lb = ! hg l -b `hg branch`
+heads = heads --style ~/.hgstyle
+headsb = ! hg heads `hg branch`
+diffb = ! hg diff -r "branch(\"`hg branch`\")"
+wip = log --graph --rev=wip --style ~/.hgstyle
+last = l -r "last(tagged())::"
+ltags = l -r "tag()"
+# without commit messages
+l2 = log -G --template "{label('custom.bookmark',bookmarks)} {label('custom.bookmark',tags)} {label('custom.rev',rev)} {node|short} {label('custom.author',author|person)} {date|isodate} {label('custom.branch',branch)}\n{label('custom.green',file_adds)} {label('custom.red',file_dels)} {label('custom.mod',file_mods)}\n\n"
+# show modified files
+lm = log --template "{label('custom.bookmark',bookmarks)} {label('custom.bookmark',tags)} {label('custom.rev',rev)} {label('custom.green',file_adds)} {label('custom.red',file_dels)} {label('custom.mod',file_mods)}\n"
+in = in -G --style ~/.hgstyle
+out = outgoing -G --style ~/.hgstyle
+inout = ! hg in $@ && echo -------------------------------- && hg out $@
+changes = log --style ~/.hgstyle -p -r
+created = ! hg log --template '{date|isodate}' -r 0:tip -l 1 $@
+ch = changes
+ch. = changes .
+# show bookmarks and changeset numbers
+i = id -nbiB
+#id = i
+removed = log --template "{rev} : {file_dels}\n" -r "reverse(removes('**'))"
+vd = vimdiff
+gvd = gvimdiff
+mmerge = merge --tool meld
+list_merges = l --rev "merge() and (branch(.) or children(branch(.)))"
+[pager]
+pager = less -FX
+attend = help,diff,heads,status,sta,log,l,blame,annotate,glog,branches,tags,l,lm,changes,ch,in,incoming,out,outgoing,l2,last,ltags,removed,cat,list_merges,l3
+[merge-tools]
+meld.priority = 1
+meld.premerge = False
+meld.args = $local $other $base
+[color]
+custom.rev = bold underline
+custom.branch = bold yellow blue_background
+custom.bookmark = black bold yellow_background
+custom.author = underline
+custom.red = red
+custom.green = green
+custom.mod = yellow
+custom.message = cyan

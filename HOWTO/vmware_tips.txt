@@ -1,0 +1,11 @@
+
+=== To start network:
+Enable bridged netowking (
+http://www.vmware.com/support/ws4/doc/network_bridged_ws.html )
+
+Run on host:
+
+modprobe vmnet
+vmware-networks --start
+
+

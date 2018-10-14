@@ -1,0 +1,45 @@
+
+CLIENT and SERVER are IP-addresses here:
+
+
+== configure server ==========================================================
+/etc/exports:
+
+/mnt/m CLIENT(rw,no_root_squash,async,crossmnt)
+
+where 
+  no_root_squash - superuser access
+  async - asynchronous write for speed up
+  crossmnt - enables serving of mounted filesystems in /mnt/m
+
+Open port 2049 (/etc/sysconfig/iptables).
+
+To reread /etc/exports without server restart:
+exportfs -ra
+
+
+== configure client ==========================================================
+
+/etc/fstab:
+SERVER:/mnt/m /mnt/m nfs rw,timeo=30,async 0 0
+
+
+=== configure updatedb =======================================================
+
+in /etc/updatedb.conf disable 
+PRUNE_BIND_MOUNTS = "yes"
+and delete nfs4 nfs nfsd from
+PRUNEFS="...
+
+== installing cachefilesd ==
+
+cachefilesd is useful for slow networks
+
+yum install cachefilesd
+chkconfig cachefilesd on
+
+AND MAYBE
+  modprobe cachefiles
+  echo modprobe cachefiles >> /etc/rc.modules
+  chmod +x /etc/rc.modules
+

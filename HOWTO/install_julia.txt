@@ -1,0 +1,17 @@
+
+=== compile ===
+TODO
+
+
+=== packages === 
+
+for i in ["Gadfly","Winston","Gtk","ArgParse","IJulia","Roots","ProtoBuf","Logging","RDatasets","Stats","Graphs","Cosmology","ProfileView","SaveREPL","TikzPictures","TikzGraphs"]
+  Pkg.add(i)
+end
+
+=== vim ===
+
+cd ~/tmp
+git clone git://github.com/JuliaLang/julia-vim.git
+cd julia-vim
+cp -R * ~/.vim

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "FILE=\`find . -iwholename \"*$1*\"\`"
+FILE=`find . -iwholename "*$1*"`
+SUBDIR=`dirname $2`
+SUBNAME=`basename $2`
+echo "SUBFILE=\`find $SUBDIR -iwholename \"*$2*\"\`"
+#CMD="find $SUBDIR -name \"$SUBNAME\""
+#SUBFILE=`find . -wholename "*$2*"` 
+#echo $CMD
+#SUBFILE=`find $SUBDIR -name "$SUBNAME"` 
+SUBFILE=`find $SUBDIR -iwholename "*$2*"` 
+
+echo Found $FILE and subfile $SUBFILE
+
+mplayer "$FILE" -sub "$SUBFILE" $3 $4 $5 $6 $7 $8 $9
+

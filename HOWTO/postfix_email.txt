@@ -1,0 +1,41 @@
+
+/etc/sysconfig/iptables 
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 25 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+
+/etc/postfix/main.cf
+myhostname = <HOST.DOM.ZON>
+inet_interfaces = all
+
+should exist
+/var/spool/mail/$USER
+(user/group: $USER:mail)
+
+chkconfig postfix on
+service postfix restart
+
+=== IMAP server dovecot ===
+
+yum install dovecot
+
+add 2 lines to /etc/dovecot/dovecot.conf
+protocols = imap pop3
+mail_location = mbox:~/Mail:INBOX=/var/spool/mail/%u
+
+chkconfig dovecot on
+service dovecot restart
+
+=== Squirrelmail =============================================================
+Just install squirrelmail and edit 2 lines:
+
+$default_charset          = 'iso-8859-1';
+to
+$default_charset          = 'utf-8';
+
+$domain                 = "localhost"
+to
+$domain                 = "<HOST.DOM.ZON>"
+
+(https in apache is turned on by default)
+
+

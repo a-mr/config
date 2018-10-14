@@ -1,0 +1,4 @@
+[Command]
+FileManager=spacefm %s
+Terminal=roxterm -e
+Logout=i3-msg exit

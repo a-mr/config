@@ -1,0 +1,680 @@
+scriptencoding utf-8
+set encoding=utf-8
+set nocompatible
+"use mouse in terminal
+set mouse=a
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"common settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+if has("autocmd")
+  filetype indent on
+endif
+filetype plugin on
+
+" execute pathogen#infect()
+
+"set number
+set showcmd
+
+set backup
+set backupdir=~/tmp/VIM_TMP
+set clipboard+=unnamed
+" Tell vim to remember certain things when we exit
+"  '10  :  marks will be remembered for up to 10 previously edited files
+"  "100 :  will save up to 100 lines for each register
+"  :20  :  up to 20 lines of command-line history will be remembered
+"  %    :  saves and restores the buffer list
+"  n... :  where to save the viminfo files
+set viminfo='10,\"100,:20,%,n~/.viminfo
+
+set nowrapscan
+set ignorecase
+
+"allows use vim as pager
+let $PAGER=''
+
+" jump to the last position when reopening a file
+if has("autocmd")
+   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -irnH\ $*\ .
+command! -nargs=+ Grep  execute 'silent grep! <args>'    | copen | let @z = '<args>'
+command! -nargs=+ Grepw execute 'silent grep! -w <args>' | copen | let @z = '<args>'
+"| execute 'silent /<args>'
+
+map <S-F12> "zyiw:grep "<C-R>z"<CR><CR>:copen<CR>zz/<C-R>z<CR>
+vmap <S-F12> "zy:grep "<C-R>z"<CR><CR>zz/<C-R>z<CR>
+map <F12> :cn<CR>zz/<C-R>z<CR>
+map <C-F12> :cp<CR>zz/<C-R>z<CR>
+hi CursorLine   cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
+hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
+"nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+nnoremap <Leader>c :set cursorline!<CR>
+
+"highlight search
+set hlsearch
+"set encoding=koi8-r
+"set termencoding=koi8-r
+"íÅÎÀ ËÏÄÉÒÏ×ÏË
+set wildmenu
+set wcm=<Tab>
+menu Encoding.windows-1251 :e ++enc=8bit-cp1251<CR>
+menu Encoding.utf-8        :e ++enc=utf-8<CR>
+menu Encoding.ibm-866      :e ++enc=8bit-cp866<CR>
+menu Encoding.koi8-r       :e ++enc=koi8-r<CR>
+menu SetSpell.off :set nospell<CR>
+menu SetSpell.ru  :set spl=ru spell<CR>
+menu SetSpell.en  :set spl=en spell<CR>
+
+"set spellfile=my1.utf-8.add
+"setlocal spell spelllang=ru
+"set spell spelllang=ru_yo
+set spellfile=~/.vim/spell/my1.utf-8.add
+
+" handle long lines in a smarter way
+"set showbreak=!
+"set showbreak=╰\ 
+set showbreak=╰─\ 
+set breakindent
+set linebreak
+"set breakindentopt=shift:4
+
+set cpoptions+=n
+
+"set sidescroll=5
+
+"set helplang=ru
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"colors & statusline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Gvim colorsheme
+if has("gui_running")
+	colorscheme pablo
+endif
+function! InsertStatuslineColor(mode)
+  if a:mode == 'i'
+    hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=0
+  elseif a:mode == 'r'
+    hi statusline guibg=Purple ctermfg=5 guifg=Black ctermbg=0
+  else
+    hi statusline guibg=DarkRed ctermfg=1 guifg=Black ctermbg=0
+  endif
+endfunction
+
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
+
+" default the statusline to green when entering Vim
+hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
+
+" Formats the statusline
+set statusline=%f                           " file name
+"set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
+"set statusline+=%{&ff}] "file format
+set statusline+=%y      "filetype
+set statusline+=%h      "help file flag
+"set statusline+=%m      "modified flag
+set statusline+=%r      "read only flag
+
+"" Puts in the current git status
+"    if count(g:pathogen_disabled, 'Fugitive') < 1   
+"        set statusline+=%{fugitive#statusline()}
+"    endif
+"
+"" Puts in syntastic warnings
+"    if count(g:pathogen_disabled, 'Syntastic') < 1  
+"        set statusline+=%#warningmsg#
+"        set statusline+=%{SyntasticStatuslineFlag()}
+"        set statusline+=%*
+"    endif
+
+set statusline+=\ %=                        " align left
+set statusline+=Line:%l/%L[%p%%]            " line X of Y [percent of file]
+set statusline+=\ Col:%c                    " current column
+set statusline+=\ Buf:%n                    " Buffer number
+"set statusline+=\ [%b][0x%B]\               " ASCII and byte code under cursor
+set statusline+=\ [0x%B]\                   " byte code under cursor
+
+""hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
+"hi statusline guibg=White ctermfg=8 guifg=DarkGrey ctermbg=15
+"highlight LineNr ctermbg=darkgrey
+"
+"normal
+hi User1 ctermbg=7 ctermfg=0
+" red error
+hi User2 ctermbg=0 ctermfg=1 
+" green success
+hi User3 ctermbg=7  ctermfg=2 
+" yellow warnings
+"doesn't work in gui mode?
+hi User4 ctermbg=0  ctermfg=3 guibg=#ffffff guifg=#ffff00 cterm=bold 
+"blue - questions
+hi User5 ctermbg=7  ctermfg=4 
+"bold white - important messages
+hi User6 ctermbg=0  ctermfg=0 cterm=bold
+"danger 
+hi User7 ctermbg=0  ctermfg=1 cterm=bold
+"auxillary
+hi User8 ctermbg=7  ctermfg=6 
+
+set noruler
+set laststatus=2
+
+"set statusline=
+"set statusline+=%1*\[%n]                                "buffernr
+"set statusline+=%1*\ %<%f\                              "File+path
+"set statusline+=%8*%y\                                  "FileType
+"set statusline+=%8*%{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
+"set statusline+=%8*%{(&bomb?\",BOM\":\"\")}\            "Encoding2
+"set statusline+=%8*%{&ff}\                              "FileFormat (dos/unix..) 
+"set statusline+=%8*%{&spelllang}                        "Spellanguage 
+"set statusline+=%1*%=\ %o\                              " space .. bytenumber
+"set statusline+=%1*col:%v\                            "Colnr
+""set statusline+=%1*col:%03c\                            "Colnr
+"set statusline+=%1*line:%l/%L\                "Rownumber/total (%)
+if !has("gui_running")
+"set statusline+=%4*%m%2*%r%w%1*\ %P\                    "Modified? Readonly? Top/bot.
+set statusline+=%P%4*%m%2*%r%w\                    "Modified? Readonly? Top/bot.
+else
+set statusline+=%P%m%r%w\                    "Modified? Readonly? Top/bot.
+endif
+
+if v:version > 703
+	set colorcolumn=+1
+	hi ColorColumn ctermbg=darkgray
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"common settings for programming
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+syntax on
+set ts=8
+set shiftwidth=4
+set softtabstop=4 "delete 4 spaces by backspace
+
+" activate julia's latex->unicode completion
+let g:latex_to_unicode_file_types = ["julia", "lisp", "tex", "latex"]
+let g:latex_to_unicode_auto = 1
+
+"autocmd bufenter *.c,*.h,*.C,*.cxx,*.cpp,*.cc,*.hh,*.hxx,*.f,*.F,*.for set expandtab 
+"autocmd bufenter *.py,*.hs,*.nim setlocal expandtab
+"always expand tab:
+set expandtab
+autocmd bufenter *.nim setlocal syntax=nim
+"autocmd bufenter *.py,*.hs setlocal indentexpr=
+"autocmd bufenter *.py setlocal shiftwidth=4 softtabstop=4
+set list
+set listchars=tab:⁞\ 
+"one may additionaly highlight tabs by the Grey color:
+"hi SpecialKey ctermbg=Grey guibg=Grey
+autocmd bufenter *.mlt set filetype=ocaml
+" protobuf
+autocmd bufenter *.proto set filetype=cpp
+runtime macros/matchit.vim
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"EasyMotion config
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap s <Leader>
+
+" Jump to anywhere with only `s{char}{target}`
+" `s<CR>` repeat last find motion.
+map <Leader> <Plug>(easymotion-prefix)
+" Use uppercase target labels and type as a lower case
+let g:EasyMotion_use_upper = 1
+
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"key mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"comments
+nmap <Leader>c _i/*<Esc>$a*/<Esc>
+
+if bufwinnr(1)
+  map + <C-W>+
+  map - <C-W>-
+endif
+
+"imap jj <Esc> 
+"backspace fix:
+set t_kb=
+
+nmap <PageUp> <C-U><C-U>
+imap <PageUp> <C-O><C-U><C-O><C-U>
+
+nmap <PageDown> <C-D><C-D>
+imap <PageDown> <C-O><C-D><C-O><C-D>
+
+nmap <Space> i_<Esc>r
+"nmap <CR> o<Esc>
+
+function! CapitalizeCenterAndMoveDown()
+   s/./\u&/g   "Built-in substitution capitalizes each word
+   center        "Built-in center command centers entire line
+   +1            "Built-in relative motion (+1 line down)
+endfunction
+
+nmap <silent>  \C  :call CapitalizeCenterAndMoveDown()<CR>
+
+function! TogglePaste()
+   if &g:paste
+      set nopaste 
+      set number
+      set showbreak=!
+      set list
+   else
+      set paste 
+      set nonumber
+      set showbreak=
+      set nolist
+   endif
+   SignifyToggle
+endfunction
+
+nmap <F3> :call TogglePaste()<CR>
+imap <F3> <ESC>:call TogglePaste()<CR>a
+
+function! ToggleSyntax()
+   if exists("g:syntax_on")
+      syntax off
+   else
+      syntax enable
+   endif
+endfunction
+
+nmap <F2> :call ToggleSyntax()<CR>
+
+
+"my dvorus layout for russian
+set langmap=ъ#,фf,юx,уu,иi,сs,э[,ш],хh,вv,лl,пp,чk,ыy,аa,еe,оo,яq,щ_,кc,тt,нn,рr,гg,йw,«\",ь',ё<,ц>,бb,мm,дd,зz,жj,Ъ@,ФF,ЮX,УU,ИI,СS,Э{,Ш},ХH,ВV,ЛL,ПP,ЧK,ЫY,АA,ЕE,ОO,ЯQ,Щ$,КC,ТT,НN,РR,ГG,ЙW,»`,—~,Ь^,Ё&,Ц\|,БB,МM,ДD,ЗZ,ЖJ
+"map <F10> :!xmodmap -e "keycode 105 = space"<cr><cr>
+"map <S-F10> :!xmodmap -e "keycode 105 = Next"<cr><cr>
+
+"map <S-F10> :!xmodmap -e "keycode 105 = Next"<cr><cr>
+"map <F5> :!gcc -o `basename % .c` -Wall -O2 -march=i686 -ffast-math -lm %<cr>
+"map <S-F5> :!gcc -o `basename % .c` -Wall -O2 -march=i686 -ffast-math -lm -lpthread %<cr>
+"map <S-F10> :!g77 -Wall -O2 -march=i686 -ffast-math -lm -fno-fixed-form %<cr>
+"map <S-F5> :!gcc -Wall -O2 -march=i686 -ffast-math -lm -lgsl -lgslcblas -lpthread %<cr>
+"map <F5> :!i=%; make ${i\%.*}<cr>
+"map <F5> :make `basename % .c`
+"map <F5> :make `i=%; echo ${i\%.*}`<cr>
+
+autocmd bufenter *.tex map <F5> :!latex %<CR>
+:autocmd bufenter *.tex map <F6> :!xdvi -hush %<&<cr>
+:autocmd bufenter *.tex map <S-F6> :!dvips %< -o %<.ps; gv %<&<cr>
+"autocmd bufenter *.C map <F6> :!root %<CR>
+"map <F5> :!make `i=%; echo ${i\%.*}`<cr>
+map <F5> :!make %< <cr>
+"map <S-F5> :!i=%; strace ./${i\%.*}<cr>
+map <S-F5> :!strace ./%<<cr>
+"map <F6> :!i=%; ./${i\%.*}<cr>
+map <F6> :!./%<<cr>
+map <S-F6> :!time ./%<<cr>
+map <F7> :!make&<cr>
+autocmd bufenter *.py map <F7> :!python -m py_compile %<cr>
+"map <S-F7> :!strace ./`basename % .c`<cr>
+"map <F7> :!gcc -Wall -O2 -march=i686 -ffast-math -lm % ;./a.out<cr>
+"map <F8> :!killall a.out<cr>
+"map <F9> :!gnuplot %<cr>
+"map <S-F9> :!gnuplot run<cr>
+
+"map <F2> :!if latex %; then xdvi `basename % .tex`; fi<cr>
+"map <S-F2> :!xdvi `basename % .tex`<cr>
+"map <S-F1> :!if latex %; then dvips `basename % .tex`.dvi -o `basename % .tex`.ps; gv `basename % .tex`.ps; fi<cr>
+map <F10> :emenu Encoding.<TAB>
+map <F9> :emenu SetSpell.<Tab>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Lua settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufRead *.lua setlocal makeprg=lua\ %
+autocmd BufRead *.lua setlocal efm=%s:\ %f:%l:%m
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"fortran settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let fortran_more_precise=1
+au! BufRead,BufNewFile *.f let b:fortran_do_enddo=1
+
+"runtime! ftplugin/man.vim
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"C settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+iabbrev #d #define
+iabbrev #i #include <
+
+iabbrev #m int main ( int argc, char *argv[] )<cr>{<cr>}<esc>ko
+
+imap <C-l> <Esc>o{<CR>}<Esc>ko
+imap <C-b> <Space>(<Space><Space>)<Esc>hi
+
+
+"map <F2> 
+"au BufRead,BufNewFile *.c,*.h syn keyword cType real
+
+au BufRead,BufNewFile *.c,*.h syn keyword cType cycles_t
+hi cStatement ctermfg=DarkGreen
+hi PreProc ctermfg=DarkYellow
+hi Constant ctermfg=DarkMagenta
+"hi cString ctermfg=Gray
+"hi cNumber  ctermfg=Gray
+"hi cFloat  ctermfg=Gray
+hi Special ctermfg=DarkMagenta
+hi cFormat ctermfg=DarkGreen
+hi Repeat ctermfg=DarkYellow
+hi Conditional ctermfg=DarkYellow
+hi Operator ctermfg=DarkGreen
+au BufRead,BufNewFile *.c,*.h syn keyword cop goto
+hi cop ctermfg=Cyan
+hi Label ctermfg=Cyan
+hi Comment ctermfg=DarkCyan
+au BufRead,BufNewFile *.c,*.h syn match cBracketsf "\({\|}\)"
+hi cBracketsf ctermfg=DarkYellow
+au BufRead,BufNewFile *.c,*.h syn match cBrackets "\((\|)\)"
+hi cBrackets ctermfg=Blue
+
+set cinoptions={1s,f1s  " whitesmith C style indentation
+"set cinoptions+=f-2
+"au BufRead,BufNewFile *.c,*.h set cino+=>2,e2
+"au BufRead,BufNewFile *.C,*.cxx,*.cpp,*.cc,*.hh set cino+=>2,e2
+"au BufRead,BufNewFile *.c,*.h imap , , 
+"au BufRead,BufNewFile *.c,*.h imap { {<left><space><right><C-F>
+"au BufRead,BufNewFile *.c,*.h imap <M-0> <space>(  )<left><left>
+"au BufRead,BufNewFile *.c,*.h imap 0<Tab> (  )<left><left>
+"au BufRead,BufNewFile *.c,*.h imap <M-9> <space>()
+"au BufRead,BufNewFile *.c,*.h imap 9<Tab> <space>()
+"au BufRead,BufNewFile *.c,*.h imap = =<left><space><right><space>
+"au BufRead,BufNewFile *.c,*.h imap * *<left><space><right><space>
+"au BufRead,BufNewFile *.c,*.h imap / /<left><space><right><space>
+"au BufRead,BufNewFile *.c,*.h imap ( (  )<left><left>
+"imap ( ()<left><left><space><right>
+"imap <C-(> <(>
+
+" * ÕËÁÚÁÔÅÌØ É ÚÎÁË ÕÍÎÏÖÅÎÉÑ *
+"au BufRead,BufNewFile *.c,*.h syn match cpointer "\*"
+"au BufRead,BufNewFile *.c,*.h syn match cSign "\(\k\_s*\)\@<=\*"
+"au BufRead,BufNewFile *.c,*.h syn match cSign "\([)\].]\_s*\)\@<=\*"
+"au BufRead,BufNewFile *.c,*.h syn match cpointer "\(\(FILE\|char\|void\|int\|double\|float\|long\|sizeof\|_t\)\_s*\)\@<=\*"
+"au BufRead,BufNewFile *.c,*.h syn match cpointer "\(struct\_s\_s*\k*\_s*\)\@<=\*"
+"au BufRead,BufNewFile *.c,*.h syn match cpointer "\(const\_s\_s*\k*\_s*\)\@<=\*"
+" ïÓÔÁÌØÎÙÅ ÚÎÁËÉ + - / %
+"au BufRead,BufNewFile *.c,*.h syn match cSign "\(+\|\-\|/[*/]\@!\|%\)"
+
+"úÎÁËÉ / *
+au BufRead,BufNewFile *.c,*.h syn match cMultDivSign "\(/[*/]\@!\|\*\)"
+
+" ïÓÔÁÌØÎÙÅ ÚÎÁËÉ + - %
+au BufRead,BufNewFile *.c,*.h syn match cSign "\(+\|\-\|%\)"
+
+" ðÒÉÓ×ÁÉ×ÁÎÉÑ = ++ -- += -= *= /= %= &= ^= |=
+au BufRead,BufNewFile *.c,*.h syn match cSignEq "\(=\|++\|\-\-\|\([+\-*/%&^|]\)=\@=\)"
+" õÓÌÏ×ÉÑ || && == != ! >= <= > <
+au BufRead,BufNewFile *.c,*.h syn match ccond "\(||\|&&\|==\|!=\|!\|>=\|<=\|>\|<\)"
+" ðÒÉÓ×ÁÉ×ÁÎÉÑ >>= <<=
+au BufRead,BufNewFile *.c,*.h syn match cSignEq "\(>>=\|<<=\)"
+" úÎÁË ×ÏÐÒÏÓÁ
+au BufRead,BufNewFile *.c,*.h syn match cSignQ "\(?\|:\)"
+" õËÁÚÁÔÅÌØ ÎÁ ÓÔÒÕËÔÕÒÕ ->
+au BufRead,BufNewFile *.c,*.h syn match cstructpointer "->"
+hi cSign ctermfg=DarkCyan
+hi cSignQ ctermfg=Yellow
+hi cSignEq ctermfg=White
+"hi cpointer ctermfg=Green
+hi cMultDivSign ctermfg=Green
+hi ccond ctermfg=DarkYellow
+"au BufRead,BufNewFile *.c,*.h syn match cstructpointer "\(->\@=\|-\@<=>\)"
+"au BufRead,BufNewFile *.c,*.h syn match cpointer "\(\([\/\*\-+=><!([;:,%&|?\n]\_s*\)\@<=\*\)"
+"au BufRead,BufNewFile *.c,*.h syn match ccond "\(||\@=\||\@<=|\|&&\@=\|&\@<=&\|<\|>\|!\|==\@=\|=\@<==\|<\@<==\|>\@<==\|!\@<==\)" 
+"au BufRead,BufNewFile *.c,*.h syn match cSignEq "\(=\|++\@=\|+\@<=+\|--\@=\|-\@<=-\|[-+*/]=\@=\)"
+" îÅ ÒÁÂÏÔÁÅÔ:
+"au BufRead,BufNewFile *.c,*.h syn match cpointer "\([;{}]\(\_k\|\_s\)*\)\@<=\*"
+"au BufRead,BufNewFile *.c,*.h syn match cpointer "\([;{}]\(\_k\|\_s\)*\)\zs\*"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"LaTeX
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"au BufRead,BufNewFile *.tex set makeprg=latex
+
+"map <F2> ?\\begin<cr>ma/\\end<cr>!'acat>_reg_vim.tex;cat _reg_vim.tex<cr>:!rm -f _reg_.dvi;latex _reg_.tex;xdvi _reg_<cr>
+
+"map <F2> :call CopyTex()<cr>
+
+"map <F2> ?\(\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\[\\|\$\$\\|\$\\|\\(\)
+
+"map  <F2> ?\(\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\[\\|\$\$\\|\$\\|\\(\)<cr>v<right>/\(\\end\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\]\\|\$\$\\|\$\\|\\)\)/e<cr>y:!echo >_reg_vim.tex<cr>:split _reg_vim.tex<cr>p:wq<cr>:!rm -f _reg_.dvi;latex _reg_.tex;dvipng _reg_.dvi;eog _reg_1.png&<cr><cr>
+"map <F2> ?\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}<cr>v<right>/\\end\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}/e<cr>y:!echo >_reg_vim.tex<cr>:split _reg_vim.tex<cr>p:wq<cr>:!rm -f _reg_.dvi;latex _reg_.tex;dvipng _reg_.dvi;ee _reg_1.png&<cr><cr>
+
+"function CopyTex_to_l()
+"?\\begin\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}
+"normal v
+"/\\end\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}/e
+"endfunction
+function Copy_formula_to__part_vim_(outline)
+let lnum=line(".")
+let col=col(".")
+if a:outline==1
+	let @/='\\begin\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}\|\\['
+	normal N
+	let currentchar=getline(".")[col(".") - 1]
+	let nextchar=getline(".")[col(".")]
+"	if currentchar=="\\"
+		if nextchar=="b"
+			let @/='\\end\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}'
+			normal vn
+			let @/="}"
+			normal n
+		endif
+"		if nextchar=="e"
+"			let @/="}"
+"			normal nv
+"			let @/='\\begin\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}'
+"			normal N
+"		endif
+		if nextchar=="["
+			let @/='\\]'
+			normal vnl
+		endif
+"		if nextchar=="]"
+"			normal lv
+"			let @/='\\['
+"			normal N
+"		endif
+"		if nextchar=="("
+"			let @/='\\)'
+"			normal vnl
+"		endif
+"	else
+"		if currentchar=="\$"
+"			if nextchar=="\$"
+"				let @/='\$\$'
+"				normal vnl
+"			else
+"				let @/='\$'
+"				normal vn
+"			endif
+"		endif
+"	endif
+else
+	let @/='\$\$\|\$\|\\('
+	normal N
+	let currentchar=getline(".")[col(".") - 1]
+	let nextchar=getline(".")[col(".")]
+	if currentchar=="\\"
+		if nextchar=="("
+			let @/='\\)'
+			normal vnl
+		endif
+	else
+		if nextchar=="\$"
+			let @/='\$\$'
+			normal vnl
+		else
+			let @/='\$'
+			normal vn
+		endif
+	endif
+endif
+	
+normal "ly
+redir!>_part_vim_.tex
+echo @l
+redir END
+call cursor(lnum, col)
+endfunction
+
+map <F2> :call Copy_formula_to__part_vim_(1)<cr>:!rm -f _part_.dvi _part_1.png;
+			\latex _part_.tex;dvipng _part_.dvi;ee _part_1.png&<cr><cr>
+imap <F2> <ESC>l<F2>i
+map <S-F2> :call Copy_formula_to__part_vim_(0)<cr>:!rm -f _part_.dvi _part_1.png;
+			\latex _part_.tex;dvipng _part_.dvi;ee _part_1.png&<cr><cr>
+imap <S-F2> <ESC>l<S-F2>i
+"map <F2>    ?\(\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|
+"			\equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)
+"			\\*\=\s*}\\|\\[\\|\$\$\\|\$\\|\\(\)
+"			\<cr>v<right>
+"			\/\\end\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|\equation
+"			\\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}/e<cr>
+"			\"ly:redir!>_reg_vim.tex<cr>:echo @l<cr>:redir END<cr>
+"			\:!rm -f _reg_.dvi;rm -f _reg_1.png;latex _reg_.tex;dvipng _reg_.dvi;
+"			\ee _reg_1.png&<cr><cr>
+"map <F2>    ?\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|
+"			\equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}
+"			\<cr>v<right>
+"			\/\\end\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|\equation
+"			\\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}/e<cr>
+"			\"ly:redir!>_reg_vim.tex<cr>:echo @l<cr>:redir END<cr>
+"			\:!rm -f _reg_.dvi;latex _reg_.tex;dvipng _reg_.dvi;
+"			\ee _reg_1.png&<cr><cr>
+"map <S-F2> ?\(\\[\\|\$\$\\|\$\\|\\(\)<cr>v<right>/\(\\]\\|\$\$\\|\$\\|\\)\)/e<cr>y:!echo >_reg_vim.tex<cr>:split _reg_vim.tex<cr>p:wq<cr>:!rm -f _reg_.dvi;latex _reg_.tex;dvipng _reg_.dvi;eog _reg_1.png&<cr><cr>
+
+"map  <F2> ?\(\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\[\\|\$\\|\\(\)<cr>v/\(\\end\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\]\\|\$\\|\\)\)/e<cr>y:!echo >_reg_vim.tex<cr>:split _reg_vim.tex<cr>p:wq<cr>:!rm -f _reg_.dvi;latex _reg_.tex;dvipng _reg_.dvi;display _reg_1.png&<cr><cr>
+
+"map <F2> ?\(\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\[\\|\$\$\\|\$\\|\\(\)
+"map <S-F2> /\(\\end\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\]\\|\$\$\\|\$\\|\\)\)/e
+
+"map <F2> ?\(\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\[\\|\$\$\\|\$\\|\\(\)<cr>v/\(\\end\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)\*\=\s*}\\|\\]\\|\$\$\\|\$\\|\\)\)<cr><left>/\(]\\|)\|\\|}\\|\$\)<cr>y:!echo >_reg_vim.tex<cr>:split _reg_vim.tex<cr>p:wq<cr>
+
+"map <F2> ?\(\\begin\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}\|\\[\|\$\$\|\$\)<cr>v/\(\\end\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}\|\\]\|\$\$\|\$\)<cr>y:split _reg_vim.tex<cr>p:wq<cr>
+
+
+autocmd bufenter *.tex set formatoptions=aw2tq
+":set formatprg=par\ -80j
+autocmd bufenter *.tex set textwidth=80
+highlight OverLength ctermbg=DarkGrey guibg=DarkGrey
+match OverLength /\%<81v.\%>80v/
+
+
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'
+
+"let g:Tex_ViewRule_pdf = 'evince_dbus.py'
+"let g:Tex_ViewRule_pdf = 'python /usr/lib/x86_64-linux-gnu/gedit/plugins/synctex/evince_dbus.py'
+"let g:Tex_DefaultTargetFormat = 'pdf'
+"let g:Tex_CompileRule_pdf = 'xelatex --synctex=1 -interaction=nonstopmode $*'
+function! SyncTex()
+	let filename = bufname("%")
+	let lineno = line(".")
+	for syncfile in split(system('zgrep -l "' . filename . '" *.synctex.gz'), "\n")
+		let pdffile = substitute(syncfile, ".synctex.gz$", ".pdf", "")
+		exec 'silent ! python ~/bin/evince_dbus.py ' .
+			\ '"' . pdffile . '" ' . lineno . ' "' . filename . '"'
+	endfor
+	redraw!
+endfunction
+
+map <F2> :call SyncTex()<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Pascal
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+autocmd bufenter *.pas setlocal shiftwidth=2 softtabstop=2
+"let g:pascal_delphi=1
+let g:pascal_fpc=1
+iabbrev b, begin
+iabbrev e, end
+iabbrev e. end;
+iabbrev w, writeln
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"OCaml
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set ofu=syntaxcomplete#Complete
+set runtimepath+=~/.opam/4.00.1/share/ocamlmerlin/vim
+set runtimepath+=~/.opam/4.00.1/share/ocamlmerlin/vimbufsync
+if filereadable("~/.opam/4.00.1/share/ocamlmerlin/vim/plugin/merlin.vim")
+    source ~/.opam/4.00.1/share/ocamlmerlin/vim/plugin/merlin.vim
+endif
+if filereadable("~/.opam/4.01.0/share/ocamlmerlin/vim/plugin/merlin.vim")
+    source ~/.opam/4.01.0/share/ocamlmerlin/vim/plugin/merlin.vim
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Nim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"autocmd bufenter *.nim map <F5> :!nim c %< <cr>
+"autocmd bufenter *.nim filetype off
+"autocmd bufenter *.nim filetype plugin indent on
+fun! JumpToDef()
+  if exists("*GotoDefinition_" . &filetype)
+    call GotoDefinition_{&filetype}()
+  else
+    exe "norm! \<C-]>"
+  endif
+endf
+
+" Jump to tag
+nn <M-g> :call JumpToDef()<cr>
+ino <M-g> <esc>:call JumpToDef()<cr>i
+nn <C-g> :call JumpToDef()<cr>
+ino <C-g> <esc>:call JumpToDef()<cr>i
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-slime plugin config
+let g:slime_target = "tmux"
+let g:slime_default_config = {"socket_name": "default", "target_pane": ":"}
+
+" plugins path
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-signify/
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-easy-align/
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-easymotion/
+set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
+set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
+"set runtimepath+=~/tmp/nim.vim/
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" start interactive shell to use functions & aliases
+"set shellcmdflag=-ic
+
+"End of .vimrc

@@ -1,0 +1,57 @@
+
+1. find and set these lines in apache config:
+<IfModule mod_userdir.c>
+    #
+    # UserDir is disabled by default since it can confirm the presence
+    # of a username on the system (depending on home directory
+    # permissions).
+    #
+#    UserDir disabled
+
+    #
+    # To enable requests to /~user/ to serve the user's public_html
+    # directory, remove the "UserDir disabled" line above, and uncomment
+    # the following line instead:
+    # 
+    UserDir public_html
+
+</IfModule>
+
+#
+# Control access to UserDir directories.  The following is an example
+# for a site where these directories are restricted to read-only.
+#
+<Directory /home/*/public_html>
+    AllowOverride FileInfo AuthConfig Limit
+    Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+    <Limit GET POST OPTIONS>
+        Order allow,deny
+        Allow from all
+    </Limit>
+    <LimitExcept GET POST OPTIONS>
+        Order deny,allow
+        Deny from all
+    </LimitExcept>
+</Directory>
+
+2. set permissions for ~/public_html was accessible by apache
+In case of Fedora/RHEL SELinux should be configured:
+[bash]# setsebool -P httpd_enable_homedirs true
+[bash]# chcon -v -R -h -u user_u -t httpd_user_content_t /home/*/public_html
+
+
+3. Adding area restricted by password:
+htpasswd -c /etc/httpd/passwords    $USERNAME
+chown apache:apache /etc/httpd/passwords
+chmod u=rw,go= /etc/httpd/passwords
+
+In apache config:
+
+<Directory /home/*/public_html/restricted>
+    AuthType Basic
+    AuthName "Restricted Files"
+    AuthUserFile /etc/httpd/passwords
+    Require user   $USERNAME
+</Directory>
+
+

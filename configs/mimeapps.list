@@ -1,0 +1,11 @@
+[Added Associations]
+x-scheme-handler/http=exo-web-browser.desktop
+x-scheme-handler/https=exo-web-browser.desktop
+x-scheme-handler/mailto=exo-mail-reader.desktop
+video/mp4=totem.desktop;
+video/quicktime=totem.desktop;
+application/x-bittorrent=transmission-gtk.desktop;
+
+[Default Applications]
+application/x-bittorrent=transmission-gtk.desktop
+text/html=exo-web-browser.desktop

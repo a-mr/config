@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel name="xfce4-panel" version="1.0">
+  <property name="configver" type="int" value="2"/>
+  <property name="panels" type="array">
+    <value type="int" value="1"/>
+    <value type="int" value="3"/>
+    <property name="panel-1" type="empty">
+      <property name="position" type="string" value="p=6;x=0;y=0"/>
+      <property name="length" type="uint" value="100"/>
+      <property name="position-locked" type="bool" value="true"/>
+      <property name="size" type="uint" value="29"/>
+      <property name="plugin-ids" type="array">
+        <value type="int" value="3"/>
+        <value type="int" value="7"/>
+        <value type="int" value="9"/>
+        <value type="int" value="11"/>
+        <value type="int" value="10"/>
+        <value type="int" value="12"/>
+        <value type="int" value="23"/>
+        <value type="int" value="33"/>
+        <value type="int" value="19"/>
+        <value type="int" value="15"/>
+        <value type="int" value="20"/>
+        <value type="int" value="4"/>
+        <value type="int" value="16"/>
+        <value type="int" value="18"/>
+        <value type="int" value="8"/>
+        <value type="int" value="6"/>
+        <value type="int" value="13"/>
+        <value type="int" value="17"/>
+        <value type="int" value="2"/>
+        <value type="int" value="1"/>
+        <value type="int" value="21"/>
+        <value type="int" value="5"/>
+      </property>
+      <property name="nrows" type="uint" value="1"/>
+      <property name="length-adjust" type="bool" value="false"/>
+    </property>
+    <property name="panel-3" type="empty">
+      <property name="position" type="string" value="p=8;x=960;y=1067"/>
+      <property name="plugin-ids" type="array">
+        <value type="int" value="34"/>
+        <value type="int" value="36"/>
+      </property>
+      <property name="nrows" type="uint" value="1"/>
+      <property name="position-locked" type="bool" value="false"/>
+      <property name="disable-struts" type="bool" value="false"/>
+      <property name="mode" type="uint" value="0"/>
+      <property name="enter-opacity" type="uint" value="100"/>
+      <property name="leave-opacity" type="uint" value="100"/>
+      <property name="background-alpha" type="uint" value="100"/>
+      <property name="length-adjust" type="bool" value="false"/>
+      <property name="length" type="uint" value="100"/>
+      <property name="autohide-behavior" type="uint" value="0"/>
+      <property name="size" type="uint" value="24"/>
+      <property name="background-style" type="uint" value="0"/>
+      <property name="background-color" type="array">
+        <value type="uint" value="11296"/>
+        <value type="uint" value="14135"/>
+        <value type="uint" value="11051"/>
+        <value type="uint" value="65535"/>
+      </property>
+    </property>
+  </property>
+  <property name="plugins" type="empty">
+    <property name="plugin-15" type="string" value="separator">
+      <property name="expand" type="bool" value="true"/>
+      <property name="style" type="uint" value="0"/>
+    </property>
+    <property name="plugin-5" type="string" value="clock"/>
+    <property name="plugin-6" type="string" value="systray">
+      <property name="names-visible" type="array">
+        <value type="string" value="thunar"/>
+        <value type="string" value="vlc"/>
+        <value type="string" value="xpra"/>
+        <value type="string" value="апплет networkmanager"/>
+        <value type="string" value="system-config-printer"/>
+        <value type="string" value="handbrake"/>
+        <value type="string" value="task manager"/>
+        <value type="string" value="ibus panel"/>
+        <value type="string" value="guake"/>
+        <value type="string" value="networkmanager applet"/>
+        <value type="string" value="ibus-ui-gtk3"/>
+        <value type="string" value="orage"/>
+        <value type="string" value="skype"/>
+        <value type="string" value="панель ibus"/>
+        <value type="string" value="pidgin"/>
+        <value type="string" value="network"/>
+        <value type="string" value="blueman-applet"/>
+        <value type="string" value="clipit"/>
+        <value type="string" value="parcellite"/>
+        <value type="string" value="update-notifier"/>
+        <value type="string" value="xfce4-power-manager"/>
+        <value type="string" value="gpick"/>
+        <value type="string" value="skypeforlinux"/>
+        <value type="string" value="ktorrent"/>
+        <value type="string" value="vncserverui"/>
+        <value type="string" value="pasystray"/>
+        <value type="string" value="уведомления об обновлениях"/>
+      </property>
+    </property>
+    <property name="plugin-7" type="string" value="showdesktop"/>
+    <property name="plugin-9" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="14693767971.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-10" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="14693767972.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-11" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="14699640711.desktop"/>
+        <value type="string" value="14705020911.desktop"/>
+        <value type="string" value="14704661641.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-19" type="string" value="systemload"/>
+    <property name="plugin-21" type="string" value="power-manager-plugin"/>
+    <property name="plugin-23" type="string" value="netload"/>
+    <property name="plugin-24" type="string" value="xfce4-mount-plugin"/>
+    <property name="plugin-28" type="string" value="xfce4-clipman-plugin"/>
+    <property name="plugin-30" type="string" value="mixer">
+      <property name="sound-card" type="string" value="HDAIntelPCHAlsamixer"/>
+      <property name="track" type="string" value="Master"/>
+      <property name="command" type="string" value="xfce4-mixer"/>
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
+    </property>
+    <property name="clipman" type="empty">
+      <property name="settings" type="empty">
+        <property name="add-primary-clipboard" type="bool" value="true"/>
+      </property>
+    </property>
+    <property name="notes" type="empty">
+      <property name="global" type="empty">
+        <property name="tabs-position" type="int" value="1"/>
+      </property>
+    </property>
+    <property name="plugin-33" type="string" value="netload"/>
+    <property name="plugin-34" type="string" value="pager">
+      <property name="rows" type="uint" value="1"/>
+      <property name="miniature-view" type="bool" value="true"/>
+      <property name="workspace-scrolling" type="bool" value="false"/>
+    </property>
+    <property name="plugin-36" type="string" value="tasklist">
+      <property name="show-wireframes" type="bool" value="true"/>
+      <property name="flat-buttons" type="bool" value="false"/>
+      <property name="show-labels" type="bool" value="true"/>
+      <property name="show-handle" type="bool" value="true"/>
+      <property name="middle-click" type="uint" value="2"/>
+      <property name="sort-order" type="uint" value="4"/>
+    </property>
+    <property name="plugin-4" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="14695521822.desktop"/>
+        <value type="string" value="14695521381.desktop"/>
+        <value type="string" value="14695527406.desktop"/>
+        <value type="string" value="15376355931.desktop"/>
+        <value type="string" value="14695522664.desktop"/>
+        <value type="string" value="14733457281.desktop"/>
+      </property>
+      <property name="show-label" type="bool" value="false"/>
+      <property name="arrow-position" type="uint" value="2"/>
+      <property name="move-first" type="bool" value="false"/>
+    </property>
+    <property name="plugin-12" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="14695526795.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-3" type="string" value="whiskermenu"/>
+    <property name="plugin-13" type="string" value="statusnotifier">
+      <property name="known-items" type="array">
+        <value type="string" value="software-update-available"/>
+        <value type="string" value="ViberPC"/>
+        <value type="string" value="Telegram Desktop"/>
+        <value type="string" value="blueman"/>
+        <value type="string" value="clipit"/>
+        <value type="string" value="nm-applet"/>
+        <value type="string" value="pasystray"/>
+      </property>
+    </property>
+    <property name="plugin-16" type="string" value="xkb">
+      <property name="display-type" type="uint" value="0"/>
+      <property name="display-name" type="uint" value="1"/>
+      <property name="display-scale" type="uint" value="100"/>
+    </property>
+    <property name="plugin-1" type="string" value="pulseaudio">
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
+      <property name="mpris-players" type="string" value="parole;rhythmbox;smplayer"/>
+    </property>
+    <property name="plugin-8" type="string" value="separator">
+      <property name="expand" type="bool" value="true"/>
+      <property name="style" type="uint" value="1"/>
+    </property>
+    <property name="plugin-17" type="string" value="separator">
+      <property name="expand" type="bool" value="true"/>
+      <property name="style" type="uint" value="1"/>
+    </property>
+    <property name="plugin-18" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="15247752542.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-2" type="string" value="actions">
+      <property name="appearance" type="uint" value="0"/>
+      <property name="items" type="array">
+        <value type="string" value="+lock-screen"/>
+        <value type="string" value="-switch-user"/>
+        <value type="string" value="+separator"/>
+        <value type="string" value="+suspend"/>
+        <value type="string" value="-hibernate"/>
+        <value type="string" value="-separator"/>
+        <value type="string" value="-shutdown"/>
+        <value type="string" value="-restart"/>
+        <value type="string" value="+separator"/>
+        <value type="string" value="-logout"/>
+        <value type="string" value="-logout-dialog"/>
+      </property>
+      <property name="invert-orientation" type="bool" value="false"/>
+    </property>
+    <property name="plugin-20" type="string" value="windowmenu">
+      <property name="workspace-actions" type="bool" value="false"/>
+      <property name="workspace-names" type="bool" value="false"/>
+      <property name="style" type="uint" value="0"/>
+      <property name="all-workspaces" type="bool" value="true"/>
+    </property>
+  </property>
+</channel>

@@ -1,0 +1,8 @@
+
+http://cftcc.iccas.ac.cn/upload/doc/ifc/FortranReleaseNotes.htm
+The numeric representation of true and false in LOGICAL expressions has changed
+In Intel Fortran Compiler 8.0, even integer values are considered .FALSE. and odd values are considered .TRUE. Furthermore, the logical constant .TRUE. has the value -1 rather than 1 as in previous versions of Intel Fortran
+
+see also:
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=40539
+Inversion of logical function compiled with ifort not correct

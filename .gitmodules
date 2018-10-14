@@ -1,0 +1,42 @@
+[submodule "vim/vimproc.vim"]
+	path = vim/vimproc.vim
+	url = https://github.com/Shougo/vimproc.vim
+[submodule "vim/vim-repl"]
+	path = vim/vim-repl
+	url = https://github.com/khorser/vim-repl
+[submodule "vim/vim-notebook"]
+	path = vim/vim-notebook
+	url = https://github.com/baruchel/vim-notebook
+[submodule "vim/vim-slime"]
+	path = vim/vim-slime
+	url = git://github.com/jpalardy/vim-slime.git
+[submodule "vim/zenburn.penta"]
+	path = vim/zenburn.penta
+	url = https://github.com/grassofhust/zenburn.penta
+[submodule "vim/vim-pathogen"]
+	path = vim/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen
+[submodule "vim/vim-easymotion"]
+	path = vim/vim-easymotion
+	url = https://github.com/Lokaltog/vim-easymotion
+[submodule "vim/pipe2eval"]
+	path = vim/pipe2eval
+	url = https://github.com/zweifisch/pipe2eval
+[submodule "development/Gdbinit"]
+	path = development/Gdbinit
+	url = https://github.com/gdbinit/Gdbinit
+[submodule "vim/vim-signify"]
+	path = vim/vim-signify
+	url = https://github.com/mhinz/vim-signify
+[submodule "vim/julia-vim"]
+	path = vim/julia-vim
+	url = https://github.com/JuliaLang/julia-vim.git
+[submodule "vim/vim-easy-align"]
+	path = vim/vim-easy-align
+	url = https://github.com/junegunn/vim-easy-align
+[submodule "vim/nim.vim"]
+	path = vim/nim.vim
+	url = https://github.com/zah/nim.vim/
+[submodule "vim/nvim-nim"]
+	path = vim/nvim-nim
+	url = https://github.com/baabelfish/nvim-nim
