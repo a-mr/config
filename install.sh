@@ -41,14 +41,6 @@ oinst(){
 echo $LNK $BLOC ~/bin
 $LNK $BLOC ~/bin
 
-if [[ -d ~/works-shared ]]; then
-    mkdir -p ~/.stardict/dic
-    for i in ~/works-shared/dic/* ; do
-	echo $LNK \"$i\" ~/.stardict/dic/`basename "$i"`
-        $LNK "$i" ~/.stardict/dic/`basename "$i"`
-    done
-fi
-
 cd configs
 
 inst face.png ~/.face

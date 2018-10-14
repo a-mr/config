@@ -310,7 +310,7 @@ nmap <F2> :call ToggleSyntax()<CR>
 
 
 "my dvorus layout for russian
-set langmap=ъ#,фf,юx,уu,иi,сs,э[,ш],хh,вv,лl,пp,чk,ыy,аa,еe,оo,яq,щ_,кc,тt,нn,рr,гg,йw,«\",ь',ё<,ц>,бb,мm,дd,зz,жj,Ъ@,ФF,ЮX,УU,ИI,СS,Э{,Ш},ХH,ВV,ЛL,ПP,ЧK,ЫY,АA,ЕE,ОO,ЯQ,Щ$,КC,ТT,НN,РR,ГG,ЙW,»`,—~,Ь^,Ё&,Ц\|,БB,МM,ДD,ЗZ,ЖJ
+set langmap=юq,ыk,яy,уu,ь',дd,лl,мm,бb,зz,сs,оo,еe,аa,рr,нn,вw,чv,йj,пp,иi,жx,кc,тt,хh,гg,фf,ЮQ,ЫK,ЯY,УU,Ь\|,ДD,ЛL,МM,БB,ЗZ,СS,ОO,ЕE,АA,РR,НN,ВW,ЧV,ЙJ,ПP,ИI,ЖX,КC,ТT,ХH,ГG,ФF,№#,₽$,ъ&,Ъ&,«{,„{,»},“},́`,ш[,Ш[,ё],Ё],э_,Э_,щ\",Щ\",ц^,Ц^
 "map <F10> :!xmodmap -e "keycode 105 = space"<cr><cr>
 "map <S-F10> :!xmodmap -e "keycode 105 = Next"<cr><cr>
 
