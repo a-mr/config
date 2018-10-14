@@ -668,7 +668,7 @@ decolorize|cut -f2- -d:
 
 
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-function gcc_dis () { gcc -m32 -O1 -S $@ -o - | p }
+function gcc_dis () { gcc -m32 -O1 -S $@ -o - | p ; }
 
 function act () {
 echo set ~/active to $PWD

@@ -1,0 +1,8 @@
+
+bash error "syntax error: unexpected end of file"
+can be caused by using \r\n instead of \n
+or by forgetting to end a command of 1-line function by ";", that is:
+
+function l () { ls | less }
+should be changed to:
+function l () { ls | less ; }
