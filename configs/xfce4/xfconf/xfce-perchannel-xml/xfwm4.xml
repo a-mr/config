@@ -48,15 +48,15 @@
     <property name="title_vertical_offset_inactive" type="int" value="0"/>
     <property name="urgent_blink" type="bool" value="true"/>
     <property name="use_compositing" type="bool" value="true"/>
-    <property name="workspace_count" type="int" value="10"/>
+    <property name="workspace_count" type="int" value="7"/>
     <property name="workspace_names" type="array">
-      <value type="string" value="run"/>
+      <value type="string" value="adm"/>
       <value type="string" value="msg"/>
       <value type="string" value="doc"/>
       <value type="string" value="web"/>
-      <value type="string" value="web2"/>
-      <value type="string" value="wrk"/>
+      <value type="string" value="wrk1"/>
       <value type="string" value="wrk2"/>
+      <value type="string" value="wrk3"/>
       <value type="string" value="wrk3"/>
       <value type="string" value="wrk4"/>
       <value type="string" value="media"/>

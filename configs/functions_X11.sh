@@ -1,4 +1,14 @@
 
+function day () {
+ printf '\033]11;white\007'
+ printf '\033]10;black\007'
+}
+
+function night () {
+ printf '\033]11;black\007'
+ printf '\033]10;white\007'
+}
+
 function xrandr-ls() {
 echo `xrandr|grep " connected "|cut -f 1 -d' '`
 }

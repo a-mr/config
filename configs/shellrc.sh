@@ -801,6 +801,7 @@ wkhtmltopdf "$name"/{index.html,*.html} "$name".pdf
 # Pdf cropping
 # - to just crop bottom of pdf file on all pages, do:
 #  pdfjam --keepinfo --trim "0mm 15mm 0mm 0mm" --clip true --suffix "cropped" file_to_crop.pdf
+# positions mean left bottom right top respectively
 # - to crop extra margins, use the following functions:
 
 function all_pdf_crop {
