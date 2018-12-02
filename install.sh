@@ -1,8 +1,15 @@
 #!/bin/bash
 
+option="$1"
 CTPATH="$HOME/activity-public/computer-program-data"
 
 . $CTPATH/configs/functions.sh
+
+if [[ "$option" != "" && "$option" != "-a" && "$option" != "-all" ]]; then
+    red_echo "unknown option" "$option"
+    echo "allowed options: -a -all"
+    exit 1
+fi
 
 cd $CTPATH
 chmod g-w -R configs
@@ -31,7 +38,7 @@ inst(){
 }
 
 oinst(){
-    if [[ "$1" == "-a" ]]; then
+    if [[ "$option" == "-a" || "$option" == "-all" ]]; then
         inst $@
     else
         echo skipping $@

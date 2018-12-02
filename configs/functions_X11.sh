@@ -6,7 +6,7 @@ function day () {
 
 function night () {
  printf '\033]11;black\007'
- printf '\033]10;white\007'
+ printf '\033]10;grey\007'
 }
 
 function xrandr-ls() {
