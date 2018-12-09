@@ -25,10 +25,9 @@
         <value type="int" value="34"/>
         <value type="int" value="17"/>
         <value type="int" value="4"/>
-        <value type="int" value="16"/>
+        <value type="int" value="13"/>
         <value type="int" value="8"/>
         <value type="int" value="6"/>
-        <value type="int" value="13"/>
         <value type="int" value="1"/>
         <value type="int" value="21"/>
         <value type="int" value="5"/>
@@ -63,21 +62,22 @@
         <value type="string" value="guake"/>
         <value type="string" value="networkmanager applet"/>
         <value type="string" value="ibus-ui-gtk3"/>
+        <value type="string" value="pasystray"/>
         <value type="string" value="orage"/>
-        <value type="string" value="skype"/>
         <value type="string" value="панель ibus"/>
         <value type="string" value="pidgin"/>
-        <value type="string" value="network"/>
+        <value type="string" value="skype"/>
         <value type="string" value="blueman-applet"/>
         <value type="string" value="clipit"/>
         <value type="string" value="parcellite"/>
+        <value type="string" value="network"/>
         <value type="string" value="update-notifier"/>
         <value type="string" value="xfce4-power-manager"/>
         <value type="string" value="gpick"/>
-        <value type="string" value="skypeforlinux"/>
+        <value type="string" value="wicd-client.py"/>
         <value type="string" value="ktorrent"/>
         <value type="string" value="vncserverui"/>
-        <value type="string" value="pasystray"/>
+        <value type="string" value="skypeforlinux"/>
         <value type="string" value="уведомления об обновлениях"/>
       </property>
     </property>
@@ -142,17 +142,6 @@
       </property>
     </property>
     <property name="plugin-3" type="string" value="whiskermenu"/>
-    <property name="plugin-13" type="string" value="statusnotifier">
-      <property name="known-items" type="array">
-        <value type="string" value="software-update-available"/>
-        <value type="string" value="ViberPC"/>
-        <value type="string" value="Telegram Desktop"/>
-        <value type="string" value="blueman"/>
-        <value type="string" value="clipit"/>
-        <value type="string" value="nm-applet"/>
-        <value type="string" value="pasystray"/>
-      </property>
-    </property>
     <property name="plugin-16" type="string" value="xkb">
       <property name="display-type" type="uint" value="0"/>
       <property name="display-name" type="uint" value="1"/>
@@ -206,5 +195,6 @@
     <property name="plugin-22" type="string" value="separator">
       <property name="expand" type="bool" value="true"/>
     </property>
+    <property name="plugin-13" type="string" value="xkb-plugin"/>
   </property>
 </channel>

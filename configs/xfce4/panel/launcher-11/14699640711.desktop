@@ -7,13 +7,15 @@ Exec=chromium-browser %U
 Terminal=false
 X-MultipleArgs=false
 Type=Application
-Icon=chromium-browser
+Icon=web-browser
 Categories=Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;x-scheme-handler/http;x-scheme-handler/https;
 StartupNotify=true
 Actions=NewWindow;Incognito;TempProfile;
 X-AppInstall-Package=chromium-browser
 X-XFCE-Source=file:///usr/share/applications/chromium-browser.desktop
+
+Path=
 
 [Desktop Action NewWindow]
 Name=Open a New Window
