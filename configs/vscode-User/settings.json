@@ -1,6 +1,8 @@
 {
     "keyboard.dispatch": "keyCode",
     "editor.fontSize": 18,
+    "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontLigatures": true,
     "editor.rulers": [80],
     // "editor.fontFamily": "'Input Mono',Droid Sans Mono'"
     "editor.renderWhitespace": "none",
@@ -20,24 +22,24 @@
     "vim.easymotionMarkerFontSize": "22",
     "vim.easymotionMarkerHeight": 25,
     "vim.easymotionMarkerWidthPerChar": 20,
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": ["k"],
-            "after": ["leader", "leader", "F"]
-        },
-        {
-            "before": ["j"],
-            "after": ["leader", "leader", "f"]
-        },
-        {
-            "before": ["l"],
-            "after": ["leader", "leader", "w"]
-        },
-        {
-            "before": ["h"],
-            "after": ["leader", "leader", "b"]
-        },
-    ],
+    //"vim.normalModeKeyBindingsNonRecursive": [
+    //    {
+    //        "before": ["k"],
+    //        "after": ["leader", "leader", "F"]
+    //    },
+    //    {
+    //        "before": ["j"],
+    //        "after": ["leader", "leader", "f"]
+    //    },
+    //    {
+    //        "before": ["l"],
+    //        "after": ["leader", "leader", "w"]
+    //    },
+    //    {
+    //        "before": ["h"],
+    //        "after": ["leader", "leader", "b"]
+    //    },
+    //],
     //"vim.easymotionMarkerBackgroundColor": "#ffffff",
     "vim.easymotionMarkerForegroundColorOneChar": "#ffff00",
     
@@ -58,5 +60,8 @@
     "terminal.integrated.fontSize": 18,
     "[nim]": {
         "editor.tabSize": 2
-    }
+    },
+    "[rust]": {
+        "editor.rulers": [99]
+    },
 }

@@ -30,7 +30,7 @@ inst(){
 		DSTC="$2"
 	fi
 	DST="`$BLOC/fullpath \"$DSTC\"`"
-	PARENT="`dirname $DST`"
+	PARENT="`dirname \"$DST\"`"
 	mkdir -p "$PARENT"
 	echo $LNK "$SRC" "$DST"
 	$LNK "$SRC" "$DST"

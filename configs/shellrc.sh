@@ -1516,8 +1516,9 @@ echo
 fortune
 fi
 
-stty stop undef
-stty start undef
+# to disable sw flow control (ctrl-s, ctrl-q)
+#stty stop undef
+#stty start undef
 
 ###############################################################################
 # local.sh can overwite above settings

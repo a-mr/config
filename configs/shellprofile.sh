@@ -11,4 +11,3 @@ elif [[ "$CURSHELL" == "/bin/bash" || "$CURSHELL" == "bash" ]]; then
     . ~/.bashrc
 fi
 
-if [ -e /home/andreymak/.nix-profile/etc/profile.d/nix.sh ]; then . /home/andreymak/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
