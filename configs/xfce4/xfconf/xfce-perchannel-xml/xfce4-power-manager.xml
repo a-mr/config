@@ -22,5 +22,6 @@
     <property name="hibernate-button-action" type="uint" value="3"/>
     <property name="handle-brightness-keys" type="bool" value="false"/>
     <property name="general-notification" type="bool" value="true"/>
+    <property name="critical-power-level" type="uint" value="15"/>
   </property>
 </channel>

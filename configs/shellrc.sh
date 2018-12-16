@@ -21,7 +21,7 @@ fi
 
 # If connected to terminal then start default shell
 tty -s
-if [[ "0" == "$?" ]]; then
+if [[ "0" == "$?" && "$ONLYREADCONF" != "y" ]]; then
     default_shell
 fi
 
@@ -70,7 +70,7 @@ else
 fi
 
 export VISUAL="$EDITOR"
-for term in urxvt gnome-terminal xterm roxterm konsole rxvt-unicode xfce4-terminal ; do
+for term in konsole urxvt gnome-terminal xterm roxterm rxvt-unicode xfce4-terminal ; do
 	if exist $term; then
 		export XTERMINAL=$term
 		break
@@ -209,6 +209,10 @@ mydialog -warning "Proceed? [y|n]" \
 
 # If not running interactively, don't do anything else
 if [[ "$PS1" == "" ]]; then
+    return
+fi
+
+if [[ "$ONLYREADCONF" == "y" ]]; then
     return
 fi
 

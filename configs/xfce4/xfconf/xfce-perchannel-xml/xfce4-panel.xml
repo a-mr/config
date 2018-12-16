@@ -194,6 +194,7 @@
     </property>
     <property name="plugin-22" type="string" value="separator">
       <property name="expand" type="bool" value="true"/>
+      <property name="style" type="uint" value="1"/>
     </property>
     <property name="plugin-13" type="string" value="xkb-plugin"/>
   </property>

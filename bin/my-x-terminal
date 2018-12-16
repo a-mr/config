@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export ONLYREADCONF=y
 . ~/.bashrc
+unset ONLYREADCONF
 
-exec $XTERMINAL $@
+echo starting $XTERMINAL $@
+eval $XTERMINAL $@

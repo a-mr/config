@@ -1,4 +1,6 @@
 
+export QT_QPA_PLATFORMTHEME=gtk2
+
 function day () {
  printf '\033]11;white\007'
  printf '\033]10;black\007'

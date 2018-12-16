@@ -22,14 +22,14 @@ DDIR="$HOME"
 
 LNK="ln -sfT"
 inst(){
-	SRC="`$BLOC/fullpath $1`"
+	SRC="`$BLOC/fullpath \"$1\"`"
 	DSTC=
 	if [ "$2" == "" ]; then
 		DSTC="$DDIR/.$1"
 	else
 		DSTC="$2"
 	fi
-	DST="`$BLOC/fullpath $DSTC`"
+	DST="`$BLOC/fullpath \"$DSTC\"`"
 	PARENT="`dirname $DST`"
 	mkdir -p "$PARENT"
 	echo $LNK "$SRC" "$DST"
@@ -56,6 +56,11 @@ inst shellprofile.sh ~/.bash_profile
 inst shellprofile.sh ~/.zprofile
 inst shellrc.sh ~/.bashrc
 inst shellrc.sh ~/.zshrc
+
+inst konsole/konsolerc ~/.config/konsolerc
+inst konsole/konsoleui.rc ~/.local/share/kxmlgui5/konsole/konsoleui.rc
+inst konsole/sessionui.rc ~/.local/share/kxmlgui5/konsole/sessionui.rc
+inst "konsole/Profile 5.profile" "$HOME/.local/share/konsole/Profile 5.profile"
 
 oinst roxterm.sourceforge.net ~/.config/roxterm.sourceforge.net
 oinst lxpanel-default ~/.config/lxpanel/default
