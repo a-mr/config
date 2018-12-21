@@ -496,16 +496,23 @@ read_msg() {
 #ignore cases in search & allow ansi colors
 export LESS="-i -R -j20"
 
+GREP_COLOR=always
+export LESS_VERSION="$(less -V|head -n1|cut -f2 -d' ')"
+if (( $LESS_VERSION <= 381 )); then 
+    # old less version seems to have a problem with colors
+    GREP_COLOR=never
+fi
+
 function p {
 cp ~/tmp/buffer ~/tmp/buffer2
-tee ~/tmp/buffer|grep --color=always -n '^'|less -F -X
+tee ~/tmp/buffer|grep --color=$GREP_COLOR -n '^'|less -F -X
 cp ~/tmp/buffer ~/tmp/buffer2
 }
 
 #   bb   line number   command to filter   command to run
 function bb {
 if [[ "$1" == "" ]]; then
-    cat ~/tmp/buffer|grep --color=always -n '^'|less -F -X
+    cat ~/tmp/buffer|grep --color=$GREP_COLOR -n '^'|less -F -X
 else
     local n=$1
     local filter
@@ -616,21 +623,36 @@ if [[ "$1" == "" ]]; then
     return 1
 fi
 if [[ "$2" == "" ]]; then
-    find_cmd_default . -exec grep -i --color=always "$1" \{\} + | p
+    find_cmd_default . -exec grep -i --color=$GREP_COLOR "$1" \{\} + | p
 else
     local dir="$2"
     local pattern="$1"
     shift 2
-    find_cmd_default "$dir" -exec grep -i --color=always "$pattern" $@ \{\} + | p
+    find_cmd_default "$dir" -exec grep -i --color=$GREP_COLOR "$pattern" $@ \{\} + | p
+fi
+}
+
+function gc() {
+if [[ "$1" == "" ]]; then
+    red_echo no search pattern
+    return 1
+fi
+if [[ "$2" == "" ]]; then
+    find_cmd_default . -exec grep --color=$GREP_COLOR "$1" \{\} + | p
+else
+    local dir="$2"
+    local pattern="$1"
+    shift 2
+    find_cmd_default "$dir" -exec grep --color=$GREP_COLOR "$pattern" $@ \{\} + | p
 fi
 }
 
 function gg() {
-grep --color=always -i $@ | p
+grep --color=$GREP_COLOR -i $@ | p
 }
 
 function ggl() {
-grep --color=always -i -A1 -B6 $@ | p
+grep --color=$GREP_COLOR -i -A1 -B6 $@ | p
 }
 
 sed_common_cmd="sed -i --follow-symlinks"
@@ -690,7 +712,7 @@ echo find $dir -iwholename "*$1*"
 find $dir -iwholename "*$1*" | p
 }
 
-# "findnew N Dir" finds files that a newer N days.
+# "findnew N Dir" finds recent files that a newer N days.
 # N may be fractionate and by default it is 1/24=1hour.
 function findnew() {
 local dir
@@ -1092,6 +1114,16 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     # home/end in gnome terminal
     bindkey  "^[[H"   beginning-of-line
     bindkey  "^[[F"   end-of-line
+    # in putty:
+    bindkey  "^[[1~"   beginning-of-line
+    bindkey  "^[[4~"   end-of-line
+    # (hopefully) in many other terminals:
+    bindkey "${terminfo[khome]}" beginning-of-line
+    bindkey "${terminfo[kend]}" end-of-line
+    # search for the command beginning
+    bindkey "${terminfo[kpp]}" history-beginning-search-backward
+    bindkey "${terminfo[knp]}" history-beginning-search-forward
+
 
     # tell zsh not to trust its cache when completing
     # There is a performance cost, but it is negligible on a typical desktop
@@ -1273,9 +1305,9 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
        local finish_time="`date +'%m-%d %T'`"
        local info
        if [[ $finish_time == $start_time ]]; then
-           info=". `dirs`"
+           info=". `dirs -p | head -n1`"
        else
-           info="$finish_time `dirs`"
+           info="$finish_time `dirs -p | head -n1`"
        fi
        if (( $RESULT == 0 )); then
 	   fill_echo $stout$cyan "$info"

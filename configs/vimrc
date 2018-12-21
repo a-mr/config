@@ -16,6 +16,8 @@ filetype plugin on
 
 " execute pathogen#infect()
 
+" allow switching buffers without saving
+set hidden
 "set number
 set showcmd
 
@@ -250,6 +252,9 @@ nmap ga <Plug>(EasyAlign)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nnoremap <C-h> :buffers<CR>:buffer<Space>
+inoremap <C-h> <Esc>:buffers<CR>:buffer<Space>
 
 "comments
 nmap <Leader>c _i/*<Esc>$a*/<Esc>
