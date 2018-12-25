@@ -182,7 +182,7 @@
       <property name="invert-orientation" type="bool" value="true"/>
     </property>
     <property name="plugin-20" type="string" value="windowmenu">
-      <property name="workspace-actions" type="bool" value="true"/>
+      <property name="workspace-actions" type="bool" value="false"/>
       <property name="workspace-names" type="bool" value="true"/>
       <property name="style" type="uint" value="0"/>
       <property name="all-workspaces" type="bool" value="true"/>

@@ -65,6 +65,7 @@ inst "konsole/Profile 5.profile" "$HOME/.local/share/konsole/Profile 5.profile"
 oinst roxterm.sourceforge.net ~/.config/roxterm.sourceforge.net
 oinst lxpanel-default ~/.config/lxpanel/default
 inst easystroke ~/.easystroke
+inst fonts.conf
 inst autostart ~/.config/autostart
 inst mimeapps.list ~/.config/mimeapps.list
 
