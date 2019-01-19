@@ -11,7 +11,7 @@ $INS cvs subversion mercurial tortoisehg hg-fast-export bzr git gitk gitweb darc
 $INS xfce4 xfce4-appfinder xfce4-battery-plugin xfce4-clipman-plugin xfce4-cpufreq-plugin xfce4-cpugraph-plugin xfce4-diskperf-plugin xfce4-fsguard-plugin xfce4-genmon-plugin xfce4-mailwatch-plugin xfce4-mount-plugin xfce4-notes-plugin xfce4-panel xfce4-quicklauncher-plugin xfce4-screenshooter-plugin xfce4-sensors-plugin xfce4-smartbookmark-plugin xfce4-systemload-plugin xfce4-terminal xfce4-verve-plugin xfce4-wavelan-plugin xfce4-weather-plugin thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman gvfs gvfs-backends lightdm lightdm-gtk-greeter policykit-1 elogind xfce4-power-manager-plugins xfce4-whiskermenu-plugin xfce4-xkb-plugin xfwm4-themes
 
 
-$INS zsh crudini gawk aptitude python-tk vim-gtk chromium konsole
+$INS zsh crudini gawk aptitude python-tk vim-gtk chromium konsole filezilla eog webp
 
 #fonts
 $INS gsfonts gsfonts-x11 fonts-arphic-ukai fonts-arphic-uming fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core xfonts-terminus ttf-mscorefonts-installer fonts-liberation2 fonts-firacode unifont

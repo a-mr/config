@@ -1,0 +1,27 @@
+https://unix.stackexchange.com/questions/134797/how-to-automatically-mount-an-usb-device-on-plugin-time-on-an-already-running-sy
+
+You could use gnome-volume-manager to automount. You can reconfigure it a bit using gnome-volume-properties.
+
+screenshot
+            ￼
+
+If you're in runlevel 3 I don't believe this is an option. You could however coax udev into doing the mounting for you in a similar fashion.
+
+1. add a file automount.rules in /etc/udev/rules.d
+
+2. add the following lines to automount.rules
+
+automount.rules
+# automounting usb flash drives
+# umask is used to allow every user to write on the stick
+# we use --sync in order to enable physical removing of mounted memory sticks -- this is OK for fat-based sticks
+# I don't automount sda since in my system this is the internal hard drive
+# depending on your hardware config, usb sticks might be other devices than sdb*
+ACTION=="add",KERNEL=="sdb*", RUN+="/usr/bin/pmount --sync --umask 000 %k"
+ACTION=="remove", KERNEL=="sdb*", RUN+="/usr/bin/pumount %k"
+ACTION=="add",KERNEL=="sdc*", RUN+="/usr/bin/pmount --sync --umask 000 %k"
+ACTION=="remove", KERNEL=="sdc*", RUN+="/usr/bin/pumount %k"
+3. reload the udev rules:
+
+udevadm control --reload-rules
+
