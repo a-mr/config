@@ -93,7 +93,10 @@ for i in functions.sh functions_X11.sh emacs vimrc gdbinit gdbinit.local \
     xinputrc; do
     inst $i
 done
-for i in i3 textadept pentadactylrc vimperatorrc keynavrc conkyrc xxkbrc \
+
+inst fvwm-config $HOME/.fvwm/config
+for i in i3 i3status.conf \
+    textadept pentadactylrc vimperatorrc keynavrc xxkbrc \
     xbindkeysrc ocamlinit ghci rootlogon.C juliarc.jl psqlrc; do
 	oinst $i
 done
@@ -105,7 +108,6 @@ done
 
 oinst xpra.conf ~/.xpra/xpra.conf
 
-oinst awesome-rc.lua ~/.config/awesome/rc.lua
 #if [ "`os_distribution`" = "ubuntu" ]; then
 #    echo "install thunderbird profiles for ubuntu"
 #    inst profiles_for_ubuntu.ini ~/.thunderbird/profiles.ini

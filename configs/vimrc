@@ -83,7 +83,7 @@ set spellfile=~/.vim/spell/my1.utf-8.add
 " handle long lines in a smarter way
 "set showbreak=!
 "set showbreak=╰\ 
-set showbreak=╰─\ 
+set showbreak=\ \ ╰─\ 
 set breakindent
 set linebreak
 "set breakindentopt=shift:4
@@ -102,6 +102,7 @@ set cpoptions+=n
 if has("gui_running")
 	colorscheme pablo
 endif
+
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
     hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=0
@@ -383,6 +384,7 @@ imap <C-b> <Space>(<Space><Space>)<Esc>hi
 "au BufRead,BufNewFile *.c,*.h syn keyword cType real
 
 au BufRead,BufNewFile *.c,*.h syn keyword cType cycles_t
+
 hi cStatement ctermfg=DarkGreen
 hi PreProc ctermfg=DarkYellow
 hi Constant ctermfg=DarkMagenta
@@ -404,6 +406,11 @@ au BufRead,BufNewFile *.c,*.h syn match cBrackets "\((\|)\)"
 hi cBrackets ctermfg=Blue
 
 set cinoptions={1s,f1s  " whitesmith C style indentation
+
+"fix colors in vimdiff
+hi DiffText   cterm=none ctermfg=Black ctermbg=Red gui=none guifg=Black guibg=Red
+hi DiffChange cterm=none ctermfg=Black ctermbg=LightMagenta gui=none guifg=Black guibg=LightMagenta
+
 "set cinoptions+=f-2
 "au BufRead,BufNewFile *.c,*.h set cino+=>2,e2
 "au BufRead,BufNewFile *.C,*.cxx,*.cpp,*.cc,*.hh set cino+=>2,e2

@@ -26,6 +26,11 @@ xset b 100 100 10
 #export GTK_IM_MODULE=ibus
 #export QT_IM_MODULE=ibus
 #/usr/bin/ibus-daemon --xim -d
+export LD_LIBRARY_PATH=/usr/local/lib
+#export GTK_IM_MODULE='uim'  # Instructs the GTK immodule to use uim
+#export QT_IM_MODULE='uim'   # Instructs the Qt immodule to use uim
+#export XMODIFIERS='@im=uim' # Instructs XIM to use uim
+#uim-xim&
 
 #export GTK_IM_MODULE=fcitx
 #export QT_IM_MODULE=fcitx
@@ -40,8 +45,23 @@ mysetxkb
 #graphical ssh window to unlock key when trying to login to ssh
 export $(gnome-keyring-daemon --start )
 
+#enable natural scrolling direction by touchpad
+synclient VertScrollDelta=-100
+synclient HorizScrollDelta=-100
+#Don't scroll by 2 fingers
+synclient VertEdgeScroll=1
+synclient HorizEdgeScroll=1
+synclient VertTwoFingerScroll=0
+synclient HorizTwoFingerScroll=0
+
 shopt -s execfail
-xfce4-session || icewm
+i3 &
+#xfce4-session || icewm
+#export FVWM_USERDIR=$HOME/.fvwm
+#fvwm2 --replace&
+exec startxfce4 || icewm
+blueman-applet&
+#exec i3
 
 #pkill -P $$
 

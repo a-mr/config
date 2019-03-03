@@ -1292,7 +1292,8 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
           ;;
         rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
 #          print -Pn "\e]2;$USER@%M:%-3~ $a\a"
-          print -Pn "\e]2;$CURSHELL(%m)> $a\a"
+          #print -Pn "\e]2;$CURSHELL(%m)> $a\a"
+          print -Pn "\e]2;%1/> $a\a"
           ;;
       esac
     }
@@ -1536,7 +1537,9 @@ esac
 # programs to run in the beginning
 
 if exist /usr/lib/w3m/w3mimgdisplay && \
-	[ -d ~/activity-personal/computer-program-data/pictures ]; then
+	[ -d ~/activity-personal/computer-program-data/pictures ]
+        [[ "$DISPLAY" != "" ]]
+        ; then
 clear
 dfile=`shuf -n1 -e ~/activity-personal/computer-program-data/pictures/*`
 w3disp.sh $dfile
