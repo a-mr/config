@@ -480,6 +480,12 @@ alias s="cd .."
 alias s2="cd ../.."
 alias s3="cd ../../.."
 alias s4="cd ../../../.."
+alias s5="cd ../../../../.."
+alias s6="cd ../../../../../.."
+alias s7="cd ../../../../../../.."
+alias s8="cd ../../../../../../../.."
+alias s9="cd ../../../../../../../../.."
+
 function o {
 xdg-open $@
 }
@@ -928,6 +934,21 @@ echo 'repository here ' `pwd` :
 bold_echo `what_is_repo_type`
 }
 
+
+function inf {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+          git) (git describe --tags; git status; git remote show origin) | p
+		  ;;
+          mercurial) (hg id; hg paths) | p
+		  ;;
+	  svn) svn info | p
+		  ;;
+	  *) red_echo unknown repository: $REPO
+
+  esac
+}
+
 function log {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -936,6 +957,20 @@ function log {
 	  mercurial) hg log -v $@|p
 		  ;;
 	  svn) svn log $@|p
+		  ;;
+	  *) red_echo unknown repository: $REPO
+
+  esac
+}
+
+function his {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git) git log --follow -p -- $@|p
+		  ;;
+	  mercurial) hg record $@|p
+		  ;;
+	  svn) svn log --diff $@|p
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1422,12 +1457,13 @@ pkg(){
       red_echo unknown distribution
       return
   fi
-  if [[ "$1" == "help" || "$1" == "-h" ]]; then
+  if [[ "$1" == "help" || "$1" == "-h" || "$1" ==  "--help"
+        || "$1" == "-help" ]]; then
       echo -e " s"\|"se"\|"search"\\tsearch package name \\n\
 	  "i"\\t\\tinstall package \\n\
 	  "info"\\t\\tinformation about package \\n\
 	  "rm"\\t\\tremove package \\n\
-	  "ls"\|"list"\\tlist installed packages \\n\
+	  "grep"\|"ls"\|"list"\\tlist installed packages \\n\
 	  "files"\\t\\tlist files owned by package \\n\
 	  "which"\\t\\twhich "  "installed package owns this file\? \\n\
 	  "where"\\t\\twhich uninstalled package owns this file\? \\n\
@@ -1441,10 +1477,10 @@ pkg(){
 		  "i") yum install "$2" ;;
 		  "info") yum info "$2" ;;
 		  "rm") yum remove "$2" ;;
-		  "ls"|"list") rpm -qa "$2";;
+		  "grep"|"ls"|"list") rpm -qa "$2";;
 		  "files") rpm -ql "$2" ;;
-		  "which") rpm -qf "$2" ;;
-		  "where") yum whatprovides $2 ;;
+		  "owns"|"which") rpm -qf "$2" ;;
+		  "where") yum whatprovides "$2" ;;
 		  *) red_echo unknown command "$1"
 	  esac
 	  ;;
@@ -1454,10 +1490,10 @@ pkg(){
 		  "i"|"install") apt-get install "$2" ;;
 		  "info") apt-cache showpkg "$2" ;;
 		  "rm") apt-get remove "$2" ;;
-		  "ls"|"list") dpkg -l $2 ;;
+		  "grep"|"ls"|"list") dpkg -l $2 ;;
 		  "files") dpkg -L "$2" ;;
-	          "which") dpkg -S "$2" ;;
-	          "where") apt-file search $2 ;;
+	          "owns"|"which") dpkg -S "$2" ;;
+	          "where") apt-file search "$2" ;;
 		  *) red_echo unknown command "$1"
 	  esac
 	  ;;
@@ -1468,8 +1504,8 @@ pkg(){
 		  "info") emerge -s "$2" ;;
 		  "rm") emerge --unmerge "$2" ;;
 		  "files") qlist "$2" ;;
-		  "ls"|"list") equery list '*' ;; #not tested
-		  "which") qfile "$2" ;;
+		  "grep"|"ls"|"list") equery list '*' ;; #not tested
+		  "owns"|"which") qfile "$2" ;;
 		  *) red_echo unknown command "$1"
 	  esac
 	  ;;

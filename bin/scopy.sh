@@ -6,5 +6,5 @@
 # -v verbose
 # -H preserve hard links
 
-rsync -azvH -e ssh $@
+rsync -azvHu -e ssh "$1" "$2/$1"
 
