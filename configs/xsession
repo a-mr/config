@@ -54,6 +54,7 @@ synclient HorizEdgeScroll=1
 synclient VertTwoFingerScroll=0
 synclient HorizTwoFingerScroll=0
 
+dunst &
 shopt -s execfail
 i3 &
 #xfce4-session || icewm

@@ -52,13 +52,9 @@ function mod_unlock {
 function mysetxkb {
 # Enable zapping (C-A-<Bksp> kills X)
 setxkbmap -option terminate:ctrl_alt_bksp
-#setxkbmap -layout "us,ru" -option "grp:caps_toggle,grp_led:caps,compose:ralt"
 local dvorus_dir=~/activity-public/dvorus-layout
-#setxkbmap -layout "dvorus_en,dvorus_ru" -print|xkbcomp -w 0 -I$dvorus_dir - $DISPLAY
-#setxkbmap -layout "klava_en,klava_ru" -print|xkbcomp -I$dvorus_dir - $DISPLAY
-#xmodmap $dvorus_dir/xmodmap
-echo load dvorus_evdev
-xkbcomp $dvorus_dir/dvorus_evdev.xkb $DISPLAY
+local file="$dvorus_dir/dvorus_us_ru_evdev_remap.xkb"
+xkbcomp "$file" $DISPLAY
 echo my > ~/tmp/layout
 }
 

@@ -1,21 +1,27 @@
 // Place your key bindings in this file to overwrite the defaults
 [
     {
-        "key": "ctrl+alt+'",
+        "key"    : "ctrl+alt+'",
         "command": "workbench.action.terminal.toggleTerminal"
     },
     {
-        "key": "ctrl+`",
+        "key"    : "ctrl+`",
         "command": "-workbench.action.terminal.toggleTerminal"
     },
     {
-        "key": "ctrl+'",
+        "key"    : "ctrl+'",
         "command": "workbench.action.terminal.focus"
     },
     { 
-        "key": "ctrl+'",
+        "key"    : "ctrl+'",
         "command": "workbench.action.focusActiveEditorGroup",
-        "when": "terminalFocus"
+        "when"   : "terminalFocus"
+    },
+    { 
+        "key"    : "ctrl+alt+v",
+        "command": "wwm.aligncode",
+        "when"   : "editorTextFocus && !editorReadonly"
     }
+
 
 ]

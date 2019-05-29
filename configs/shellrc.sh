@@ -991,6 +991,29 @@ function ann {
   esac
 }
 
+# whether to print version info in PS1
+wrepo="none"
+function wrepo () {
+    if [ "$wrepo" = "none" ]; then
+        wrepo="any"
+    else
+        wrepo="none"
+    fi
+}
+
+function bra {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) git branch | grep \^\* | cut -d ' ' -f2
+          ;;
+      mercurial) hg branch
+          ;;
+      svn) svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'
+          ;;
+      *) echo -n $REPO
+  esac
+}
+
 function sta {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -1345,6 +1368,10 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
        else
            info="$finish_time `dirs -p | head -n1`"
        fi
+       #show repository branch if requested
+       if [ "$wrepo" != "none" ]; then
+           info+=" ($(bra))"
+       fi
        if (( $RESULT == 0 )); then
 	   fill_echo $stout$cyan "$info"
        elif  (( $RESULT == 127 )); then
@@ -1574,8 +1601,7 @@ esac
 
 if exist /usr/lib/w3m/w3mimgdisplay && \
 	[ -d ~/activity-personal/computer-program-data/pictures ]
-        [[ "$DISPLAY" != "" ]]
-        ; then
+        [[ "$DISPLAY" != "" ]] ; then
 clear
 dfile=`shuf -n1 -e ~/activity-personal/computer-program-data/pictures/*`
 w3disp.sh $dfile
