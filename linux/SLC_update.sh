@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # For Scientific (RHEL, CentOS) Linux 6
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 INS="apt-get install -y"
 INSB="apt-get build-dep -y"

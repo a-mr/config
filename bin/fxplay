@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 FILE=`find . -wholename "*$1*"`
 SUBFILE=`find . -wholename "*$2*"` 

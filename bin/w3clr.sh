@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 W3MIMGDISPLAY="/usr/lib/w3m/w3mimgdisplay"
 FONTH=15 # Size of one terminal row

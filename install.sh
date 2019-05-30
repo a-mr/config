@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 option="$1"
 CTPATH="$HOME/activity-public/computer-program-data"
@@ -20,7 +20,17 @@ DDIR="$HOME"
 # 'inst' makes link from $1 to ~/.$1 or $2
 # If $2 is given, full path should be specified.
 
-LNK="ln -sfT"
+os=`uname`
+LNK() {
+  if [[ $os == Linux ]]; then
+	echo ln -sfT $@
+	  ln -sfT $@
+  else
+	echo ln -sf $@
+	  ln -sf $@
+  fi
+}
+
 inst(){
 	SRC="`$BLOC/fullpath \"$1\"`"
 	DSTC=
@@ -32,8 +42,7 @@ inst(){
 	DST="`$BLOC/fullpath \"$DSTC\"`"
 	PARENT="`dirname \"$DST\"`"
 	mkdir -p "$PARENT"
-	echo $LNK "$SRC" "$DST"
-	$LNK "$SRC" "$DST"
+	LNK "$SRC" "$DST"
 	isok
 }
 
@@ -45,8 +54,7 @@ oinst(){
     fi
 }
 
-echo $LNK $BLOC ~/bin
-$LNK $BLOC ~/bin
+LNK $BLOC ~/bin
 
 cd configs
 

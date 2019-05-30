@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ( while true; do weather.sh > ~/tmp/weather; sleep 1200; done ) &
 

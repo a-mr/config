@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Extended packages: X11 mainly and exotic user-space console tools
 . $HOME/.functions.sh

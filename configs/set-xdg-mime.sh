@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 xdg-mime default evince.desktop application/pdf
 xdg-mime default evince.desktop application/ps

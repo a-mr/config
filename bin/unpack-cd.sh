@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "unpack-cd.sh : unpacks all .tgz files" 
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # origin : http://tex.stackexchange.com/questions/42236/pdfcrop-generates-larger-file
 
 function usage () {

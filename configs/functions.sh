@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Variables for terminal requests.
 [[ -t 2 ]] && { 
     alt=$(      tput smcup  || tput ti      ) # Start alt display

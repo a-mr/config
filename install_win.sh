@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # allow sym links for Windows
 export MSYS=winsymlinks:nativestrict

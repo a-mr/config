@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 groupadd -g 505 hg
 useradd -s /sbin/nologin -r -M -u 505 -g 505 hg

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ### Move the focus to a particular workspace using dmenu.
 
 I3MSG=$(command -v i3-msg) || exit 1

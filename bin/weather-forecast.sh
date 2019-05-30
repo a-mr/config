@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 city_code="$1"
 cache="$HOME/.cache/gismeteo/"

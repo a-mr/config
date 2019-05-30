@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 . ~/.functions.sh
 base="`basename $1 .djvu`"

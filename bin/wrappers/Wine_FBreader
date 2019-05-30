@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 Dir=$HOME/.wine/drive_c/
 CMD1=`which FBReader` || CMD1=`which FBreader` || CMD1=`which fbreader`

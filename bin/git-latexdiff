@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 TMPDIR=$(mktemp -d /tmp/git-latexdiff.XXXXXX)
 trap $(rm -rf $TMPDIR) EXIT
 latexdiff "$1" "$2" > $TMPDIR/diff.tex

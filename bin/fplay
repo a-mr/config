@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "FILE=\`find . -iwholename \"*$1*\"\`"
 FILE=`find . -iwholename "*$1*"`
