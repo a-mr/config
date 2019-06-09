@@ -4,6 +4,9 @@ set nocompatible
 "use mouse in terminal
 "set mouse=a
 
+" always let some lines after cursor
+set scrolloff=10
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "common settings
@@ -259,8 +262,16 @@ nmap ga <Plug>(EasyAlign)
 "key mappings: keys, shortcuts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nnoremap <C-h> :buffers<CR>:buffer<Space>
-inoremap <C-h> <Esc>:buffers<CR>:buffer<Space>
+set timeoutlen=50 ttimeoutlen=0
+
+nnoremap w :buffers<CR>:buffer<Space>
+inoremap w <Esc>:buffers<CR>:buffer<Space>
+nnoremap n :next<CR>
+inoremap n <Esc>:next<CR>
+nnoremap p :prev<CR>
+inoremap p <Esc>:prev<CR>
+nnoremap e :marks<CR>
+inoremap e <Esc>:marks<CR>
 nnoremap ] <C-]>:tselect<CR>
 vnoremap ] <C-]>:tselect<CR>
 

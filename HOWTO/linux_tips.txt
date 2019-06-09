@@ -69,3 +69,24 @@ And put correct dns servers in client's /etc/resolv.conf
 fc-list|cut -d: -f2|sort|uniq
 specify language 'russian':
 fc-list :lang=ru|cut -d: -f2|sort|uniq
+
+=== speed up CPU if it is stuck in low-power mode =============================
+# use wrmsr from msr-tools
+# disable BD PROCHOT
+wrmsr -a 0x1FC 262238
+
+=== rotate screen in Linux console ============================================
+https://askubuntu.com/questions/237963/how-do-i-rotate-my-display-when-not-using-an-x-server
+You can rotate your virtual framebuffers using fbcon. 0 through 3 to represent the various rotations:
+
+0 - Normal rotation
+1 - Rotate clockwise
+2 - Rotate upside down
+3 - Rotate counter-clockwise
+These can be set from the command line by putting a value into the correct system file. Rotate the current framebuffer:
+
+echo 1 | sudo tee /sys/class/graphics/fbcon/rotate
+Rotate all virtual framebuffers:
+
+echo 1 | sudo tee /sys/class/graphics/fbcon/rotate_all
+

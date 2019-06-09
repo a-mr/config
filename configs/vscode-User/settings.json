@@ -4,9 +4,11 @@
     "editor.fontSize": 15,
     "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "editor.fontLigatures": true,
-    "editor.rulers": [80],
+    "editor.rulers": [0,80,99],
+    //"editor.renderWhitespace": "boundary", 
     // "editor.fontFamily": "'Input Mono',Droid Sans Mono'"
     "editor.renderWhitespace": "none",
+    "editor.renderIndentGuides": false,
     "editor.wordWrap": "on",
     "editor.wrappingIndent": "indent",
     "window.zoomLevel": 0,
