@@ -8,14 +8,29 @@
 # [Init]
 ################################################################################
 
+###############################################################################
+# initial settings
+[ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH2_CLIENT" ] \
+    && inside_ssh=true
+[ -n "$VNCDESKTOP" ] && inside_vnc=true
+
+if [ -f  ~/.profile ] ; then
+    if [ ! $inside_ssh ]; then
+        # be silent because of scp
+        echo Load ~/.profile
+    fi
+    . ~/.profile
+fi
+
 # Note $SHELL env. variable can be wrong
 CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 
 function default_shell {
-if [[ "$ALLOW_BASH" == "" ]] && [ -x /bin/zsh ] && \
+if [[ "$ALLOW_BASH" == "" ]] && which zsh &> /dev/null && \
     [[ "$CURSHELL" != "/bin/zsh" && "$CURSHELL" != "zsh" ]]; then
     echo starting zsh
-    exec /bin/zsh
+    exec zsh
+    #exec /bin/zsh
 fi
 }
 
@@ -83,8 +98,8 @@ if [ -f /etc/lsb-release ]; then
 	export DISTRIB_RELEASE
 fi
 
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-export PATH=$PATH:$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:/opt/bin
+# path priorities: my scripts, /usr/local/bin, default PATH, additional paths
+export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
 
 # textadept editor
 function ta {
@@ -325,7 +340,8 @@ read line
 x $line
 }
 
-function t {
+alias t=tmux_try_start
+function tmux_try_start {
 if exist tmux; then
     export TERM=xterm
     if [[ -z $TMUX ]]; then
@@ -377,7 +393,8 @@ if exist tmux; then
 	fi
     fi
 else
-    echo no tmux in PATH
+    echo no tmux in PATH:
+    echo $PATH
     set_display
 fi
 }
@@ -390,8 +407,8 @@ echo OK
 exit
 }
 
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-	t
+if [ $inside_ssh ] && [ ! $inside_vnc ]; then
+    tmux_try_start
 fi
 ################################################################################
 # definitions for interactive work only
@@ -492,7 +509,7 @@ xdg-open $@
 if exist ncal; then
 alias cal="ncal -y"
 fi
-alias pat="patch -p1 --ignore-whitespace"
+alias mypatch="patch -p1 --ignore-whitespace"
 
 # try to decode Microsoft's outlook .msg files
 read_msg() {
@@ -886,9 +903,6 @@ alias xm3="xm.sh 3"
 alias xm4="xm.sh 4"
 alias xm5="xm.sh 5"
 
-typeset -Ag abbreviations
-abbreviations=()
-
 
 ###############################################################################
 # local.sh can overwite above settings
@@ -938,11 +952,11 @@ bold_echo `what_is_repo_type`
 function inf {
   REPO=`what_is_repo_type`
   case "$REPO" in
-          git) (git describe --tags; git status; git remote show origin) | p
+          git) git describe --all; git rev-parse HEAD; git status
 		  ;;
-          mercurial) (hg id; hg paths) | p
+          mercurial) hg id; hg paths
 		  ;;
-	  svn) svn info | p
+	  svn) svn info
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -952,11 +966,11 @@ function inf {
 function log {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git log --name-status $@|p
+	  git) git log --decorate --graph --all --tags --name-status $@ | less -N
 		  ;;
-	  mercurial) hg log -v $@|p
+	  mercurial) hg log -v $@ | less -N
 		  ;;
-	  svn) svn log $@|p
+	  svn) svn log $@ | less -N
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1004,7 +1018,7 @@ function wrepo () {
 function bra {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git branch | grep \^\* | cut -d ' ' -f2
+      git) git branch | grep \^\* | cut -d ' ' -f2-
           ;;
       mercurial) hg branch
           ;;
@@ -1036,6 +1050,21 @@ function dif {
 	  mercurial) hg diff $@|p
 		  ;;
 	  svn) svn diff $@|p
+		  ;;
+	  *) red_echo unknown repository: $REPO
+
+  esac
+}
+
+# show patch for a given revision
+function pat {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git) git show $@|p
+		  ;;
+	  mercurial) hg diff -c $@|p
+		  ;;
+	  svn) svn diff -c $@|p
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1083,6 +1112,21 @@ function com {
   esac
 }
 
+pur () {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) mydialog "purge?[n|y]" "n green_echo OK" "y git clean  -d  -f -x ."
+          # (-d untracked directories, -f untracked files, -x also ignored files)
+          ;;
+      mercurial) mydialog "purge?[n|y]" "n green_echo OK" "y hg purge"
+          ;;
+      svn) mydialog "purge?[n|y]" "n green_echo OK" "y svn cleanup . --remove-unversioned"
+          ;;
+      *) red_echo unknown repository: $REPO
+
+  esac
+}
+
 function rvr {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -1121,13 +1165,39 @@ function clo {
   esac
 }
 
+# download & update
 function pul {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git pull --recurse-submodules $@ master
+	  git) git pull --recurse-submodules origin $(bra)
 	      git submodule update
 		  ;;
 	  mercurial) hg pull -u $@
+		  ;;
+	  svn) svn up $@
+		  ;;
+  esac
+}
+
+# download remote changes
+function get {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git) git fetch --recurse-submodules origin $(bra)
+		  ;;
+	  mercurial) hg pull $@
+		  ;;
+	  svn) echo not applicable
+		  ;;
+  esac
+}
+
+function upd {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git) git merge
+		  ;;
+	  mercurial) hg co $@
 		  ;;
 	  svn) svn up $@
 		  ;;
@@ -1182,6 +1252,8 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     bindkey "${terminfo[kpp]}" history-beginning-search-backward
     bindkey "${terminfo[knp]}" history-beginning-search-forward
 
+    # print function definition in which
+    alias which="whence -cvf"
 
     # tell zsh not to trust its cache when completing
     # There is a performance cost, but it is negligible on a typical desktop
@@ -1390,6 +1462,9 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     # some abbrev.s may be defined in local.sh
     local apu="activity-public"
     local ape="activity-personal"
+    typeset -Ag abbreviations
+    abbreviations=()
+
     abbreviations+=(
     "apu"	"$apu/"
     "as"	"activity-shared/"
@@ -1600,7 +1675,7 @@ esac
 # programs to run in the beginning
 
 if exist /usr/lib/w3m/w3mimgdisplay && \
-	[ -d ~/activity-personal/computer-program-data/pictures ]
+	[ -d ~/activity-personal/computer-program-data/pictures ] && \
         [[ "$DISPLAY" != "" ]] ; then
 clear
 dfile=`shuf -n1 -e ~/activity-personal/computer-program-data/pictures/*`

@@ -60,10 +60,11 @@ map <S-F12> "zyiw:grep "<C-R>z"<CR><CR>:copen<CR>zz/<C-R>z<CR>
 vmap <S-F12> "zy:grep "<C-R>z"<CR><CR>zz/<C-R>z<CR>
 map <F12> :cn<CR>zz/<C-R>z<CR>
 map <C-F12> :cp<CR>zz/<C-R>z<CR>
-hi CursorLine   cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
-hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
+hi CursorLine   cterm=NONE ctermbg=darkgray guibg=darkgray
+"hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 "nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-nnoremap <Leader>c :set cursorline!<CR>
+nnoremap <Leader>v :set cursorline!<CR>
+set cursorline
 
 "highlight search
 set hlsearch
@@ -86,13 +87,20 @@ menu SetSpell.en  :set spl=en spell<CR>
 set spellfile=~/.vim/spell/my1.utf-8.add
 
 " handle long lines in a smarter way
-"set showbreak=!
-"set showbreak=╰\ 
-set showbreak=\ \ ╰─\ 
+"set showbreak=\ \ ╰─\ 
+set showbreak=\ \ \ \ \ ↪\ 
+"try to show as much as possible of the last line in the window (rather than
+"a column of "@", which is the default behavior).
+set display+=lastline
+
 if v:version >= 800
     set breakindent
 endif
 hi NonText ctermfg=yellow
+
+" enable soft wrapping at the edge of the screen
+set wrap
+" make it not wrap in the middle of a "word"
 set linebreak
 "set breakindentopt=shift:4
 
@@ -262,7 +270,8 @@ nmap ga <Plug>(EasyAlign)
 "key mappings: keys, shortcuts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set timeoutlen=50 ttimeoutlen=0
+" timeout for alt, leader is 500 [ms]:
+set timeoutlen=500 ttimeoutlen=0
 
 nnoremap w :buffers<CR>:buffer<Space>
 inoremap w <Esc>:buffers<CR>:buffer<Space>
@@ -270,8 +279,12 @@ nnoremap n :next<CR>
 inoremap n <Esc>:next<CR>
 nnoremap p :prev<CR>
 inoremap p <Esc>:prev<CR>
+
 nnoremap e :marks<CR>
 inoremap e <Esc>:marks<CR>
+nnoremap m :marks<CR>
+inoremap m <Esc>:marks<CR>
+
 nnoremap ] <C-]>:tselect<CR>
 vnoremap ] <C-]>:tselect<CR>
 
@@ -308,13 +321,15 @@ function! TogglePaste()
    if &g:paste
       set nopaste 
       set number
-      set showbreak=!
+      set showbreak=\ \ \ \ \ ↪\ 
       set list
+      set linebreak
    else
       set paste 
       set nonumber
       set showbreak=
       set nolist
+      set nolinebreak
    endif
    SignifyToggle
 endfunction
@@ -334,7 +349,12 @@ nmap <F2> :call ToggleSyntax()<CR>
 
 
 "my dvorus layout for russian
-set langmap=юq,ыk,яy,уu,ь',дd,лl,мm,бb,зz,сs,оo,еe,аa,рr,нn,вw,чv,йj,пp,иi,жx,кc,тt,хh,гg,фf,ЮQ,ЫK,ЯY,УU,Ь\|,ДD,ЛL,МM,БB,ЗZ,СS,ОO,ЕE,АA,РR,НN,ВW,ЧV,ЙJ,ПP,ИI,ЖX,КC,ТT,ХH,ГG,ФF,№#,₽$,ъ&,Ъ&,«{,„{,»},“},́`,ш[,Ш[,ё],Ё],э_,Э_,щ\",Щ\",ц^,Ц^
+if has('win32') && has('gui_running')
+    " win gvim does not like aný
+    set langmap=юq,ыk,яy,уu,ь',дd,лl,мm,бb,зz,сs,оo,еe,аa,рr,нn,вw,чv,йj,пp,иi,жx,кc,тt,хh,гg,фf,ЮQ,ЫK,ЯY,УU,Ь\|,ДD,ЛL,МM,БB,ЗZ,СS,ОO,ЕE,АA,РR,НN,ВW,ЧV,ЙJ,ПP,ИI,ЖX,КC,ТT,ХH,ГG,ФF,№#,₽$,ъ&,Ъ&,«{,„{,»},“},ш[,Ш[,ё],Ё],э_,Э_,щ\",Щ\",ц^,Ц^
+else
+    set langmap=юq,ыk,яy,уu,ь',дd,лl,мm,бb,зz,сs,оo,еe,аa,рr,нn,вw,чv,йj,пp,иi,жx,кc,тt,хh,гg,фf,ЮQ,ЫK,ЯY,УU,Ь\|,ДD,ЛL,МM,БB,ЗZ,СS,ОO,ЕE,АA,РR,НN,ВW,ЧV,ЙJ,ПP,ИI,ЖX,КC,ТT,ХH,ГG,ФF,№#,₽$,ъ&,Ъ&,«{,„{,»},“},́`,ш[,Ш[,ё],Ё],э_,Э_,щ\",Щ\",ц^,Ц^
+endif
 "map <F10> :!xmodmap -e "keycode 105 = space"<cr><cr>
 "map <S-F10> :!xmodmap -e "keycode 105 = Next"<cr><cr>
 
@@ -615,6 +635,7 @@ imap <S-F2> <ESC>l<S-F2>i
 
 autocmd bufenter *.tex set formatoptions=aw2tq
 ":set formatprg=par\ -80j
+"enable hard wrap:
 autocmd bufenter *.tex set textwidth=80
 highlight OverLength ctermbg=DarkGrey guibg=DarkGrey
 match OverLength /\%<81v.\%>80v/
