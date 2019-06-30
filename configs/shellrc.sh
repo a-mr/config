@@ -14,14 +14,6 @@
     && inside_ssh=true
 [ -n "$VNCDESKTOP" ] && inside_vnc=true
 
-if [ -f  ~/.profile ] ; then
-    if [ ! $inside_ssh ]; then
-        # be silent because of scp
-        echo Load ~/.profile
-    fi
-    . ~/.profile
-fi
-
 # Note $SHELL env. variable can be wrong
 CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 
@@ -97,9 +89,6 @@ if [ -f /etc/lsb-release ]; then
 	export DISTRIB_ID
 	export DISTRIB_RELEASE
 fi
-
-# path priorities: my scripts, /usr/local/bin, default PATH, additional paths
-export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
 
 # textadept editor
 function ta {
@@ -429,7 +418,7 @@ if [ -x /usr/bin/dircolors ]; then
     ls $@
     }
     function grep {
-    /bin/grep --color=auto "$@"
+    command grep --color=auto "$@"
     }
 fi
 if exist rlwrap; then alias ocaml="rlwrap ocaml"; fi
@@ -791,6 +780,10 @@ echo md5sum: `md5sum $@`
 mydialog "show? [y|n]" "y zcat $@" "n echo OK"
 }
 
+function diff () {
+    command diff --color=always $@
+}
+
 function difftree () {
   colordiff <(cd "$1"; find .|sort) <(cd "$2"; find .|sort)|p
 }
@@ -857,6 +850,22 @@ function all_pdf_crop {
 	find . -type f -name "*.pdf" | parallel  pdfcrop3.sh -m 5 {}
 }
 
+# functions to echo file and print page count:
+mypdfinfo () {
+    # -print0 separate files by \0
+    # -0      the same for xargs reading
+    # -n1     process inputs one by one
+    find . -name "*.pdf" -print0 | xargs -0 -I{} -n1 sh -c 'echo; echo "{}"; pdfinfo "{}"'
+}
+
+mydjvuinfo () {
+    find . -name "*.djvu" -print0 | xargs -0 -I{} -n1 sh -c 'echo; echo "{}"; djvused -e n "{}"'
+}
+
+mypsinfo () {
+    find . -name "*.ps" -print0 | xargs -0 -n1 -I{} sh -c 'echo; echo "{}"; gs -sDEVICE=bbox -o /dev/null "{}" 2>&1| grep HiResBoundingBox|wc -l'
+}
+
 mypdfcrop () {
 	file=`mktemp`.pdf
 	o "$1"
@@ -910,6 +919,9 @@ if [ -f  ~/local.sh ] ; then
 echo Load local.sh
 . ~/local.sh
 fi
+
+# path priorities: my scripts, /usr/local/bin, default PATH, additional paths
+export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
 
 ###############################################################################
 # functions for working with version control repositories & others
@@ -1093,21 +1105,35 @@ function com {
   REPO=`what_is_repo_type`
   local msg=""
   if [ "$1" != "" ]; then
-	  msg="-m \"$1\""
+      msg="-m \"$1\""
   fi
   case "$REPO" in
-	  git) git add -u :/ && eval git commit $msg && mydialog "push?[n|y]" "n green_echo Done" "y git push"
-		  ;;
-	  mercurial) eval hg commit $msg && (
-	  	if grep default `hg root`/.hg/hgrc &> /dev/null; then
-		    mydialog "push?" "y hg push" "n green_echo Done"
-		else
-		    yellow_echo no default repository to push
-		fi)
-		  ;;
-	  svn) eval svn commit $msg
-		  ;;
-	  *) red_echo unknown repository: $REPO
+      git) git add -u :/ && eval git commit $msg && mydialog "push?[n|y]" "n green_echo Done" "y git push origin \"$(bra)\""
+          ;;
+      mercurial) eval hg commit $msg && (
+          if grep default `hg root`/.hg/hgrc &> /dev/null; then
+              mydialog "push?" "y hg push" "n green_echo Done"
+          else
+              yellow_echo no default repository to push
+          fi)
+          ;;
+      svn) eval svn commit $msg
+          ;;
+      *) red_echo unknown repository: $REPO
+
+  esac
+}
+
+function pus {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) git push origin "$(bra)"
+          ;;
+      mercurial) hg push
+          ;;
+      svn) svn commit
+          ;;
+      *) red_echo unknown repository: $REPO
 
   esac
 }
@@ -1169,7 +1195,7 @@ function clo {
 function pul {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git pull --recurse-submodules origin $(bra)
+	  git) git pull --recurse-submodules origin "$(bra)"
 	      git submodule update
 		  ;;
 	  mercurial) hg pull -u $@
@@ -1183,7 +1209,7 @@ function pul {
 function get {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git fetch --recurse-submodules origin $(bra)
+	  git) git fetch --recurse-submodules origin "$(bra)"
 		  ;;
 	  mercurial) hg pull $@
 		  ;;

@@ -4,10 +4,17 @@ CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 
 echo $DISPLAY > ~/.display-x11-$HOSTNAME
 
+# some systems provide their local settings here (it is not loaded if
+# .bash_profile is present)
+. ~/.profile
+
 if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     echo zsh detected
 elif [[ "$CURSHELL" == "/bin/bash" || "$CURSHELL" == "bash" ]]; then
     echo bash detected
-    . ~/.bashrc
+else
+    echo unknown shell detected
 fi
+
+. ~/.bashrc
 

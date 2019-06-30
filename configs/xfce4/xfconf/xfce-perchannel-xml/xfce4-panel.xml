@@ -193,7 +193,6 @@
     </property>
     <property name="plugin-8" type="string" value="launcher">
       <property name="items" type="array">
-        <value type="string" value="15584705241.desktop"/>
       </property>
     </property>
   </property>

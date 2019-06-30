@@ -1,5 +1,5 @@
 favorites=exo-web-browser.desktop,exo-mail-reader.desktop,exo-file-manager.desktop,libreoffice-writer.desktop,libreoffice-calc.desktop,exo-terminal-emulator.desktop
-recent=virtualbox.desktop,gkrellm.desktop,xfce-ui-settings.desktop,antix-set-dpi.desktop,xfce-session-settings.desktop,xfce-keyboard-settings.desktop,chromium.desktop,exo-preferred-applications.desktop,antix-antiXCC.desktop,lxterminal.desktop
+recent=debian-xterm.desktop,eog.desktop,virtualbox.desktop,gkrellm.desktop,xfce-ui-settings.desktop,antix-set-dpi.desktop,xfce-session-settings.desktop,xfce-keyboard-settings.desktop,chromium.desktop,exo-preferred-applications.desktop
 button-title=MENU
 button-icon=xfce4-whiskermenu
 button-single-row=false
