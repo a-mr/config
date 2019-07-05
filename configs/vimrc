@@ -6,7 +6,10 @@ set nocompatible
 
 " always let some lines after cursor
 set scrolloff=10
-
+" 'start' to fix backspace on some systems
+set backspace=indent,start
+" 'eol' to allow delete new line
+"set backspace=indent,eol,start
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "common settings
@@ -278,8 +281,10 @@ nmap ga <Plug>(EasyAlign)
 "key mappings: keys, shortcuts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" timeout for alt, leader is 500 [ms]:
-set timeoutlen=500 ttimeoutlen=0
+" timeout for alt, leader is 100 [ms]:
+set timeoutlen=100 ttimeoutlen=0
+" higher timeouts would lead e.g. to accidental triggering of Alt-w in case of
+" pressing <ESC>w (in insert mode)
 
 nnoremap w :buffers<CR>:buffer<Space>
 inoremap w <Esc>:buffers<CR>:buffer<Space>

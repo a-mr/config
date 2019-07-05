@@ -20,8 +20,13 @@ CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 function default_shell {
 if [[ "$ALLOW_BASH" == "" ]] && which zsh &> /dev/null && \
     [[ "$CURSHELL" != "/bin/zsh" && "$CURSHELL" != "zsh" ]]; then
-    echo starting zsh
-    exec zsh
+    if shopt -q login_shell; then
+        echo we are in bash, starting zsh log-in
+        exec zsh -l
+    else
+        exec zsh
+        echo we are in bash, starting zsh
+    fi
     #exec /bin/zsh
 fi
 }
@@ -1057,8 +1062,13 @@ function sta {
 function dif {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git diff -r HEAD $@|p
-		  ;;
+	  git)
+              if [ -f $1 ]; then
+                  git diff -r HEAD -- $@|p
+              else
+                  red_echo file $1 not found
+              fi
+	      ;;
 	  mercurial) hg diff $@|p
 		  ;;
 	  svn) svn diff $@|p
@@ -1153,6 +1163,12 @@ pur () {
   esac
 }
 
+unstage () {
+    if [ -f "$1" ]; then
+        git reset HEAD "$1"
+    fi
+}
+
 function rvr {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -1196,7 +1212,8 @@ function pul {
   REPO=`what_is_repo_type`
   case "$REPO" in
 	  git) git pull --recurse-submodules origin "$(bra)"
-	      git submodule update
+	       git submodule update
+               git lfs pull
 		  ;;
 	  mercurial) hg pull -u $@
 		  ;;
@@ -1210,6 +1227,7 @@ function get {
   REPO=`what_is_repo_type`
   case "$REPO" in
 	  git) git fetch --recurse-submodules origin "$(bra)"
+               git lfs fetch
 		  ;;
 	  mercurial) hg pull $@
 		  ;;
@@ -1222,6 +1240,7 @@ function upd {
   REPO=`what_is_repo_type`
   case "$REPO" in
 	  git) git merge
+               git lfs checkout
 		  ;;
 	  mercurial) hg co $@
 		  ;;
@@ -1483,25 +1502,7 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 
     # set pre-prompt line
     function precmd() {
-       local RESULT=$?
-       local finish_time="`date +'%m-%d %T'`"
-       local info
-       if [[ $finish_time == $start_time ]]; then
-           info=". `dirs -p | head -n1`"
-       else
-           info="$finish_time `dirs -p | head -n1`"
-       fi
-       #show repository branch if requested
-       if [ "$wrepo" != "none" ]; then
-           info+=" ($(bra))"
-       fi
-       if (( $RESULT == 0 )); then
-	   fill_echo $stout$cyan "$info"
-       elif  (( $RESULT == 127 )); then
-	   warning_echo "exit=$RESULT; $info"
-       else
-	   error_echo "exit=$RESULT; $info"
-       fi
+      print_precmd
       case "$TERM" in
         screen|screen.rxvt)
           print -Pn "\ek%-3~\e\\" # set screen title
@@ -1585,9 +1586,9 @@ else
     #infinite history for bash
     export HISTSIZE=""
 
-    export PS1=" > "
+    export PS1="> "
     if [ "$TERM" != "" ]; then
-        export PS1="\[\033]0;\w\> \$BASH_COMMAND \007\] > "
+        export PS1="\[\033]0;\w> \$BASH_COMMAND \007\]> "
     fi
 
     # preexec analogue of zsh for bash using DEBUG hook

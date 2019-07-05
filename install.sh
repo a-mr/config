@@ -82,7 +82,7 @@ oinst $CTPATH/vim/zenburn.penta/zenburn.penta ~/.pentadactyl/colors/zenburn.pent
 mkdir -p ~/tmp/VIM_TMP
 mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     oinst $CTPATH/vim/vim-pathogen/autoload/pathogen.vim ~/.vim/autoload/pathogen.vim 
-oinst $CTPATH/vim/vim-easymotion ~/.vim/bundle/vim-easymotion
+inst $CTPATH/vim/vim-easymotion ~/.vim/bundle/vim-easymotion
 #red_command vim-addons install latex-suite
 oinst xmonad.hs ~/.xmonad/xmonad.hs
 aux_echo xmonad recompile
