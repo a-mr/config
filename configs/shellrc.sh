@@ -1248,6 +1248,33 @@ alias d=cd
 #if cd $@; then report_repo_type; fi
 #}
 
+print_preexec () {
+    start_time="`date +'%m-%d %T'`"
+    fill_echo $stout $start_time
+}
+
+print_precmd () {
+       local RESULT=$?
+       local finish_time="`date +'%m-%d %T'`"
+       local info
+       if [[ $finish_time == $start_time ]]; then
+           info=". `dirs -p | head -n1`"
+       else
+           info="$finish_time `dirs -p | head -n1`"
+       fi
+       #show repository branch if requested
+       if [ "$wrepo" != "none" ]; then
+           info+=" ($(bra))"
+       fi
+       if (( $RESULT == 0 )); then
+	   fill_echo $stout$cyan "$info"
+       elif  (( $RESULT == 127 )); then
+	   warning_echo "exit=$RESULT; $info"
+       else
+	   error_echo "exit=$RESULT; $info"
+       fi
+}
+
 ###############################################################################
 # shell-specific settings - for bash or zsh
 
@@ -1428,10 +1455,8 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 
     # autoload -U colors
     #colors
-    local start_time
     function preexec() {
-      start_time="`date +'%m-%d %T'`"
-      fill_echo $stout $start_time
+      print_preexec
       local a=${${1## *}[(w)1]}  # get the command
       local b=${a##*\/}   # get the command basename
       a="${b}${1#$a}"     # add back the parameters
@@ -1550,7 +1575,8 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     bindkey "^e" magic-abbrev-expand
 
 else
-    if [[ "$CURSHELL" == "/bin/bash" || "$CURSHELL" == "bash" ]]; then
+    if [[ "$CURSHELL" == "/bin/bash" || "$CURSHELL" == "bash" \
+       || "$CURSHELL" == "/usr/bin/bash" ]]; then
 	echo "bash detected"
     else
 	red_echo "unknown shell detected. We suppose it is bash"
@@ -1558,20 +1584,21 @@ else
     export HISTTIMEFORMAT=": %s:"
     #infinite history for bash
     export HISTSIZE=""
-#    last_command="none"
-#    prompt_function () {
-#	    last_command="$(history 1)"
-#    }
-#    PROMPT_COMMAND=prompt_function
-    #bold&underline:
-#    export PS1="\e[1;1m=\e[1;0m\$? | \t \033[4m\u@\H\033[0m \w\e[1;1m>\e[1;0m "
-    #without buggy bold&underline
-    export PS1="=\$? | \t \u@\h \w> "
+
+    export PS1=" > "
     if [ "$TERM" != "" ]; then
-#	export PS1="\[\033]0;\u@\h: \w\007\]$PS1"
-	export PS1="\[\033]0;$CURSHELL(\h) \007\]$PS1"
-#	export PS1="\[\033]0;$CURSHELL(\h)> $last_command \007\]$PS1"
+        export PS1="\[\033]0;\w\> \$BASH_COMMAND \007\] > "
     fi
+
+    # preexec analogue of zsh for bash using DEBUG hook
+    preexec_invoke_exec () {
+        [ -n "$COMP_LINE" ] && return  # do nothing if completing
+        [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return # don't cause a preexec for $PROMPT_COMMAND
+        print_preexec
+    }
+    trap 'preexec_invoke_exec' DEBUG
+
+    export PROMPT_COMMAND=print_precmd
 fi
 
 

@@ -87,8 +87,16 @@ menu SetSpell.en  :set spl=en spell<CR>
 set spellfile=~/.vim/spell/my1.utf-8.add
 
 " handle long lines in a smarter way
-"set showbreak=\ \ ╰─\ 
-set showbreak=\ \ \ \ \ ↪\ 
+function! Setshowbreak()
+    "set showbreak=\ \ ╰─\ 
+    if has('win32') && has('gui_running')
+        set showbreak=\ \ \ \ \ ->\ 
+    else
+        set showbreak=\ \ \ \ \ ↪\ 
+    endif
+endfunction
+call Setshowbreak()
+
 "try to show as much as possible of the last line in the window (rather than
 "a column of "@", which is the default behavior).
 set display+=lastline
@@ -320,8 +328,8 @@ nmap <silent>  \C  :call CapitalizeCenterAndMoveDown()<CR>
 function! TogglePaste()
    if &g:paste
       set nopaste 
-      set number
-      set showbreak=\ \ \ \ \ ↪\ 
+      "set number
+      call Setshowbreak()
       set list
       set linebreak
    else

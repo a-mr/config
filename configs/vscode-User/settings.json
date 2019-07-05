@@ -1,4 +1,6 @@
 {
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
     "keyboard.dispatch": "keyCode",
     "editor.lineNumbers": "off",
     "editor.fontSize": 15,
@@ -14,6 +16,12 @@
     "window.zoomLevel": 0,
     // Controls the maximum amount of lines the terminal keeps in its buffer.
     "terminal.integrated.scrollback": 5000,
+
+    // highlight current line
+    "editor.renderLineHighlight": "line",
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#444444"
+    }
 
     
     //"vim.useSystemClipboard": true,
