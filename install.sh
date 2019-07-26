@@ -94,7 +94,8 @@ for i in functions.sh functions_X11.sh emacs vimrc gdbinit gdbinit.local \
     inst $i
 done
 
-inst fvwm-config $HOME/.fvwm/config
+inst gitk ~/.config/git/gitk
+
 for i in i3 i3status.conf \
     textadept pentadactylrc vimperatorrc keynavrc xxkbrc \
     xbindkeysrc ocamlinit ghci rootlogon.C juliarc.jl psqlrc; do

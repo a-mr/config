@@ -309,6 +309,18 @@ function x(){
     unset XAUTHORITY
 }
 
+ensure_ssh_agent () {
+    . ~/.ssh/myagent.sh
+    if [[ -S $SSH2_AUTH_SOCK ]]; then
+        echo ssh-agent is already present at $SSH2_AUTH_SOCK, doing nothing
+    else
+	warning_echo no ssh agent in ~/.ssh/myagent.sh
+	mydialog "start ssh-agent? [n|y]" "n echo OK" \
+		"y ssh-agent > ~/.ssh/myagent.sh; . ~/.ssh/myagent.sh; ssh-add"
+    fi
+}
+alias ss=ensure_ssh_agent
+
 function hgrep() {
 local pattern="$1"
 shift 1
@@ -340,6 +352,7 @@ if exist tmux; then
     export TERM=xterm
     if [[ -z $TMUX ]]; then
 	set_display
+	ensure_ssh_agent
 	echo Starting tmux
 	if tmux has-session; then
 	    echo tmux sessions:
@@ -561,6 +574,21 @@ else
 fi
 }
 
+#open file +line in vim
+function bv {
+    if [[ "$1" == "" ]]; then
+        local n=1
+    else
+        local n=$1
+    fi
+    local line
+    local line2
+    cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1| \
+	    while read line; do echo line: $line; line2="$line"; done;
+    echo vim "$(echo $line2 | cut -f1 -d:)" +$(echo $line2 | cut -f2 -d:)
+    eval vim "$(echo $line2 | cut -f1 -d:)" +$(echo $line2 | cut -f2 -d:)
+}
+
 function trim_spaces() {
      sed "s/^[ \t]*//;s/[ \t]*$//" $@
 }
@@ -570,7 +598,10 @@ function trim_spaces() {
 # > b111 command
 #process all line
 for i in `seq 1 999`; do alias b$i="bb $i ''"; done
+#alias to open file +line in vim
+for i in `seq 1 999`; do alias bv$i="bv $i"; done
 #process first field, e.g. 'x' in 'x:y'
+for i in `seq 1 999`; do alias b$i:="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b$i:="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias :b$i="bb $i 'cut -f2- -d: | trim_spaces'"; done
 
@@ -634,34 +665,53 @@ function find_cmd_default () {
   find -H "$dir" -not -wholename "*.hg/*" -not -wholename "*.git/*" -not -wholename "*.svn/*" -xtype f $@
 }
 
-function g() {
-if [[ "$1" == "" ]]; then
-    red_echo no search pattern
-    return 1
-fi
-if [[ "$2" == "" ]]; then
-    find_cmd_default . -exec grep -i --color=$GREP_COLOR "$1" \{\} + | p
-else
-    local dir="$2"
+function gi() {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
     local pattern="$1"
-    shift 2
-    find_cmd_default "$dir" -exec grep -i --color=$GREP_COLOR "$pattern" $@ \{\} + | p
-fi
+    if [[ "$2" == "" ]]; then
+        local dir=.
+    else
+        local dir="$2"
+        shift 2
+    fi
+    grep --color=$GREP_COLOR "$pattern" --exclude-dir=.git --exclude-dir=.svn \
+	--exclude-dir=.hg -inr "$dir" $@ | p
 }
 
+
 function gc() {
-if [[ "$1" == "" ]]; then
-    red_echo no search pattern
-    return 1
-fi
-if [[ "$2" == "" ]]; then
-    find_cmd_default . -exec grep --color=$GREP_COLOR "$1" \{\} + | p
-else
-    local dir="$2"
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
     local pattern="$1"
-    shift 2
-    find_cmd_default "$dir" -exec grep --color=$GREP_COLOR "$pattern" $@ \{\} + | p
-fi
+    if [[ "$2" == "" ]]; then
+        local dir=.
+    else
+        local dir="$2"
+        shift 2
+    fi
+    grep --color=$GREP_COLOR "$pattern" --exclude-dir=.git --exclude-dir=.svn \
+	--exclude-dir=.hg -nr "$dir" $@ | p
+}
+
+function gcw() {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+    else
+        local dir="$2"
+        shift 2
+    fi
+    grep --color=$GREP_COLOR "$pattern" --exclude-dir=.git --exclude-dir=.svn \
+	--exclude-dir=.hg -wnr "$dir" $@ | p
 }
 
 function gg() {
@@ -994,6 +1044,16 @@ function log {
   esac
 }
 
+# show only branch log in git (approximately, using --first-parent)
+gitlogb () {
+    if [ "$1" -eq "" ]; then
+        local branch="$(bra)"
+    else
+        local branch="$1"
+    fi
+    git log --decorate --graph --tags --name-status --first-parent "$branch" | p
+}
+
 function his {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -1072,6 +1132,23 @@ function dif {
 	  mercurial) hg diff $@|p
 		  ;;
 	  svn) svn diff $@|p
+		  ;;
+	  *) red_echo unknown repository: $REPO
+
+  esac
+}
+
+# print file contents at given revision
+function pri {
+  local rev="$1"
+  local file="$2"
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git) git show "$rev:$file"|p
+		  ;;
+	  mercurial) hg cat -r $rev "$file" | p
+		  ;;
+	  svn) svn cat -r $rev "$file" | p
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
