@@ -1,6 +1,7 @@
 [Appearance]
 ColorScheme=Linux
-Font=Fira Code,13,-1,5,25,0,0,0,0,0
+Font=Fira Code,12,-1,5,25,0,0,0,0,0
+UseFontLineChararacters=true
 
 [Cursor Options]
 CursorShape=0

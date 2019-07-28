@@ -63,11 +63,31 @@ map <S-F12> "zyiw:grep "<C-R>z"<CR><CR>:copen<CR>zz/<C-R>z<CR>
 vmap <S-F12> "zy:grep "<C-R>z"<CR><CR>zz/<C-R>z<CR>
 map <F12> :cn<CR>zz/<C-R>z<CR>
 map <C-F12> :cp<CR>zz/<C-R>z<CR>
-hi CursorLine   cterm=NONE ctermbg=darkgray guibg=darkgray
+highlight CursorLine gui=underline cterm=underline
 "hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 "nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 nnoremap <Leader>v :set cursorline!<CR>
-set cursorline
+
+augroup BgHighlight
+    autocmd!
+    autocmd WinEnter * call HighlightWindow()
+    autocmd WinLeave * call UnHighlightWindow()
+augroup END
+
+function! HighlightWindow()
+    set cursorline
+    if v:version > 703
+        set colorcolumn=80
+    endif
+endfunction
+hi ColorColumn ctermbg=darkgray
+call HighlightWindow()
+function! UnHighlightWindow()
+    set nocursorline
+    if v:version > 703
+        set colorcolumn=0
+    endif
+endfunction
 
 "highlight search
 set hlsearch
@@ -97,16 +117,21 @@ function! Setshowbreak()
     else
         set showbreak=\ \ \ \ \ ↪\ 
     endif
+    if v:version >= 800
+        set breakindent
+    endif
 endfunction
 call Setshowbreak()
+
+function! UnSetshowbreak()
+    set showbreak=
+    set nobreakindent
+endfunction
 
 "try to show as much as possible of the last line in the window (rather than
 "a column of "@", which is the default behavior).
 set display+=lastline
 
-if v:version >= 800
-    set breakindent
-endif
 hi NonText ctermfg=yellow
 
 " enable soft wrapping at the edge of the screen
@@ -168,9 +193,9 @@ set statusline+=%r      "read only flag
 "    endif
 
 set statusline+=\ %=                        " align left
-set statusline+=Line:%l/%L[%p%%]            " line X of Y [percent of file]
-set statusline+=\ Col:%c%V                  " current column: actual+virtual
-set statusline+=\ Buf:%n                    " Buffer number
+set statusline+=L:%l/%L            " line X of Y [percent of file]
+set statusline+=\ C:%c%V                  " current column: actual+virtual
+set statusline+=\ B#%n                    " Buffer number
 "set statusline+=\ [%b][0x%B]\               " ASCII and byte code under cursor
 set statusline+=\ [0x%B]\                   " byte code under cursor
 
@@ -216,11 +241,6 @@ if !has("gui_running")
 set statusline+=%P%4*%m%2*%r%w\                    "Modified? Readonly? Top/bot.
 else
 set statusline+=%P%m%r%w\                    "Modified? Readonly? Top/bot.
-endif
-
-if v:version > 703
-	set colorcolumn=+1
-	hi ColorColumn ctermbg=darkgray
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -341,7 +361,7 @@ function! TogglePaste()
    else
       set paste 
       set nonumber
-      set showbreak=
+      call UnSetshowbreak()
       set nolist
       set nolinebreak
    endif

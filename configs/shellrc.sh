@@ -109,6 +109,16 @@ function julianb {
     julia -e "using IJulia; notebook()"
 }
 
+# compile & start kotlin file
+mykt () {
+    local bname="`basename \"$1\" .kt`"
+    kotlinc "$bname.kt" -include-runtime -d "$bname.jar"
+    if [ $? -eq 0 ]; then
+        echo running $bname.jar
+        java -jar "$bname.jar"
+    fi
+}
+
 #lua
 function lr {
 luarocks --local $@
@@ -451,6 +461,9 @@ fi
 function psu {
 ps -fU $USER --forest|less
 }
+function psa {
+    ps axo stat,euid,ruid,tty,tpgid,sess,pgrp,ppid,pid,pcpu,comm --forest|less
+}
 function users () {
 who -u | grep `date +'%Y-%m-%d'` |  sort -n -k 5
 }
@@ -673,6 +686,7 @@ function gi() {
     local pattern="$1"
     if [[ "$2" == "" ]]; then
         local dir=.
+        shift 1
     else
         local dir="$2"
         shift 2
@@ -690,6 +704,7 @@ function gc() {
     local pattern="$1"
     if [[ "$2" == "" ]]; then
         local dir=.
+        shift 1
     else
         local dir="$2"
         shift 2
@@ -706,6 +721,7 @@ function gcw() {
     local pattern="$1"
     if [[ "$2" == "" ]]; then
         local dir=.
+        shift 1
     else
         local dir="$2"
         shift 2
@@ -1123,11 +1139,10 @@ function dif {
   REPO=`what_is_repo_type`
   case "$REPO" in
 	  git)
-              if [ -f $1 ]; then
-                  git diff -r HEAD -- $@|p
-              else
+              if [ ! -f $1 ]; then
                   red_echo file $1 not found
               fi
+              git diff -r HEAD -- $@|p
 	      ;;
 	  mercurial) hg diff $@|p
 		  ;;
@@ -1249,21 +1264,22 @@ unstage () {
 function rvr {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git checkout -- $@
+	  git) git reset -- $@ # remove file from staging area
+              git checkout -- $@
 	      #git reset --hard $@
 		  ;;
 	  mercurial) hg revert $@
 		  ;;
-	  svn) svn revert $@
+	  svn) svn revert -R $@
 		  ;;
   esac
 }
 
-# undo add fill
+# undo add file
 function uad {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git reset $@
+	  git) git reset -- $@
 		  ;;
 	  mercurial) hg revert $@
 		  ;;

@@ -5,37 +5,35 @@
   <property name="panels" type="array">
     <value type="int" value="1"/>
     <property name="panel-1" type="empty">
-      <property name="position" type="string" value="p=8;x=58;y=754"/>
-      <property name="length" type="uint" value="8"/>
-      <property name="position-locked" type="bool" value="true"/>
-      <property name="size" type="uint" value="28"/>
+      <property name="position" type="string" value="p=6;x=29;y=389"/>
+      <property name="length" type="uint" value="1"/>
+      <property name="position-locked" type="bool" value="false"/>
+      <property name="size" type="uint" value="29"/>
       <property name="plugin-ids" type="array">
-        <value type="int" value="13"/>
-        <value type="int" value="4"/>
-        <value type="int" value="14"/>
         <value type="int" value="20"/>
+        <value type="int" value="14"/>
         <value type="int" value="16"/>
-        <value type="int" value="7"/>
+        <value type="int" value="8"/>
         <value type="int" value="3"/>
         <value type="int" value="2"/>
         <value type="int" value="9"/>
         <value type="int" value="11"/>
-        <value type="int" value="8"/>
-        <value type="int" value="10"/>
+        <value type="int" value="7"/>
         <value type="int" value="12"/>
         <value type="int" value="18"/>
-        <value type="int" value="15"/>
         <value type="int" value="6"/>
         <value type="int" value="1"/>
         <value type="int" value="21"/>
+        <value type="int" value="4"/>
+        <value type="int" value="13"/>
         <value type="int" value="5"/>
       </property>
-      <property name="nrows" type="uint" value="1"/>
-      <property name="length-adjust" type="bool" value="false"/>
-      <property name="mode" type="uint" value="0"/>
-      <property name="disable-struts" type="bool" value="true"/>
+      <property name="nrows" type="uint" value="2"/>
+      <property name="length-adjust" type="bool" value="true"/>
+      <property name="mode" type="uint" value="1"/>
+      <property name="disable-struts" type="bool" value="false"/>
       <property name="background-alpha" type="uint" value="100"/>
-      <property name="leave-opacity" type="uint" value="94"/>
+      <property name="leave-opacity" type="uint" value="77"/>
       <property name="background-style" type="uint" value="1"/>
       <property name="background-color" type="array">
         <value type="uint" value="11051"/>
@@ -43,13 +41,12 @@
         <value type="uint" value="11626"/>
         <value type="uint" value="65535"/>
       </property>
+      <property name="span-monitors" type="bool" value="true"/>
+      <property name="output-name" type="string" value=""/>
+      <property name="autohide-behavior" type="uint" value="0"/>
     </property>
   </property>
   <property name="plugins" type="empty">
-    <property name="plugin-15" type="string" value="separator">
-      <property name="expand" type="bool" value="true"/>
-      <property name="style" type="uint" value="0"/>
-    </property>
     <property name="plugin-5" type="string" value="clock">
       <property name="mode" type="uint" value="4"/>
       <property name="digital-format" type="string" value="%R"/>
@@ -62,6 +59,7 @@
         <value type="string" value="uim"/>
         <value type="string" value="task manager"/>
         <value type="string" value="gpick"/>
+        <value type="string" value="glipper"/>
         <value type="string" value="guake"/>
         <value type="string" value="ibus-ui-gtk3"/>
         <value type="string" value="clipit"/>
@@ -80,10 +78,11 @@
         <value type="string" value="pidgin"/>
         <value type="string" value="ktorrent"/>
         <value type="string" value="networkmanager applet"/>
+        <value type="string" value="diodon"/>
         <value type="string" value="xpra"/>
         <value type="string" value="system-config-printer"/>
-        <value type="string" value="blueman-applet"/>
         <value type="string" value="telegramdesktop"/>
+        <value type="string" value="blueman-applet"/>
         <value type="string" value="ibus panel"/>
         <value type="string" value="update-notifier"/>
         <value type="string" value="handbrake"/>
@@ -140,8 +139,8 @@
         <value type="string" value="14733457281.desktop"/>
       </property>
       <property name="show-label" type="bool" value="false"/>
-      <property name="arrow-position" type="uint" value="3"/>
-      <property name="move-first" type="bool" value="false"/>
+      <property name="arrow-position" type="uint" value="4"/>
+      <property name="move-first" type="bool" value="true"/>
     </property>
     <property name="plugin-12" type="string" value="launcher">
       <property name="items" type="array">
@@ -159,10 +158,10 @@
       </property>
     </property>
     <property name="plugin-2" type="string" value="actions">
-      <property name="appearance" type="uint" value="1"/>
+      <property name="appearance" type="uint" value="0"/>
       <property name="items" type="array">
-        <value type="string" value="+lock-screen"/>
-        <value type="string" value="+switch-user"/>
+        <value type="string" value="-lock-screen"/>
+        <value type="string" value="-switch-user"/>
         <value type="string" value="+separator"/>
         <value type="string" value="+suspend"/>
         <value type="string" value="-hibernate"/>
@@ -171,7 +170,7 @@
         <value type="string" value="-restart"/>
         <value type="string" value="+separator"/>
         <value type="string" value="-logout"/>
-        <value type="string" value="+logout-dialog"/>
+        <value type="string" value="-logout-dialog"/>
       </property>
       <property name="invert-orientation" type="bool" value="false"/>
     </property>
@@ -185,14 +184,21 @@
     <property name="plugin-14" type="string" value="pager">
       <property name="rows" type="uint" value="1"/>
       <property name="miniature-view" type="bool" value="true"/>
+      <property name="workspace-scrolling" type="bool" value="false"/>
     </property>
-    <property name="plugin-16" type="string" value="tasklist"/>
-    <property name="plugin-7" type="string" value="separator">
-      <property name="expand" type="bool" value="true"/>
-      <property name="style" type="uint" value="1"/>
+    <property name="plugin-16" type="string" value="tasklist">
+      <property name="flat-buttons" type="bool" value="false"/>
+      <property name="show-labels" type="bool" value="false"/>
+      <property name="show-wireframes" type="bool" value="true"/>
+      <property name="include-all-monitors" type="bool" value="true"/>
     </property>
-    <property name="plugin-8" type="string" value="launcher">
+    <property name="plugin-8" type="string" value="separator">
+      <property name="expand" type="bool" value="false"/>
+      <property name="style" type="uint" value="3"/>
+    </property>
+    <property name="plugin-7" type="string" value="launcher">
       <property name="items" type="array">
+        <value type="string" value="15643536561.desktop"/>
       </property>
     </property>
   </property>

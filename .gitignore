@@ -1,3 +1,6 @@
 bin/*.pyc
 configs/textadept/session
 configs/vscode-User/workspaceStorage/
+configs/vscode-User/globalStorage/
+configs/gkrellm2/sensor-config
+configs/gkrellm2/data

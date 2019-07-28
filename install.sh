@@ -96,7 +96,7 @@ done
 
 inst gitk ~/.config/git/gitk
 
-for i in i3 i3status.conf \
+for i in i3 i3status.conf gkrellm2 \
     textadept pentadactylrc vimperatorrc keynavrc xxkbrc \
     xbindkeysrc ocamlinit ghci rootlogon.C juliarc.jl psqlrc; do
 	oinst $i
