@@ -74,19 +74,21 @@ augroup BgHighlight
     autocmd WinLeave * call UnHighlightWindow()
 augroup END
 
+"colorcolumn breaks copy-paste adding spaces
 function! HighlightWindow()
     set cursorline
-    if v:version > 703
-        set colorcolumn=80
-    endif
+    "if v:version > 703
+    "    set colorcolumn=80
+    "endif
 endfunction
-hi ColorColumn ctermbg=darkgray
+
+"hi ColorColumn cterm=underline ctermbg=None
 call HighlightWindow()
 function! UnHighlightWindow()
     set nocursorline
-    if v:version > 703
-        set colorcolumn=0
-    endif
+    "if v:version > 703
+    "    set colorcolumn=0
+    "endif
 endfunction
 
 "highlight search
@@ -125,7 +127,9 @@ call Setshowbreak()
 
 function! UnSetshowbreak()
     set showbreak=
-    set nobreakindent
+    if v:version >= 800
+        set nobreakindent
+    endif
 endfunction
 
 "try to show as much as possible of the last line in the window (rather than
@@ -358,14 +362,17 @@ function! TogglePaste()
       call Setshowbreak()
       set list
       set linebreak
+      call HighlightWindow()
    else
       set paste 
       set nonumber
       call UnSetshowbreak()
       set nolist
       set nolinebreak
+      call UnHighlightWindow()
    endif
    SignifyToggle
+   " BUG in signify disable: adds an extra space after \
 endfunction
 
 nmap <F3> :call TogglePaste()<CR>

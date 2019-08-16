@@ -430,6 +430,22 @@ fi
 ################################################################################
 # definitions for interactive work only
 
+# rename current tmux window and move it to the specified number
+# tt _ 7     # move window to 7
+# tt Name 7  # move window to 7 and rename to "Name"
+tt () {
+    if [[ "$1" == "" ]]; then
+        tmux display-message -p '#I : #W #H   pane_id=#D   pane_index=#P   session=#S'
+    else
+        if [[ "$1" != "_" ]]; then
+            tmux rename-window "$1"
+        fi
+        if [[ "$2" != "" ]]; then
+            tmux swap-window -t "$2"
+        fi
+    fi
+}
+
 function rr {
     local CMD="`fc -ln -1`"
     $XTERMINAL -e $CURSHELL -i -c "$CMD ; bold_echo 'press <Enter> to close the terminal' ; getch" &
@@ -548,7 +564,8 @@ fi
 
 function p {
 cp ~/tmp/buffer ~/tmp/buffer2
-tee ~/tmp/buffer|grep --color=$GREP_COLOR -n '^'|less -F -X
+# add -F to exit less if it fits the screen
+tee ~/tmp/buffer|grep --color=$GREP_COLOR -n '^'|less -X
 cp ~/tmp/buffer ~/tmp/buffer2
 }
 
@@ -598,8 +615,15 @@ function bv {
     local line2
     cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1| \
 	    while read line; do echo line: $line; line2="$line"; done;
-    echo vim "$(echo $line2 | cut -f1 -d:)" +$(echo $line2 | cut -f2 -d:)
-    eval vim "$(echo $line2 | cut -f1 -d:)" +$(echo $line2 | cut -f2 -d:)
+    local fname="$(echo $line2 | cut -f1 -d:)"
+    local lineNo="$(echo $line2: | cut -f2 -d: | trim_spaces)"
+    if [[ "$lineNo" == "" ]]; then
+        echo vim "$fname"
+        eval vim "$fname"
+    else
+        echo vim "$fname" +$lineNo
+        eval vim "$fname" +$lineNo
+    fi
 }
 
 function trim_spaces() {
@@ -696,6 +720,7 @@ function gi() {
 }
 
 
+# case-sensitive, with color
 function gc() {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
@@ -713,6 +738,25 @@ function gc() {
 	--exclude-dir=.hg -nr "$dir" $@ | p
 }
 
+# case-sensitive, no-color
+function gcm() {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    grep --color=never "$pattern" --exclude-dir=.git --exclude-dir=.svn \
+	--exclude-dir=.hg -nr "$dir" $@ | p
+}
+
+# case-sensitive, whole-word
 function gcw() {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
@@ -810,9 +854,18 @@ if [[ "$1" == "" ]]; then
 else
 	time="$1"
 fi
-find $dir -mtime -$time
+find $dir -mtime -$time | p
 }
 
+findbig () {
+    local dir
+    if [[ "$1" == "" ]]; then
+    	dir=.
+    else
+    	dir="$1"/
+    fi
+    find "$dir" -type f -printf "%s\t%p\n" | sort -nr | less
+}
 
 function i1 () {
 #parallel -Xj1 --tty $@
@@ -1049,11 +1102,11 @@ function inf {
 function log {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git log --decorate --graph --all --tags --name-status $@ | less -N
+	  git) git log --decorate --graph --all --tags --name-status $@ | less -N -X
 		  ;;
-	  mercurial) hg log -v $@ | less -N
+	  mercurial) hg log -v $@ | less -N -X
 		  ;;
-	  svn) svn log $@ | less -N
+	  svn) svn log $@ | less -N -X
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1142,11 +1195,11 @@ function dif {
               if [ ! -f $1 ]; then
                   red_echo file $1 not found
               fi
-              git diff -r HEAD -- $@|p
+              git diff -r HEAD -- $@|less
 	      ;;
-	  mercurial) hg diff $@|p
+	  mercurial) hg diff $@|less
 		  ;;
-	  svn) svn diff $@|p
+	  svn) svn diff $@|less
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1342,6 +1395,11 @@ function upd {
   esac
 }
 
+# restore master to origin/master
+gitMaster () {
+    git checkout -B master origin/master
+}
+
 function mov {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -1509,15 +1567,15 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     bindkey -M vicmd 'ZZ' ft-zshexit
 
     ##don't use ctrl-d
-    #setopt ignore_eof
-    #function ft-vi-cmd-cmd() {
-    #    zle -M 'Use ZZ or `:q<RET>'\'' in CMD mode to exit the shell.'
-    #}
-    #
-    #zle -N ft-vi-cmd-cmd
-    #
-    #bindkey -M vicmd '^d' ft-vi-cmd-cmd
-    #bindkey '^d' ft-vi-cmd-cmd
+    setopt ignore_eof
+    function ft-vi-cmd-cmd() {
+        zle -M 'Use ZZ or `:q<RET>'\'' in CMD mode to exit the shell.'
+    }
+    
+    zle -N ft-vi-cmd-cmd
+    
+    bindkey -M vicmd '^d' ft-vi-cmd-cmd
+    bindkey '^d' ft-vi-cmd-cmd
 
 #    # reduce ESC delay to 0.1 sec
 #    export KEYTIMEOUT=1
@@ -1535,6 +1593,10 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
     # skip identical commands
     setopt histignoredups
+    # highlight the first ambiguous character in completion
+    autoload -U colors
+    colors
+    zstyle ':completion:*' show-ambiguity "$color[fg-red]"
     # extended pattern matches:
     setopt EXTENDED_GLOB
 #    PROMPT=$'%B=%b%? | %* %U%n@%m%u %~%B>%b '

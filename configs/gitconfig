@@ -30,3 +30,7 @@
 	default = matching
 [receive]
 	denyCurrentBranch = warn
+[log]
+	date = iso-local
+[merge]
+	renameLimit = 999999
