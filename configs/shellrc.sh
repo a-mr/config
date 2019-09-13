@@ -738,6 +738,28 @@ function gc() {
 	--exclude-dir=.hg -nr "$dir" $@ | p
 }
 
+# case-sensitive, with color, check that 2 strings are available in file:
+# g2c string1 "string2" directory
+# only string2 will be displayed in lines of output
+function g2c() {
+    if [[ "$1" == "" || "$2" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern1="$1"
+    local pattern2="$2"
+    if [[ "$3" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    grep "$pattern1" --exclude-dir=.git --exclude-dir=.svn \
+	--exclude-dir=.hg -lZr "$dir" | \
+        xargs -0 grep -n "$pattern2" --color=$GREP_COLOR | p
+}
+
 # case-sensitive, no-color
 function gcm() {
     if [[ "$1" == "" ]]; then
@@ -794,6 +816,24 @@ eval $CMD
 #remove line, case insensitive
 function remove(){
 eval find_cmd_default . -exec $sed_common_cmd "/$1/Id" \{\} +
+}
+
+# Remove line after $3 lines after pattern ($1)
+# $1 - pattern
+# $2 - num lines to skip
+# $3 - path to file
+remove_skip () {
+if [[ ! -f $3 ]]; then
+   red_echo no file name given
+   return
+fi
+line_num=$(grep -n $1 $3 | grep -Eo '^[^:]+')
+if [[ "$line_num" == "" ]]; then
+   echo no line found for file $3
+   return
+fi
+let line_num+=$2
+sed -i "$line_num d" $3
 }
 
 #function showre(){
@@ -1088,11 +1128,11 @@ bold_echo `what_is_repo_type`
 function inf {
   REPO=`what_is_repo_type`
   case "$REPO" in
-          git) git describe --all; git rev-parse HEAD; git status
+      git) ( git describe --all; git rev-parse HEAD; git status ) | less
 		  ;;
-          mercurial) hg id; hg paths
+          mercurial) ( hg id; hg paths ) | less
 		  ;;
-	  svn) svn info
+	  svn) svn info | less
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1102,7 +1142,8 @@ function inf {
 function log {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git log --decorate --graph --all --tags --name-status $@ | less -N -X
+	  git) git log --decorate --graph --all --tags --name-status \
+                --parents $@ | less -N -X
 		  ;;
 	  mercurial) hg log -v $@ | less -N -X
 		  ;;
@@ -1206,6 +1247,24 @@ function dif {
   esac
 }
 
+# VCS diff without colors (for patch)
+function difp {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git)
+              if [ ! -f $1 ]; then
+                  red_echo file $1 not found
+              fi
+              git diff --color=never -r HEAD -- $@|less
+	      ;;
+	  mercurial) hg diff --color=never $@|less
+		  ;;
+	  svn) svn diff --color=never $@|less
+		  ;;
+	  *) red_echo unknown repository: $REPO
+
+  esac
+}
 # print file contents at given revision
 function pri {
   local rev="$1"
@@ -1373,7 +1432,10 @@ function get {
   REPO=`what_is_repo_type`
   case "$REPO" in
 	  git) git fetch --recurse-submodules origin "$(bra)"
-               git lfs fetch
+               if [[ "$(bra)" != "master" ]]; then
+                   git fetch --recurse-submodules origin master
+               fi
+               #git lfs fetch
 		  ;;
 	  mercurial) hg pull $@
 		  ;;
@@ -1396,7 +1458,7 @@ function upd {
 }
 
 # restore master to origin/master
-gitMaster () {
+function upd-master {
     git checkout -B master origin/master
 }
 
