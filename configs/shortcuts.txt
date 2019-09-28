@@ -1,0 +1,22 @@
+Bash/Zsh
+!$  last word of previous command
+$_  last arg  of previous command
+
+Vim                     Vim spellcheck
+zo  open fold           <F9> or set spell/set nospell
+zc  close fold          zg  add word to dict
+]c  goto next VCS chg   z=  propose completion list
+                        ]s  goto next misspelled
+
+💻                        🗔                  🗔
+C-A-t  Terminal           C-A-k  Tile top     C-A-S-k  Tile top-right
+C-A-C  Clipboard Manager  C-A-j  Tile bottom  C-A-S-j  Tile bottom-left
+C-A-w  Xfce Whisker Menu  C-A-l  Tile right   C-A-S-l  Tile bottom-right
+                          C-A-h  Tile left    C-A-S-h  Tile top-left
+🗔
+C-A-n   Maximize
+C-A-v   Maximize vertically
+C-A-S-v Maximize horizontally
+C‑S‑n   Move Win to workspace <n>
+
+C-A-e   this help

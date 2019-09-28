@@ -34,9 +34,9 @@
 #[submodule "vim/julia-vim"]
 #	path = vim/julia-vim
 #	url = https://github.com/JuliaLang/julia-vim.git
-#[submodule "vim/nim.vim"]
-#	path = vim/nim.vim
-#	url = https://github.com/zah/nim.vim/
 #[submodule "vim/nvim-nim"]
 #	path = vim/nvim-nim
 #	url = https://github.com/baabelfish/nvim-nim
+[submodule "vim/nim.vim"]
+	path = vim/nim.vim
+	url = https://github.com/zah/nim.vim/

@@ -41,6 +41,7 @@
       <property name="XF86Calculator" type="string" value="mate-calc"/>
       <property name="XF86Search" type="string" value="recoll"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;w" type="string" value="xfce4-popup-whiskermenu"/>
+      <property name="&lt;Primary&gt;&lt;Alt&gt;e" type="string" value="my-x-terminal -e &quot;vim ~/activity-public/computer-program-data/configs/shortcuts.txt&quot;"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">

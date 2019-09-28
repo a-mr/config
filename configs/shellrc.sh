@@ -104,6 +104,32 @@ function tac {
 textadept-curses $@
 }
 
+# compile & start Nim app
+ncr () {
+    nim c $1
+    if [ $? -eq 0 ]; then
+        local bname=${1%.nim}               # strip extension .nim
+        if [ "${DIR:0:1}" != "/" ]; then
+            bname=./$bname
+        fi
+        bold_echo running $bname
+        $bname
+    fi
+}
+
+# the same, with threads
+nctr () {
+    nim c --threads:on $1
+    if [ $? -eq 0 ]; then
+        local bname=${1%.nim}               # strip extension .nim
+        if [ "${DIR:0:1}" != "/" ]; then
+            bname=./$bname
+        fi
+        bold_echo running $bname
+        $bname
+    fi
+}
+
 #julia
 function julianb {
     julia -e "using IJulia; notebook()"
@@ -738,6 +764,23 @@ function gc() {
 	--exclude-dir=.hg -nr "$dir" $@ | p
 }
 
+# search in Nim files, style-insensitive (-y)
+function ng() {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    nimgrep --color:always --recursive -y --ext:nim\|nims $pattern $dir $@ | p
+}
+
 # case-sensitive, with color, check that 2 strings are available in file:
 # g2c string1 "string2" directory
 # only string2 will be displayed in lines of output
@@ -1229,6 +1272,7 @@ function sta {
   esac
 }
 
+# colored diff
 function dif {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -1241,6 +1285,25 @@ function dif {
 	  mercurial) hg diff $@|less
 		  ;;
 	  svn) svn diff $@|less
+		  ;;
+	  *) red_echo unknown repository: $REPO
+
+  esac
+}
+
+# diff for patch, uncolored, without pager
+function dfp {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git)
+              if [ ! -f $1 ]; then
+                  red_echo file $1 not found
+              fi
+              git diff --color=never -r HEAD -- $@
+	      ;;
+	  mercurial) hg diff --color never $@
+		  ;;
+	  svn) svn diff $@
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1400,14 +1463,31 @@ function uad {
   esac
 }
 
+export PREFERRED_REPO_TYPE=git
+
 function clo {
-  REPO=`what_is_repo_type`
-  case "$REPO" in
+  case "$PREFERRED_REPO_TYPE" in
 	  git) git clone --recursive $@
 		  ;;
 	  mercurial) hg clone $@
 		  ;;
 	  svn) svn clone $@
+		  ;;
+  esac
+}
+
+# clone specific branch:
+# clb <repo> <branch>
+function clb {
+  local repo=$1
+  local branch=$2
+  shift 2
+  case "$PREFERRED_REPO_TYPE" in
+	  git) git clone --recursive -b $branch --single-branch $repo $@
+		  ;;
+	  mercurial) hg clone $repo -b $branch $@
+		  ;;
+	  svn) svn clone $repo/branches/$branch $@
 		  ;;
   esac
 }
@@ -1546,6 +1626,9 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     # system.)
     zstyle ":completion:*:commands" rehash 1
 
+    # allow comments in interactive mode:
+    setopt interactivecomments
+
     #store vi-mode for next line
     #local mode=vicmd
     local mode=main
@@ -1558,9 +1641,9 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 
     function set_prompt {
         # default value for main/viins/"" modes
-	local MYPS1="+>"
+	local MYPS1="+->"
 	if [[ "$KEYMAP" == "vicmd" ]]; then
-	    MYPS1=":>"
+	    MYPS1=":->"
 	fi
 	(( cols = $COLUMNS*6/10 ))
 	PROMPT="$MYPS1 "
@@ -1803,9 +1886,9 @@ else
     #infinite history for bash
     export HISTSIZE=""
 
-    export PS1="> "
+    export PS1="-> "
     if [ "$TERM" != "" ]; then
-        export PS1="\[\033]0;\w> \$BASH_COMMAND \007\]> "
+        export PS1="\[\033]0;\w-> \$BASH_COMMAND \007\]-> "
     fi
 
     # preexec analogue of zsh for bash using DEBUG hook
@@ -1836,8 +1919,8 @@ pkg(){
 	  "i"\\t\\tinstall package \\n\
 	  "info"\\t\\tinformation about package \\n\
 	  "rm"\\t\\tremove package \\n\
-	  "grep"\|"ls"\|"list"\\tlist installed packages \\n\
-	  "files"\\t\\tlist files owned by package \\n\
+	  "grep"\\tlist installed packages \\n\
+	  "files"\|"ls"\|"list"\\t\\tlist files owned by package \\n\
 	  "which"\\t\\twhich "  "installed package owns this file\? \\n\
 	  "where"\\t\\twhich uninstalled package owns this file\? \\n\
 	  "help|-h"\\tthis help
@@ -1863,8 +1946,8 @@ pkg(){
 		  "i"|"install") apt-get install "$2" ;;
 		  "info") apt-cache showpkg "$2" ;;
 		  "rm") apt-get remove "$2" ;;
-		  "grep"|"ls"|"list") dpkg -l $2 ;;
-		  "files") dpkg -L "$2" ;;
+		  "grep") dpkg -l $2 ;;
+		  "files"|"ls"|"list") dpkg -L "$2" ;;
 	          "owns"|"which") dpkg -S "$2" ;;
 	          "where") apt-file search "$2" ;;
 		  *) red_echo unknown command "$1"

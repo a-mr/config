@@ -95,6 +95,7 @@ for i in functions.sh functions_X11.sh emacs vimrc gdbinit gdbinit.local \
 done
 
 inst gitk ~/.config/git/gitk
+inst parcelliterc ~/.config/parcellite/parcelliterc
 
 for i in i3 i3status.conf gkrellm2 \
     textadept pentadactylrc vimperatorrc keynavrc xxkbrc \

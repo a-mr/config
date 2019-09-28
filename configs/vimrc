@@ -63,7 +63,25 @@ map <S-F12> "zyiw:grep "<C-R>z"<CR><CR>:copen<CR>zz/<C-R>z<CR>
 vmap <S-F12> "zy:grep "<C-R>z"<CR><CR>zz/<C-R>z<CR>
 map <F12> :cn<CR>zz/<C-R>z<CR>
 map <C-F12> :cp<CR>zz/<C-R>z<CR>
-highlight CursorLine gui=underline cterm=underline
+
+set virtualedit=all                         " Allow jump & move blocks over EOL
+" jump for the specified column to make comments
+au! BufRead,BufNewFile *.nim,*.nims,*.sh,*.tcl,*.php,*.pl,*.py let Comment="#"
+au! BufRead,BufNewFile .bashrc,.bash_profile,.profile let Comment="#"
+au! BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*hpp,*hxx let Comment="//"
+au! BufRead,BufNewFile .vimrc,*.vim let Comment="\""
+au! BufRead,BufNewFile *.tex let Comment="%"
+
+nnoremap c :call SideComment()<CR>a
+inoremap c <ESC>:call SideComment()<CR>a
+function! SideComment()
+    normal 45|
+    exe ":normal i" . g:Comment . "\ "
+endfunction
+
+" comments in C files
+nmap <Leader>c _i/* <Esc>A */<Esc>
+
 "hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 "nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 nnoremap <Leader>v :set cursorline!<CR>
@@ -311,6 +329,10 @@ set timeoutlen=300 ttimeoutlen=0
 " pressing <ESC>w (in insert mode)
 " lower timeout would cause <Leader> be impossible to use (it fades too fast)
 
+" convenience shortcuts for copying into CLIPBOARD (+), expect to complete it
+nnoremap <C-C> "+y
+inoremap <C-C> <ESC>"+y
+
 nnoremap w :buffers<CR>:buffer<Space>
 inoremap w <Esc>:buffers<CR>:buffer<Space>
 nnoremap n :next<CR>
@@ -325,9 +347,6 @@ inoremap m <Esc>:marks<CR>
 
 nnoremap st <C-]>:tselect<CR>
 vnoremap st <C-]>:tselect<CR>
-
-"comments
-nmap <Leader>c _i/*<Esc>$a*/<Esc>
 
 if bufwinnr(1)
   map + <C-W>+
@@ -762,8 +781,7 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-signify/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easy-align/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easymotion/
 set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
-set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
-"set runtimepath+=~/tmp/nim.vim/
+"set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " start interactive shell to use functions & aliases
