@@ -29,6 +29,7 @@
     "vim.handleKeys":{
         "<C-n>": false,
     },
+    "vim.hlsearch": true,
     "vim.easymotion": true,
     "vim.easymotionKeys": "abcdefghijklmnopqrstuvwxyz'.ABCDEFGHIJKLMNOPQRSTUVWXYZ,",
     "vim.easymotionMarkerFontSize": "22",

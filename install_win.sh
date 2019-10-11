@@ -50,6 +50,7 @@ $LNK $BLOC ~/bin
 
 cd configs
 
+inst Microsoft.PowerShell_profile.ps1 ~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1
 inst shellprofile.sh ~/.bash_profile
 inst shellprofile.sh ~/.zprofile
 inst shellrc.sh ~/.bashrc
