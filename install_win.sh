@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# allow sym links for Windows
+export MSYS=winsymlinks:nativestrict
+
 option="$1"
 CTPATH="$HOME/activity-public/computer-program-data"
 

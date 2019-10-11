@@ -13,8 +13,8 @@ $Host.PrivateData.VerboseForegroundColor = 'Green'
 $Host.PrivateData.VerboseBackgroundColor = $bckgrnd
 $Host.PrivateData.ProgressForegroundColor = 'Cyan'
 $Host.PrivateData.ProgressBackgroundColor = $bckgrnd
-
 Clear-Host
+
 function Prompt
 {
   $lastCodePS=$?
