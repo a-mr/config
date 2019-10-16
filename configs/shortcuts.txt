@@ -1,14 +1,15 @@
-Bash/Zsh
-!$  last word of previous command
-$_  last arg  of previous command
-
-Vim                     Vim spellcheck
-zo  open fold           <F9> or set spell/set nospell
-zc  close fold          zg  add word to dict
+Bash/Zsh                                Tmux
+!$  last word of previous command       PRE ]  paste 
+$_  last arg  of previous command       PRE "  split horizontally
+                                        PRE %  split vertically
+                                   hold PRE -> resize pane
+Vim                     Vim spellcheck                 Vim window
+zo  open fold           <F9> or set spell/set nospell  C-w +-  resize up/dn
+zc  close fold          zg  add word to dict           C-w <>  resize le/ri
 ]c  goto next VCS chg   z=  propose completion list
                         ]s  goto next misspelled
 
-💻                        🗔                  🗔
+                            XFCE4
 C-A-t  Terminal           C-A-k  Tile top     C-A-S-k  Tile top-right
 C-A-C  Clipboard Manager  C-A-j  Tile bottom  C-A-S-j  Tile bottom-left
 C-A-w  Xfce Whisker Menu  C-A-l  Tile right   C-A-S-l  Tile bottom-right

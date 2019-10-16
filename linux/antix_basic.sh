@@ -9,7 +9,7 @@ INS="red_command apt-get install -y $1"
 #Version control:
 $INS cvs subversion mercurial tortoisehg hg-fast-export bzr git gitk gitweb darcs
 
-$INS zsh crudini gawk aptitude python-tk vim-gtk konsole kinit kio kio-extras kded5 lfhex 
+$INS zsh crudini gawk aptitude python-tk vim-gtk konsole kinit kio kio-extras kded5 lfhex vifm
 
 #hardware tools:
 $INS msr-tools lshw pciutils dmidecode

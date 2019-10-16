@@ -96,6 +96,7 @@ done
 
 inst gitk ~/.config/git/gitk
 inst parcelliterc ~/.config/parcellite/parcelliterc
+inst vifmrc ~/.vifm/vifmrc
 
 for i in i3 i3status.conf gkrellm2 \
     textadept pentadactylrc vimperatorrc keynavrc xxkbrc \

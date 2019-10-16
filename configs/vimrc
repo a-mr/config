@@ -66,6 +66,7 @@ map <C-F12> :cp<CR>zz/<C-R>z<CR>
 
 set virtualedit=all                         " Allow jump & move blocks over EOL
 " jump for the specified column to make comments
+let Comment="#"
 au! BufRead,BufNewFile *.nim,*.nims,*.sh,*.tcl,*.php,*.pl,*.py let Comment="#"
 au! BufRead,BufNewFile .bashrc,.bash_profile,.profile let Comment="#"
 au! BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*hpp,*hxx let Comment="//"
@@ -76,7 +77,9 @@ nnoremap c :call SideComment()<CR>a
 inoremap c <ESC>:call SideComment()<CR>a
 function! SideComment()
     normal 45|
-    exe ":normal i" . g:Comment . "\ "
+    "don't put space after "
+    exe ":normal i" . g:Comment
+    "exe ":normal i" . g:Comment . "\ "
 endfunction
 
 " comments in C files

@@ -1,6 +1,6 @@
 [Appearance]
 ColorScheme=Linux
-Font=Fira Code,12,-1,5,25,0,0,0,0,0
+Font=Liga Liberation Mono,12,-1,5,50,0,0,0,0,0
 UseFontLineChararacters=true
 
 [Cursor Options]

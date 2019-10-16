@@ -1,0 +1,13 @@
+set ignorecase
+fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
+         \ /home/amakarov/bin/w3img.sh %px %py %pw %ph %c
+         \ %pc
+         \ /home/amakarov/bin/w3clr.sh %px %py %pw %ph
+
+fileviewer *[^/] pygmentize -O style=monokai -f console256 -g
+
+fileviewer *.zip,*.jar zip -sf %c
+
+" On enter
+filextype *.pdf atril
+

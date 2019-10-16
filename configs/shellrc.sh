@@ -510,6 +510,19 @@ else
 	alias vi=vim
 fi
 
+# file manager
+v()
+{
+   # from https://wiki.vifm.info/index.php?title=How_to_set_shell_working_directory_after_leaving_Vifm
+   # Syncro vifm and shell
+   local dst="$(command vifm --choose-dir - .)"
+   if [ -z "$dst" ]; then
+      echo 'Directory picking cancelled/failed'
+      return 1
+   fi
+   cd "$dst"
+}
+
 function psu {
 ps -fU $USER --forest|less
 }

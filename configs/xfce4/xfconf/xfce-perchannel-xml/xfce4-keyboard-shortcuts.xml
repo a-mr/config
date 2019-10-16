@@ -172,8 +172,6 @@
       <property name="&lt;Primary&gt;&lt;Shift&gt;5" type="string" value="move_window_workspace_6_key"/>
       <property name="&lt;Primary&gt;&lt;Shift&gt;6" type="string" value="move_window_workspace_7_key"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;v" type="string" value="maximize_vert_key"/>
-      <property name="&lt;Primary&gt;Down" type="string" value="down_workspace_key"/>
-      <property name="&lt;Primary&gt;Up" type="string" value="up_workspace_key"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;k" type="string" value="tile_up_key"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;j" type="string" value="tile_down_key"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;l" type="string" value="tile_right_key"/>
