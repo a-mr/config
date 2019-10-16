@@ -611,16 +611,23 @@ if (( $LESS_VERSION <= 381 )); then
     GREP_COLOR=never
 fi
 
+# pager with lines which copies to a file
 function p {
 cp ~/tmp/buffer ~/tmp/buffer2
 # add -F to exit less if it fits the screen
-tee ~/tmp/buffer|grep --color=$GREP_COLOR -n '^'|less -X
+tee ~/tmp/buffer | less -N -X
 cp ~/tmp/buffer ~/tmp/buffer2
+}
+
+# simple pager with lines
+function pp {
+cat -n|less -X
 }
 
 #   bb   line number   command to filter   command to run
 function bb {
 if [[ "$1" == "" ]]; then
+    # less: -X don't clear the screen, -F quit if one screen
     cat ~/tmp/buffer|grep --color=$GREP_COLOR -n '^'|less -F -X
 else
     local n=$1
@@ -1194,14 +1201,13 @@ bold_echo `what_is_repo_type`
 function inf {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) ( git describe --all; git rev-parse HEAD; git status ) | less
-		  ;;
-          mercurial) ( hg id; hg paths ) | less
-		  ;;
-	  svn) svn info | less
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git) git describe --all; git branch -vv | grep "$(bra)"; git remote -v
+          ;;
+      mercurial) hg id; hg paths
+          ;;
+      svn) svn info
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1209,11 +1215,26 @@ function log {
   REPO=`what_is_repo_type`
   case "$REPO" in
 	  git) git log --decorate --graph --all --tags --name-status \
-                --parents $@ | less -N -X
+                --parents --abbrev-commit $@ | pp
 		  ;;
-	  mercurial) hg log -v $@ | less -N -X
+	  mercurial) hg log -v $@ | pp
 		  ;;
-	  svn) svn log $@ | less -N -X
+	  svn) svn log $@ | pp
+		  ;;
+	  *) red_echo unknown repository: $REPO
+  esac
+}
+
+# show log for branch
+function lgb {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git) git log --decorate --graph --tags --name-status \
+              --parents --abbrev-commit $(git merge-base $(bra) master)..$(bra) | pp
+		  ;;
+	  mercurial) hg log -b `hg branch`
+		  ;;
+	  svn) svn log --use-merge-history --verbose $@ # TODO: URL required
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1284,7 +1305,7 @@ function bra {
 function sta {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git status $@|p
+	  git) git status -sb $@|p
 		  ;;
 	  mercurial) hg status $@|p
 		  ;;
@@ -1408,7 +1429,8 @@ function com {
       msg="-m \"$1\""
   fi
   case "$REPO" in
-      git) git add -u :/ && eval git commit $msg && mydialog "push?[n|y]" "n green_echo Done" "y git push origin \"$(bra)\""
+      git) #git add -u :/ && 
+          git commit $msg && mydialog "push?[n|y]" "n green_echo Done" "y git push origin \"$(bra)\""
           ;;
       mercurial) eval hg commit $msg && (
           if grep default `hg root`/.hg/hgrc &> /dev/null; then
@@ -1530,14 +1552,21 @@ function pul {
   esac
 }
 
-# download remote changes
+# get #download remote changes
+# get branch #download remote changes from branch
 function get {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git fetch --recurse-submodules origin "$(bra)"
-               if [[ "$(bra)" != "master" ]]; then
-                   git fetch --recurse-submodules origin master
-               fi
+	  git) 
+              if [[ "$1" != "" ]]; then
+                  local branch="$1"
+              else
+                  local branch="$(bra)"
+              fi
+              git fetch --recurse-submodules origin "$branch"
+              if [[ "$(bra)" != "master" ]]; then
+                  git fetch --recurse-submodules origin master
+              fi
                #git lfs fetch
 		  ;;
 	  mercurial) hg pull $@
