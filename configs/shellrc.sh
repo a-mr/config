@@ -611,7 +611,7 @@ if (( $LESS_VERSION <= 381 )); then
     GREP_COLOR=never
 fi
 
-# pager with lines which copies to a file
+# pager with line numbers which copies to a file
 function p {
 cp ~/tmp/buffer ~/tmp/buffer2
 # add -F to exit less if it fits the screen
@@ -619,7 +619,7 @@ tee ~/tmp/buffer | less -N -X
 cp ~/tmp/buffer ~/tmp/buffer2
 }
 
-# simple pager with lines
+# simple pager with line number
 function pp {
 cat -n|less -X
 }
@@ -1378,11 +1378,11 @@ function pri {
   local file="$2"
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git show "$rev:$file"|p
+	  git) git show "$rev:$file" | less -X
 		  ;;
-	  mercurial) hg cat -r $rev "$file" | p
+	  mercurial) hg cat -r $rev "$file" | less -X
 		  ;;
-	  svn) svn cat -r $rev "$file" | p
+	  svn) svn cat -r $rev "$file" | less -X
 		  ;;
 	  *) red_echo unknown repository: $REPO
 
@@ -1543,7 +1543,9 @@ function pul {
   case "$REPO" in
 	  git) git pull --recurse-submodules origin "$(bra)"
 	       git submodule update
-               git lfs pull
+               if exist git-lfs; then
+                   git lfs pull
+               fi
 		  ;;
 	  mercurial) hg pull -u $@
 		  ;;
@@ -1567,7 +1569,6 @@ function get {
               if [[ "$(bra)" != "master" ]]; then
                   git fetch --recurse-submodules origin master
               fi
-               #git lfs fetch
 		  ;;
 	  mercurial) hg pull $@
 		  ;;
@@ -1580,7 +1581,9 @@ function upd {
   REPO=`what_is_repo_type`
   case "$REPO" in
 	  git) git merge
-               git lfs checkout
+               if exist git-lfs; then
+                   git lfs pull
+               fi
 		  ;;
 	  mercurial) hg co $@
 		  ;;
@@ -1683,11 +1686,11 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 
     #store vi-mode for next line
     #local mode=vicmd
-    local mode=main
-    function zle-line-finish {
-	mode=$KEYMAP
-	#echo -n "$default"
-    }
+    #local mode=main
+    #function zle-line-finish {
+    #    mode=$KEYMAP
+    #    #echo -n "$default"
+    #}
     zle -N zle-line-init
     zle -N zle-line-finish
 
@@ -1739,10 +1742,10 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 	zle reset-prompt
     }
     function zle-line-init {
-    if [[ "$mode" == "vicmd" ]]; then
-#    if [[ "$KEYMAP" == "vicmd" ]]; then
-	zle vi-cmd-mode
-    fi
+    #if [[ "$mode" == "vicmd" ]]; then
+#   # if [[ "$KEYMAP" == "vicmd" ]]; then
+    #    zle vi-cmd-mode
+    #fi
     set_prompt
     zle reset-prompt
     }
@@ -1774,8 +1777,8 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     bindkey -M vicmd '^d' ft-vi-cmd-cmd
     bindkey '^d' ft-vi-cmd-cmd
 
-#    # reduce ESC delay to 0.1 sec
-#    export KEYTIMEOUT=1
+    # reduce ESC delay to 0.01 sec
+    export KEYTIMEOUT=1
 
     eval "`sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc`" > /dev/null
     case "$TERM" in

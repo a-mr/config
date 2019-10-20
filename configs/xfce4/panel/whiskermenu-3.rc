@@ -1,5 +1,5 @@
 favorites=exo-web-browser.desktop,exo-mail-reader.desktop,exo-file-manager.desktop,libreoffice-writer.desktop,libreoffice-calc.desktop,exo-terminal-emulator.desktop
-recent=xfce-wm-settings.desktop,debian-xterm.desktop,xfce-keyboard-settings.desktop,links2.desktop,xfce-wmtweaks-settings.desktop,exo-file-manager.desktop,exo-preferred-applications.desktop,thunar-settings.desktop,xfce4-about.desktop,antix-antiXCC.desktop
+recent=xfce-ui-settings.desktop,xfce-wmtweaks-settings.desktop,xfce-wm-settings.desktop,debian-xterm.desktop,xfce-keyboard-settings.desktop,links2.desktop,exo-file-manager.desktop,exo-preferred-applications.desktop,thunar-settings.desktop,xfce4-about.desktop
 button-title=MENU
 button-icon=xfce4-whiskermenu
 button-single-row=false
