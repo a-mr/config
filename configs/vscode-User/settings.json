@@ -4,25 +4,21 @@
     "keyboard.dispatch": "keyCode",
     "editor.lineNumbers": "off",
     "editor.fontSize": 15,
-    "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontFamily": "'Liga Liberation Mono', 'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "editor.fontLigatures": true,
-    "editor.rulers": [0,80,99],
+    "editor.rulers": [0,80],
+    "editor.acceptSuggestionOnEnter": "off",
     //"editor.renderWhitespace": "boundary", 
     // "editor.fontFamily": "'Input Mono',Droid Sans Mono'"
     "editor.renderWhitespace": "none",
-    "editor.renderIndentGuides": false,
+    "editor.renderIndentGuides": true,
     "editor.wordWrap": "on",
     "editor.wrappingIndent": "indent",
     "window.zoomLevel": 0,
     // Controls the maximum amount of lines the terminal keeps in its buffer.
     "terminal.integrated.scrollback": 5000,
 
-    // highlight current line
-    "editor.renderLineHighlight": "line",
-    "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#444444"
-    }
-
+    "vim.leader": "s",
     
     //"vim.useSystemClipboard": true,
     //"vim.useCtrlKeys": false,
@@ -31,30 +27,43 @@
     },
     "vim.hlsearch": true,
     "vim.easymotion": true,
-    "vim.easymotionKeys": "abcdefghijklmnopqrstuvwxyz'.ABCDEFGHIJKLMNOPQRSTUVWXYZ,",
-    "vim.easymotionMarkerFontSize": "22",
-    "vim.easymotionMarkerHeight": 25,
-    "vim.easymotionMarkerWidthPerChar": 20,
-    //"vim.normalModeKeyBindingsNonRecursive": [
-    //    {
-    //        "before": ["k"],
-    //        "after": ["leader", "leader", "F"]
-    //    },
-    //    {
-    //        "before": ["j"],
-    //        "after": ["leader", "leader", "f"]
-    //    },
-    //    {
-    //        "before": ["l"],
-    //        "after": ["leader", "leader", "w"]
-    //    },
-    //    {
-    //        "before": ["h"],
-    //        "after": ["leader", "leader", "b"]
-    //    },
-    //],
-    //"vim.easymotionMarkerBackgroundColor": "#ffffff",
+    "vim.easymotionKeys": ",.'abcdfghijklmpqrtuvxyzswone",
+    "vim.easymotionMarkerFontSize": "18",
+    "vim.easymotionMarkerBackgroundColor": "#444444",
     "vim.easymotionMarkerForegroundColorOneChar": "#ffff00",
+    "vim.easymotionMarkerForegroundColorTwoChar": "#ffffff",
+    "vim.easymotionMarkerHeight": 22,
+    "vim.easymotionMarkerWidthPerChar": 15,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        // character forward
+        {
+            "before": ["leader", "j"],
+            "after": ["leader", "leader", "f"]
+        },
+        {
+            "before": ["leader", "l"],
+            "after": ["leader", "leader", "f"]
+        },
+        // character backward
+        {
+            "before": ["leader", "h"],
+            "after": ["leader", "leader", "F"]
+        },
+        {
+            "before": ["leader", "k"],
+            "after": ["leader", "leader", "F"]
+        },
+        // word forward
+        {
+            "before": ["leader", "w"],
+            "after": ["leader", "leader", "w"]
+        },
+        // word backward
+        {
+            "before": ["leader", "b"],
+            "after": ["leader", "leader", "b"]
+        },
+    ],
     
     // Alignment extension
     "alignment.chars": {
@@ -97,9 +106,20 @@
     //"terminal.integrated.lineHeight": 0,
     "terminal.integrated.fontSize": 15,
     "[nim]": {
-        "editor.tabSize": 2
+        "editor.tabSize": 2,
+        "editor.rulers": [80]
     },
     "[rust]": {
         "editor.rulers": [99]
     },
+    // highlight current line
+    "editor.renderLineHighlight": "gutter",
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#444444",
+        "editorIndentGuide.activeBackground": "#663300",
+        "editorIndentGuide.background": "#222222",
+        "editorRuler.foreground": "#ff333388"
+    },
+
+    "workbench.colorTheme": "Default High Contrast",
 }
