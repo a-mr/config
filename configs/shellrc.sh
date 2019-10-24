@@ -628,34 +628,31 @@ cat -n|less -X
 function bb {
 if [[ "$1" == "" ]]; then
     # less: -X don't clear the screen, -F quit if one screen
-    cat ~/tmp/buffer|grep --color=$GREP_COLOR -n '^'|less -F -X
+    cat ~/tmp/buffer|less -F -N -X
 else
     local n=$1
     local filter
     filter="$2"
     shift 2
-    local line
-    local line2
-    cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1| \
-	    while read line; do echo line: $line; line2="$line"; done;
+    local line2="$(cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1|trim_spaces)"
     local line_proc
     if [[ "$filter" == "" ]]; then
-	    line_proc="$line2"
+        line_proc="$line2"
     else
-	    line_proc="`echo $line2 | eval $filter`"
+        line_proc="`echo $line2 | eval $filter`"
     fi
-		if [ -f "$line_proc" ]; then
-			ls -l "$line_proc"
-		fi
+    if [ -f "$line_proc" ]; then
+        ls -l "$line_proc"
+    fi
     local cmd
     if [[ "$@" == "" ]]; then
-	    cmd=echo
+        cmd=echo
     else
-	    cmd="$@"
-			echo running:
-                        bold_echo $cmd \"$line_proc\"
+        cmd="$@"
+        echo running:
+        bold_echo $cmd \"$line_proc\"
     fi
-		echo
+    add_command $cmd \"$line_proc\"
     eval $cmd \"$line_proc\"
 fi
 }
@@ -667,17 +664,19 @@ function bv {
     else
         local n=$1
     fi
-    local line
-    local line2
-    cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1| \
-	    while read line; do echo line: $line; line2="$line"; done;
-    local fname="$(echo $line2 | cut -f1 -d:)"
-    local lineNo="$(echo $line2: | cut -f2 -d: | trim_spaces)"
+    local line="$(cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1)"
+    echo line: $line
+    local fname="$(echo $line | cut -f1 -d:)"
+    local lineNo="$(echo $line: | cut -f2 -d: | trim_spaces)"
+    echo fname: $fname
+    echo lineNo: $lineNo
     if [[ "$lineNo" == "" ]]; then
         echo vim "$fname"
+        add_command vim "$fname"
         eval vim "$fname"
     else
         echo vim "$fname" +$lineNo
+        add_command vim "$fname" +$lineNo
         eval vim "$fname" +$lineNo
     fi
 }
@@ -1929,6 +1928,9 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 #    zle -N no-magic-abbrev-expand
 #    bindkey " " magic-abbrev-expand
     bindkey "^e" magic-abbrev-expand
+    function add_command {
+        print -sr $@
+    }
 
 else
     if [[ "$CURSHELL" == "/bin/bash" || "$CURSHELL" == "bash" \
@@ -1955,6 +1957,9 @@ else
     trap 'preexec_invoke_exec' DEBUG
 
     export PROMPT_COMMAND=print_precmd
+    function add_command {
+        history -s $@
+    }
 fi
 
 
