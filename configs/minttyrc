@@ -1,0 +1,9 @@
+FontHeight=11
+Font=Liga Liberation Mono
+FontSmoothing=full
+BoldAsFont=yes
+AllowBlinking=yes
+CursorType=block
+CursorBlinks=yes
+ThemeFile=rosipov
+AllowSetSelection=yes

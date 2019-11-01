@@ -345,6 +345,26 @@ function x(){
     unset XAUTHORITY
 }
 
+# try to set ssh agent (mostly) silently
+pickup_ssh_agent () {
+    . ~/.ssh/myagent.sh                     # def. SSH_AUTH_SOCK & SSH_AGENT_PID
+    if [[ ! -z $SSH2_AUTH_SOCK ]]; then
+        local socket="$SSH2_AUTH_SOCK"
+    fi
+    if [[ ! -z $SSH_AUTH_SOCK ]]; then
+        local socket="$SSH_AUTH_SOCK"
+    fi
+    if [[ -S "$socket" ]] && ps -p $SSH_AGENT_PID > /dev/null; then
+        echo ssh-agent is already present at $socket, use it
+    else
+        if [[ -S "$socket" ]]; then
+            echo remove $socket
+            rm $socket
+        fi
+	echo no ssh agent in ~/.ssh/myagent.sh
+    fi
+}
+
 ensure_ssh_agent () {
     . ~/.ssh/myagent.sh                     # def. SSH_AUTH_SOCK & SSH_AGENT_PID
     if [[ ! -z $SSH2_AUTH_SOCK ]]; then
@@ -361,10 +381,11 @@ ensure_ssh_agent () {
             rm $socket
         fi
 	warning_echo no ssh agent in ~/.ssh/myagent.sh
-	mydialog "start ssh-agent? [n|y]" "n echo OK" \
-		"y ssh-agent > ~/.ssh/myagent.sh; . ~/.ssh/myagent.sh; ssh-add"
+        mydialog "start ssh-agent? [n|y]" "n echo OK" \
+            "y ssh-agent > ~/.ssh/myagent.sh; . ~/.ssh/myagent.sh; ssh-add"
     fi
 }
+
 alias ss=ensure_ssh_agent
 
 function hgrep() {
@@ -451,6 +472,8 @@ else
     set_display
 fi
 }
+
+pickup_ssh_agent
 
 # exit without closing session and therefore window
 function fin {

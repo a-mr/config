@@ -1,4 +1,7 @@
 
+# show menu choices when autocomplete
+Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+
 # set background to black
 $Host.UI.RawUI.BackgroundColor = ($bckgrnd = 'Black')
 
