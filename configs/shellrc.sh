@@ -671,13 +671,13 @@ function bv {
     echo fname: $fname
     echo lineNo: $lineNo
     if [[ "$lineNo" == "" ]]; then
-        echo vim "$fname"
-        add_command vim "$fname"
-        eval vim "$fname"
+        echo vim \'$fname\'
+        add_command vim \'$fname\'
+        eval vim \'$fname\'
     else
-        echo vim "$fname" +$lineNo
-        add_command vim "$fname" +$lineNo
-        eval vim "$fname" +$lineNo
+        echo vim \'$fname\' +$lineNo
+        add_command vim \'$fname\' +$lineNo
+        eval vim \'$fname\' +$lineNo
     fi
 }
 
@@ -1405,7 +1405,12 @@ function pat {
 
 function add {
 for i in $@; do
-  cd "`dirname $i`"
+  if [ -d "`dirname $i`" ]; then
+      cd "`dirname $i`"
+  else
+      red_echo no such directory
+      return 2
+  fi
   local file="`basename $i`"
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -1691,7 +1696,7 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     #    #echo -n "$default"
     #}
     zle -N zle-line-init
-    zle -N zle-line-finish
+    #zle -N zle-line-finish
 
     function set_prompt {
         # default value for main/viins/"" modes
