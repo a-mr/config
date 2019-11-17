@@ -38,9 +38,9 @@
     <property name="snap_to_border" type="bool" value="true"/>
     <property name="snap_to_windows" type="bool" value="true"/>
     <property name="snap_width" type="int" value="13"/>
-    <property name="theme" type="string" value="Gaudy"/>
+    <property name="theme" type="string" value="Atlanta"/>
     <property name="title_alignment" type="string" value="center"/>
-    <property name="title_font" type="string" value="Sans Bold 13"/>
+    <property name="title_font" type="string" value="DejaVu Sans Bold 13"/>
     <property name="title_horizontal_offset" type="int" value="0"/>
     <property name="title_shadow_active" type="string" value="false"/>
     <property name="title_shadow_inactive" type="string" value="false"/>
@@ -50,13 +50,13 @@
     <property name="use_compositing" type="bool" value="true"/>
     <property name="workspace_count" type="int" value="7"/>
     <property name="workspace_names" type="array">
-      <value type="string" value="run"/>
-      <value type="string" value="msg"/>
-      <value type="string" value="doc"/>
-      <value type="string" value="inet"/>
-      <value type="string" value="work-current"/>
-      <value type="string" value="work-additional"/>
-      <value type="string" value="work-sideline"/>
+      <value type="string" value="0:run"/>
+      <value type="string" value="1:msg"/>
+      <value type="string" value="2:net"/>
+      <value type="string" value="3:w"/>
+      <value type="string" value="4:doc"/>
+      <value type="string" value="5:w&apos;"/>
+      <value type="string" value="6:aux"/>
       <value type="string" value="8"/>
       <value type="string" value="9"/>
       <value type="string" value="media"/>
@@ -81,7 +81,7 @@
     <property name="restore_on_move" type="bool" value="true"/>
     <property name="snap_resist" type="bool" value="false"/>
     <property name="tile_on_move" type="bool" value="true"/>
-    <property name="toggle_workspaces" type="bool" value="true"/>
+    <property name="toggle_workspaces" type="bool" value="false"/>
     <property name="unredirect_overlays" type="bool" value="true"/>
     <property name="wrap_cycle" type="bool" value="true"/>
     <property name="wrap_layout" type="bool" value="true"/>

@@ -8,11 +8,15 @@ zo  open fold           <F9> or set spell/set nospell  C-w +-  resize up/dn
 zc  close fold          zg  add word to dict           C-w <>  resize le/ri
 ]c  goto next VCS chg   z=  propose completion list
                         ]s  goto next misspelled
-
+my Vim:                                            ss<SYM> goto symbol <SYM>
+A-t  select buffers     st    select tag           sl      select downwards
+A-n  next buffer        <F9>  select spell lang    sk      select upwards
+A-p  prev buffer        <F8>  select encoding      sl      select lineforward
+A-m  select marks                                  sh      select linebackward
                             XFCE4
 C-A-t  Terminal           C-A-k  Tile top     C-A-S-k  Tile top-right
 C-A-C  Clipboard Manager  C-A-j  Tile bottom  C-A-S-j  Tile bottom-left
-C-A-w  Xfce Whisker Menu  C-A-l  Tile right   C-A-S-l  Tile bottom-right
+Win    Xfce Whisker Menu  C-A-l  Tile right   C-A-S-l  Tile bottom-right
                           C-A-h  Tile left    C-A-S-h  Tile top-left
 🗔
 C-A-n   Maximize                   Win-Shift-s  screenshot of area

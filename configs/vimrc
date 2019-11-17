@@ -312,7 +312,7 @@ map <Leader>l <Plug>(easymotion-lineforward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 map <Leader>h <Plug>(easymotion-linebackward)
-let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
+let g:EasyMotion_keys = ",.'abcdfghijklmpqrtuvxyzswone"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -336,15 +336,13 @@ set timeoutlen=300 ttimeoutlen=0
 nnoremap <C-C> "+y
 inoremap <C-C> <ESC>"+y
 
-nnoremap w :buffers<CR>:buffer<Space>
-inoremap w <Esc>:buffers<CR>:buffer<Space>
+nnoremap t :buffers<CR>:buffer<Space>
+inoremap t <Esc>:buffers<CR>:buffer<Space>
 nnoremap n :next<CR>
 inoremap n <Esc>:next<CR>
 nnoremap p :prev<CR>
 inoremap p <Esc>:prev<CR>
 
-nnoremap e :marks<CR>
-inoremap e <Esc>:marks<CR>
 nnoremap m :marks<CR>
 inoremap m <Esc>:marks<CR>
 

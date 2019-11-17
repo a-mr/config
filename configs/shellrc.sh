@@ -533,9 +533,16 @@ else
 	alias vi=vim
 fi
 
-# file manager
-v()
-{
+# show my shortcuts
+k () {
+    vim ~/activity-public/computer-program-data/configs/shortcuts.txt
+}
+# note taking
+n () {
+    ~/bin/notes.sh
+}
+# file manager with cd
+v () {
    # from https://wiki.vifm.info/index.php?title=How_to_set_shell_working_directory_after_leaving_Vifm
    # Syncro vifm and shell
    local dst="$(command vifm --choose-dir - .)"

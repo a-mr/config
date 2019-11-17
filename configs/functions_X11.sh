@@ -102,3 +102,8 @@ $1 "$2/$answer"
 fi
 }
 
+# save clipboard to png file
+save_png () {
+    xclip -selection clipboard -t image/png -o > "$1"
+}
+

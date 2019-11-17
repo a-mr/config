@@ -6,7 +6,7 @@
     <value type="int" value="1"/>
     <value type="int" value="2"/>
     <property name="panel-1" type="empty">
-      <property name="position" type="string" value="p=6;x=29;y=349"/>
+      <property name="position" type="string" value="p=6;x=29;y=315"/>
       <property name="length" type="uint" value="1"/>
       <property name="position-locked" type="bool" value="false"/>
       <property name="size" type="uint" value="29"/>
@@ -152,6 +152,7 @@
         <value type="string" value="14695521381.desktop"/>
         <value type="string" value="14695527406.desktop"/>
         <value type="string" value="15376355931.desktop"/>
+        <value type="string" value="15730779481.desktop"/>
         <value type="string" value="14695522664.desktop"/>
         <value type="string" value="14733457281.desktop"/>
       </property>
