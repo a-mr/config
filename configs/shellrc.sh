@@ -261,6 +261,9 @@ if [[ "$ONLYREADCONF" == "y" ]]; then
     return
 fi
 
+# in pipes: use the exit code of last program to exit non-zero
+set -o pipefail
+
 ##ensure we are running default shell
 #if [[ "$ALLOW_BASH" == "" ]] && exist /bin/zsh && \
 #	[[ "$CURSHELL" != "/bin/zsh" && "$CURSHELL" != "zsh" ]]; then
@@ -696,7 +699,7 @@ function bv {
     fi
     local line="$(cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1)"
     echo line: $line
-    local fname="$(echo $line | cut -f1 -d:)"
+    local fname="$(echo $line | cut -f1 -d: | trim_spaces)"
     local lineNo="$(echo $line: | cut -f2 -d: | trim_spaces)"
     echo fname: $fname
     echo lineNo: $lineNo
@@ -823,8 +826,13 @@ function gc() {
 	--exclude-dir=.hg -nr "$dir" $@ | p
 }
 
+ngcommon () {
+  nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
+    --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" $@
+}
+
 # search in Nim files, style-insensitive (-y)
-function ng() {
+function nng() {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -837,7 +845,41 @@ function ng() {
         local dir="$2"
         shift 2
     fi
-    nimgrep --color:always --recursive -y --ext:nim\|nims $pattern $dir $@ | p
+    ngcommon -y --ext:nim\|nims $pattern $dir $@ | p
+}
+
+# search using nimgrep
+function ngc() {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    ngcommon $pattern $dir $@ | p
+}
+
+# search using nimgrep, case-insensitive
+function ngi() {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    ngcommon -i $pattern $dir $@ | p
 }
 
 # case-sensitive, with color, check that 2 strings are available in file:
@@ -1668,11 +1710,12 @@ print_precmd () {
            info+=" ($(bra))"
        fi
        if (( $RESULT == 0 )); then
-	   fill_echo $stout$cyan "$info"
-       elif  (( $RESULT == 127 )); then
-	   warning_echo "exit=$RESULT; $info"
+           fill_echo $stout$cyan "$info"
+       # not found or SIGPIPE received
+       elif  (( $RESULT == 127 || $RESULT == 141 )); then
+           warning_echo "exit=$RESULT; $info"
        else
-	   error_echo "exit=$RESULT; $info"
+           error_echo "exit=$RESULT; $info"
        fi
 }
 

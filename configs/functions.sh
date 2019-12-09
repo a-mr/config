@@ -91,9 +91,9 @@ if [ ${#msg} -gt 0 ]; then
 fi
 }
 
-#6. for warnings (bold yellow echo)
+#6. for warnings (yellow echo)
 function warning_echo {
-fill_echo $bold$yellow$stout "$@"
+fill_echo $yellow$stout "$@"
 }
 
 function error_echo {

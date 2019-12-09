@@ -1,18 +1,21 @@
-Bash/Zsh                                Tmux
-!$  last word of previous command       PRE ]  paste 
-$_  last arg  of previous command       PRE "  split horizontally
-                                        PRE %  split vertically
-                                   hold PRE -> resize pane
+Bash/Zsh                                  Tmux
+  !$       last word of previous command         PRE ]  paste 
+  $_       last arg  of previous command         PRE "  split horizontally
+  C-v C-j  insert newline w/o executing          PRE %  split vertically
+  !str     repeat prev cmd started w/ str   hold PRE -> resize pane
+  !?str    repeat prev cmd containing str
+  !:0      name of prev cmd
+
 Vim                     Vim spellcheck                 Vim window
-zo  open fold           <F9> or set spell/set nospell  C-w +-  resize up/dn
-zc  close fold          zg  add word to dict           C-w <>  resize le/ri
-]c  goto next VCS chg   z=  propose completion list
-                        ]s  goto next misspelled
-my Vim:                                            ss<SYM> goto symbol <SYM>
-A-t  select buffers     st    select tag           sl      select downwards
-A-n  next buffer        <F9>  select spell lang    sk      select upwards
-A-p  prev buffer        <F8>  select encoding      sl      select lineforward
-A-m  select marks                                  sh      select linebackward
+  zo  open fold           <F9> or set spell/set nospell  C-w +-  resize up/dn
+  zc  close fold          zg  add word to dict           C-w <>  resize le/ri
+  ]c  goto next VCS chg   z=  propose completion list
+                          ]s  goto next misspelled
+my Vim:                                             ss<SYM> goto symbol <SYM>
+  A-t  select buffers     st    select tag           sl      select downwards
+  A-n  next buffer        <F9>  select spell lang    sk      select upwards
+  A-p  prev buffer        <F8>  select encoding      sl      select lineforward
+  A-m  select marks                                  sh      select linebackward
                             XFCE4
 C-A-t  Terminal           C-A-k  Tile top     C-A-S-k  Tile top-right
 C-A-C  Clipboard Manager  C-A-j  Tile bottom  C-A-S-j  Tile bottom-left
@@ -22,6 +25,6 @@ Win    Xfce Whisker Menu  C-A-l  Tile right   C-A-S-l  Tile bottom-right
 C-A-n   Maximize                   Win-Shift-s  screenshot of area
 C-A-v   Maximize vertically
 C-A-S-v Maximize horizontally
-C‑S‑n   Move Win to workspace <n>
+C-S-n   Move Win to workspace <n>
 
 C-A-e   this help
