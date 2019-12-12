@@ -1686,10 +1686,8 @@ function mov {
   esac
 }
 
-alias d=cd
-#function d(){
-#if cd $@; then report_repo_type; fi
-#}
+# show pushd stack
+alias d="dirs -v"
 
 print_preexec () {
     start_time="`date +'%m-%d %T'`"
@@ -1751,7 +1749,12 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 
     # print function definition in which
     alias which="whence -cvf"
+    # save directory name to pushd stack automatically
+    setopt auto_pushd
+    setopt pushd_ignore_dups
 
+    # add local directory to additional completions path
+    fpath[1,0]=~/activity-public/computer-program-data/development
     # tell zsh not to trust its cache when completing
     # There is a performance cost, but it is negligible on a typical desktop
     # setting today. (It isn't if you have $PATH on NFS, or a RAM-starved
@@ -2189,4 +2192,11 @@ fi
 if [ -f  ~/local-adjust.sh ] ; then
 echo Load local-adjust.sh
 . ~/local-adjust.sh
+fi
+
+if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
+    local file=~/activity-public/computer-program-data/development/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    if [ -f $file ]; then
+        source $file
+    fi
 fi
