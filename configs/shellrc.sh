@@ -261,9 +261,6 @@ if [[ "$ONLYREADCONF" == "y" ]]; then
     return
 fi
 
-# in pipes: use the exit code of last program to exit non-zero
-set -o pipefail
-
 ##ensure we are running default shell
 #if [[ "$ALLOW_BASH" == "" ]] && exist /bin/zsh && \
 #	[[ "$CURSHELL" != "/bin/zsh" && "$CURSHELL" != "zsh" ]]; then
@@ -434,6 +431,7 @@ if exist tmux; then
    h - (default) tmux create auxillary session = throwaway =
    	not intended for persistency;
    s - start just shell;
+   b - start bash;
    w - tmux create work session;
    W - tmux attach to work session;
    a - tmux create auxillary session;
@@ -443,6 +441,7 @@ if exist tmux; then
    q - exit" \
 	    "h tmux_new_window heap" \
 	    "s echo Just shell" \
+	    "b bash" \
 	    "w tmux_new_window work-base" \
 	    "W exec tmux attach -t work-base" \
 	    "a tmux_new_window aux-base" \
@@ -486,7 +485,7 @@ echo OK
 exit
 }
 
-if [ $inside_ssh ] && [ ! $inside_vnc ]; then
+if [ $inside_ssh ] && [ ! $inside_vnc ] && [ -z $ALLOW_BASH ]; then
     tmux_try_start
 fi
 ################################################################################
@@ -1023,20 +1022,20 @@ echo find $dir -iwholename "*$1*"
 find $dir -iwholename "*$1*" | p
 }
 
-# "findnew N Dir" finds recent files that a newer N days.
+# "findnew Dir N" finds recent files that a newer N days.
 # N may be fractionate and by default it is 1/24=1hour.
 function findnew() {
 local dir
-if [[ "$2" == "" ]]; then
+if [[ "$1" == "" ]]; then
 	dir=.
 else
-	dir="$2"/
+	dir="$1"/
 fi
 local time
-if [[ "$1" == "" ]]; then
+if [[ "$2" == "" ]]; then
 	time=$((1./24))
 else
-	time="$1"
+	time="$2"
 fi
 find $dir -mtime -$time | p
 }
@@ -1090,6 +1089,11 @@ mydialog "show? [y|n]" "y zcat $@" "n echo OK"
 
 function diff () {
     command diff --color=always $@
+}
+
+# print binary file one byte value per line
+hexd () {
+    hexdump -v -e '/1 "0x%02x\n"' $@
 }
 
 function difftree () {
@@ -1273,6 +1277,7 @@ function inf {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git describe --all; git branch -vv | grep "$(bra)"; git remote -v
+          dat
           ;;
       mercurial) hg id; hg paths
           ;;
@@ -1296,18 +1301,33 @@ function log {
   esac
 }
 
+# log with changes (-p)
+lgf () {
+  if [[ "$1" == "" ]]; then
+    git log -p --parents $@ | less
+  else
+    git log -p --follow --parents $@ | less
+  fi
+}
+
 # show log for branch
 function lgb {
   REPO=`what_is_repo_type`
+  local default=$(dbr)
   case "$REPO" in
-	  git) git log --decorate --graph --tags --name-status \
-              --parents --abbrev-commit $(git merge-base $(bra) master)..$(bra) | pp
-		  ;;
-	  mercurial) hg log -b `hg branch`
-		  ;;
-	  svn) svn log --use-merge-history --verbose $@ # TODO: URL required
-		  ;;
-	  *) red_echo unknown repository: $REPO
+      git) if [[ "$(bra)" == "$default" ]]; then
+              git log --decorate --graph --tags --name-status \
+              --parents --abbrev-commit $default | pp
+          else
+              git log --decorate --graph --tags --name-status \
+              --parents --abbrev-commit $(git merge-base $(bra) $default)..$(bra) | pp
+          fi
+          ;;
+      mercurial) hg log -b `hg branch`
+          ;;
+      svn) svn log --use-merge-history --verbose $@ # TODO: URL required
+          ;;
+      *) red_echo unknown repository: $REPO
 
   esac
 }
@@ -1368,6 +1388,74 @@ function bra {
       mercurial) hg branch
           ;;
       svn) svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'
+          ;;
+      *) echo -n $REPO
+  esac
+}
+
+# list branches
+function lsb {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) git branch
+          ;;
+      mercurial) hg branches --active
+          ;;
+      svn) svn info | grep '^URL:'
+          ;;
+      *) echo -n $REPO
+  esac
+}
+
+# default branch
+function dbr {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+          ;;
+      mercurial) echo default
+          ;;
+      svn) echo trunk
+          ;;
+      *) echo -n $REPO
+  esac
+}
+
+# print the date of commit id $1
+function dat {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) 
+          if [[ "$1" != "" ]]; then
+              local id="$1"
+          else
+              local id="HEAD"
+          fi
+          git log -1 --format="%at" $id | xargs -I{} date -d @{} +%y-%b-%d\ %H:%M
+          ;;
+      mercurial) echo "d:hg"
+          ;;
+      svn) echo "d:svn"
+          ;;
+      *) echo -n $REPO
+  esac
+}
+
+# print the date of commit id $1
+function datshort {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) 
+          if [[ "$1" != "" ]]; then
+              local id="$1"
+          else
+              local id="HEAD"
+          fi
+          git log -1 --format="%at" $id | xargs -I{} date -d @{} +%b%d
+          ;;
+      mercurial) echo "d:hg"
+          ;;
+      svn) echo "d:svn"
           ;;
       *) echo -n $REPO
   esac
@@ -1498,6 +1586,17 @@ for i in $@; do
 done
 }
 
+roo () {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) git rev-parse --show-toplevel
+	  ;;
+      mercurial) hg root
+	  ;;
+      *) red_echo unknown repository: $REPO
+  esac
+}
+    
 function com {
   REPO=`what_is_repo_type`
   local msg=""
@@ -1506,7 +1605,9 @@ function com {
   fi
   case "$REPO" in
       git) #git add -u :/ && 
-          git commit $msg && mydialog "push?[n|y]" "n green_echo Done" "y git push origin \"$(bra)\""
+          eval git commit $msg && \
+               mydialog "push?[n|y|f]" "n green_echo Done" \
+               "y git push origin \"$(bra)\"" "f git push origin -f \"$(bra)\""
           ;;
       mercurial) eval hg commit $msg && (
           if grep default `hg root`/.hg/hgrc &> /dev/null; then
@@ -1522,14 +1623,24 @@ function com {
   esac
 }
 
+# save changes
+sav () {
+    git stash save $@
+}
+
+# restore changes
+res () {
+    git stash pop --index $@
+}
+
 function pus {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git push origin "$(bra)"
+      git) git push origin "$(bra)" $@
           ;;
-      mercurial) hg push
+      mercurial) hg push $@
           ;;
-      svn) svn commit
+      svn) svn commit $@
           ;;
       *) red_echo unknown repository: $REPO
 
@@ -1538,13 +1649,21 @@ function pus {
 
 pur () {
   REPO=`what_is_repo_type`
+  if [ -z $1 ]; then
+      local arg=.
+  else
+      local arg="$1"
+      shift 1
+  fi
+  local msg="purge $arg $@ ?[n|y]"
+
   case "$REPO" in
-      git) mydialog "purge?[n|y]" "n green_echo OK" "y git clean  -d  -f -x ."
+      git) mydialog $msg "n green_echo skipped" "y git clean  -d  -f -x $arg $@"
           # (-d untracked directories, -f untracked files, -x also ignored files)
           ;;
-      mercurial) mydialog "purge?[n|y]" "n green_echo OK" "y hg purge"
+      mercurial) mydialog $msg "n green_echo skipped" "y hg purge $arg $@"
           ;;
-      svn) mydialog "purge?[n|y]" "n green_echo OK" "y svn cleanup . --remove-unversioned"
+      svn) mydialog $msg "n green_echo skipped" "y svn cleanup --remove-unversioned $arg $@"
           ;;
       *) red_echo unknown repository: $REPO
 
@@ -1634,6 +1753,7 @@ function pul {
 # get branch #download remote changes from branch
 function get {
   REPO=`what_is_repo_type`
+  local default=$(dbr)
   case "$REPO" in
 	  git) 
               if [[ "$1" != "" ]]; then
@@ -1641,10 +1761,10 @@ function get {
               else
                   local branch="$(bra)"
               fi
-              git fetch --recurse-submodules origin "$branch"
-              if [[ "$(bra)" != "master" ]]; then
-                  git fetch --recurse-submodules origin master
+              if [[ "$branch" != "$default" ]]; then
+                  git fetch --recurse-submodules origin "$branch"
               fi
+              git fetch --recurse-submodules origin $default
 		  ;;
 	  mercurial) hg pull $@
 		  ;;
@@ -1660,6 +1780,19 @@ function upd {
                if exist git-lfs; then
                    git lfs pull
                fi
+		  ;;
+	  mercurial) hg co $@
+		  ;;
+	  svn) svn up $@
+		  ;;
+  esac
+}
+
+# checkout specified revision
+function cou {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+	  git) git checkout $@
 		  ;;
 	  mercurial) hg co $@
 		  ;;
@@ -1689,6 +1822,10 @@ function mov {
 # show pushd stack
 alias d="dirs -v"
 
+function ts {
+    date -R -r $@
+}
+
 print_preexec () {
     start_time="`date +'%m-%d %T'`"
     fill_echo $stout $start_time
@@ -1705,7 +1842,7 @@ print_precmd () {
        fi
        #show repository branch if requested
        if [ "$wrepo" != "none" ]; then
-           info+=" ($(bra))"
+           info+=" '$(bra) $(datshort)'"
        fi
        if (( $RESULT == 0 )); then
            fill_echo $stout$cyan "$info"
@@ -1722,12 +1859,19 @@ print_precmd () {
 
 if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     echo "zsh detected"
+    # in pipes: use the exit code of last program to exit non-zero
+    [[ $ZSH_VERSION > 5 ]] && set -o pipefail
     HISTFILE=~/.histfile
     #almost infinite history for zsh = LONG_MAX
+
     SAVEHIST=2147483647
     HISTSIZE=$SAVEHIST
     setopt EXTENDED_HISTORY
     bindkey -v
+    # create some widgets
+    zle -N next-history
+    zle -N previous-history
+    zle -N re-read-init-file
     # backspace in vim's style instead of vi
     bindkey "^?" backward-delete-char
     bindkey "^W" backward-kill-word
@@ -1887,6 +2031,8 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     #allow tab completion in the middle of a word
     setopt COMPLETE_IN_WORD
 
+    # correct typos in commands
+    setopt correct
     ## keep background processes at full speed
     #setopt NOBGNICE
     ## restart running processes on exit
@@ -2016,7 +2162,8 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 else
     if [[ "$CURSHELL" == "/bin/bash" || "$CURSHELL" == "bash" \
        || "$CURSHELL" == "/usr/bin/bash" ]]; then
-	echo "bash detected"
+    echo "bash detected"
+    set -o pipefail
     else
 	red_echo "unknown shell detected. We suppose it is bash"
     fi
