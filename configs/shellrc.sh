@@ -16,10 +16,11 @@
 
 # Note $SHELL env. variable can be wrong
 CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
+CURSHELL=${CURSHELL##*/}  # basename
 
 function default_shell {
-if [[ "$ALLOW_BASH" == "" ]] && which zsh &> /dev/null && \
-    [[ "$CURSHELL" != "/bin/zsh" && "$CURSHELL" != "zsh" ]]; then
+if [[ $ALLOW_BASH == "" ]] && which zsh &> /dev/null && \
+    [[ $CURSHELL != zsh ]]; then
     if shopt -q login_shell; then
         echo we are in bash, starting zsh log-in
         exec zsh -l
@@ -51,10 +52,10 @@ export LANG=en_US.UTF-8
 export LC_MESSAGES=en_US.UTF-8
 export LC_NUMERIC=en_US.UTF-8
 if locale -a|grep -i en_DK.utf8 > /dev/null; then
-# ISO 8601 date format
-export LC_TIME=en_DK.UTF-8
+    # ISO 8601 date format ; regenerate locales by "dpkg-reconfigure locales"
+    export LC_TIME=en_DK.UTF-8
 else
-	export LC_TIME=en_US.UTF-8
+    export LC_TIME=en_US.UTF-8
 fi
 
 ################################################################################
@@ -74,34 +75,32 @@ else
 fi
 
 if [[ "$SSH_CONNECTION" == "" ]]; then
-#	export EDITOR=emacs
-	export BROWSER=firefox
+    export BROWSER=firefox
 else
-#	export EDITOR="emacs -nw"
-	export BROWSER=links
+    export BROWSER=links
 fi
 
 export VISUAL="$EDITOR"
 for term in konsole urxvt gnome-terminal xterm roxterm rxvt-unicode xfce4-terminal ; do
-	if exist $term; then
-		export XTERMINAL=$term
-		break
-	fi
+    if exist $term; then
+        export XTERMINAL=$term
+        break
+    fi
 done
 
 if [ -f /etc/lsb-release ]; then
-	. /etc/lsb-release
-	export DISTRIB_ID
-	export DISTRIB_RELEASE
+    . /etc/lsb-release
+    export DISTRIB_ID
+    export DISTRIB_RELEASE
 fi
 
 # textadept editor
 function ta {
-textadept $@
+  textadept $@
 }
 
 function tac {
-textadept-curses $@
+  textadept-curses $@
 }
 
 # compile & start Nim app
@@ -145,107 +144,77 @@ mykt () {
     fi
 }
 
-#lua
-function lr {
-luarocks --local $@
-}
-
-function lr51 {
-luarocks-5.1 --local $@
-}
-
-function lr53 {
-luarocks-5.3 --local $@
-}
-
-function l53 {
-eval `luarocks-5.3 path --bin`
-lua $@
-}
-
-function l51 {
-eval `luarocks-5.1 path --bin`
-lua5.1 $@
-}
-
-function lj {
-eval `luarocks-5.1 path --bin`
-rlwrap luajit $@
-}
-
 # misc.aliases
 function wd {
-rednotebook $EXDR/MAKAROV/activity-personal/draft_mak/work_diary
+    rednotebook $EXDR/MAKAROV/activity-personal/draft_mak/work_diary
 }
 function pd {
-rednotebook $EXDR/MAKAROV/activity-personal/draft_mak/personal_diary
+    rednotebook $EXDR/MAKAROV/activity-personal/draft_mak/personal_diary
 }
+
 function c {
-echo $@|bc -l
+    echo $@|bc -l
 }
 
 function untar {
-# do not try to change times
-tar zxvf $@ --no-overwrite-dir
+    # do not try to change times
+    tar zxvf $@ --no-overwrite-dir
 }
 
 function fm {
-thunar
+    thunar
 }
 
 if exist icedove && ! exist thunderbird; then
     function thunderbird {
-    icedove
+        icedove
     }
 fi
 
 function android-connect {
-mtpfs -o allow_other ~/tmp/note
+    mtpfs -o allow_other ~/tmp/note
 }
 function android-disconnect {
-fusermount -u ~/tmp/note
+    fusermount -u ~/tmp/note
 }
 function yandex {
-mkdir -p $HOME/mnt/yandex.disk
-sudo mount -t davfs -o gid=$GID,uid=$UID https://webdav.yandex.ru $HOME/mnt/yandex.disk
+    mkdir -p $HOME/mnt/yandex.disk
+    sudo mount -t davfs -o gid=$GID,uid=$UID https://webdav.yandex.ru $HOME/mnt/yandex.disk
 }
 function uyandex {
-sudo umount $HOME/mnt/yandex.disk
+    sudo umount $HOME/mnt/yandex.disk
 }
 
+# list processes using the mount dir
 function use {
-	local fuser="/bin/fuser"
-	if exist /sbin/fuser; then
-		fuser="/sbin/fuser"
-	fi
-        if [ -d "$1" ]; then
-		$fuser -vm $@
-        else
-                $fuser -v $@
-        fi
-}
-
-function sync {
-unison ~/activity-public/current "`myextdrive`"/MAKAROV/activity-public/current
+    local fuser="/bin/fuser"
+    if exist /sbin/fuser; then
+        fuser="/sbin/fuser"
+    fi
+    if [ -d "$1" ]; then
+        $fuser -vm $@
+    else
+        $fuser -v $@
+    fi
 }
 
 function syn {
-bold_echo rsync dry run
-# slash "/" after "$1" is essential
-rsync -rvCn --size-only "$1/" "$2"
-mydialog -warning "Proceed? [y|n]" \
-"y rsync -rvC --size-only \"$1/\" \"$2\"" \
-"n bold_echo doing nothing"
+    bold_echo rsync dry run
+    # slash "/" after "$1" is essential
+    rsync -rvCn --size-only "$1/" "$2"
+    mydialog -warning "Proceed? [y|n]" \
+        "y rsync -rvC --size-only \"$1/\" \"$2\"" \
+        "n bold_echo doing nothing"
 }
 
 #version with delete
 function synd {
-bold_echo rsync dry run
-# slash "/" after "$1" is essential
-rsync -rvCn --delete --size-only "$1/" "$2"
-mydialog -warning "Proceed? [y|n]" \
-"y rsync -rvC --delete --size-only \"$1/\" \"$2\"" \
-"n bold_echo doing nothing"
+    bold_echo rsync dry run
+    # slash "/" after "$1" is essential
+    rsync -rvCn --delete --size-only "$1/" "$2"
+    mydialog -warning "Proceed? [y|n]" \
+        "y rsync -rvC --delete --size-only \"$1/\" \"$2\"" \
+        "n bold_echo doing nothing"
 }
 
 ################################################################################
@@ -261,20 +230,6 @@ if [[ "$ONLYREADCONF" == "y" ]]; then
     return
 fi
 
-##ensure we are running default shell
-#if [[ "$ALLOW_BASH" == "" ]] && exist /bin/zsh && \
-#	[[ "$CURSHELL" != "/bin/zsh" && "$CURSHELL" != "zsh" ]]; then
-#    echo Found zsh. Launch it "($@)".
-#    exec /bin/zsh $@
-##if [[ ( "$SHLVL" == "1" || "$SHLVL" == "2" ) && "$CURSHELL" != "/bin/zsh" && "$CURSHELL" != "zsh" ]]; then
-#    echo starting default shell
-#    echo $SHLVL $CURSHELL
-#    default_shell
-#else
-#    echo zsh is running now
-#    echo $SHLVL $CURSHELL
-#fi
-
 function bash () {
   env ALLOW_BASH=true bash
 }
@@ -284,59 +239,59 @@ function bash () {
 # Next windows with sessions 1,2,... associated with base; these sessions are
 # detroyed on shell exit
 function tmux_new_window {
-local base=$1
-export TMUXTOPLEVEL=1
-if tmux has-session -t $base; then
-    yellow_echo creating new tmux window; sleep 1
-    exec tmux new-session -t $base \; new-window
-else
-    yellow_echo creating new tmux session; sleep 1
-    exec tmux new-session -s $base
-fi
+    local base=$1
+    export TMUXTOPLEVEL=1
+    if tmux has-session -t $base; then
+        yellow_echo creating new tmux window; sleep 1
+        exec tmux new-session -t $base \; new-window
+    else
+        yellow_echo creating new tmux session; sleep 1
+        exec tmux new-session -s $base
+    fi
 }
 
 #attach to any detached session
 function tmux_attach {
-local session="`tmux ls|grep -v '(attached)'|cut -f 1 -d:|head -n1`"
-if [ "$session" != "" ]; then
-    yellow_echo attaching to session \"$session\"; sleep 1
-    exec tmux attach -t "$session"
-else
-    alert_echo no detached sessions
-    sleep 2
-    exit
-fi
+    local session="`tmux ls|grep -v '(attached)'|cut -f 1 -d:|head -n1`"
+    if [ "$session" != "" ]; then
+        yellow_echo attaching to session \"$session\"; sleep 1
+        exec tmux attach -t "$session"
+    else
+        alert_echo no detached sessions
+        sleep 2
+        exit
+    fi
 }
 
 #attach to any detached session of group
 function tmux_attach_group {
-local group=$1
-local session="`tmux ls|grep "(group $group)"|grep -v '(attached)'|cut -f 1 -d:|head -n1`"
-if [ "$session" != "" ]; then
-    yellow_echo attaching to session \"$session\"; sleep 1
-    exec tmux attach -t "$session"
-else
-    alert_echo wrong group number $group - no detached sessions
-    sleep 4
-    exit
-fi
+    local group=$1
+    local session="`tmux ls|grep "(group $group)"|grep -v '(attached)'|cut -f 1 -d:|head -n1`"
+    if [ "$session" != "" ]; then
+        yellow_echo attaching to session \"$session\"; sleep 1
+        exec tmux attach -t "$session"
+    else
+        alert_echo wrong group number $group - no detached sessions
+        sleep 4
+        exit
+    fi
 }
 
 function tmux_list_sessions {
-local msg
-msg="`tmux ls|grep '(attached)'`"
-while read -r line; do
-    fill_echo $bold$stout$yellow $line
-done <<< "$msg"
-msg="`tmux ls|grep -v '(attached)'`"
-while read -r line; do
-    fill_echo $bold$stout$green $line
-done <<< "$msg"
+    local msg
+    msg="`tmux ls|grep '(attached)'`"
+    while read -r line; do
+        fill_echo $bold$stout$yellow $line
+    done <<< "$msg"
+    msg="`tmux ls|grep -v '(attached)'`"
+    while read -r line; do
+        fill_echo $bold$stout$green $line
+    done <<< "$msg"
 }
 
 function x(){
     if [[ "$1" != "" ]]; then
-	    echo $1 > ~/.display-x11-$HOSTNAME
+        echo $1 > ~/.display-x11-$HOSTNAME
     fi
     CMD="export DISPLAY=`cat ~/.display-x11-$HOSTNAME`"
     echo $CMD
@@ -347,7 +302,8 @@ function x(){
 
 # try to set ssh agent (mostly) silently
 pickup_ssh_agent () {
-    . ~/.ssh/myagent.sh                     # def. SSH_AUTH_SOCK & SSH_AGENT_PID
+    # define SSH_AUTH_SOCK & SSH_AGENT_PID
+    [ -f ~/.ssh/myagent.sh ] && . ~/.ssh/myagent.sh
     if [[ ! -z $SSH2_AUTH_SOCK ]]; then
         local socket="$SSH2_AUTH_SOCK"
     fi
@@ -361,12 +317,13 @@ pickup_ssh_agent () {
             echo remove $socket
             rm $socket
         fi
-	echo no ssh agent in ~/.ssh/myagent.sh
+        echo no ssh agent in ~/.ssh/myagent.sh
     fi
 }
 
 ensure_ssh_agent () {
-    . ~/.ssh/myagent.sh                     # def. SSH_AUTH_SOCK & SSH_AGENT_PID
+    # define SSH_AUTH_SOCK & SSH_AGENT_PID
+    . ~/.ssh/myagent.sh
     if [[ ! -z $SSH2_AUTH_SOCK ]]; then
         local socket="$SSH2_AUTH_SOCK"
     fi
@@ -380,7 +337,7 @@ ensure_ssh_agent () {
             echo remove $socket
             rm $socket
         fi
-	warning_echo no ssh agent in ~/.ssh/myagent.sh
+        warning_echo no ssh agent in ~/.ssh/myagent.sh
         mydialog "start ssh-agent? [n|y]" "n echo OK" \
             "y ssh-agent > ~/.ssh/myagent.sh; . ~/.ssh/myagent.sh; ssh-add"
     fi
@@ -388,101 +345,95 @@ ensure_ssh_agent () {
 
 alias ss=ensure_ssh_agent
 
+# just highlight matches, not filter them out
 function hgrep() {
-local pattern="$1"
-shift 1
-grep --color -E "^|$pattern" $@
+    local pattern="$1"
+    shift 1
+    grep --color -E "^|$pattern" $@
 }
 
 function show_displays() {
-echo local displays:
-find /tmp/.X11-unix -type s -printf "%f\t%u\n" | hgrep $USER
-echo
-echo remote displays:
-netstat -lnt | awk '
-  sub(/.*:/,"",$4) && $4 >= 6000 && $4 < 6100 {
+    echo local displays:
+    find /tmp/.X11-unix -type s -printf "%f\t%u\n" | hgrep $USER
+    echo
+    echo remote displays:
+    netstat -lnt | awk '
+    sub(/.*:/,"",$4) && $4 >= 6000 && $4 < 6100 {
     print ($1 == "tcp6" ? "ip6-localhost:" : "localhost:") ($4 - 6000)
-  }'
-echo
+    }'
+    echo
 }
+
 function set_display() {
-show_displays
-bold_echo Input display or press enter
-local line
-read line
-x $line
+    show_displays
+    bold_echo Input display or press enter
+    local line
+    read line
+    x $line
 }
 
 alias t=tmux_try_start
 function tmux_try_start {
-if exist tmux; then
-    export TERM=xterm
-    if [[ -z $TMUX ]]; then
-	set_display
-	ensure_ssh_agent
-	echo Starting tmux
-	if tmux has-session; then
-	    echo tmux sessions:
-	    tmux_list_sessions
-	else
-	    bold_echo no tmux sessions
-	fi
-	mydialog "what to do?
-   h - (default) tmux create auxillary session = throwaway =
-   	not intended for persistency;
-   s - start just shell;
-   b - start bash;
-   w - tmux create work session;
-   W - tmux attach to work session;
-   a - tmux create auxillary session;
-   A - tmux attach to auxillary session;
-   # - tmux attach group number '#';
-   t - tmux atttach any session;
-   q - exit" \
-	    "h tmux_new_window heap" \
-	    "s echo Just shell" \
-	    "b bash" \
-	    "w tmux_new_window work-base" \
-	    "W exec tmux attach -t work-base" \
-	    "a tmux_new_window aux-base" \
-	    "A exec tmux attach -t aux-base" \
-	    "0 tmux_attach_group 0" \
-	    "1 tmux_attach_group 1" \
-	    "2 tmux_attach_group 2" \
-	    "t tmux_attach" \
-	    "q exit 0"
-
-    else # we'are in tmux already
-	if [ "$TMUXTOPLEVEL" = "1" ]; then
-	    echo We are inside tmux
-#	    function finish {
-#	    session=`tmux display-message -p '#S'`
-#	    if [[ $session != "base" ]]; then
-#		tmux kill-session -t $session
-#	    fi
-#	    }
-#	    trap finish EXIT
-#	    echo On exit window will be closed after end of this shell "(otherwise type \"fin\")"
-	    unset TMUXTOPLEVEL
-	else
-	    echo Just shell
-	fi
+    if exist tmux; then
+        export TERM=xterm
+        if [[ -z $TMUX ]]; then
+            set_display
+            ensure_ssh_agent
+            echo Starting tmux
+            if tmux has-session; then
+                echo tmux sessions:
+                tmux_list_sessions
+            else
+                bold_echo no tmux sessions
+            fi
+            mydialog "what to do?
+       h - (default) tmux create auxillary session = throwaway =
+           not intended for persistency;
+       s - start just shell;
+       b - start bash;
+       w - tmux create work session;
+       W - tmux attach to work session;
+       a - tmux create auxillary session;
+       A - tmux attach to auxillary session;
+       # - tmux attach group number '#';
+       t - tmux atttach any session;
+       q - exit" \
+           "h tmux_new_window heap" \
+           "s echo Just shell" \
+           "b bash" \
+           "w tmux_new_window work-base" \
+           "W exec tmux attach -t work-base" \
+           "a tmux_new_window aux-base" \
+           "A exec tmux attach -t aux-base" \
+           "0 tmux_attach_group 0" \
+           "1 tmux_attach_group 1" \
+           "2 tmux_attach_group 2" \
+           "t tmux_attach" \
+           "q exit 0"
+    
+        else # we'are in tmux already
+            if [ "$TMUXTOPLEVEL" = "1" ]; then
+                echo We are inside tmux
+                unset TMUXTOPLEVEL
+            else
+                echo Just shell
+            fi
+        fi
+    else
+        echo no tmux in PATH:
+        echo $PATH
+        set_display
     fi
-else
-    echo no tmux in PATH:
-    echo $PATH
-    set_display
-fi
 }
 
 pickup_ssh_agent
 
 # exit without closing session and therefore window
 function fin {
-function finish {
-echo OK
-}
-exit
+    function finish {
+    echo OK
+    }
+    exit
 }
 
 if [ $inside_ssh ] && [ ! $inside_vnc ] && [ -z $ALLOW_BASH ]; then
@@ -515,24 +466,22 @@ function rr {
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-#    alias ls='ls --color=auto'
     function ls {
-    /bin/ls --color=always --group-directories-first $@
+        /bin/ls --color=always --group-directories-first $@
     }
     function dir {
-    ls $@
+        ls $@
     }
     function grep {
-    command grep --color=auto "$@"
+        command grep --color=auto "$@"
     }
 fi
-if exist rlwrap; then alias ocaml="rlwrap ocaml"; fi
-alias e="emacs -nw"
+
 if exist vimx; then
-	alias vi=vimx
-	alias vim=vimx
+    alias vi=vimx
+    alias vim=vimx
 else
-	alias vi=vim
+    alias vi=vim
 fi
 
 # show my shortcuts
@@ -556,35 +505,35 @@ v () {
 }
 
 function psu {
-ps -fU $USER --forest|less
+    ps -fU $USER --forest|less
 }
 function psa {
     ps axo stat,euid,ruid,tty,tpgid,sess,pgrp,ppid,pid,pcpu,comm --forest|less
 }
 function users () {
-who -u | grep `date +'%Y-%m-%d'` |  sort -n -k 5
+    who -u | grep `date +'%Y-%m-%d'` |  sort -n -k 5
 }
 function psc {
-ps -f --forest | less
+    ps -f --forest | less
 }
 alias mv='mv -i'
 # some more ls aliases
 if alias ll &> /dev/null; then
-	unalias ll
+    unalias ll
 fi
-#alias ll='ls -alF'
+
 function ll {
-ls -lhrt --time-style=long-iso $@
+    ls -lhrt --time-style=long-iso $@
 }
 #this directory
 function llthis {
-ls -ldhrt --time-style=long-iso $@
+    ls -ldhrt --time-style=long-iso $@
 }
 function la {
-ls -A $@
+    ls -A $@
 }
 function l {
-ls -CF $@
+    ls -CF $@
 }
 #sort files by size
 function lls {
@@ -592,20 +541,19 @@ function lls {
 }
 # list only directories
 function lsd {
-  #if [[ "$1" == "" ]]; then ls -d */ .*/ ; else ls -d "$1"/*/ "$1"/.*/ ; fi }
   if [[ "$1" == "" ]]; then
-	  ls -d $(echo */) $(echo .*/)
+      ls -d $(echo */) $(echo .*/)
   else
-	  ls -d $(echo "$1"/*/) $(echo "$1"/.*/)
+      ls -d $(echo "$1"/*/) $(echo "$1"/.*/)
   fi
 }
 
 function lld {
   setopt nullglob
   if [[ "$1" == "" ]]; then
-	  ls -rtdl --time-style=long-iso */ .*/
+      ls -rtdl --time-style=long-iso */ .*/
   else
-	  ls -rtdl --time-style=long-iso "$1"/*/ "$1"/.*/
+      ls -rtdl --time-style=long-iso "$1"/*/ "$1"/.*/
   fi
   unsetopt nullglob
 }
@@ -621,10 +569,10 @@ alias s8="cd ../../../../../../../.."
 alias s9="cd ../../../../../../../../.."
 
 function o {
-xdg-open $@
+    xdg-open $@
 }
 if exist ncal; then
-alias cal="ncal -y"
+    alias cal="ncal -y"
 fi
 alias mypatch="patch -p1 --ignore-whitespace"
 
@@ -645,15 +593,15 @@ fi
 
 # pager with line numbers which copies to a file
 function p {
-cp ~/tmp/buffer ~/tmp/buffer2
-# add -F to exit less if it fits the screen
-tee ~/tmp/buffer | less -N -X
-cp ~/tmp/buffer ~/tmp/buffer2
+    cp ~/tmp/buffer ~/tmp/buffer2
+    # add -F to exit less if it fits the screen
+    tee ~/tmp/buffer | less -N -X
+    cp ~/tmp/buffer ~/tmp/buffer2
 }
 
 # simple pager with line number
 function pp {
-cat -n|less -X
+    cat -n|less -X
 }
 
 #   bb   line number   command to filter   command to run
@@ -714,7 +662,7 @@ function bv {
 }
 
 function trim_spaces() {
-     sed "s/^[ \t]*//;s/[ \t]*$//" $@
+    sed "s/^[ \t]*//;s/[ \t]*$//" $@
 }
 
 # aliases named b1, b2, ..., b999 to process string as an argument of a
@@ -730,15 +678,15 @@ for i in `seq 1 999`; do alias b$i:="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias :b$i="bb $i 'cut -f2- -d: | trim_spaces'"; done
 
 function lcd() {
-cd "$1" && ls | p
+    cd "$1" && ls | p
 }
 
 function lsp() {
-ls|p
+    ls|p
 }
 
 function llp() {
-ll|p
+    ll|p
 }
 
 #TODO: where is fork bomb hidden here in situations:
@@ -746,47 +694,56 @@ ll|p
 #f1 f2 f3 "f4 f5"; c2
 
 function get_arg_n() {
-echo $#
+    echo $#
 }
 
 function get_n_arg() {
-echo $@[$1+1]
+    echo $@[$1+1]
 }
 
 function get_last_arg() {
-echo $@[$#]
+    echo $@[$#]
 }
 
+# get argument of previous command:
+# ls a2 a3
+# getlast 1 -> ls
+# getlast 2 -> a2
+# getlast 3 -> a3
+# getlast -1 -> a3
 function getlast () {
-echo call getlast $@
+    #echo call getlast $@
     last_command=$history[$[HISTCMD-1]]
     local arg
     if [[ "$1" == -1 ]]; then
-	arg="`eval get_last_arg $last_command`"
+        arg="`eval get_last_arg $last_command`"
     else
-	arg="`eval get_n_arg $1 $last_command`"
+        arg="`eval get_n_arg $1 $last_command`"
     fi
 
     if [[ "$2" == "" ]]; then
-	echo $arg
+        echo $arg
     else
-	shift 1
-	$* "$arg"
+        shift 1
+        $* "$arg"
     fi
 
 }
 
-##default pager for man is vim
-#export PAGER="/bin/sh -c \"unset PAGER;col -b -x | \
-#    vim -R -c 'set ft=man nomod nolist' -c 'map q :q<CR>' \
-#    -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
-#    -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -c 'set nonumber' -\""
+function man(){
+    vim -c 'let no_man_maps = 1' -c 'runtime ftplugin/man.vim' \
+        -c 'nmap K :Man <C-R>=expand("<cword>")<CR><CR>' \
+        -c 'map q :q<CR>' \
+        -c 'set nolist' \
+        -c "Man $*" -c 'wincmd o'
+}
 
 function find_cmd_default () {
-  local dir="$1"
-  shift 1
-  # -H and -xtype f means: follow symlinks if they point to file
-  find -H "$dir" -not -wholename "*.hg/*" -not -wholename "*.git/*" -not -wholename "*.svn/*" -xtype f $@
+    local dir="$1"
+    shift 1
+    # -H and -xtype f means: follow symlinks if they point to file
+    find -H "$dir" -not -wholename "*.hg/*" -not -wholename "*.git/*" \
+        -not -wholename "*.svn/*" -xtype f $@
 }
 
 function gi() {
@@ -803,7 +760,7 @@ function gi() {
         shift 2
     fi
     grep --color=$GREP_COLOR "$pattern" --exclude-dir=.git --exclude-dir=.svn \
-	--exclude-dir=.hg -inr "$dir" $@ | p
+         --exclude-dir=.hg -inr "$dir" $@ | p
 }
 
 
@@ -822,12 +779,12 @@ function gc() {
         shift 2
     fi
     grep --color=$GREP_COLOR "$pattern" --exclude-dir=.git --exclude-dir=.svn \
-	--exclude-dir=.hg -nr "$dir" $@ | p
+         --exclude-dir=.hg -nr "$dir" $@ | p
 }
 
 ngcommon () {
-  nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
-    --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" $@
+    nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
+        --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" $@
 }
 
 # search in Nim files, style-insensitive (-y)
@@ -899,8 +856,8 @@ function g2c() {
         shift 2
     fi
     grep "$pattern1" --exclude-dir=.git --exclude-dir=.svn \
-	--exclude-dir=.hg -lZr "$dir" | \
-        xargs -0 grep -n "$pattern2" --color=$GREP_COLOR | p
+         --exclude-dir=.hg -lZr "$dir" | \
+         xargs -0 grep -n "$pattern2" --color=$GREP_COLOR | p
 }
 
 # case-sensitive, no-color
@@ -918,7 +875,7 @@ function gcm() {
         shift 2
     fi
     grep --color=never "$pattern" --exclude-dir=.git --exclude-dir=.svn \
-	--exclude-dir=.hg -nr "$dir" $@ | p
+         --exclude-dir=.hg -nr "$dir" $@ | p
 }
 
 # case-sensitive, whole-word
@@ -936,29 +893,29 @@ function gcw() {
         shift 2
     fi
     grep --color=$GREP_COLOR "$pattern" --exclude-dir=.git --exclude-dir=.svn \
-	--exclude-dir=.hg -wnr "$dir" $@ | p
+         --exclude-dir=.hg -wnr "$dir" $@ | p
 }
 
 function gg() {
-grep --color=$GREP_COLOR -i $@ | p
+    grep --color=$GREP_COLOR -i $@ | p
 }
 
 function ggl() {
-grep --color=$GREP_COLOR -i -A1 -B6 $@ | p
+    grep --color=$GREP_COLOR -i -A1 -B6 $@ | p
 }
 
 sed_common_cmd="sed -i --follow-symlinks"
 # replace all strings in current directory (case insensetive /I), usage:
 # > replace str_old str_new
 function replace(){
-CMD="find_cmd_default . -exec $sed_common_cmd \"s/$1/$2/Ig\" \{\} +"
-echo $CMD
-eval $CMD
+    CMD="find_cmd_default . -exec $sed_common_cmd \"s/$1/$2/Ig\" \{\} +"
+    echo $CMD
+    eval $CMD
 }
 
 #remove line, case insensitive
 function remove(){
-eval find_cmd_default . -exec $sed_common_cmd "/$1/Id" \{\} +
+    eval find_cmd_default . -exec $sed_common_cmd "/$1/Id" \{\} +
 }
 
 # Remove line after $3 lines after pattern ($1)
@@ -966,29 +923,26 @@ eval find_cmd_default . -exec $sed_common_cmd "/$1/Id" \{\} +
 # $2 - num lines to skip
 # $3 - path to file
 remove_skip () {
-if [[ ! -f $3 ]]; then
-   red_echo no file name given
-   return
-fi
-line_num=$(grep -n $1 $3 | grep -Eo '^[^:]+')
-if [[ "$line_num" == "" ]]; then
-   echo no line found for file $3
-   return
-fi
-let line_num+=$2
-sed -i "$line_num d" $3
+    if [[ ! -f $3 ]]; then
+        red_echo no file name given
+        return
+    fi
+    line_num=$(grep -n "$1" "$3" | grep -Eo '^[^:]+')
+    if [[ "$line_num" == "" ]]; then
+        echo no line found for file $3
+        return
+    fi
+    let line_num+=$2
+    sed -i "$line_num d" "$3"
 }
 
-#function showre(){
-#find_cmd_default . -exec grep "$1" \{\} +
-#}
-
 function findmy {
-find . -user $USER
+    find . -user $USER
 }
 
 function findother {
-find . \( -not -user `stat -c "%U" .` -or -not -group `stat -c "%G" .` \) -exec ls -ld --color=always {} +
+    find . \( -not -user `stat -c "%U" .` -or -not -group `stat -c "%G" .` \) \
+        -exec ls -ld --color=always {} +
 }
 
 for i in `seq 1 99`; do alias a$i="getlast $i"; done
@@ -996,10 +950,10 @@ alias al="getlast -1"
 
 #extract file from grep, "b:" is text before ':', while "a:" is text after ':'
 function b:() {
-decolorize|cut -f1 -d:
+    decolorize|cut -f1 -d:
 }
 function c:() {
-decolorize|cut -f2- -d:
+    decolorize|cut -f2- -d:
 }
 
 
@@ -1007,58 +961,58 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 function gcc_dis () { gcc -m32 -O1 -S $@ -o - | p ; }
 
 function act () {
-echo set ~/active to $PWD
-ln -sfT "$PWD" ~/active
+    echo set ~/active to $PWD
+    ln -sfT "$PWD" ~/active
 }
 
 function f() {
-local dir
-if [[ "$2" == "" ]]; then
-	dir=.
-else
-	dir="$2"/
-fi
-echo find $dir -iwholename "*$1*"
-find $dir -iwholename "*$1*" | p
+    local dir
+    if [[ "$2" == "" ]]; then
+        dir=.
+    else
+        dir="$2"/
+    fi
+    echo find $dir -iwholename "*$1*"
+    find $dir -iwholename "*$1*" | p
 }
 
 # "findnew Dir N" finds recent files that a newer N days.
 # N may be fractionate and by default it is 1/24=1hour.
 function findnew() {
-local dir
-if [[ "$1" == "" ]]; then
-	dir=.
-else
-	dir="$1"/
-fi
-local time
-if [[ "$2" == "" ]]; then
-	time=$((1./24))
-else
-	time="$2"
-fi
-find $dir -mtime -$time | p
+    local dir
+    if [[ "$1" == "" ]]; then
+        dir=.
+    else
+        dir="$1"/
+    fi
+    local time
+    if [[ "$2" == "" ]]; then
+        time=$((1./24))
+    else
+        time="$2"
+    fi
+    find $dir -mtime -$time | p
 }
 
 findbig () {
     local dir
     if [[ "$1" == "" ]]; then
-    	dir=.
+        dir=.
     else
-    	dir="$1"/
+        dir="$1"/
     fi
     find "$dir" -type f -printf "%s\t%p\n" | sort -nr | less
 }
 
 function i1 () {
-#parallel -Xj1 --tty $@
-read line; eval $@ $line
+    #parallel -Xj1 --tty $@
+    read line; eval $@ $line
 }
 
 function i () {
-while read line; do
-    eval $@ $line
-done
+    while read line; do
+        eval $@ $line
+    done
 }
 
 #EXAMPLE:
@@ -1066,25 +1020,26 @@ done
 
 # highlight data by nice colors
 function hi {
-pygmentize -O bg=dark -g $@ |p
+    pygmentize -O bg=dark -g $@ |p
 }
 
 function py {
-pygmentize -O bg=dark,python=cool -l python $@ |p
+    pygmentize -O bg=dark,python=cool -l python $@ |p
 }
 
 function py_compile {
-python -m py_compile $@
+    python -m py_compile $@
 }
 
+# show markdown file as a man page
 function mdless () {
-pandoc -s -f markdown -t man $@ | groff -T utf8 -man | less
+    pandoc -s -f markdown -t man $@ | groff -T utf8 -man | less
 }
 
 function zshow {
-ls -lart $@
-echo md5sum: `md5sum $@`
-mydialog "show? [y|n]" "y zcat $@" "n echo OK"
+    ls -lart $@
+    echo md5sum: `md5sum $@`
+    mydialog "show? [y|n]" "y zcat $@" "n echo OK"
 }
 
 function diff () {
@@ -1097,59 +1052,59 @@ hexd () {
 }
 
 function difftree () {
-  colordiff <(cd "$1"; find .|sort) <(cd "$2"; find .|sort)|p
+    colordiff <(cd "$1"; find .|sort) <(cd "$2"; find .|sort)|p
 }
 
 function fileinfo () {
-  local filename="$1"
-  local file_ext=${filename##*.}
-  local base="`basename $filename .$file_ext`"
-  echo Filename: $filename
-  echo File suffix: $file_ext
-  echo File basename: $base
+    local filename="$1"
+    local file_ext=${filename##*.}
+    local base="`basename $filename .$file_ext`"
+    echo Filename: $filename
+    echo File suffix: $file_ext
+    echo File basename: $base
 }
 
 # determine encoding of a russian TXT file
 function enca_rus () {
-enca -L russian $@
+    enca -L russian $@
 }
 
 #correct russian encoding after unpacking by unzip
 function zip_ru_correct () {
-  convmv --notest -r -f cp-1252 -t cp-850 "$1"
-  convmv --notest -r -f cp-866 -t utf-8 "$1"
+    convmv --notest -r -f cp-1252 -t cp-850 "$1"
+    convmv --notest -r -f cp-866 -t utf-8 "$1"
 }
 
 function unpack () {
-  local filename="$1"
-  local file_ext=${filename##*.}
-  local base="`basename $filename .$file_ext`"
-  case "$file_ext" in
-      zip)
-      echo Zip archive
-      mkdir -p "$base"
-      unzip "$filename" -d "$base"
-      cd "$base"
-      ;;
-      rar)
-      echo Rar archive
-      mkdir -p "$base"
-      cd "$base"
-      unrar x ../"$filename"
-      ;;
-  esac
+    local filename="$1"
+    local file_ext=${filename##*.}
+    local base="`basename $filename .$file_ext`"
+    case "$file_ext" in
+        zip)
+            echo Zip archive
+            mkdir -p "$base"
+            unzip "$filename" -d "$base"
+            cd "$base"
+            ;;
+        rar)
+            echo Rar archive
+            mkdir -p "$base"
+            cd "$base"
+            unrar x ../"$filename"
+            ;;
+    esac
 }
 
 function download {
-wget -c -t 0 --timeout=60 --waitretry=60 -m $@
+    wget -c -t 0 --timeout=60 --waitretry=60 -m $@
 }
 
 function site_to_pdf {
-local link=$1
-local name="`basename $link`"
-# recursive, flatten dirs, not get up to parent dirs
-wget -r -nd --no-parent "$link" -P "$name"
-wkhtmltopdf "$name"/{index.html,*.html} "$name".pdf
+    local link=$1
+    local name="`basename $link`"
+    # recursive, flatten dirs, not get up to parent dirs
+    wget -r -nd --no-parent "$link" -P "$name"
+    wkhtmltopdf "$name"/{index.html,*.html} "$name".pdf
 }
 
 # Pdf cropping
@@ -1159,7 +1114,7 @@ wkhtmltopdf "$name"/{index.html,*.html} "$name".pdf
 # - to crop extra margins, use the following functions:
 
 function all_pdf_crop {
-	find . -type f -name "*.pdf" | parallel  pdfcrop3.sh -m 5 {}
+    find . -type f -name "*.pdf" | parallel  pdfcrop3.sh -m 5 {}
 }
 
 # functions to echo file and print page count:
@@ -1167,11 +1122,13 @@ mypdfinfo () {
     # -print0 separate files by \0
     # -0      the same for xargs reading
     # -n1     process inputs one by one
-    find . -name "*.pdf" -print0 | xargs -0 -I{} -n1 sh -c 'echo; echo "{}"; pdfinfo "{}"'
+    find . -name "*.pdf" -print0 | \
+        xargs -0 -I{} -n1 sh -c 'echo; echo "{}"; pdfinfo "{}"'
 }
 
 mydjvuinfo () {
-    find . -name "*.djvu" -print0 | xargs -0 -I{} -n1 sh -c 'echo; echo "{}"; djvused -e n "{}"'
+    find . -name "*.djvu" -print0 | \
+        xargs -0 -I{} -n1 sh -c 'echo; echo "{}"; djvused -e n "{}"'
 }
 
 mypsinfo () {
@@ -1179,23 +1136,23 @@ mypsinfo () {
 }
 
 mypdfcrop () {
-	file=`mktemp`.pdf
-	o "$1"
-	bold_echo current file
-	ls -l "$1"
-	mydialog "Process? [y|n]" "y bold_echo processing" "n return 1"
-	if [ $? -ne 0 ]
-	then
-		return 0
-	fi
-	pdfcrop3.sh -m 5 "$1" $file
-	#pdfcrop.sh "$1" $file
-        # the next line may work better:
-        # pdfcrop --margins '5 5 5 5' "$1" $file
-	o $file
-	bold_echo new file
-	ls -l $file
-	mydialog -warning "Substitute? [y|n]" "y mv -f $file \"$1\"" "n rm $file"
+    file=`mktemp`.pdf
+    o "$1"
+    bold_echo current file
+    ls -l "$1"
+    mydialog "Process? [y|n]" "y bold_echo processing" "n return 1"
+    if [ $? -ne 0 ]
+    then
+        return 0
+    fi
+    pdfcrop3.sh -m 5 "$1" $file
+    #pdfcrop.sh "$1" $file
+    # the next line may work better:
+    # pdfcrop --margins '5 5 5 5' "$1" $file
+    o $file
+    bold_echo new file
+    ls -l $file
+    mydialog -warning "Substitute? [y|n]" "y mv -f $file \"$1\"" "n rm $file"
 }
 
 # play MTS files from the camera
@@ -1228,8 +1185,8 @@ alias xm5="xm.sh 5"
 ###############################################################################
 # local.sh can overwite above settings
 if [ -f  ~/local.sh ] ; then
-echo Load local.sh
-. ~/local.sh
+    echo Load local.sh
+    . ~/local.sh
 fi
 
 # path priorities: my scripts, /usr/local/bin, default PATH, additional paths
@@ -1240,36 +1197,36 @@ export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/op
 
 # Usage : hgdiff file -r rev
 hgdiff() {
-hg cat $1 $2 $3 $4 $5 $6 $7 $8 $9| vim -g - -c  ":vert diffsplit $1" -c "map q :qa\!<CR>";
+    hg cat $1 $2 $3 $4 $5 $6 $7 $8 $9| vim -g - -c  ":vert diffsplit $1" -c "map q :qa\!<CR>";
 }
 
 hgvim() {
-vim `hg sta -m -a -r -n $@`
+    vim `hg sta -m -a -r -n $@`
 }
 
 hgfix() {
-	hg commit -m "never-push work-in-progress `date`. If you see this commit then please notify me about it."
+    hg commit -m "never-push work-in-progress `date`. If you see this commit then please notify me about it."
 }
 
 hgsea() {
-	hg log | gg -C10 $@
+    hg log | gg -C10 $@
 }
 
 function hgtagb {
-	hg log --rev="branch(`hg branch`) and tag()" --template="{tags}\n"
+    hg log --rev="branch(`hg branch`) and tag()" --template="{tags}\n"
 }
 
 function what_is_repo_type {
-if git branch >/dev/null 2>/dev/null; then echo -n git
-elif hg root >/dev/null 2>/dev/null; then echo -n mercurial
-elif svn info >/dev/null 2>/dev/null; then echo -n svn
-else echo -n 'unknown'
-fi
+    if git branch >/dev/null 2>/dev/null; then echo -n git
+    elif hg root >/dev/null 2>/dev/null; then echo -n mercurial
+    elif svn info >/dev/null 2>/dev/null; then echo -n svn
+    else echo -n 'unknown'
+    fi
 }
 
 function report_repo_type {
-echo 'repository here ' `pwd` :
-bold_echo `what_is_repo_type`
+    echo 'repository here ' `pwd` :
+    bold_echo `what_is_repo_type`
 }
 
 
@@ -1288,39 +1245,60 @@ function inf {
 }
 
 function log {
-  REPO=`what_is_repo_type`
-  case "$REPO" in
-	  git) git log --decorate --graph --all --tags --name-status \
-                --parents --abbrev-commit $@ | pp
-		  ;;
-	  mercurial) hg log -v $@ | pp
-		  ;;
-	  svn) svn log $@ | pp
-		  ;;
-	  *) red_echo unknown repository: $REPO
+    REPO=`what_is_repo_type`
+    case "$REPO" in
+        git) git log --decorate --graph --all --tags --name-status \
+            --parents --abbrev-commit $@ | pp
+            ;;
+        mercurial) hg log -v $@ | pp
+            ;;
+        svn) svn log $@ | pp
+            ;;
+        *) red_echo unknown repository: $REPO
+  esac
+}
+
+# print graph for all branches
+function gra {
+    REPO=`what_is_repo_type`
+    case "$REPO" in
+        git) git log --oneline --tags --all --graph $@ | less -S
+            ;;
+        mercurial) hg log $@ | pp
+            ;;
+        svn) svn log $@ | pp
+            ;;
+        *) red_echo unknown repository: $REPO
   esac
 }
 
 # log with changes (-p)
 lgf () {
-  if [[ "$1" == "" ]]; then
-    git log -p --parents $@ | less
-  else
-    git log -p --follow --parents $@ | less
-  fi
+    if [[ "$1" == "" ]]; then
+        git log -p --parents $@ | less
+    else
+        git log -p --follow --parents $@ | less
+    fi
 }
 
-# show log for branch
+# show log for specified branch
 function lgb {
   REPO=`what_is_repo_type`
   local default=$(dbr)
   case "$REPO" in
-      git) if [[ "$(bra)" == "$default" ]]; then
-              git log --decorate --graph --tags --name-status \
-              --parents --abbrev-commit $default | pp
+      git) 
+          if [ -z "$1" ] || [[ "$1" == "--" ]]; then
+              branch=$(bra)
           else
-              git log --decorate --graph --tags --name-status \
-              --parents --abbrev-commit $(git merge-base $(bra) $default)..$(bra) | pp
+              branch=$1
+              shift 1
+          fi
+          if [[ "$branch" == "$default" ]]; then
+              git log --decorate --graph --name-status \
+              --parents --abbrev-commit $default $@ | pp
+          else
+              git log --decorate --graph --name-status \
+              --parents --abbrev-commit $(git merge-base $branch $default)..$branch $@ | pp
           fi
           ;;
       mercurial) hg log -b `hg branch`
@@ -1329,6 +1307,33 @@ function lgb {
           ;;
       *) red_echo unknown repository: $REPO
 
+  esac
+}
+
+# graph for feature branch
+function grb {
+  REPO=`what_is_repo_type`
+  local default=$(dbr)
+  case "$REPO" in
+      git) 
+          if [ -z "$1" ] || [[ "$1" == "--" ]]; then
+              branch=$(bra)
+          else
+              branch=$1
+              shift 1
+          fi
+          if [[ "$branch" == "$default" ]]; then
+              git log --oneline --graph $default $@ | less -S
+          else
+              git log --oneline --graph \
+                  $(git merge-base $branch $default)..$branch $@ | less -S
+          fi
+          ;;
+      mercurial) hg log $@ | pp
+          ;;
+      svn) svn log $@ | pp
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1342,31 +1347,30 @@ gitlogb () {
     git log --decorate --graph --tags --name-status --first-parent "$branch" | p
 }
 
+# history of all changes to file(s)
 function his {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git log --follow -p -- $@|p
-		  ;;
-	  mercurial) hg record $@|p
-		  ;;
-	  svn) svn log --diff $@|p
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git) git log --follow -p -- $@|p
+          ;;
+      mercurial) hg record $@|p
+          ;;
+      svn) svn log --diff $@|p
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
 function ann {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git annotate $@|p
-		  ;;
-	  mercurial) hg ann -b $@
-		  ;;
-	  svn) svn ann $@|p
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git) git annotate $@|p
+          ;;
+      mercurial) hg ann -b $@
+          ;;
+      svn) svn ann $@|p
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1464,14 +1468,13 @@ function datshort {
 function sta {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git status -sb $@|p
-		  ;;
-	  mercurial) hg status $@|p
-		  ;;
-	  svn) svn status $@|p
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git) git status -sb $@|p
+          ;;
+      mercurial) hg status $@|p
+          ;;
+      svn) svn status $@|p
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1479,18 +1482,17 @@ function sta {
 function dif {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git)
-              if [ ! -f $1 ]; then
-                  red_echo file $1 not found
-              fi
-              git diff -r HEAD -- $@|less
-	      ;;
-	  mercurial) hg diff $@|less
-		  ;;
-	  svn) svn diff $@|less
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git)
+          if [ ! -f $1 ]; then
+              red_echo file $1 not found
+          fi
+          git diff -r HEAD -- $@|less
+          ;;
+      mercurial) hg diff $@|less
+          ;;
+      svn) svn diff $@|less
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1498,18 +1500,17 @@ function dif {
 function dfp {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git)
-              if [ ! -f $1 ]; then
-                  red_echo file $1 not found
-              fi
-              git diff --color=never -r HEAD -- $@
-	      ;;
-	  mercurial) hg diff --color never $@
-		  ;;
-	  svn) svn diff $@
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git)
+          if [ ! -f $1 ]; then
+              red_echo file $1 not found
+          fi
+          git diff --color=never -r HEAD -- $@
+          ;;
+      mercurial) hg diff --color never $@
+          ;;
+      svn) svn diff $@
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1517,34 +1518,33 @@ function dfp {
 function difp {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git)
-              if [ ! -f $1 ]; then
-                  red_echo file $1 not found
-              fi
-              git diff --color=never -r HEAD -- $@|less
-	      ;;
-	  mercurial) hg diff --color=never $@|less
-		  ;;
-	  svn) svn diff --color=never $@|less
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git)
+          if [ ! -f $1 ]; then
+              red_echo file $1 not found
+          fi
+          git diff --color=never -r HEAD -- $@|less
+          ;;
+      mercurial) hg diff --color=never $@|less
+          ;;
+      svn) svn diff --color=never $@|less
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
+
 # print file contents at given revision
 function pri {
   local rev="$1"
   local file="$2"
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git show "$rev:$file" | less -X
-		  ;;
-	  mercurial) hg cat -r $rev "$file" | less -X
-		  ;;
-	  svn) svn cat -r $rev "$file" | less -X
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git) git show "$rev:$file" | less -X
+          ;;
+      mercurial) hg cat -r $rev "$file" | less -X
+          ;;
+      svn) svn cat -r $rev "$file" | less -X
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1552,14 +1552,13 @@ function pri {
 function pat {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git show $@|p
-		  ;;
-	  mercurial) hg diff -c $@|p
-		  ;;
-	  svn) svn diff -c $@|p
-		  ;;
-	  *) red_echo unknown repository: $REPO
-
+      git) git show $@|p
+          ;;
+      mercurial) hg diff -c $@|p
+          ;;
+      svn) svn diff -c $@|p
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1574,13 +1573,13 @@ for i in $@; do
   local file="`basename $i`"
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git add $file
-		  ;;
-	  mercurial) hg add $file
-		  ;;
-	  svn) svn add $file
-		  ;;
-	  *) red_echo unknown repository: $REPO
+      git) git add $file
+          ;;
+      mercurial) hg add $file
+          ;;
+      svn) svn add $file
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
   cd -
 done
@@ -1590,9 +1589,9 @@ roo () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git rev-parse --show-toplevel
-	  ;;
+          ;;
       mercurial) hg root
-	  ;;
+          ;;
       *) red_echo unknown repository: $REPO
   esac
 }
@@ -1619,7 +1618,6 @@ function com {
       svn) eval svn commit $msg
           ;;
       *) red_echo unknown repository: $REPO
-
   esac
 }
 
@@ -1643,7 +1641,6 @@ function pus {
       svn) svn commit $@
           ;;
       *) red_echo unknown repository: $REPO
-
   esac
 }
 
@@ -1666,7 +1663,6 @@ pur () {
       svn) mydialog $msg "n green_echo skipped" "y svn cleanup --remove-unversioned $arg $@"
           ;;
       *) red_echo unknown repository: $REPO
-
   esac
 }
 
@@ -1679,14 +1675,15 @@ unstage () {
 function rvr {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git reset -- $@ # remove file from staging area
-              git checkout -- $@
-	      #git reset --hard $@
-		  ;;
-	  mercurial) hg revert $@
-		  ;;
-	  svn) svn revert -R $@
-		  ;;
+      git) git reset -- $@ # remove file from staging area
+          git checkout -- $@
+          #git reset --hard $@
+          ;;
+      mercurial) hg revert $@
+          ;;
+      svn) svn revert -R $@
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -1694,12 +1691,12 @@ function rvr {
 function uad {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git reset -- $@
-		  ;;
-	  mercurial) hg revert $@
-		  ;;
-	  svn) svn revert -R $@
-		  ;;
+      git) git reset -- $@
+          ;;
+      mercurial) hg revert $@
+          ;;
+      svn) svn revert -R $@
+          ;;
   esac
 }
 
@@ -1707,12 +1704,12 @@ export PREFERRED_REPO_TYPE=git
 
 function clo {
   case "$PREFERRED_REPO_TYPE" in
-	  git) git clone --recursive $@
-		  ;;
-	  mercurial) hg clone $@
-		  ;;
-	  svn) svn clone $@
-		  ;;
+      git) git clone --recursive $@
+          ;;
+      mercurial) hg clone $@
+          ;;
+      svn) svn clone $@
+          ;;
   esac
 }
 
@@ -1723,12 +1720,12 @@ function clb {
   local branch=$2
   shift 2
   case "$PREFERRED_REPO_TYPE" in
-	  git) git clone --recursive -b $branch --single-branch $repo $@
-		  ;;
-	  mercurial) hg clone $repo -b $branch $@
-		  ;;
-	  svn) svn clone $repo/branches/$branch $@
-		  ;;
+      git) git clone --recursive -b $branch --single-branch $repo $@
+          ;;
+      mercurial) hg clone $repo -b $branch $@
+          ;;
+      svn) svn clone $repo/branches/$branch $@
+          ;;
   esac
 }
 
@@ -1736,16 +1733,16 @@ function clb {
 function pul {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git pull --recurse-submodules origin "$(bra)"
-	       git submodule update
-               if exist git-lfs; then
-                   git lfs pull
-               fi
-		  ;;
-	  mercurial) hg pull -u $@
-		  ;;
-	  svn) svn up $@
-		  ;;
+      git) git pull --recurse-submodules origin "$(bra)"
+          git submodule update
+          if exist git-lfs; then
+              git lfs pull
+          fi
+          ;;
+      mercurial) hg pull -u $@
+          ;;
+      svn) svn up $@
+          ;;
   esac
 }
 
@@ -1755,36 +1752,36 @@ function get {
   REPO=`what_is_repo_type`
   local default=$(dbr)
   case "$REPO" in
-	  git) 
-              if [[ "$1" != "" ]]; then
-                  local branch="$1"
-              else
-                  local branch="$(bra)"
-              fi
-              if [[ "$branch" != "$default" ]]; then
-                  git fetch --recurse-submodules origin "$branch"
-              fi
-              git fetch --recurse-submodules origin $default
-		  ;;
-	  mercurial) hg pull $@
-		  ;;
-	  svn) echo not applicable
-		  ;;
+      git) 
+          if [[ "$1" != "" ]]; then
+              local branch="$1"
+          else
+              local branch="$(bra)"
+          fi
+          if [[ "$branch" != "$default" ]]; then
+              git fetch --recurse-submodules origin "$branch"
+          fi
+          git fetch --recurse-submodules origin $default
+          ;;
+      mercurial) hg pull $@
+          ;;
+      svn) echo not applicable
+          ;;
   esac
 }
 
 function upd {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git merge
-               if exist git-lfs; then
-                   git lfs pull
-               fi
-		  ;;
-	  mercurial) hg co $@
-		  ;;
-	  svn) svn up $@
-		  ;;
+      git) git merge
+          if exist git-lfs; then
+              git lfs pull
+          fi
+          ;;
+      mercurial) hg co $@
+          ;;
+      svn) svn up $@
+          ;;
   esac
 }
 
@@ -1792,12 +1789,12 @@ function upd {
 function cou {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git checkout $@
-		  ;;
-	  mercurial) hg co $@
-		  ;;
-	  svn) svn up $@
-		  ;;
+      git) git checkout $@
+          ;;
+      mercurial) hg co $@
+          ;;
+      svn) svn up $@
+          ;;
   esac
 }
 
@@ -1809,13 +1806,12 @@ function upd-master {
 function mov {
   REPO=`what_is_repo_type`
   case "$REPO" in
-	  git) git mv $@
-#	  git) git mv -k $@
-		  ;;
-	  mercurial) hg mv $@
-		  ;;
-	  svn) svn mv $@
-		  ;;
+      git) git mv $@
+          ;;
+      mercurial) hg mv $@
+          ;;
+      svn) svn mv $@
+          ;;
   esac
 }
 
@@ -1826,26 +1822,50 @@ function ts {
     date -R -r $@
 }
 
+function mysetfont {
+    if exist xtermcontrol; then
+        TERM=xterm xtermcontrol --font="xft:Ubuntu Mono:pixelsize=$1"
+    else # try for urxvt
+        echo "]50;xft:Ubuntu Mono:pixelsize=$1"; echo $1;
+    fi
+}
+
+for i in `seq 0 99`; do alias ff$i="mysetfont $i"; done
+
+# select larger font dynamically
+function ff {
+    mysetfont 27
+    sleep 0.1
+    for i in 25 23 21 19 17 `seq 15 -1 6`; do
+        if ((COLUMNS>60)); then break;
+        else mysetfont $i
+        fi
+        sleep 0.1
+    done
+}
+
+#set -x
 print_preexec () {
-    start_time="`date +'%m-%d %T'`"
-    fill_echo $stout $start_time
+    start_time="`date +%s.%N`"
+    #fill_echo $stout $start_time
 }
 
 print_precmd () {
        local RESULT=$?
-       local finish_time="`date +'%m-%d %T'`"
-       local info
-       if [[ $finish_time == $start_time ]]; then
-           info=". `dirs -p | head -n1`"
+       local finish_time="`date +%s.%N`"
+       local exe_time
+       if [[ $CURSHELL == zsh ]]; then
+           exe_time=$((finish_time-start_time))
        else
-           info="$finish_time `dirs -p | head -n1`"
+           exe_time=$(echo $finish_time-$start_time | bc)
        fi
+       local info=$(printf "%s(%.2f) %s" "$(date --date=@${finish_time%.*} +%T)" "$exe_time" "`dirs -p | head -n1`")
        #show repository branch if requested
        if [ "$wrepo" != "none" ]; then
            info+=" '$(bra) $(datshort)'"
        fi
        if (( $RESULT == 0 )); then
-           fill_echo $stout$cyan "$info"
+           fill_echo $stout$cyan " $info"
        # not found or SIGPIPE received
        elif  (( $RESULT == 127 || $RESULT == 141 )); then
            warning_echo "exit=$RESULT; $info"
@@ -1857,7 +1877,7 @@ print_precmd () {
 ###############################################################################
 # shell-specific settings - for bash or zsh
 
-if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
+if [[ $CURSHELL == zsh ]]; then
     echo "zsh detected"
     # in pipes: use the exit code of last program to exit non-zero
     [[ $ZSH_VERSION > 5 ]] && set -o pipefail
@@ -1908,75 +1928,35 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     # allow comments in interactive mode:
     setopt interactivecomments
 
-    #store vi-mode for next line
-    #local mode=vicmd
-    #local mode=main
-    #function zle-line-finish {
-    #    mode=$KEYMAP
-    #    #echo -n "$default"
-    #}
     zle -N zle-line-init
     #zle -N zle-line-finish
 
     function set_prompt {
         # default value for main/viins/"" modes
-	local MYPS1="+->"
-	if [[ "$KEYMAP" == "vicmd" ]]; then
-	    MYPS1=":->"
-	fi
-	(( cols = $COLUMNS*6/10 ))
-	PROMPT="$MYPS1 "
-    }
-
-    function mysetfont {
-	#echo "]50;xft:Ubuntu Mono:pixelsize=$1"; echo $1;
-	TERM=xterm xtermcontrol --font="xft:Ubuntu Mono:pixelsize=$1"
-    }
-
-    for i in `seq 0 99`; do alias ff$i="mysetfont $i"; done
-
-    function ff {
-        mysetfont 27
-	sleep 0.1
-        for i in 25 23 21 19 17 `seq 15 -1 6`; do
-	    if ((COLUMNS>60)); then break;
-	    else mysetfont $i
-	    fi
-	    sleep 0.1
-	done
-    }
-
-    function set_font {
-        #
-	if ((COLUMNS<72)); then mysetfont 7; return; fi
-	if ((COLUMNS>100)); then mysetfont 20;return; fi
-
-
-        #
+        local MYPS1="+->"
+        if [[ "$KEYMAP" == "vicmd" ]]; then
+            MYPS1=":->"
+        fi
+        (( cols = $COLUMNS*6/10 ))
+        PROMPT="$MYPS1 "
     }
 
     set_prompt
-    #set_font
 
     # Reset right prompt, on window resize
     TRAPWINCH ()
     {
-	#set_font
-	set_prompt
-	zle reset-prompt
+        set_prompt
+        zle reset-prompt
     }
     function zle-line-init {
-    #if [[ "$mode" == "vicmd" ]]; then
-#   # if [[ "$KEYMAP" == "vicmd" ]]; then
-    #    zle vi-cmd-mode
-    #fi
-    set_prompt
-    zle reset-prompt
+        set_prompt
+        zle reset-prompt
     }
 
     function zle-keymap-select {
-    set_prompt
-    zle reset-prompt
+        set_prompt
+        zle reset-prompt
     }
     zle -N zle-keymap-select
 
@@ -1990,7 +1970,7 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     zle -N ft-zshexit
     bindkey -M vicmd 'ZZ' ft-zshexit
 
-    ##don't use ctrl-d
+    # don't use ctrl-d
     setopt ignore_eof
     function ft-vi-cmd-cmd() {
         zle -M 'Use ZZ or `:q<RET>'\'' in CMD mode to exit the shell.'
@@ -2006,8 +1986,8 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
 
     eval "`sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc`" > /dev/null
     case "$TERM" in
-	    rxvt-unicode|rxvt-256color) bindkey "\e[7~" beginning-of-line
-	    ;;
+        rxvt-unicode|rxvt-256color) bindkey "\e[7~" beginning-of-line
+            ;;
     esac
     autoload -Uz compinit
     compinit
@@ -2023,11 +2003,6 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     zstyle ':completion:*' show-ambiguity "$color[fg-red]"
     # extended pattern matches:
     setopt EXTENDED_GLOB
-#    PROMPT=$'%B=%b%? | %* %U%n@%m%u %~%B>%b '
-#    PROMPT=$'=%? | %* %U%n@%M%u %~> '
-#    PROMPT=$'=%? <%T %w %U%n@%M%u %~> '
-    # End of lines added by compinstall
-    #alias -s pdf=evince -s ps=evince -s djvu=evince -s fb2=fbreader
     #allow tab completion in the middle of a word
     setopt COMPLETE_IN_WORD
 
@@ -2038,23 +2013,18 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
     ## restart running processes on exit
     #setopt HUP
 
-    ## history
-    #setopt APPEND_HISTORY
-    ## for sharing history between zsh processes
-    #setopt INC_APPEND_HISTORY
-    #setopt SHARE_HISTORY
+    # history
+    setopt INC_APPEND_HISTORY
 
     ## never ever beep ever
     #setopt NO_BEEP
 
-    ## automatically decide when to page a list of completions
-    #LISTMAX=0
+    # automatically decide when to page a list of completions
+    LISTMAX=0
 
     ## disable mail checking
     #MAILCHECK=0
 
-    # autoload -U colors
-    #colors
     function preexec() {
       print_preexec
       local a=${${1## *}[(w)1]}  # get the command
@@ -2072,8 +2042,6 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
           print -Pn "\e]2;%-3~ $a\a" # set xterm title, via screen "Operating System Command"
           ;;
         rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-#          print -Pn "\e]2;$USER@%M:%-3~ $a\a"
-          #print -Pn "\e]2;$CURSHELL(%m)> $a\a"
           print -Pn "\e]2;%1/> $a\a"
           ;;
       esac
@@ -2147,47 +2115,42 @@ if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
          LBUFFER=$left${abbreviations[$prefix]:-$prefix}
     }
 
-#    no-magic-abbrev-expand() {
-#        LBUFFER+=' '
-#    }
-
     zle -N magic-abbrev-expand
-#    zle -N no-magic-abbrev-expand
-#    bindkey " " magic-abbrev-expand
     bindkey "^e" magic-abbrev-expand
     function add_command {
         print -sr $@
     }
 
-else
-    if [[ "$CURSHELL" == "/bin/bash" || "$CURSHELL" == "bash" \
-       || "$CURSHELL" == "/usr/bin/bash" ]]; then
+elif [[ $CURSHELL == bash ]]; then
     echo "bash detected"
     set -o pipefail
-    else
-	red_echo "unknown shell detected. We suppose it is bash"
-    fi
     export HISTTIMEFORMAT=": %s:"
     #infinite history for bash
     export HISTSIZE=""
 
     export PS1="-> "
     if [ "$TERM" != "" ]; then
-        export PS1="\[\033]0;\w-> \$BASH_COMMAND \007\]-> "
+        export PS1="\[\033]0;\w> \$BASH_COMMAND \007\]-> "
     fi
 
     # preexec analogue of zsh for bash using DEBUG hook
     preexec_invoke_exec () {
         [ -n "$COMP_LINE" ] && return  # do nothing if completing
-        [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return # don't cause a preexec for $PROMPT_COMMAND
+	[ "${FUNCNAME[-1]}" = source ] && return # reading .bashrc
+	# don't cause a preexec for $PROMPT_COMMAND :
+        [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return
         print_preexec
     }
     trap 'preexec_invoke_exec' DEBUG
+
+    print_preexec
 
     export PROMPT_COMMAND=print_precmd
     function add_command {
         history -s $@
     }
+else
+    echo unknown shell
 fi
 
 
@@ -2204,57 +2167,57 @@ pkg(){
   if [[ "$1" == "help" || "$1" == "-h" || "$1" ==  "--help"
         || "$1" == "-help" ]]; then
       echo -e " s"\|"se"\|"search"\\tsearch package name \\n\
-	  "i"\\t\\tinstall package \\n\
-	  "info"\\t\\tinformation about package \\n\
-	  "rm"\\t\\tremove package \\n\
-	  "grep"\\tlist installed packages \\n\
-	  "files"\|"ls"\|"list"\\t\\tlist files owned by package \\n\
-	  "which"\\t\\twhich "  "installed package owns this file\? \\n\
-	  "where"\\t\\twhich uninstalled package owns this file\? \\n\
-	  "help|-h"\\tthis help
+          "i"\\t\\tinstall package \\n\
+          "info"\\t\\tinformation about package \\n\
+          "rm"\\t\\tremove package \\n\
+          "grep"\\tlist installed packages \\n\
+          "files"\|"ls"\|"list"\\t\\tlist files owned by package \\n\
+          "which"\\t\\twhich "  "installed package owns this file\? \\n\
+          "where"\\t\\twhich uninstalled package owns this file\? \\n\
+          "help|-h"\\tthis help
       return
   fi
   case "$SYSDIST" in
       "redhat")
-	  case "$1" in
-		  "s"|"se"|"search") yum search "$2" ;;
-		  "i") yum install "$2" ;;
-		  "info") yum info "$2" ;;
-		  "rm") yum remove "$2" ;;
-		  "grep"|"ls"|"list") rpm -qa "$2";;
-		  "files") rpm -ql "$2" ;;
-		  "owns"|"which") rpm -qf "$2" ;;
-		  "where") yum whatprovides "$2" ;;
-		  *) red_echo unknown command "$1"
-	  esac
-	  ;;
+          case "$1" in
+              "s"|"se"|"search") yum search "$2" ;;
+              "i") yum install "$2" ;;
+              "info") yum info "$2" ;;
+              "rm") yum remove "$2" ;;
+              "grep"|"ls"|"list") rpm -qa "$2";;
+              "files") rpm -ql "$2" ;;
+              "owns"|"which") rpm -qf "$2" ;;
+              "where") yum whatprovides "$2" ;;
+              *) red_echo unknown command "$1"
+          esac
+          ;;
       "debian"|"ubuntu")
-	  case "$1" in
-		  "s"|"se"|"search") apt-cache search "$2" ;;
-		  "i"|"install") apt-get install "$2" ;;
-		  "info") apt-cache showpkg "$2" ;;
-		  "rm") apt-get remove "$2" ;;
-		  "grep") dpkg -l $2 ;;
-		  "files"|"ls"|"list") dpkg -L "$2" ;;
-	          "owns"|"which") dpkg -S "$2" ;;
-	          "where") apt-file search "$2" ;;
-		  *) red_echo unknown command "$1"
-	  esac
-	  ;;
+          case "$1" in
+              "s"|"se"|"search") apt-cache search "$2" ;;
+              "i"|"install") apt-get install "$2" ;;
+              "info") apt-cache showpkg "$2" ;;
+              "rm") apt-get remove "$2" ;;
+              "grep") dpkg -l $2 ;;
+              "files"|"ls"|"list") dpkg -L "$2" ;;
+              "owns"|"which") dpkg -S "$2" ;;
+              "where") apt-file search "$2" ;;
+              *) red_echo unknown command "$1"
+          esac
+          ;;
       "gentoo")
-	  case "$1" in
-		  "s"|"se"|"search") emerge -s "$2" ;;
-		  "i"|"install") emerge --ask "$2" ;;
-		  "info") emerge -s "$2" ;;
-		  "rm") emerge --unmerge "$2" ;;
-		  "files") qlist "$2" ;;
-		  "grep"|"ls"|"list") equery list '*' ;; #not tested
-		  "owns"|"which") qfile "$2" ;;
-		  *) red_echo unknown command "$1"
-	  esac
-	  ;;
+          case "$1" in
+              "s"|"se"|"search") emerge -s "$2" ;;
+              "i"|"install") emerge --ask "$2" ;;
+              "info") emerge -s "$2" ;;
+              "rm") emerge --unmerge "$2" ;;
+              "files") qlist "$2" ;;
+              "grep"|"ls"|"list") equery list '*' ;; #not tested
+              "owns"|"which") qfile "$2" ;;
+              *) red_echo unknown command "$1"
+          esac
+          ;;
       *)  red_echo unknown distribution
-	  return
+          return
   esac
 }
 
@@ -2267,22 +2230,23 @@ function difstring() {
 }
 
 function empty() {
-while true; do echo -n y; sleep 5; done;
+    while true; do echo -n y; sleep 5; done;
 }
 function clock() {
-while :
-do
-    ti=`date +"%r"`
-# save current screen postion & attributes
-    echo -e -n "\033[7s"
-# row 0 and column 69 is used to show clock
-    tput cup 0 69
-# put clock on screen
-    echo -n $ti
-# restore current screen postion & attributs
-    echo -e -n "\033[8u"
-    sleep 1
-done
+    clear
+    while :
+    do
+        ti=`date +"%r"`
+        # save current screen postion & attributes
+        echo -e -n "\033[7s"
+        # row 0 and column 69 is used to show clock
+        tput cup 0 69
+        # put clock on screen
+        echo -n $ti
+        # restore current screen postion & attributs
+        echo -e -n "\033[8u"
+        sleep 1
+    done
 }
 
 ### env.variables for correct work of some applications
@@ -2297,37 +2261,37 @@ export TEXINPUTS=$HOME/activity-public/computer-program-data/latex:
 # wrapper for dealing with various file types
 
 function my() {
-local FILE="$1"
-local DIR=`dirname "$FILE"`
-local BASE=`basename "$FILE"`
-local EXT=`ext "$FILE"`
-local BAS=`basename "$BASE" .$EXT`
-case "$EXT" in
-    "tex")
-	cd $DIR
-	pdflatex "$BASE" && o "$BAS.pdf"&
-	cd -
-	;;
-    *)
-	red_echo unknown file extension: $EXT
-esac
+  local FILE="$1"
+  local DIR=`dirname "$FILE"`
+  local BASE=`basename "$FILE"`
+  local EXT=`ext "$FILE"`
+  local BAS=`basename "$BASE" .$EXT`
+  case "$EXT" in
+      "tex")
+          cd $DIR
+          pdflatex "$BASE" && o "$BAS.pdf"&
+          cd -
+          ;;
+      *)
+          red_echo unknown file extension: $EXT
+  esac
 }
 
 ###############################################################################
 # programs to run in the beginning
 
-if exist /usr/lib/w3m/w3mimgdisplay && \
-	[ -d ~/activity-personal/computer-program-data/pictures ] && \
-        [[ "$DISPLAY" != "" ]] ; then
-clear
-dfile=`shuf -n1 -e ~/activity-personal/computer-program-data/pictures/*`
-w3disp.sh $dfile
+if false && exist /usr/lib/w3m/w3mimgdisplay && \
+   [ -d ~/activity-personal/computer-program-data/pictures ] && \
+   [[ "$DISPLAY" != "" ]] ; then
+    clear
+    dfile=`shuf -n1 -e ~/activity-personal/computer-program-data/pictures/*`
+    w3disp.sh $dfile
 fi
 
 if exist fortune; then
-fortune ru
-echo
-fortune
+    fortune ru
+    echo
+    fortune
 fi
 
 # to disable sw flow control (ctrl-s, ctrl-q)
@@ -2337,11 +2301,11 @@ fi
 ###############################################################################
 # local.sh can overwite above settings
 if [ -f  ~/local-adjust.sh ] ; then
-echo Load local-adjust.sh
-. ~/local-adjust.sh
+    echo Load local-adjust.sh
+    . ~/local-adjust.sh
 fi
 
-if [[ "$CURSHELL" == "/bin/zsh" || "$CURSHELL" == "zsh" ]]; then
+if [[ $CURSHELL == zsh ]]; then
     local file=~/activity-public/computer-program-data/development/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     if [ -f $file ]; then
         source $file

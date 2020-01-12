@@ -13,7 +13,7 @@ $INS chromium filezilla spacefm eom webp
 $INS gsfonts gsfonts-x11 fonts-arphic-ukai fonts-arphic-uming fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core xfonts-terminus ttf-mscorefonts-installer fonts-liberation2 fonts-firacode unifont
 
 #misc
-$INS rlwrap suckless-tools xsel keynav xcalib xdelta3 gnome-search-tool klavaro gpick
+$INS rlwrap suckless-tools xsel keynav xcalib xdelta3 gnome-search-tool klavaro gpick baobab
 
 # search files
 $INS recoll libimage-exiftool-perl pstotext python-chm python-mutagen unrtf untex
@@ -55,3 +55,5 @@ $INS python-plastex pandoc antiword unoconv writer2latex
 
 $INS aspell-ru myspell-ru mythes-ru
 
+#misc
+$INS fortune-mod fortunes fortunes-ru

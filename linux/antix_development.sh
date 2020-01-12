@@ -5,7 +5,7 @@
 $INS build-essential libncurses5-dev gcc libssl-dev bc checkinstall cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind 
 
 # misc
-$INS m4 libev-dev cputool python-pygments
+$INS m4 libev-dev cputool python-pygments manpages-dev
 
 #x dev
 $INS xutils libx11-dev libxkbfile-dev libsecret-1-dev libxext-dev build-essential \

@@ -41,73 +41,73 @@
 } 2>/dev/null ||:
 
 function myecho {
-echo -ne "$1" 1>&2
-shift 1
-# double [[ ]] are essential
-if [[ "$@" != "" ]]; then
-    echo -ne "$@" 1>&2
-    echo -e "\033[0m" 1>&2
-else
-    echo -ne "\033[0m" 1>&2
-fi
+    echo -ne "$1" 1>&2
+    shift 1
+    # double [[ ]] are essential
+    if [[ "$@" != "" ]]; then
+        echo -ne "$@" 1>&2
+        echo -e "\033[0m" 1>&2
+    else
+        echo -ne "\033[0m" 1>&2
+    fi
 }
 
 #1.for error indication
 function red_echo {
-myecho $red $@
+    myecho $red $@
 }
 
 #2.for success indication
 function green_echo {
-myecho $green $@
+    myecho $green $@
 }
 
 #3. for warnings
 function yellow_echo {
-myecho $yellow $@
+    myecho $yellow $@
 }
 
 #4. for questions
 function blue_echo {
-myecho $blue $@
+    myecho $blue $@
 }
 
 #5. for important messages
 function bold_echo {
-myecho $bold $@
+    myecho $bold $@
 }
 
 function fill_echo {
-local color="$1"
-shift 1
-local msg="$*"
-local cols=${COLUMNS:-$(tput cols)}
-if [ ${#msg} -gt 0 ]; then
-    let "lines=(${#msg}-1)/$cols+1"
-    let "fillsize=$lines*$cols-${#msg}"
-    echo -ne $color 1>&2
-    printf '%s%*s\n' "$msg" $fillsize 1>&2
-    echo -ne "\033[0m" 1>&2
-fi
+    local color="$1"
+    shift 1
+    local msg="$*"
+    local cols=${COLUMNS:-$(tput cols)}
+    if [ ${#msg} -gt 0 ]; then
+        let "lines=(${#msg}-1)/$cols+1"
+        let "fillsize=$lines*$cols-${#msg}"
+        echo -ne $color 1>&2
+        printf '%s%*s\n' "$msg" $fillsize 1>&2
+        echo -ne "\033[0m" 1>&2
+    fi
 }
 
 #6. for warnings (yellow echo)
 function warning_echo {
-fill_echo $yellow$stout "$@"
+    fill_echo $yellow$stout "$@"
 }
 
 function error_echo {
-fill_echo $red$stout "$@"
+    fill_echo $red$stout "$@"
 }
 
 #6. for messages about danger (bold red echo)
 function alert_echo {
-fill_echo $bold$red$stout "$@"
+    fill_echo $bold$red$stout "$@"
 }
 
 #7. auxillary info in cyan
 function aux_echo {
-myecho $cyan $@
+    myecho $cyan $@
 }
 
 #
@@ -127,6 +127,7 @@ function isok {
   fi
 }
 
+# check exit code after previous command
 function control {
   local code="$?"
   if [ "$code" = "0" ]; then
@@ -138,55 +139,55 @@ function control {
 }
 
 function decolorize {
-perl -pe 's/\e([^\[\]]|\[.*?[a-zA-Z]|\].*?\a)//g'
+    perl -pe 's/\e([^\[\]]|\[.*?[a-zA-Z]|\].*?\a)//g'
 }
 
 function addmanpath {
-export MANPATH=$1:$MANPATH 
+    export MANPATH=$1:$MANPATH 
 }
 function add1path {
-export PATH=$1:$PATH 
+    export PATH=$1:$PATH 
 }
 function add2path { 
-export PATH=$PATH:$1 
+    export PATH=$PATH:$1 
 }
 function add1ldlib { 
-export LD_LIBRARY_PATH=$1:$LD_LIBRARY_PATH 
+    export LD_LIBRARY_PATH=$1:$LD_LIBRARY_PATH 
 }
 function add2ldlib { 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$1 
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$1 
 }
 
 function ext {
-local filename=$(basename "$1")
-echo "${filename##*.}"
+    local filename=$(basename "$1")
+    echo "${filename##*.}"
 }
 
 function exist {
-if which $@ &> /dev/null; then true; else false; fi
+    which $@ &> /dev/null
 }
 
 getch () {
-	OLD_STTY=`stty -g`
-	stty cbreak -echo
-	read -n 1 GETCH
-	stty $OLD_STTY
+    OLD_STTY=`stty -g`
+    stty cbreak -echo
+    read -n 1 GETCH
+    stty $OLD_STTY
 }
 
 function split1 {
-local first=true
-local  __resultvar1=$2
-local  __resultvar2=$3
-local listtail=""
-for i in `echo $1`; do
-	if $first; then
-		eval $__resultvar1="'$i'"
-		first=false
-	else
-		listtail="$listtail $i"
-	fi
-	eval $__resultvar2="'$listtail'"
-done
+    local first=true
+    local  __resultvar1=$2
+    local  __resultvar2=$3
+    local listtail=""
+    for i in `echo $1`; do
+        if $first; then
+            eval $__resultvar1="'$i'"
+            first=false
+        else
+            listtail="$listtail $i"
+        fi
+        eval $__resultvar2="'$listtail'"
+    done
 }
 
 function mydialog {
@@ -212,12 +213,12 @@ function mydialog {
       return
   fi
   while (( $# )); do
-	  split1 "$1" tag command
-	  if [[ "$variant" == "$tag" ]]; then
-	      eval $command
-	      return
-	  fi
-	  shift 1
+      split1 "$1" tag command
+      if [[ "$variant" == "$tag" ]]; then
+          eval $command
+          return
+      fi
+      shift 1
   done
   red_echo unknown answer: "$variant"
 }
@@ -245,53 +246,53 @@ function myread {
 }
 
 function fmount {
-if [ "$1" = "-h" ]; then
-	echo usage:
-	echo $0 "host [directory_to_mount] [port]"
-	return 0
-fi
-local dir="$2"
-local port="$3"
-if [ "$dir" = "" ]; then
-    echo mount /home/username by default
-fi
-if [ "$port" = "" ]; then
-    port="22"
-fi
-MNTPOINT=~/mnt/$1
-mkdir -p $MNTPOINT
-local CMD="sshfs -o reconnect -C -o workaround=all -p $port $1:$dir $MNTPOINT"
-echo $CMD
-eval "$CMD"
-control "mounted on $MNTPOINT" "error mounting $MNTPOINT"
+    if [ "$1" = "-h" ]; then
+        echo usage:
+        echo $0 "host [directory_to_mount] [port]"
+        return 0
+    fi
+    local dir="$2"
+    local port="$3"
+    if [ "$dir" = "" ]; then
+        echo mount /home/username by default
+    fi
+    if [ "$port" = "" ]; then
+        port="22"
+    fi
+    MNTPOINT=~/mnt/$1
+    mkdir -p $MNTPOINT
+    local CMD="sshfs -o reconnect -C -o workaround=all -p $port $1:$dir $MNTPOINT"
+    echo $CMD
+    eval "$CMD"
+    control "mounted on $MNTPOINT" "error mounting $MNTPOINT"
 }
 
 function fumount {
-local MNTPOINT
-if [ "$1" != "" ]; then
-    MNTPOINT=~/mnt/$1
-    bold_echo umounting $MNTPOINT
-    fusermount -u $MNTPOINT
-    control "umount $MNTPOINT succeed" "umount $MNTPOINT failed"
-    return $?
-else
-    bold_echo umounting all ssh-filesystems
-    if exist findmnt; then
-	for MNTPOINT in `findmnt -t fuse.sshfs | grep fuse.sshfs | cut -d" " -f 1`; do
-	    bold_echo umounting $MNTPOINT
-	    fusermount -u "$MNTPOINT"
-	    control "umount $MNTPOINT succeed" "umount $MNTPOINT failed"
-	    return $?
-	done
+    local MNTPOINT
+    if [ "$1" != "" ]; then
+        MNTPOINT=~/mnt/$1
+        bold_echo umounting $MNTPOINT
+        fusermount -u $MNTPOINT
+        control "umount $MNTPOINT succeed" "umount $MNTPOINT failed"
+        return $?
     else
-	for MNTPOINT in `mount -t fuse.sshfs | grep -i "user=$USER" | cut -d" " -f 3`; do
-	    bold_echo umounting $MNTPOINT
-	    fusermount -u "$MNTPOINT"
-	    control "umount $MNTPOINT succeed" "umount $MNTPOINT failed"
-	    return $?
-	done
+        bold_echo umounting all ssh-filesystems
+        if exist findmnt; then
+            for MNTPOINT in `findmnt -t fuse.sshfs | grep fuse.sshfs | cut -d" " -f 1`; do
+                bold_echo umounting $MNTPOINT
+                fusermount -u "$MNTPOINT"
+                control "umount $MNTPOINT succeed" "umount $MNTPOINT failed"
+                return $?
+            done
+        else
+            for MNTPOINT in `mount -t fuse.sshfs | grep -i "user=$USER" | cut -d" " -f 3`; do
+                bold_echo umounting $MNTPOINT
+                fusermount -u "$MNTPOINT"
+                control "umount $MNTPOINT succeed" "umount $MNTPOINT failed"
+                return $?
+            done
+        fi
     fi
-fi
 }
 
 function mnt {
@@ -304,25 +305,25 @@ function mnt {
   else
       local mntpath=""
       if [ -e /dev/disk/by-label/$1 ]; then
-	  mntpath=/dev/disk/by-label/$1
+          mntpath=/dev/disk/by-label/$1
       elif [ -e /dev/disk/by-uuid/$1 ]; then
-	  mntpath=/dev/disk/by-uuid/$1
+          mntpath=/dev/disk/by-uuid/$1
       elif [ -e /dev/$1 ]; then
-	  mntpath=/dev/$1
+          mntpath=/dev/$1
       else
-	  alert_echo not found in /dev/disk/by-label/,/dev/disk/by-uuid/,/dev/
-	  return 1
+          alert_echo not found in /dev/disk/by-label/,/dev/disk/by-uuid/,/dev/
+          return 1
       fi
       if exist udisksctl; then
-	  for i in $@ ; do
-	      udisksctl mount -b $mntpath
-	  done
+          for i in $@ ; do
+              udisksctl mount -b $mntpath
+          done
       elif exist udisks; then
-	  for i in $@ ; do
-	      udisks --mount $mntpath
-	  done
+          for i in $@ ; do
+              udisks --mount $mntpath
+          done
       else
-	  alert_echo udisks commands not found
+          alert_echo udisks commands not found
       fi
   fi
 }
@@ -333,11 +334,11 @@ function os_distribution {
   else
       local SYSDIST=""
       if [ -f /etc/redhat-release ]; then
-	  SYSDIST="redhat"
+          SYSDIST="redhat"
       elif [ -f /etc/gentoo-release ]; then
-	  SYSDIST="gentoo"
+          SYSDIST="gentoo"
       else
-	  SYSDIST="unknown"
+          SYSDIST="unknown"
       fi
       echo $SYSDIST
   fi
@@ -348,7 +349,6 @@ function myextdrive {
       echo /media/$USER
   elif [[ `os_distribution` = "arch" ]]; then
       echo /run/media/$USER
-      #echo /media
   else
       echo /media
   fi

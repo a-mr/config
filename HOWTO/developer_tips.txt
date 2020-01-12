@@ -1,0 +1,4 @@
+Download a folder from github:
+Use Svn interface by substituting tree/master with trunk:
+       https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
+svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts
