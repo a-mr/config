@@ -1,14 +1,16 @@
 
 # Contents
 # [Init] initialization
-# [Secton GUI] functions suitable both for interactive work in graphics(X11) and command line
+# [Secton GUI] functions suitable both for interactive work in graphics(X11)
+#              and command line
 # [Section CMD] fuctions suitable only for interactive work in command line
+# [Section initial screen] programs to run in the beginning
 
-################################################################################
+##############################################################################
 # [Init]
-################################################################################
+##############################################################################
 
-###############################################################################
+##############################################################################
 # initial settings
 [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH2_CLIENT" ] \
     && inside_ssh=true
@@ -58,9 +60,9 @@ else
     export LC_TIME=en_US.UTF-8
 fi
 
-################################################################################
+##############################################################################
 # [Section GUI]
-################################################################################
+##############################################################################
 
 export EXDR="`myextdrive`"
 # fix latest Debian Chromium disabling remote extensions
@@ -217,9 +219,9 @@ function synd {
         "n bold_echo doing nothing"
 }
 
-################################################################################
+##############################################################################
 # [Section CMD]
-################################################################################
+##############################################################################
 
 # If not running interactively, don't do anything else
 if [[ "$PS1" == "" ]]; then
@@ -439,7 +441,7 @@ function fin {
 if [ $inside_ssh ] && [ ! $inside_vnc ] && [ -z $ALLOW_BASH ]; then
     tmux_try_start
 fi
-################################################################################
+##############################################################################
 # definitions for interactive work only
 
 # rename current tmux window and move it to the specified number
@@ -542,9 +544,17 @@ function lls {
 # list only directories
 function lsd {
   if [[ "$1" == "" ]]; then
-      ls -d $(echo */) $(echo .*/)
+      ls -F . | grep '/$'
   else
-      ls -d $(echo "$1"/*/) $(echo "$1"/.*/)
+      ls -F "$1" | grep '/$'
+  fi
+}
+
+function lsd. {
+  if [[ "$1" == "" ]]; then
+      ls -aF . | grep '/$'
+  else
+      ls -aF "$1" | grep '/$'
   fi
 }
 
@@ -593,15 +603,52 @@ fi
 
 # pager with line numbers which copies to a file
 function p {
-    cp ~/tmp/buffer ~/tmp/buffer2
+    #cp ~/tmp/buffer ~/tmp/buffer2
     # add -F to exit less if it fits the screen
     tee ~/tmp/buffer | less -N -X
-    cp ~/tmp/buffer ~/tmp/buffer2
+    #cp ~/tmp/buffer ~/tmp/buffer2
 }
 
 # simple pager with line number
 function pp {
-    cat -n|less -X
+    cat -n | less -X
+}
+
+function ee {
+  local dir=${1:-.}
+  cd "$dir"
+  ( fullpath; echo ./; echo ../; lsd ) | \
+      tee ~/tmp/buffer | cat -n | less -X -F
+  echo -n "$bold =============================>$reset "
+  local num
+  read num
+  if [[ $num == "" ]]; then
+      ls
+      return
+  fi
+  if [[ $num == "q" ]]; then
+      return
+  fi
+  local line2="$(cat ~/tmp/buffer|decolorize|head -n $num|tail -n 1)"
+  ee "$line2"
+}
+
+function ee. {
+  local dir=${1:-.}
+  cd "$dir"
+  (fullpath; lsd.) | tee ~/tmp/buffer | cat -n | less -X -F
+  echo -n "$bold =============================>$reset "
+  local num
+  read num
+  if [[ $num == "" ]]; then
+      ls -a
+      return
+  fi
+  if [[ $num == "q" ]]; then
+      return
+  fi
+  local line2="$(cat ~/tmp/buffer|decolorize|head -n $num|tail -n 1)"
+  ee. "$line2"
 }
 
 #   bb   line number   command to filter   command to run
@@ -614,7 +661,7 @@ else
     local filter
     filter="$2"
     shift 2
-    local line2="$(cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1|trim_spaces)"
+    local line2="$(cat ~/tmp/buffer|decolorize|head -n $n|tail -n 1|trim_spaces)"
     local line_proc
     if [[ "$filter" == "" ]]; then
         line_proc="$line2"
@@ -644,7 +691,7 @@ function bv {
     else
         local n=$1
     fi
-    local line="$(cat ~/tmp/buffer2|decolorize|head -n $n|tail -n 1)"
+    local line="$(cat ~/tmp/buffer|decolorize|head -n $n|tail -n 1)"
     echo line: $line
     local fname="$(echo $line | cut -f1 -d: | trim_spaces)"
     local lineNo="$(echo $line: | cut -f2 -d: | trim_spaces)"
@@ -674,8 +721,8 @@ for i in `seq 1 999`; do alias b$i="bb $i ''"; done
 for i in `seq 1 999`; do alias bv$i="bv $i"; done
 #process first field, e.g. 'x' in 'x:y'
 for i in `seq 1 999`; do alias b$i:="bb $i 'cut -f1  -d: | trim_spaces'"; done
-for i in `seq 1 999`; do alias b$i:="bb $i 'cut -f1  -d: | trim_spaces'"; done
-for i in `seq 1 999`; do alias :b$i="bb $i 'cut -f2- -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias b${i}l="bb $i 'cut -f1  -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias b${i}r="bb $i 'cut -f2- -d: | trim_spaces'"; done
 
 function lcd() {
     cd "$1" && ls | p
@@ -960,6 +1007,11 @@ function c:() {
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 function gcc_dis () { gcc -m32 -O1 -S $@ -o - | p ; }
 
+# see open file descriptors for the process $1
+function opfd {
+    ll /proc/$1/fd
+}
+
 function act () {
     echo set ~/active to $PWD
     ln -sfT "$PWD" ~/active
@@ -1182,7 +1234,7 @@ alias xm4="xm.sh 4"
 alias xm5="xm.sh 5"
 
 
-###############################################################################
+##############################################################################
 # local.sh can overwite above settings
 if [ -f  ~/local.sh ] ; then
     echo Load local.sh
@@ -1192,7 +1244,7 @@ fi
 # path priorities: my scripts, /usr/local/bin, default PATH, additional paths
 export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
 
-###############################################################################
+##############################################################################
 # functions for working with version control repositories & others
 
 # Usage : hgdiff file -r rev
@@ -1468,7 +1520,7 @@ function datshort {
 function sta {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git status -sb $@|p
+      git) git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | p
           ;;
       mercurial) hg status $@|p
           ;;
@@ -1874,7 +1926,7 @@ print_precmd () {
        fi
 }
 
-###############################################################################
+##############################################################################
 # shell-specific settings - for bash or zsh
 
 if [[ $CURSHELL == zsh ]]; then
@@ -2154,7 +2206,7 @@ else
 fi
 
 
-###############################################################################
+##############################################################################
 # misc functions
 # http://www.gentoo.org/doc/en/portage-utils.xml
 
@@ -2277,8 +2329,9 @@ function my() {
   esac
 }
 
-###############################################################################
-# programs to run in the beginning
+##############################################################################
+# [Section initial screen]
+##############################################################################
 
 if false && exist /usr/lib/w3m/w3mimgdisplay && \
    [ -d ~/activity-personal/computer-program-data/pictures ] && \
@@ -2298,7 +2351,7 @@ fi
 #stty stop undef
 #stty start undef
 
-###############################################################################
+##############################################################################
 # local.sh can overwite above settings
 if [ -f  ~/local-adjust.sh ] ; then
     echo Load local-adjust.sh

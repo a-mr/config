@@ -11,6 +11,9 @@ Vim                     Vim spellcheck                 Vim window
   zc  close fold          zg  add word to dict           C-w <>  resize le/ri
   ]c  goto next VCS chg   z=  propose completion list
                           ]s  goto next misspelled
+  zz  curr.line ->center
+                          %    current file in :!
+                          %:p  the same, full path
 my Vim:                                             ss<SYM> goto symbol <SYM>
   A-t  select buffers     st    select tag           sl      select downwards
   A-n  next buffer        <F9>  select spell lang    sk      select upwards

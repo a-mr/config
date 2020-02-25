@@ -3,7 +3,7 @@
         name = Andrey Makarov
 [color] 
         diff = always
-        status = always
+        status = auto
         branch = auto
         interactive = auto
 

@@ -1,3 +1,13 @@
 #!/usr/bin/env bash
 
-chromium-browser --new-window $@
+if which chromium-browser; then
+    exec chromium-browser --new-window $@
+elif which chromium; then
+    exec chromium --new-window $@
+elif which chrome; then
+    exec chrome --new-window $@
+elif which firefox; then
+    exec firefox --new-window $@
+else
+    xmessage no browser found
+fi
