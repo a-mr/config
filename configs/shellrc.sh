@@ -1899,7 +1899,31 @@ function ff {
 #set -x
 print_preexec () {
     start_time="`date +%s.%N`"
-    #fill_echo $stout $start_time
+    local a=""
+    if [[ $CURSHELL == bash ]]; then
+      a=$BASH_COMMAND
+    elif [[ $CURSHELL == zsh ]]; then
+      a=${${1## *}[(w)1]}  # get the command
+      local b=${a##*\/}   # get the command basename
+      a="${b}${1#$a}"     # add back the parameters
+      a=${a//\%/\%\%}     # escape print specials
+      a=$(print -Pn "$a" | tr -d "\t\n\v\f\r")  # remove fancy whitespace
+      a=${(V)a//\%/\%\%}  # escape non-visibles and print specials
+    fi
+
+    case "$TERM" in
+      screen|screen.*)
+        # See screen(1) "TITLES (naming windows)".
+        # "\ek" and "\e\" are the delimiters for screen(1) window titles
+        # set screen title
+        printf "\ek$a\e\\"
+        # must (re)set xterm title
+        printf "\e]2;${PWD##*/}> $a\a"
+        ;;
+      rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
+        printf "\e]2;${PWD##*/}> $a\a"
+        ;;
+    esac
 }
 
 print_precmd () {
@@ -1909,9 +1933,9 @@ print_precmd () {
        if [[ $CURSHELL == zsh ]]; then
            exe_time=$((finish_time-start_time))
        else
-           exe_time=$(echo $finish_time-$start_time | bc)
+           exe_time=`awk "BEGIN { print $finish_time-$start_time }"`
        fi
-       local info=$(printf "%s(%.2f) %s" "$(date --date=@${finish_time%.*} +%T)" "$exe_time" "`dirs -p | head -n1`")
+       local info=$(printf "%s(%.2f) %s" "$(date +%H:%M:%S)" "$exe_time" "`dirs -p | head -n1`")
        #show repository branch if requested
        if [ "$wrepo" != "none" ]; then
            info+=" '$(bra) $(datshort)'"
@@ -1924,6 +1948,14 @@ print_precmd () {
        else
            error_echo "exit=$RESULT; $info"
        fi
+       case "$TERM" in
+         screen|screen.rxvt)
+           # set screen title
+           printf "\ek${PWD##*/}\e\\"
+           # must (re)set xterm title
+           printf "\e]2;${PWD##*/}\a"
+           ;;
+       esac
 }
 
 ##############################################################################
@@ -2078,25 +2110,7 @@ if [[ $CURSHELL == zsh ]]; then
     #MAILCHECK=0
 
     function preexec() {
-      print_preexec
-      local a=${${1## *}[(w)1]}  # get the command
-      local b=${a##*\/}   # get the command basename
-      a="${b}${1#$a}"     # add back the parameters
-      a=${a//\%/\%\%}     # escape print specials
-      a=$(print -Pn "$a" | tr -d "\t\n\v\f\r")  # remove fancy whitespace
-      a=${(V)a//\%/\%\%}  # escape non-visibles and print specials
-
-      case "$TERM" in
-        screen|screen.*)
-          # See screen(1) "TITLES (naming windows)".
-          # "\ek" and "\e\" are the delimiters for screen(1) window titles
-          print -Pn "\ek%-3~ $a\e\\" # set screen title.  Fix vim: ".
-          print -Pn "\e]2;%-3~ $a\a" # set xterm title, via screen "Operating System Command"
-          ;;
-        rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-          print -Pn "\e]2;%1/> $a\a"
-          ;;
-      esac
+      print_preexec "$1"
     }
 
     preexec
@@ -2104,12 +2118,14 @@ if [[ $CURSHELL == zsh ]]; then
     # set pre-prompt line
     function precmd() {
       print_precmd
-      case "$TERM" in
-        screen|screen.rxvt)
-          print -Pn "\ek%-3~\e\\" # set screen title
-          print -Pn "\e]2;%-3~\a" # must (re)set xterm title
-          ;;
-      esac
+      #case "$TERM" in
+      #  screen|screen.rxvt)
+      #    # set screen title
+      #    print -Pn "\ek ${PWD##*/}\e\\"
+      #    # must (re)set xterm title
+      #    print -Pn "\e]2;${PWD##*/}\a"
+      #    ;;
+      #esac
     }
 
     # some abbrev.s may be defined in local.sh
@@ -2289,13 +2305,13 @@ function clock() {
     while :
     do
         ti=`date +"%r"`
-        # save current screen postion & attributes
+        # save current screen position & attributes
         echo -e -n "\033[7s"
         # row 0 and column 69 is used to show clock
         tput cup 0 69
         # put clock on screen
         echo -n $ti
-        # restore current screen postion & attributs
+        # restore current screen position & attributs
         echo -e -n "\033[8u"
         sleep 1
     done

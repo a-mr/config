@@ -24,10 +24,10 @@ os=`uname`
 LNK() {
   if [[ $os == Linux ]]; then
 	echo ln -sfT $@
-	  ln -sfT $@
+	  ln -sfT "$1" "$2"
   else
 	echo ln -sf $@
-	  ln -sf $@
+	  ln -sf "$1" "$2"
   fi
 }
 
@@ -106,11 +106,12 @@ inst gitk ~/.config/git/gitk
 inst parcelliterc ~/.config/parcellite/parcelliterc
 inst vifmrc ~/.vifm/vifmrc
 
-for i in i3 i3status.conf gkrellm2 \
+for i in icewm i3 i3status.conf gkrellm2 \
     textadept pentadactylrc vimperatorrc keynavrc xxkbrc \
     xbindkeysrc ocamlinit ghci rootlogon.C juliarc.jl psqlrc; do
 	oinst $i
 done
+ln -s /usr/share/desktop-menu/.icewm/menu-applications ~/.icewm/menu-applications
 
 mkdir -p ~/.config/xfce4
 for i in xfce4/*; do

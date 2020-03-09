@@ -1,2 +1,3 @@
 [roxterm options]
 colour_scheme=Default
+warn_close=3
