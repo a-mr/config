@@ -24,7 +24,7 @@ DDIR="$HOME"
 # If $2 is given, full path should be specified.
 
 LNK="ln -sfT"
-inst(){
+inst () {
 	SRC="`$BLOC/fullpath \"$1\"`"
 	DSTC=
 	if [ "$2" == "" ]; then
@@ -40,7 +40,7 @@ inst(){
 	isok
 }
 
-oinst(){
+oinst () {
     if [[ "$option" == "-a" || "$option" == "-all" ]]; then
         inst $@
     else

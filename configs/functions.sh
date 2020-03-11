@@ -40,7 +40,7 @@
     back=$'\b'
 } 2>/dev/null ||:
 
-function myecho {
+myecho () {
     echo -ne "$1" 1>&2
     shift 1
     # double [[ ]] are essential
@@ -53,31 +53,31 @@ function myecho {
 }
 
 #1.for error indication
-function red_echo {
+red_echo () {
     myecho $red $@
 }
 
 #2.for success indication
-function green_echo {
+green_echo () {
     myecho $green $@
 }
 
 #3. for warnings
-function yellow_echo {
+yellow_echo () {
     myecho $yellow $@
 }
 
 #4. for questions
-function blue_echo {
+blue_echo () {
     myecho $blue $@
 }
 
 #5. for important messages
-function bold_echo {
+bold_echo () {
     myecho $bold $@
 }
 
-function fill_echo {
+fill_echo () {
     local color="$1"
     shift 1
     local msg="$*"
@@ -92,26 +92,26 @@ function fill_echo {
 }
 
 #6. for warnings (yellow echo)
-function warning_echo {
+warning_echo () {
     fill_echo $yellow$stout "$@"
 }
 
-function error_echo {
+error_echo () {
     fill_echo $red$stout "$@"
 }
 
 #6. for messages about danger (bold red echo)
-function alert_echo {
+alert_echo () {
     fill_echo $bold$red$stout "$@"
 }
 
 #7. auxillary info in cyan
-function aux_echo {
+aux_echo () {
     myecho $cyan $@
 }
 
 #
-function red_command {
+red_command () {
   $@
   local code="$?"
   if [ "$code" != 0 ]; then
@@ -120,7 +120,7 @@ function red_command {
   fi
 }
 
-function isok {
+isok () {
   local code="$?"
   if [ "$code" != 0 ]; then
       alert_echo command exited abnormally, exit code = $code
@@ -128,7 +128,7 @@ function isok {
 }
 
 # check exit code after previous command
-function control {
+control () {
   local code="$?"
   if [ "$code" = "0" ]; then
       green_echo $1
@@ -138,32 +138,32 @@ function control {
   return $code
 }
 
-function decolorize {
+decolorize () {
     perl -pe 's/\e([^\[\]]|\[.*?[a-zA-Z]|\].*?\a)//g'
 }
 
-function addmanpath {
+addmanpath () {
     export MANPATH=$1:$MANPATH 
 }
-function add1path {
+add1path () {
     export PATH=$1:$PATH 
 }
-function add2path { 
+add2path () { 
     export PATH=$PATH:$1 
 }
-function add1ldlib { 
+add1ldlib () { 
     export LD_LIBRARY_PATH=$1:$LD_LIBRARY_PATH 
 }
-function add2ldlib { 
+add2ldlib () { 
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$1 
 }
 
-function ext {
+ext () {
     local filename=$(basename "$1")
     echo "${filename##*.}"
 }
 
-function exist {
+exist () {
     which $@ &> /dev/null
 }
 
@@ -174,7 +174,7 @@ getch () {
     stty $OLD_STTY
 }
 
-function split1 {
+split1 () {
     local first=true
     local  __resultvar1=$2
     local  __resultvar2=$3
@@ -190,7 +190,7 @@ function split1 {
     done
 }
 
-function mydialog {
+mydialog () {
   if [[ "$1" == "-alert" ]]; then
       alert_echo $2
       shift 2
@@ -223,7 +223,7 @@ function mydialog {
   red_echo unknown answer: "$variant"
 }
 
-function myread {
+myread () {
   if [[ "$1" == "-alert" ]]; then
       alert_echo $2 \(default $3\)
       shift 2
@@ -245,7 +245,7 @@ function myread {
   fi
 }
 
-function fmount {
+fmount () {
     if [ "$1" = "-h" ]; then
         echo usage:
         echo $0 "host [directory_to_mount] [port]"
@@ -267,7 +267,7 @@ function fmount {
     control "mounted on $MNTPOINT" "error mounting $MNTPOINT"
 }
 
-function fumount {
+fumount () {
     local MNTPOINT
     if [ "$1" != "" ]; then
         MNTPOINT=~/mnt/$1
@@ -295,7 +295,7 @@ function fumount {
     fi
 }
 
-function mnt {
+mnt () {
   if [ "$1" = "" ]; then
   echo ---labels--------------------------------------------------------------
   ls -l /dev/disk/by-label
@@ -328,7 +328,7 @@ function mnt {
   fi
 }
 
-function os_distribution {
+os_distribution () {
   if [ -f /etc/os-release ]; then
       cat /etc/os-release |grep \^ID=|cut -c 4-
   else
@@ -344,7 +344,7 @@ function os_distribution {
   fi
 }
 
-function myextdrive {
+myextdrive () {
   if [[ `os_distribution` = "ubuntu" || `os_distribution` = "debian" ]]; then
       echo /media/$USER
   elif [[ `os_distribution` = "arch" ]]; then
@@ -354,7 +354,7 @@ function myextdrive {
   fi
 }
 
-function showalias {
+showalias () {
   if alias $1 >/dev/null; then
       alias $1 | cut -d = -f 2- | tr -d \'
   else
@@ -362,7 +362,7 @@ function showalias {
   fi
 }
 
-function uncomment {
+uncomment () {
   local pattern="$1"
   local file="$2"
   awk -i inplace "BEGIN{IGNORECASE=1} /#*$pattern*/ { sub (\"^ *#\",\"\") } { print }" $file

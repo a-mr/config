@@ -20,7 +20,7 @@
 CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 CURSHELL=${CURSHELL##*/}  # basename
 
-function default_shell {
+default_shell () {
 if [[ $ALLOW_BASH == "" ]] && which zsh &> /dev/null && \
     [[ $CURSHELL != zsh ]]; then
     if shopt -q login_shell; then
@@ -97,11 +97,11 @@ if [ -f /etc/lsb-release ]; then
 fi
 
 # textadept editor
-function ta {
+ta () {
   textadept $@
 }
 
-function tac {
+tac () {
   textadept-curses $@
 }
 
@@ -132,7 +132,7 @@ nctr () {
 }
 
 #julia
-function julianb {
+julianb () {
     julia -e "using IJulia; notebook()"
 }
 
@@ -147,48 +147,48 @@ mykt () {
 }
 
 # misc.aliases
-function wd {
+wd () {
     rednotebook $EXDR/MAKAROV/activity-personal/draft_mak/work_diary
 }
-function pd {
+pd () {
     rednotebook $EXDR/MAKAROV/activity-personal/draft_mak/personal_diary
 }
 
-function c {
+c () {
     echo $@|bc -l
 }
 
-function untar {
+untar () {
     # do not try to change times
     tar zxvf $@ --no-overwrite-dir
 }
 
-function fm {
+fm () {
     thunar
 }
 
 if exist icedove && ! exist thunderbird; then
-    function thunderbird {
+    thunderbird () {
         icedove
     }
 fi
 
-function android-connect {
+android-connect () {
     mtpfs -o allow_other ~/tmp/note
 }
-function android-disconnect {
+android-disconnect () {
     fusermount -u ~/tmp/note
 }
-function yandex {
+yandex () {
     mkdir -p $HOME/mnt/yandex.disk
     sudo mount -t davfs -o gid=$GID,uid=$UID https://webdav.yandex.ru $HOME/mnt/yandex.disk
 }
-function uyandex {
+uyandex () {
     sudo umount $HOME/mnt/yandex.disk
 }
 
 # list processes using the mount dir
-function use {
+use () {
     local fuser="/bin/fuser"
     if exist /sbin/fuser; then
         fuser="/sbin/fuser"
@@ -200,7 +200,7 @@ function use {
     fi
 }
 
-function syn {
+syn () {
     bold_echo rsync dry run
     # slash "/" after "$1" is essential
     rsync -rvCn --size-only "$1/" "$2"
@@ -210,7 +210,7 @@ function syn {
 }
 
 #version with delete
-function synd {
+synd () {
     bold_echo rsync dry run
     # slash "/" after "$1" is essential
     rsync -rvCn --delete --size-only "$1/" "$2"
@@ -232,7 +232,7 @@ if [[ "$ONLYREADCONF" == "y" ]]; then
     return
 fi
 
-function bash () {
+bash () {
   env ALLOW_BASH=true bash
 }
 
@@ -240,7 +240,7 @@ function bash () {
 # 1st window starts with session "base".
 # Next windows with sessions 1,2,... associated with base; these sessions are
 # detroyed on shell exit
-function tmux_new_window {
+tmux_new_window () {
     local base=$1
     export TMUXTOPLEVEL=1
     if tmux has-session -t $base; then
@@ -253,7 +253,7 @@ function tmux_new_window {
 }
 
 #attach to any detached session
-function tmux_attach {
+tmux_attach () {
     local session="`tmux ls|grep -v '(attached)'|cut -f 1 -d:|head -n1`"
     if [ "$session" != "" ]; then
         yellow_echo attaching to session \"$session\"; sleep 1
@@ -266,7 +266,7 @@ function tmux_attach {
 }
 
 #attach to any detached session of group
-function tmux_attach_group {
+tmux_attach_group () {
     local group=$1
     local session="`tmux ls|grep "(group $group)"|grep -v '(attached)'|cut -f 1 -d:|head -n1`"
     if [ "$session" != "" ]; then
@@ -279,7 +279,7 @@ function tmux_attach_group {
     fi
 }
 
-function tmux_list_sessions {
+tmux_list_sessions () {
     local msg
     msg="`tmux ls|grep '(attached)'`"
     while read -r line; do
@@ -289,17 +289,6 @@ function tmux_list_sessions {
     while read -r line; do
         fill_echo $bold$stout$green $line
     done <<< "$msg"
-}
-
-function x(){
-    if [[ "$1" != "" ]]; then
-        echo $1 > ~/.display-x11-$HOSTNAME
-    fi
-    CMD="export DISPLAY=`cat ~/.display-x11-$HOSTNAME`"
-    echo $CMD
-    eval $CMD
-    echo unset XAUTHORITY
-    unset XAUTHORITY
 }
 
 # try to set ssh agent (mostly) silently
@@ -348,13 +337,13 @@ ensure_ssh_agent () {
 alias ss=ensure_ssh_agent
 
 # just highlight matches, not filter them out
-function hgrep() {
+hgrep () {
     local pattern="$1"
     shift 1
     grep --color -E "^|$pattern" $@
 }
 
-function show_displays() {
+show_displays () {
     echo local displays:
     find /tmp/.X11-unix -type s -printf "%f\t%u\n" | hgrep $USER
     echo
@@ -366,7 +355,7 @@ function show_displays() {
     echo
 }
 
-function set_display() {
+set_display () {
     show_displays
     bold_echo Input display or press enter
     local line
@@ -375,7 +364,7 @@ function set_display() {
 }
 
 alias t=tmux_try_start
-function tmux_try_start {
+tmux_try_start () {
     if exist tmux; then
         export TERM=xterm
         if [[ -z $TMUX ]]; then
@@ -431,9 +420,9 @@ function tmux_try_start {
 pickup_ssh_agent
 
 # exit without closing session and therefore window
-function fin {
-    function finish {
-    echo OK
+fin () {
+    finish () {
+        echo OK
     }
     exit
 }
@@ -460,7 +449,7 @@ tt () {
     fi
 }
 
-function rr {
+rr () {
     local CMD="`fc -ln -1`"
     $XTERMINAL -e $CURSHELL -i -c "$CMD ; bold_echo 'press <Enter> to close the terminal' ; getch" &
 }
@@ -468,13 +457,13 @@ function rr {
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    function ls {
+    ls () {
         /bin/ls --color=always --group-directories-first $@
     }
-    function dir {
+    dir () {
         ls $@
     }
-    function grep {
+    grep () {
         command grep --color=auto "$@"
     }
 fi
@@ -506,16 +495,16 @@ v () {
    cd "$dst"
 }
 
-function psu {
+psu () {
     ps -fU $USER --forest|less
 }
-function psa {
+psa () {
     ps axo stat,euid,ruid,tty,tpgid,sess,pgrp,ppid,pid,pcpu,comm --forest|less
 }
-function users () {
+users () {
     who -u | grep `date +'%Y-%m-%d'` |  sort -n -k 5
 }
-function psc {
+psc () {
     ps -f --forest | less
 }
 alias mv='mv -i'
@@ -524,25 +513,25 @@ if alias ll &> /dev/null; then
     unalias ll
 fi
 
-function ll {
+ll () {
     ls -lhrt --time-style=long-iso $@
 }
 #this directory
-function llthis {
+llthis () {
     ls -ldhrt --time-style=long-iso $@
 }
-function la {
+la () {
     ls -A $@
 }
-function l {
+l () {
     ls -CF $@
 }
 #sort files by size
-function lls {
+lls () {
     ls -lhrS $@
 }
 # list only directories
-function lsd {
+lsd () {
   if [[ "$1" == "" ]]; then
       ls -F . | grep '/$'
   else
@@ -550,7 +539,7 @@ function lsd {
   fi
 }
 
-function lsd. {
+lsd. () {
   if [[ "$1" == "" ]]; then
       ls -aF . | grep '/$'
   else
@@ -558,7 +547,7 @@ function lsd. {
   fi
 }
 
-function lld {
+lld () {
   setopt nullglob
   if [[ "$1" == "" ]]; then
       ls -rtdl --time-style=long-iso */ .*/
@@ -578,7 +567,21 @@ alias s7="cd ../../../../../../.."
 alias s8="cd ../../../../../../../.."
 alias s9="cd ../../../../../../../../.."
 
-function o {
+# notify/alarm me about a last finished command
+a () {
+    local last
+    if [[ $CURSHELL == zsh ]]; then
+        last=$history[$HISTCMD]
+    else
+        last="$(HISTTIMEFORMAT="%H:%M:%S     " history 1)"
+    fi
+    if exist notify-send; then
+        notify-send "command finished: $last"
+    fi
+    echo -ne \\a
+}
+
+o () {
     xdg-open $@
 }
 if exist ncal; then
@@ -587,7 +590,7 @@ fi
 alias mypatch="patch -p1 --ignore-whitespace"
 
 # try to decode Microsoft's outlook .msg files
-read_msg() {
+read_msg () {
  strings -e l "$1"|less
 }
 
@@ -602,7 +605,7 @@ if (( $LESS_VERSION <= 381 )); then
 fi
 
 # pager with line numbers which copies to a file
-function p {
+p () {
     #cp ~/tmp/buffer ~/tmp/buffer2
     # add -F to exit less if it fits the screen
     tee ~/tmp/buffer | less -N -X
@@ -610,30 +613,40 @@ function p {
 }
 
 # simple pager with line number
-function pp {
+pp () {
     cat -n | less -X
 }
 
-function ee {
-  local dir=${1:-.}
-  cd "$dir"
+lsdirs () {
   ( fullpath; echo ./; echo ../; lsd ) | \
       tee ~/tmp/buffer | cat -n | less -X -F
-  echo -n "$bold =============================>$reset "
+}
+
+ee () {
+  local dir=${1:-.}
+  cd "$dir"
+  lsdirs
   local num
-  read num
-  if [[ $num == "" ]]; then
-      ls
-      return
-  fi
-  if [[ $num == "q" ]]; then
-      return
-  fi
+  while true; do
+      echo -n "$bold =============================[q|ls|p|#]>$reset "
+      read num
+      case "$num" in
+        "") ls | p
+            return
+            ;;
+        "q") return ;;
+        "ls") ls ;;
+        "p") lsdirs ;;
+        *) echo selected $num
+           break
+           # red_echo unknown command $num ;;
+      esac
+  done
   local line2="$(cat ~/tmp/buffer|decolorize|head -n $num|tail -n 1)"
   ee "$line2"
 }
 
-function ee. {
+ee. () {
   local dir=${1:-.}
   cd "$dir"
   (fullpath; lsd.) | tee ~/tmp/buffer | cat -n | less -X -F
@@ -652,7 +665,7 @@ function ee. {
 }
 
 #   bb   line number   command to filter   command to run
-function bb {
+bb () {
 if [[ "$1" == "" ]]; then
     # less: -X don't clear the screen, -F quit if one screen
     cat ~/tmp/buffer|less -F -N -X
@@ -685,7 +698,7 @@ fi
 }
 
 #open file +line in vim
-function bv {
+bv () {
     if [[ "$1" == "" ]]; then
         local n=1
     else
@@ -708,7 +721,7 @@ function bv {
     fi
 }
 
-function trim_spaces() {
+trim_spaces () {
     sed "s/^[ \t]*//;s/[ \t]*$//" $@
 }
 
@@ -724,15 +737,15 @@ for i in `seq 1 999`; do alias b$i:="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b${i}l="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b${i}r="bb $i 'cut -f2- -d: | trim_spaces'"; done
 
-function lcd() {
+lcd () {
     cd "$1" && ls | p
 }
 
-function lsp() {
+lsp () {
     ls|p
 }
 
-function llp() {
+llp () {
     ll|p
 }
 
@@ -740,15 +753,15 @@ function llp() {
 #f1 f2 f3 "f4 f5"; c2
 #f1 f2 f3 "f4 f5"; c2
 
-function get_arg_n() {
+get_arg_n () {
     echo $#
 }
 
-function get_n_arg() {
+get_n_arg () {
     echo $@[$1+1]
 }
 
-function get_last_arg() {
+get_last_arg () {
     echo $@[$#]
 }
 
@@ -758,7 +771,7 @@ function get_last_arg() {
 # getlast 2 -> a2
 # getlast 3 -> a3
 # getlast -1 -> a3
-function getlast () {
+getlast () {
     #echo call getlast $@
     last_command=$history[$[HISTCMD-1]]
     local arg
@@ -777,7 +790,7 @@ function getlast () {
 
 }
 
-function man(){
+man () {
     vim -c 'let no_man_maps = 1' -c 'runtime ftplugin/man.vim' \
         -c 'nmap K :Man <C-R>=expand("<cword>")<CR><CR>' \
         -c 'map q :q<CR>' \
@@ -785,7 +798,7 @@ function man(){
         -c "Man $*" -c 'wincmd o'
 }
 
-function find_cmd_default () {
+find_cmd_default () {
     local dir="$1"
     shift 1
     # -H and -xtype f means: follow symlinks if they point to file
@@ -793,7 +806,7 @@ function find_cmd_default () {
         -not -wholename "*.svn/*" -xtype f $@
 }
 
-function gi() {
+gi () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -812,7 +825,7 @@ function gi() {
 
 
 # case-sensitive, with color
-function gc() {
+gc () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -835,7 +848,7 @@ ngcommon () {
 }
 
 # search in Nim files, style-insensitive (-y)
-function nng() {
+nng () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -852,7 +865,7 @@ function nng() {
 }
 
 # search using nimgrep
-function ngc() {
+ngc () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -869,7 +882,7 @@ function ngc() {
 }
 
 # search using nimgrep, case-insensitive
-function ngi() {
+ngi () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -888,7 +901,7 @@ function ngi() {
 # case-sensitive, with color, check that 2 strings are available in file:
 # g2c string1 "string2" directory
 # only string2 will be displayed in lines of output
-function g2c() {
+g2c () {
     if [[ "$1" == "" || "$2" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -908,7 +921,7 @@ function g2c() {
 }
 
 # case-sensitive, no-color
-function gcm() {
+gcm () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -926,7 +939,7 @@ function gcm() {
 }
 
 # case-sensitive, whole-word
-function gcw() {
+gcw () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -943,25 +956,25 @@ function gcw() {
          --exclude-dir=.hg -wnr "$dir" $@ | p
 }
 
-function gg() {
+gg () {
     grep --color=$GREP_COLOR -i $@ | p
 }
 
-function ggl() {
+ggl () {
     grep --color=$GREP_COLOR -i -A1 -B6 $@ | p
 }
 
 sed_common_cmd="sed -i --follow-symlinks"
 # replace all strings in current directory (case insensetive /I), usage:
 # > replace str_old str_new
-function replace(){
+replace () {
     CMD="find_cmd_default . -exec $sed_common_cmd \"s/$1/$2/Ig\" \{\} +"
     echo $CMD
     eval $CMD
 }
 
 #remove line, case insensitive
-function remove(){
+remove () {
     eval find_cmd_default . -exec $sed_common_cmd "/$1/Id" \{\} +
 }
 
@@ -983,11 +996,11 @@ remove_skip () {
     sed -i "$line_num d" "$3"
 }
 
-function findmy {
+findmy () {
     find . -user $USER
 }
 
-function findother {
+findother () {
     find . \( -not -user `stat -c "%U" .` -or -not -group `stat -c "%G" .` \) \
         -exec ls -ld --color=always {} +
 }
@@ -995,29 +1008,29 @@ function findother {
 for i in `seq 1 99`; do alias a$i="getlast $i"; done
 alias al="getlast -1"
 
-#extract file from grep, "b:" is text before ':', while "a:" is text after ':'
-function b:() {
+#extract file from grep, "bl" is text before ':', while "br" is text after ':'
+bl () {
     decolorize|cut -f1 -d:
 }
-function c:() {
+br () {
     decolorize|cut -f2- -d:
 }
 
 
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-function gcc_dis () { gcc -m32 -O1 -S $@ -o - | p ; }
+gcc_dis () { gcc -m32 -O1 -S $@ -o - | p ; }
 
 # see open file descriptors for the process $1
-function opfd {
+opfd () {
     ll /proc/$1/fd
 }
 
-function act () {
+act () {
     echo set ~/active to $PWD
     ln -sfT "$PWD" ~/active
 }
 
-function f() {
+f () {
     local dir
     if [[ "$2" == "" ]]; then
         dir=.
@@ -1030,7 +1043,7 @@ function f() {
 
 # "findnew Dir N" finds recent files that a newer N days.
 # N may be fractionate and by default it is 1/24=1hour.
-function findnew() {
+findnew () {
     local dir
     if [[ "$1" == "" ]]; then
         dir=.
@@ -1056,12 +1069,12 @@ findbig () {
     find "$dir" -type f -printf "%s\t%p\n" | sort -nr | less
 }
 
-function i1 () {
+i1 () {
     #parallel -Xj1 --tty $@
     read line; eval $@ $line
 }
 
-function i () {
+i () {
     while read line; do
         eval $@ $line
     done
@@ -1071,30 +1084,30 @@ function i () {
 # f <MATCH> | i vim -O
 
 # highlight data by nice colors
-function hi {
+hi () {
     pygmentize -O bg=dark -g $@ |p
 }
 
-function py {
+py () {
     pygmentize -O bg=dark,python=cool -l python $@ |p
 }
 
-function py_compile {
+py_compile () {
     python -m py_compile $@
 }
 
 # show markdown file as a man page
-function mdless () {
+mdless () {
     pandoc -s -f markdown -t man $@ | groff -T utf8 -man | less
 }
 
-function zshow {
+zshow () {
     ls -lart $@
     echo md5sum: `md5sum $@`
     mydialog "show? [y|n]" "y zcat $@" "n echo OK"
 }
 
-function diff () {
+diff () {
     command diff --color=always $@
 }
 
@@ -1103,11 +1116,11 @@ hexd () {
     hexdump -v -e '/1 "0x%02x\n"' $@
 }
 
-function difftree () {
+difftree () {
     colordiff <(cd "$1"; find .|sort) <(cd "$2"; find .|sort)|p
 }
 
-function fileinfo () {
+fileinfo () {
     local filename="$1"
     local file_ext=${filename##*.}
     local base="`basename $filename .$file_ext`"
@@ -1117,17 +1130,17 @@ function fileinfo () {
 }
 
 # determine encoding of a russian TXT file
-function enca_rus () {
+enca_rus () {
     enca -L russian $@
 }
 
 #correct russian encoding after unpacking by unzip
-function zip_ru_correct () {
+zip_ru_correct () {
     convmv --notest -r -f cp-1252 -t cp-850 "$1"
     convmv --notest -r -f cp-866 -t utf-8 "$1"
 }
 
-function unpack () {
+unpack () {
     local filename="$1"
     local file_ext=${filename##*.}
     local base="`basename $filename .$file_ext`"
@@ -1147,11 +1160,11 @@ function unpack () {
     esac
 }
 
-function download {
+download () {
     wget -c -t 0 --timeout=60 --waitretry=60 -m $@
 }
 
-function site_to_pdf {
+site_to_pdf () {
     local link=$1
     local name="`basename $link`"
     # recursive, flatten dirs, not get up to parent dirs
@@ -1165,7 +1178,7 @@ function site_to_pdf {
 # positions mean left bottom right top respectively
 # - to crop extra margins, use the following functions:
 
-function all_pdf_crop {
+all_pdf_crop () {
     find . -type f -name "*.pdf" | parallel  pdfcrop3.sh -m 5 {}
 }
 
@@ -1248,27 +1261,27 @@ export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/op
 # functions for working with version control repositories & others
 
 # Usage : hgdiff file -r rev
-hgdiff() {
+hgdiff () {
     hg cat $1 $2 $3 $4 $5 $6 $7 $8 $9| vim -g - -c  ":vert diffsplit $1" -c "map q :qa\!<CR>";
 }
 
-hgvim() {
+hgvim () {
     vim `hg sta -m -a -r -n $@`
 }
 
-hgfix() {
+hgfix () {
     hg commit -m "never-push work-in-progress `date`. If you see this commit then please notify me about it."
 }
 
-hgsea() {
+hgsea () {
     hg log | gg -C10 $@
 }
 
-function hgtagb {
+hgtagb () {
     hg log --rev="branch(`hg branch`) and tag()" --template="{tags}\n"
 }
 
-function what_is_repo_type {
+what_is_repo_type () {
     if git branch >/dev/null 2>/dev/null; then echo -n git
     elif hg root >/dev/null 2>/dev/null; then echo -n mercurial
     elif svn info >/dev/null 2>/dev/null; then echo -n svn
@@ -1276,13 +1289,13 @@ function what_is_repo_type {
     fi
 }
 
-function report_repo_type {
+report_repo_type () {
     echo 'repository here ' `pwd` :
     bold_echo `what_is_repo_type`
 }
 
 
-function inf {
+inf () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git describe --all; git branch -vv | grep "$(bra)"; git remote -v
@@ -1296,7 +1309,7 @@ function inf {
   esac
 }
 
-function log {
+log () {
     REPO=`what_is_repo_type`
     case "$REPO" in
         git) git log --decorate --graph --all --tags --name-status \
@@ -1311,7 +1324,7 @@ function log {
 }
 
 # print graph for all branches
-function gra {
+gra () {
     REPO=`what_is_repo_type`
     case "$REPO" in
         git) git log --oneline --tags --all --graph $@ | less -S
@@ -1334,7 +1347,7 @@ lgf () {
 }
 
 # show log for specified branch
-function lgb {
+lgb () {
   REPO=`what_is_repo_type`
   local default=$(dbr)
   case "$REPO" in
@@ -1363,7 +1376,7 @@ function lgb {
 }
 
 # graph for feature branch
-function grb {
+grb () {
   REPO=`what_is_repo_type`
   local default=$(dbr)
   case "$REPO" in
@@ -1400,7 +1413,7 @@ gitlogb () {
 }
 
 # history of all changes to file(s)
-function his {
+his () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git log --follow -p -- $@|p
@@ -1413,7 +1426,7 @@ function his {
   esac
 }
 
-function ann {
+ann () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git annotate $@|p
@@ -1428,7 +1441,7 @@ function ann {
 
 # whether to print version info in PS1
 wrepo="none"
-function wrepo () {
+wrepo () {
     if [ "$wrepo" = "none" ]; then
         wrepo="any"
     else
@@ -1436,7 +1449,7 @@ function wrepo () {
     fi
 }
 
-function bra {
+bra () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git branch | grep \^\* | cut -d ' ' -f2-
@@ -1450,7 +1463,7 @@ function bra {
 }
 
 # list branches
-function lsb {
+lsb () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git branch
@@ -1464,7 +1477,7 @@ function lsb {
 }
 
 # default branch
-function dbr {
+dbr () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
@@ -1478,7 +1491,7 @@ function dbr {
 }
 
 # print the date of commit id $1
-function dat {
+dat () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) 
@@ -1498,7 +1511,7 @@ function dat {
 }
 
 # print the date of commit id $1
-function datshort {
+datshort () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) 
@@ -1517,7 +1530,7 @@ function datshort {
   esac
 }
 
-function sta {
+sta () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | p
@@ -1531,7 +1544,7 @@ function sta {
 }
 
 # colored diff
-function dif {
+dif () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git)
@@ -1549,7 +1562,7 @@ function dif {
 }
 
 # diff for patch, uncolored, without pager
-function dfp {
+dfp () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git)
@@ -1567,7 +1580,7 @@ function dfp {
 }
 
 # VCS diff without colors (for patch)
-function difp {
+difp () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git)
@@ -1585,7 +1598,7 @@ function difp {
 }
 
 # print file contents at given revision
-function pri {
+pri () {
   local rev="$1"
   local file="$2"
   REPO=`what_is_repo_type`
@@ -1601,7 +1614,7 @@ function pri {
 }
 
 # show patch for a given revision
-function pat {
+pat () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git show $@|p
@@ -1614,7 +1627,7 @@ function pat {
   esac
 }
 
-function add {
+add () {
 for i in $@; do
   if [ -d "`dirname $i`" ]; then
       cd "`dirname $i`"
@@ -1648,7 +1661,7 @@ roo () {
   esac
 }
     
-function com {
+com () {
   REPO=`what_is_repo_type`
   local msg=""
   if [ "$1" != "" ]; then
@@ -1683,7 +1696,7 @@ res () {
     git stash pop --index $@
 }
 
-function pus {
+pus () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git push origin "$(bra)" $@
@@ -1724,7 +1737,7 @@ unstage () {
     fi
 }
 
-function rvr {
+rvr () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git reset -- $@ # remove file from staging area
@@ -1740,7 +1753,7 @@ function rvr {
 }
 
 # undo add file
-function uad {
+uad () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git reset -- $@
@@ -1754,7 +1767,7 @@ function uad {
 
 export PREFERRED_REPO_TYPE=git
 
-function clo {
+clo () {
   case "$PREFERRED_REPO_TYPE" in
       git) git clone --recursive $@
           ;;
@@ -1767,7 +1780,7 @@ function clo {
 
 # clone specific branch:
 # clb <repo> <branch>
-function clb {
+clb () {
   local repo=$1
   local branch=$2
   shift 2
@@ -1782,7 +1795,7 @@ function clb {
 }
 
 # download & update
-function pul {
+pul () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git pull --recurse-submodules origin "$(bra)"
@@ -1800,7 +1813,7 @@ function pul {
 
 # get #download remote changes
 # get branch #download remote changes from branch
-function get {
+get () {
   REPO=`what_is_repo_type`
   local default=$(dbr)
   case "$REPO" in
@@ -1822,7 +1835,7 @@ function get {
   esac
 }
 
-function upd {
+upd () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git merge
@@ -1838,7 +1851,7 @@ function upd {
 }
 
 # checkout specified revision
-function cou {
+cou () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git checkout $@
@@ -1851,11 +1864,11 @@ function cou {
 }
 
 # restore master to origin/master
-function upd-master {
+upd-master () {
     git checkout -B master origin/master
 }
 
-function mov {
+mov () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git mv $@
@@ -1870,11 +1883,11 @@ function mov {
 # show pushd stack
 alias d="dirs -v"
 
-function ts {
+ts () {
     date -R -r $@
 }
 
-function mysetfont {
+mysetfont () {
     if exist xtermcontrol; then
         TERM=xterm xtermcontrol --font="xft:Ubuntu Mono:pixelsize=$1"
     else # try for urxvt
@@ -1885,7 +1898,7 @@ function mysetfont {
 for i in `seq 0 99`; do alias ff$i="mysetfont $i"; done
 
 # select larger font dynamically
-function ff {
+ff () {
     mysetfont 27
     sleep 0.1
     for i in 25 23 21 19 17 `seq 15 -1 6`; do
@@ -1896,7 +1909,6 @@ function ff {
     done
 }
 
-#set -x
 print_preexec () {
     start_time="`date +%s.%N`"
     local a=""
@@ -1905,7 +1917,8 @@ print_preexec () {
     elif [[ $CURSHELL == zsh ]]; then
       a=${${1## *}[(w)1]}  # get the command
       local b=${a##*\/}   # get the command basename
-      a="${b}${1#$a}"     # add back the parameters
+      #echo b: $b
+      #a="${b}${1#$a}"     # add back the parameters
       a=${a//\%/\%\%}     # escape print specials
       a=$(print -Pn "$a" | tr -d "\t\n\v\f\r")  # remove fancy whitespace
       a=${(V)a//\%/\%\%}  # escape non-visibles and print specials
@@ -1918,44 +1931,50 @@ print_preexec () {
         # set screen title
         printf "\ek$a\e\\"
         # must (re)set xterm title
-        printf "\e]2;${PWD##*/}> $a\a"
+        printf "\e]2;${PWD##*/}> $1\a"
         ;;
       rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-        printf "\e]2;${PWD##*/}> $a\a"
+        printf "\e]2;${PWD##*/}> $1\a"
         ;;
     esac
 }
 
 print_precmd () {
-       local RESULT=$?
-       local finish_time="`date +%s.%N`"
-       local exe_time
-       if [[ $CURSHELL == zsh ]]; then
-           exe_time=$((finish_time-start_time))
-       else
-           exe_time=`awk "BEGIN { print $finish_time-$start_time }"`
-       fi
-       local info=$(printf "%s(%.2f) %s" "$(date +%H:%M:%S)" "$exe_time" "`dirs -p | head -n1`")
-       #show repository branch if requested
-       if [ "$wrepo" != "none" ]; then
-           info+=" '$(bra) $(datshort)'"
-       fi
-       if (( $RESULT == 0 )); then
-           fill_echo $stout$cyan " $info"
-       # not found or SIGPIPE received
-       elif  (( $RESULT == 127 || $RESULT == 141 )); then
-           warning_echo "exit=$RESULT; $info"
-       else
-           error_echo "exit=$RESULT; $info"
-       fi
-       case "$TERM" in
-         screen|screen.rxvt)
-           # set screen title
-           printf "\ek${PWD##*/}\e\\"
-           # must (re)set xterm title
-           printf "\e]2;${PWD##*/}\a"
-           ;;
-       esac
+    local RESULT=$?
+    local finish_time="`date +%s.%N`"
+    local exe_time
+    if [[ $CURSHELL == zsh ]]; then
+        exe_time=$((finish_time-start_time))
+    else
+        exe_time=`awk "BEGIN { print $finish_time-$start_time }"`
+    fi
+    local info=$(printf "%s(%.2f) %s" "$(date +%H:%M:%S)" "$exe_time" "`dirs -p | head -n1`")
+    #show repository branch if requested
+    if [ "$wrepo" != "none" ]; then
+        info+=" '$(bra) $(datshort)'"
+    fi
+    if (( $RESULT == 0 )); then
+        fill_echo $stout$cyan " $info"
+    # not found or SIGPIPE received
+    elif  (( $RESULT == 127 || $RESULT == 141 )); then
+        warning_echo "exit=$RESULT; $info"
+    else
+        error_echo "exit=$RESULT; $info"
+    fi
+    # set the titles to last path component of working directory
+    case "$TERM" in
+      screen|screen.rxvt)
+        # set screen title
+        printf "\ek${PWD##*/}\e\\"
+        # must (re)set xterm title
+        printf "\e]2;${PWD##*/}\a"
+        #alarm
+        echo -ne \\a
+        ;;
+      rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
+        printf "\e]2;${PWD##*/}\a"
+        ;;
+    esac
 }
 
 ##############################################################################
@@ -2015,7 +2034,7 @@ if [[ $CURSHELL == zsh ]]; then
     zle -N zle-line-init
     #zle -N zle-line-finish
 
-    function set_prompt {
+    set_prompt () {
         # default value for main/viins/"" modes
         local MYPS1="+->"
         if [[ "$KEYMAP" == "vicmd" ]]; then
@@ -2033,19 +2052,19 @@ if [[ $CURSHELL == zsh ]]; then
         set_prompt
         zle reset-prompt
     }
-    function zle-line-init {
+    zle-line-init () {
         set_prompt
         zle reset-prompt
     }
 
-    function zle-keymap-select {
+    zle-keymap-select () {
         set_prompt
         zle reset-prompt
     }
     zle -N zle-keymap-select
 
     # With this widget, you can type `:q<RET>' to exit the shell from vicmd.
-    function ft-zshexit {
+    ft-zshexit () {
         [[ -o hist_ignore_space ]] && BUFFER=' '
         BUFFER="${BUFFER}exit"
         zle .accept-line
@@ -2056,7 +2075,7 @@ if [[ $CURSHELL == zsh ]]; then
 
     # don't use ctrl-d
     setopt ignore_eof
-    function ft-vi-cmd-cmd() {
+    ft-vi-cmd-cmd () {
         zle -M 'Use ZZ or `:q<RET>'\'' in CMD mode to exit the shell.'
     }
     
@@ -2109,23 +2128,15 @@ if [[ $CURSHELL == zsh ]]; then
     ## disable mail checking
     #MAILCHECK=0
 
-    function preexec() {
+    preexec () {
       print_preexec "$1"
     }
 
     preexec
 
     # set pre-prompt line
-    function precmd() {
+    precmd () {
       print_precmd
-      #case "$TERM" in
-      #  screen|screen.rxvt)
-      #    # set screen title
-      #    print -Pn "\ek ${PWD##*/}\e\\"
-      #    # must (re)set xterm title
-      #    print -Pn "\e]2;${PWD##*/}\a"
-      #    ;;
-      #esac
     }
 
     # some abbrev.s may be defined in local.sh
@@ -2176,7 +2187,7 @@ if [[ $CURSHELL == zsh ]]; then
     )
 
 
-    magic-abbrev-expand() {
+    magic-abbrev-expand () {
          local left prefix
          left=$(echo -nE "$LBUFFER" | sed -e "s/[_a-zA-Z0-9]*$//")
          prefix=$(echo -nE "$LBUFFER" | sed -e "s/.*[^_a-zA-Z0-9]\([_a-zA-Z0-9]*\)$/\1/")
@@ -2185,7 +2196,7 @@ if [[ $CURSHELL == zsh ]]; then
 
     zle -N magic-abbrev-expand
     bindkey "^e" magic-abbrev-expand
-    function add_command {
+    add_command () {
         print -sr $@
     }
 
@@ -2198,7 +2209,8 @@ elif [[ $CURSHELL == bash ]]; then
 
     export PS1="-> "
     if [ "$TERM" != "" ]; then
-        export PS1="\[\033]0;\w> \$BASH_COMMAND \007\]-> "
+        #export PS1="\[\033]0;\w> \$BASH_COMMAND \007\]-> "
+        export PS1="-> "
     fi
 
     # preexec analogue of zsh for bash using DEBUG hook
@@ -2214,7 +2226,7 @@ elif [[ $CURSHELL == bash ]]; then
     print_preexec
 
     export PROMPT_COMMAND=print_precmd
-    function add_command {
+    add_command () {
         history -s $@
     }
 else
@@ -2226,7 +2238,7 @@ fi
 # misc functions
 # http://www.gentoo.org/doc/en/portage-utils.xml
 
-pkg(){
+pkg () {
   local SYSDIST="`os_distribution`"
   if [ "$SYSDIST" = "unknown" ]; then
       red_echo unknown distribution
@@ -2289,18 +2301,18 @@ pkg(){
   esac
 }
 
-function eline() {
+eline () {
   while read str; do $@ "$str"; done
 }
 
-function difstring() {
+difstring () {
   cmp -bl  <(echo "$1" ) <(echo "$2")
 }
 
-function empty() {
+empty () {
     while true; do echo -n y; sleep 5; done;
 }
-function clock() {
+clock () {
     clear
     while :
     do
@@ -2328,7 +2340,7 @@ export TEXINPUTS=$HOME/activity-public/computer-program-data/latex:
 
 # wrapper for dealing with various file types
 
-function my() {
+my () {
   local FILE="$1"
   local DIR=`dirname "$FILE"`
   local BASE=`basename "$FILE"`

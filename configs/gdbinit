@@ -1,4 +1,4 @@
-source ~/activity-public/computer-program-data/development/Gdbinit/gdbinit
+#source ~/activity-public/computer-program-data/development/Gdbinit/gdbinit
 
 set history save
 set history filename ~/.gdb_history

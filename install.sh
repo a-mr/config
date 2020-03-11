@@ -21,7 +21,7 @@ DDIR="$HOME"
 # If $2 is given, full path should be specified.
 
 os=`uname`
-LNK() {
+LNK () {
   if [[ $os == Linux ]]; then
 	echo ln -sfT $@
 	  ln -sfT "$1" "$2"
@@ -31,7 +31,7 @@ LNK() {
   fi
 }
 
-inst(){
+inst () {
 	SRC="`$BLOC/fullpath \"$1\"`"
 	DSTC=
 	if [ "$2" == "" ]; then
@@ -46,7 +46,7 @@ inst(){
 	isok
 }
 
-oinst(){
+oinst () {
     if [[ "$option" == "-a" || "$option" == "-all" ]]; then
         inst $@
     else
