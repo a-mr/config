@@ -96,8 +96,10 @@ oinst xmonad.hs ~/.xmonad/xmonad.hs
 aux_echo xmonad recompile
 xmonad --recompile
 
-for i in functions.sh functions_X11.sh emacs vimrc gdbinit gdbinit.local \
-    hgrc hgstyle gitconfig xsession xsessionrc tmux.conf screenrc Xresources inputrc \
+for i in functions.sh functions_advanced.sh functions_X11.sh \
+    emacs vimrc gdbinit gdbinit.local \
+    hgrc hgstyle gitconfig xsession xsessionrc \
+    tmux.conf screenrc Xresources inputrc \
     xinputrc; do
     inst $i
 done

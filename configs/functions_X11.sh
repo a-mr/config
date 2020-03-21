@@ -22,7 +22,7 @@ night () {
  printf '\033]10;grey\007'
 }
 
-xrandr-ls () {
+xrandr_ls () {
     echo `xrandr|grep " connected "|cut -f 1 -d' '`
 }
 

@@ -31,12 +31,12 @@
     eel=$(      tput el     || tput ce      )   # Erase to end of line
     ebl=$(      tput el1    || tput cb      )   # Erase to beginning of line
     ewl=$eel$ebl                                # Erase whole line
-    draw=$(     tput -S <<< '   enacs
-                                smacs
-                                acsc
-                                rmacs' || { \
-                tput eA; tput as;
-                tput ac; tput ae;         } )   # Drawing characters
+    #draw=$(     tput -S <<< '   enacs
+    #                            smacs
+    #                            acsc
+    #                            rmacs' || { \
+    #            tput eA; tput as;
+    #            tput ac; tput ae;         } )   # Drawing characters
     back=$'\b'
 } 2>/dev/null ||:
 
