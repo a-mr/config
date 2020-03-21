@@ -21,7 +21,7 @@ CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 CURSHELL=${CURSHELL##*/}  # basename
 
 default_shell () {
-if [ -z "$ALLOW_BASH" ] && which zsh &> /dev/null && \
+if [ -z "$ALLOW_BASH" ] && which zsh > /dev/null 2>&1 && \
     [[ $CURSHELL != zsh ]]; then
     if shopt -q login_shell; then
         echo we are in bash, starting zsh log-in
@@ -509,7 +509,7 @@ psc () {
 }
 alias mv='mv -i'
 # some more ls aliases
-if alias ll &> /dev/null; then
+if alias ll > /dev/null 2>&1; then
     unalias ll
 fi
 
@@ -1116,6 +1116,16 @@ hexd () {
     hexdump -v -e '/1 "0x%02x\n"' $@
 }
 
+if exist gdate; then
+curtime () {
+	gdate +%s.%N
+}
+else
+curtime () {
+	date +%s.%N
+}
+fi
+
 if [[ $CURSHELL == bash || $CURSHELL == zsh ]]; then
     . ~/.functions_advanced.sh
 fi
@@ -1674,7 +1684,7 @@ com () {
                "y git push origin \"$(bra)\"" "f git push origin -f \"$(bra)\""
           ;;
       mercurial) eval hg commit $msg && (
-          if grep default `hg root`/.hg/hgrc &> /dev/null; then
+          if grep default `hg root`/.hg/hgrc > /dev/null 2>&1; then
               mydialog "push?" "y hg push" "n green_echo Done"
           else
               yellow_echo no default repository to push
@@ -2030,9 +2040,9 @@ if false && exist /usr/lib/w3m/w3mimgdisplay && \
 fi
 
 if exist fortune; then
-    fortune ru
+    fortune ru 2> /dev/null
     echo
-    fortune
+    fortune 2> /dev/null
 fi
 
 # to disable sw flow control (ctrl-s, ctrl-q)

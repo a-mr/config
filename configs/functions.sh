@@ -164,7 +164,7 @@ ext () {
 }
 
 exist () {
-    which $@ &> /dev/null
+    which $@ > /dev/null 2>&1
 }
 
 getch () {

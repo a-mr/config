@@ -6,7 +6,7 @@ difftree () {
 
 print_precmd () {
     local RESULT=$?
-    local finish_time="`date +%s.%N`"
+    local finish_time="`curtime`"
     local exe_time
     if [[ $CURSHELL == zsh ]]; then
         exe_time=$((finish_time-start_time))
@@ -30,20 +30,20 @@ print_precmd () {
     case "$TERM" in
       screen|screen.rxvt)
         # set screen title
-        printf "\ek${PWD##*/}\e\\"
+        echo -n "\ek${PWD##*/}\e\\"
         # must (re)set xterm title
-        printf "\e]2;${PWD##*/}\a"
+        echo -n "\e]2;${PWD##*/}\a"
         #alarm
         echo -ne \\a
         ;;
       rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-        printf "\e]2;${PWD##*/}\a"
+        echo -n "\e]2;${PWD##*/}\a"
         ;;
     esac
 }
 
 print_preexec () {
-    start_time="`date +%s.%N`"
+    start_time="`curtime`"
     local a=""
     if [[ $CURSHELL == bash ]]; then
       a=$BASH_COMMAND
@@ -62,12 +62,12 @@ print_preexec () {
         # See screen(1) "TITLES (naming windows)".
         # "\ek" and "\e\" are the delimiters for screen(1) window titles
         # set screen title
-        printf "\ek$a\e\\"
+        echo -n "\ek$a\e\\"
         # must (re)set xterm title
-        printf "\e]2;${PWD##*/}> $1\a"
+        echo -n "\e]2;${PWD##*/}> $1\a"
         ;;
       rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-        printf "\e]2;${PWD##*/}> $1\a"
+        echo -n "\e]2;${PWD##*/}> $1\a"
         ;;
     esac
 }
@@ -182,7 +182,9 @@ if [[ $CURSHELL == zsh ]]; then
     # reduce ESC delay to 0.01 sec
     export KEYTIMEOUT=1
 
-    eval "`sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc`" > /dev/null
+	if [ -f /etc/inputrc ]; then
+        eval "`sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc`" > /dev/null
+    fi
     case "$TERM" in
         rxvt-unicode|rxvt-256color) bindkey "\e[7~" beginning-of-line
             ;;
