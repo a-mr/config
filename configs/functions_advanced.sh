@@ -4,6 +4,7 @@ difftree () {
 }
 
 
+# print something before command next command prompt
 print_precmd () {
     local RESULT=$?
     local finish_time="`curtime`"
@@ -30,44 +31,47 @@ print_precmd () {
     case "$TERM" in
       screen|screen.rxvt)
         # set screen title
-        echo -n "\ek${PWD##*/}\e\\"
+        echo -ne "\ek${PWD##*/}\e\\"
         # must (re)set xterm title
-        echo -n "\e]2;${PWD##*/}\a"
+        echo -ne "\e]0;${PWD##*/}\a"
         #alarm
         echo -ne \\a
         ;;
       rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-        echo -n "\e]2;${PWD##*/}\a"
+        echo -ne "\e]0;${PWD##*/}\a"
         ;;
     esac
 }
 
+# print before command execution
 print_preexec () {
     start_time="`curtime`"
-    local a=""
-    if [[ $CURSHELL == bash ]]; then
-      a=$BASH_COMMAND
-    elif [[ $CURSHELL == zsh ]]; then
-      a=${${1## *}[(w)1]}  # get the command
-      local b=${a##*\/}   # get the command basename
-      #echo b: $b
-      #a="${b}${1#$a}"     # add back the parameters
-      a=${a//\%/\%\%}     # escape print specials
-      a=$(print -Pn "$a" | tr -d "\t\n\v\f\r")  # remove fancy whitespace
-      a=${(V)a//\%/\%\%}  # escape non-visibles and print specials
-    fi
 
     case "$TERM" in
       screen|screen.*)
+        local a=""
+        if [[ $CURSHELL == bash ]]; then
+          a="$1"
+          a="${a%% *}"      # get the command
+          a="${a##*\/}"     # get the command basename
+        elif [[ $CURSHELL == zsh ]]; then
+          a=${${1## *}[(w)1]}  # get the command
+          local b=${a##*\/}   # get the command basename
+          #echo b: $b
+          #a="${b}${1#$a}"     # add back the parameters
+          a=${a//\%/\%\%}     # escape print specials
+          a=$(print -Pn "$a" | tr -d "\t\n\v\f\r")  # remove fancy whitespace
+          a=${(V)a//\%/\%\%}  # escape non-visibles and print specials
+        fi
         # See screen(1) "TITLES (naming windows)".
         # "\ek" and "\e\" are the delimiters for screen(1) window titles
         # set screen title
-        echo -n "\ek$a\e\\"
+        echo -ne "\ek$a\e\\"
         # must (re)set xterm title
-        echo -n "\e]2;${PWD##*/}> $1\a"
+        echo -ne "\e]0;${PWD##*/}> $1\a"
         ;;
       rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-        echo -n "\e]2;${PWD##*/}> $1\a"
+        echo -ne "\e]0;${PWD##*/}> $1\a"
         ;;
     esac
 }
@@ -316,7 +320,7 @@ elif [[ $CURSHELL == bash ]]; then
         [ "${FUNCNAME[-1]}" = source ] && return # reading .bashrc
         # don't cause a preexec for $PROMPT_COMMAND :
         [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return
-        print_preexec
+        print_preexec "$BASH_COMMAND"
     }
     trap 'preexec_invoke_exec' DEBUG
 
