@@ -75,7 +75,8 @@ oinst lxpanel-default ~/.config/lxpanel/default
 inst easystroke ~/.easystroke
 inst fonts.conf
 inst autostart ~/.config/autostart
-inst mimeapps.list ~/.config/mimeapps.list
+ln -f mimeapps.list ~/.local/share/applications/mimeapps.list
+ln -f defaults.list ~/.local/share/applications/defaults.list
 
 inst gtk-3.0-settings.ini ~/.config/gtk-3.0/settings.ini
 #for gnome
@@ -139,8 +140,6 @@ oinst xpra.conf ~/.xpra/xpra.conf
 if [[ "$1" == "-a" ]]; then
     dconf load /org/gnome/terminal/ < org.gnome.terminal
     dconf load /desktop/ibus/ < desktop.ibus
-
-    $CTPATH/configs/set-xdg-mime.sh
 
     #mkdir -p ~/.ssh
     #cp $CTPATH/configs/ssh_config ~/.ssh/config

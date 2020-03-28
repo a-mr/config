@@ -9,7 +9,8 @@ INS="red_command sudo apt-get install -y $1"
 #Version control:
 $INS cvs subversion mercurial tortoisehg bzr git gitk gitweb darcs
 
-$INS zsh crudini dos2unix gawk aptitude python-tk vim-gtk konsole kinit kio kio-extras kded5 lfhex vifm
+$INS zsh libfile-mimeinfo-perl # for mimeopen
+$INS crudini dos2unix gawk aptitude python-tk vim-gtk konsole kinit kio kio-extras kded5 lfhex ht vifm
 
 #hardware tools:
 $INS msr-tools lshw pciutils dmidecode

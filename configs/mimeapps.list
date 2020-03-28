@@ -9,3 +9,9 @@ application/x-bittorrent=transmission-gtk.desktop;
 [Default Applications]
 application/x-bittorrent=transmission-gtk.desktop
 text/html=exo-web-browser.desktop
+inode/directory=spacefm.desktop
+x-scheme-handler/tg=telegramdesktop.desktop
+x-scheme-handler/viber=viber.desktop
+application/ppdf=FoxitReader.desktop
+application/xfdf=FoxitReader.desktop
+application/fdf=FoxitReader.desktop

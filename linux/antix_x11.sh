@@ -14,7 +14,7 @@ $INS gsfonts gsfonts-x11 fonts-arphic-ukai fonts-arphic-uming fonts-ipafont-minc
 $INS rlwrap suckless-tools xsel keynav xcalib xdelta3 klavaro gpick baobab
 
 # search files
-$INS recoll libimage-exiftool-perl python-chm python-mutagen unrtf untex
+$INS recoll libimage-exiftool-perl python-chm python-mutagen unrtf untex lyx python-rarfile xsltproc
 
 $INS ibus-table-latex
 

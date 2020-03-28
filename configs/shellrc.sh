@@ -584,7 +584,13 @@ a () {
 }
 
 o () {
-    xdg-open $@
+    if exist mimeopen; then
+        mimeopen $@
+    elif exist xdg-open; then
+        xdg-open $@
+    else
+        red_echo neither mimeopen nor xdg-open exists
+    fi
 }
 if exist ncal; then
     alias cal="ncal -y"
