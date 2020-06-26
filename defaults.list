@@ -1,0 +1,8 @@
+[Default Applications]
+application/ppdf=FoxitReader.desktop
+application/pdf=atril.desktop;
+text/x-csrc=gvim.desktop;
+text/x-c++src=gvim.desktop;
+application/postscript=atril.desktop;
+text/plain=gvim.desktop;
+application/x-sharedlib=hte-usercreated-1.desktop;

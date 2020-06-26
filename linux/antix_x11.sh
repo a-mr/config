@@ -11,7 +11,7 @@ $INS filezilla eom webp
 $INS gsfonts gsfonts-x11 fonts-arphic-ukai fonts-arphic-uming fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core xfonts-terminus ttf-mscorefonts-installer fonts-liberation2 fonts-firacode unifont
 
 #misc
-$INS rlwrap suckless-tools xsel keynav xcalib xdelta3 klavaro gpick baobab
+$INS suckless-tools xsel xclip keynav xcalib xdelta3 klavaro gpick baobab
 
 # search files
 $INS recoll libimage-exiftool-perl python-chm python-mutagen unrtf untex lyx python-rarfile xsltproc

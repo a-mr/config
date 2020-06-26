@@ -40,10 +40,9 @@
       <property name="&lt;Primary&gt;&lt;Alt&gt;t" type="string" value="my-x-terminal"/>
       <property name="XF86Calculator" type="string" value="mate-calc"/>
       <property name="XF86Search" type="string" value="recoll"/>
-      <property name="&lt;Primary&gt;&lt;Alt&gt;e" type="string" value="my-x-terminal -e &quot;vim ~/activity-public/computer-program-data/configs/shortcuts.txt&quot;"/>
       <property name="&lt;Shift&gt;&lt;Super&gt;s" type="string" value="xfce4-screenshooter -r -c"/>
-      <property name="&lt;Primary&gt;&lt;Alt&gt;o" type="string" value="my-x-terminal -e &quot;~/bin/notes.sh&quot;"/>
       <property name="Super_L" type="string" value="xfce4-popup-whiskermenu"/>
+      <property name="&lt;Primary&gt;&lt;Alt&gt;e" type="string" value="my-x-terminal -e &quot;vim $HOME/activity-public/computer-program-data/configs/shortcuts.txt&quot;"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">

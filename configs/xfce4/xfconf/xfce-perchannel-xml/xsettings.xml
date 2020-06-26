@@ -15,7 +15,7 @@
     <property name="FallbackIconTheme" type="empty"/>
   </property>
   <property name="Xft" type="empty">
-    <property name="DPI" type="int" value="90"/>
+    <property name="DPI" type="int" value="75"/>
     <property name="Antialias" type="int" value="1"/>
     <property name="Hinting" type="int" value="1"/>
     <property name="HintStyle" type="string" value="hintfull"/>
@@ -26,6 +26,7 @@
     <property name="CanChangeAccels" type="empty"/>
     <property name="ColorPalette" type="empty"/>
     <property name="FontName" type="string" value="Liberation Sans 12"/>
+    <property name="MonospaceFontName" type="string" value="Liberation Mono 12"/>
     <property name="IconSizes" type="empty"/>
     <property name="KeyThemeName" type="empty"/>
     <property name="ToolbarStyle" type="string" value="both"/>
@@ -36,9 +37,11 @@
     <property name="CursorThemeName" type="string" value="DMZ-White"/>
     <property name="CursorThemeSize" type="int" value="40"/>
     <property name="DecorationLayout" type="string" value="menu:minimize,maximize,close"/>
-    <property name="MonospaceFontName" type="string" value="Monospace 12"/>
+  </property>
+  <property name="Gdk" type="empty">
+    <property name="WindowScalingFactor" type="empty"/>
   </property>
   <property name="Xfce" type="empty">
-    <property name="LastCustomDPI" type="int" value="90"/>
+    <property name="LastCustomDPI" type="int" value="75"/>
   </property>
 </channel>

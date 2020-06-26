@@ -51,8 +51,8 @@
       <property name="mode" type="uint" value="1"/>
       <property name="position-locked" type="bool" value="false"/>
       <property name="plugin-ids" type="array">
-        <value type="int" value="13"/>
         <value type="int" value="4"/>
+        <value type="int" value="13"/>
       </property>
       <property name="disable-struts" type="bool" value="false"/>
       <property name="length-adjust" type="bool" value="true"/>
@@ -87,6 +87,7 @@
         <value type="string" value="ibus-ui-gtk3"/>
         <value type="string" value="clipit"/>
         <value type="string" value="orage"/>
+        <value type="string" value="journal.py"/>
         <value type="string" value="parcellite"/>
         <value type="string" value="wicd-client.py"/>
         <value type="string" value="vlc"/>
@@ -114,6 +115,19 @@
         <value type="string" value="pasystray"/>
         <value type="string" value="telegram"/>
         <value type="string" value="pulseaudio system tray"/>
+      </property>
+      <property name="names-ordered" type="array">
+        <value type="string" value="ibus panel"/>
+        <value type="string" value="xpra"/>
+        <value type="string" value="pasystray"/>
+        <value type="string" value="ibus-ui-gtk3"/>
+        <value type="string" value="parcellite"/>
+        <value type="string" value="recoll"/>
+        <value type="string" value="apt-notifier.py"/>
+        <value type="string" value="blueman-applet"/>
+        <value type="string" value="clipit"/>
+        <value type="string" value="networkmanager applet"/>
+        <value type="string" value="yad"/>
       </property>
     </property>
     <property name="plugin-9" type="string" value="launcher">
@@ -169,7 +183,7 @@
     <property name="plugin-3" type="string" value="whiskermenu"/>
     <property name="plugin-1" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-      <property name="mpris-players" type="string" value="parole;rhythmbox;smplayer"/>
+      <property name="mpris-players" type="string" value="chromium.instance17551;parole;rhythmbox;smplayer"/>
     </property>
     <property name="plugin-18" type="string" value="launcher">
       <property name="items" type="array">
@@ -188,8 +202,9 @@
         <value type="string" value="-shutdown"/>
         <value type="string" value="-restart"/>
         <value type="string" value="+separator"/>
-        <value type="string" value="-logout"/>
+        <value type="string" value="+logout"/>
         <value type="string" value="-logout-dialog"/>
+        <value type="string" value="-hybrid-sleep"/>
       </property>
       <property name="invert-orientation" type="bool" value="true"/>
     </property>
@@ -199,7 +214,6 @@
       <property name="style" type="uint" value="0"/>
       <property name="all-workspaces" type="bool" value="true"/>
     </property>
-    <property name="plugin-13" type="string" value="xkb-plugin"/>
     <property name="plugin-14" type="string" value="pager">
       <property name="rows" type="uint" value="1"/>
       <property name="miniature-view" type="bool" value="true"/>
@@ -229,5 +243,6 @@
         <value type="string" value="15811821551.desktop"/>
       </property>
     </property>
+    <property name="plugin-13" type="string" value="xkb"/>
   </property>
 </channel>

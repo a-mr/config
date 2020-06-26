@@ -131,6 +131,11 @@ nctr () {
     fi
 }
 
+# compile nim compiler (with debugging) as nim2 (FAST way)
+mknim2 () {
+    nim c --lib:lib --debuginfo --lineDir:on -o:$HOME/activity-public/Nim/bin/nim2 $HOME/activity-public/Nim/compiler/nim.nim
+}
+
 #julia
 julianb () {
     julia -e "using IJulia; notebook()"
@@ -146,12 +151,21 @@ mykt () {
     fi
 }
 
+rednotebook () {
+    ~/activity-public/rednotebook/run $@
+}
+
+REDNOTEBOOK_DIR="$HOME/activity-personal/draft_mak"
+if [ ! -d "$REDNOTEBOOK_DIR" ]; then
+    REDNOTEBOOK_DIR="$EXDR/MAKAROV/activity-personal/draft_mak"
+fi
+
 # misc.aliases
 wd () {
-    rednotebook $EXDR/MAKAROV/activity-personal/draft_mak/work_diary
+    rednotebook "$REDNOTEBOOK_DIR/work_diary"
 }
 pd () {
-    rednotebook $EXDR/MAKAROV/activity-personal/draft_mak/personal_diary
+    rednotebook "$REDNOTEBOOK_DIR/personal_diary"
 }
 
 c () {
@@ -477,6 +491,9 @@ else
     alias vi=vim
 fi
 
+v () {
+    vim -p $@
+}
 # show my shortcuts
 k () {
     vim ~/activity-public/computer-program-data/configs/shortcuts.txt
@@ -486,7 +503,7 @@ n () {
     ~/bin/notes.sh
 }
 # file manager with cd
-v () {
+vf () {
    # from https://wiki.vifm.info/index.php?title=How_to_set_shell_working_directory_after_leaving_Vifm
    # Syncro vifm and shell
    local dst="$(command vifm --choose-dir - .)"

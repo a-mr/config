@@ -304,14 +304,14 @@ nmap s <Leader>
 
 " Jump to anywhere with only `s{char}{target}`
 " `s<CR>` repeat last find motion.
-map <Leader> <Plug>(easymotion-prefix)
+map <Leader>s <Plug>(easymotion-prefix)
 " Use uppercase target labels and type as a lower case
 let g:EasyMotion_use_upper = 1
 
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
+"map <Leader>l <Plug>(easymotion-lineforward)
+"map <Leader>j <Plug>(easymotion-j)
+"map <Leader>k <Plug>(easymotion-k)
+"map <Leader>h <Plug>(easymotion-linebackward)
 let g:EasyMotion_keys = ",.'abcdfghijklmpqrtuvxyzswone"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -336,12 +336,31 @@ set timeoutlen=300 ttimeoutlen=0
 nnoremap <C-C> "+y
 inoremap <C-C> <ESC>"+y
 
-nnoremap t :buffers<CR>:buffer<Space>
-inoremap t <Esc>:buffers<CR>:buffer<Space>
-nnoremap n :next<CR>
-inoremap n <Esc>:next<CR>
-nnoremap p :prev<CR>
-inoremap p <Esc>:prev<CR>
+nnoremap t :tabedit<Space>
+inoremap t <Esc>:tabedit<Space>
+nnoremap n :tabnext<CR>
+inoremap n <Esc>:tabnext<CR>
+nnoremap p :tabprev<CR>
+inoremap p <Esc>:tabprev<CR>
+
+nnoremap 1 :tabnext 1<CR>
+inoremap 1 <Esc>:tabnext 1<CR>
+nnoremap 2 :tabnext 2<CR>
+inoremap 2 <Esc>:tabnext 2<CR>
+nnoremap 3 :tabnext 3<CR>
+inoremap 3 <Esc>:tabnext 3<CR>
+nnoremap 4 :tabnext 4<CR>
+inoremap 4 <Esc>:tabnext 4<CR>
+nnoremap 5 :tabnext 5<CR>
+inoremap 5 <Esc>:tabnext 5<CR>
+nnoremap 6 :tabnext 6<CR>
+inoremap 6 <Esc>:tabnext 6<CR>
+nnoremap 7 :tabnext 7<CR>
+inoremap 7 <Esc>:tabnext 7<CR>
+nnoremap 8 :tabnext 8<CR>
+inoremap 8 <Esc>:tabnext 8<CR>
+nnoremap 9 :tabnext 9<CR>
+inoremap 9 <Esc>:tabnext 9<CR>
 
 nnoremap m :marks<CR>
 inoremap m <Esc>:marks<CR>
@@ -446,6 +465,9 @@ autocmd bufenter *.py map <F7> :!python -m py_compile %<cr>
 "map <F8> :!killall a.out<cr>
 "map <F9> :!gnuplot %<cr>
 "map <S-F9> :!gnuplot run<cr>
+
+"Remove all trailing whitespace by pressing F4
+nnoremap <F4> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 "map <F2> :!if latex %; then xdvi `basename % .tex`; fi<cr>
 "map <S-F2> :!xdvi `basename % .tex`<cr>
@@ -781,7 +803,7 @@ let g:slime_default_config = {"socket_name": "default", "target_pane": ":"}
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-signify/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easy-align/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easymotion/
-set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
+"set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -5,4 +5,4 @@ export ONLYREADCONF=y
 unset ONLYREADCONF
 
 echo starting $XTERMINAL $@
-eval $XTERMINAL $@
+exec $XTERMINAL $@

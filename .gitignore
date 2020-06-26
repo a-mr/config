@@ -4,3 +4,7 @@ configs/vscode-User/workspaceStorage/
 configs/vscode-User/globalStorage/
 configs/gkrellm2/sensor-config
 configs/gkrellm2/data
+configs/xfce4/panel/whiskermenu-3.rc
+configs/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+bin/nimgrep
+configs/icewm/menu-applications

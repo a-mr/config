@@ -18,7 +18,7 @@ $INS msr-tools lshw pciutils dmidecode
 $INS exfat-utils exfat-fuse sshfs archivemount jmtpfs partitionmanager
 
 #networking
-$INS iftop ethtool traceroute
+$INS iftop ethtool net-tools traceroute
 
 $INS curl wget
 

@@ -36,7 +36,7 @@ xorientation () {
             echo $ans
         fi
     else
-        local outputs="`xrandr-ls`"
+        local outputs="`xrandr_ls`"
         #--auto means "turn on with default mode"
         for i in `echo $outputs`; do
             xrandr --output $i --auto --rotate $1
@@ -77,7 +77,7 @@ hissetxkb () {
 
 #turn off and then turn on outputs (ignoring 1st) with default orientation
 xon () {
-    local outputs="`xrandr-ls`"
+    local outputs="`xrandr_ls`"
     local output1
     local others
     local orient=`xorientation`
@@ -91,7 +91,7 @@ xon () {
 
 #turn off all outputs except 1st
 xof () {
-    local outputs="`xrandr-ls`"
+    local outputs="`xrandr_ls`"
     local output1
     local others
     split1 "$outputs" output1 others

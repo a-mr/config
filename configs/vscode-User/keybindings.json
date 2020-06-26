@@ -21,6 +21,22 @@
         "key"    : "ctrl+alt+v",
         "command": "wwm.aligncode",
         "when"   : "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+n",
+        "command": "workbench.action.nextEditor"
+    },
+    {
+        "key": "ctrl+pagedown",
+        "command": "-workbench.action.nextEditor"
+    },
+    {
+        "key": "alt+p",
+        "command": "workbench.action.previousEditor"
+    },
+    {
+        "key": "ctrl+pageup",
+        "command": "-workbench.action.previousEditor"
     }
 
 

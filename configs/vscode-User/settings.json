@@ -4,10 +4,12 @@
     "keyboard.dispatch": "keyCode",
     "editor.lineNumbers": "off",
     "editor.fontSize": 15,
-    "editor.fontFamily": "'Liga Liberation Mono', 'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontFamily": "'Liga Liberation Mono', 'Fira Code', 'Liberation Mono', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "editor.fontLigatures": true,
     "editor.rulers": [0,80],
     "editor.acceptSuggestionOnEnter": "off",
+    //preview glitches with Vim :tabe (opens in 2nd tab always)
+    "workbench.editor.enablePreview": false,
     //"editor.renderWhitespace": "boundary", 
     // "editor.fontFamily": "'Input Mono',Droid Sans Mono'"
     "editor.renderWhitespace": "none",
@@ -18,14 +20,13 @@
     // Controls the maximum amount of lines the terminal keeps in its buffer.
     "terminal.integrated.scrollback": 5000,
 
-    "vim.leader": "s",
-    
     //"vim.useSystemClipboard": true,
     //"vim.useCtrlKeys": false,
     "vim.handleKeys":{
         "<C-n>": false,
     },
     "vim.hlsearch": true,
+    "vim.leader": "s",
     "vim.easymotion": true,
     "vim.easymotionKeys": ",.'abcdfghijklmpqrtuvxyzswone",
     "vim.easymotionMarkerFontSize": "18",
@@ -34,36 +35,6 @@
     "vim.easymotionMarkerForegroundColorTwoChar": "#ffffff",
     "vim.easymotionMarkerHeight": 22,
     "vim.easymotionMarkerWidthPerChar": 15,
-    "vim.normalModeKeyBindingsNonRecursive": [
-        // character forward
-        {
-            "before": ["leader", "j"],
-            "after": ["leader", "leader", "f"]
-        },
-        {
-            "before": ["leader", "l"],
-            "after": ["leader", "leader", "f"]
-        },
-        // character backward
-        {
-            "before": ["leader", "h"],
-            "after": ["leader", "leader", "F"]
-        },
-        {
-            "before": ["leader", "k"],
-            "after": ["leader", "leader", "F"]
-        },
-        // word forward
-        {
-            "before": ["leader", "w"],
-            "after": ["leader", "leader", "w"]
-        },
-        // word backward
-        {
-            "before": ["leader", "b"],
-            "after": ["leader", "leader", "b"]
-        },
-    ],
     
     // Alignment extension
     "alignment.chars": {

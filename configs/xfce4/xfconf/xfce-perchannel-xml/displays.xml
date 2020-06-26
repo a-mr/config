@@ -74,6 +74,20 @@
         <property name="Y" type="int" value="0"/>
       </property>
     </property>
+    <property name="HDMI-0" type="string" value="Samsung 32&quot;">
+      <property name="Active" type="bool" value="true"/>
+      <property name="EDID" type="string" value="4be94c7a73736a98580cdd302ebf8d179704245f"/>
+      <property name="Resolution" type="string" value="1920x1080"/>
+      <property name="RefreshRate" type="double" value="59.940202"/>
+      <property name="Rotation" type="int" value="0"/>
+      <property name="Reflection" type="string" value="0"/>
+      <property name="Primary" type="bool" value="false"/>
+      <property name="Position" type="empty">
+        <property name="X" type="int" value="0"/>
+        <property name="Y" type="int" value="0"/>
+      </property>
+    </property>
   </property>
   <property name="Notify" type="bool" value="true"/>
+  <property name="ActiveProfile" type="string" value="Default"/>
 </channel>

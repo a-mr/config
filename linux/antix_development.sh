@@ -6,10 +6,22 @@
 
 INS="red_command sudo apt-get install -y $1"
 
-$INS build-essential libncurses5-dev gcc libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind 
+# for add-apt-repository
+$INS software-properties-common
+
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+
+sudo add-apt-repository "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian buster contrib"
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+
+sudo apt update
+$INS code virtualbox-6.0
+
+$INS build-essential libncurses5-dev gcc libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
 
 # misc
-$INS m4 libev-dev cputool python-pygments manpages-dev
+$INS m4 libev-dev cputool rlwrap python-pygments manpages-dev speedcrunch
 
 #x dev
 $INS xutils libx11-dev libxkbfile-dev libsecret-1-dev libxext-dev build-essential \
@@ -25,3 +37,5 @@ $INS cmake meson
 # other
 $INS libgdbm-dev libgsl0-dev libprotobuf-dev protobuf-compiler python-protobuf
 
+#nim:
+$INS lmodern nodejs
