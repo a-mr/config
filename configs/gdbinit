@@ -55,6 +55,10 @@ define ib
     info breakpoints
 end
 
+define it
+    info threads
+end
+
 define ir
     info registers
 end
@@ -102,4 +106,11 @@ end
 
 #trust all
 set auto-load safe-path /
+
+source /home/amakarov/activity-public/computer-program-data/development/gdb-dashboard/.gdbinit
+
+define dof
+    dashboard -enabled off
+end
+# to redraw or re-enable: das[hboard]
 

@@ -110,8 +110,8 @@ if [[ $CURSHELL == zsh ]]; then
     bindkey "${terminfo[khome]}" beginning-of-line
     bindkey "${terminfo[kend]}" end-of-line
     # search for the command beginning
-    bindkey "${terminfo[kpp]}" history-beginning-search-backward
-    bindkey "${terminfo[knp]}" history-beginning-search-forward
+    bindkey "p" history-beginning-search-backward
+    bindkey "i" history-beginning-search-forward
 
     # print function definition in which
     alias which="whence -cvf"
@@ -241,20 +241,20 @@ if [[ $CURSHELL == zsh ]]; then
     }
 
     # some abbrev.s may be defined in local.sh
-    local apu="activity-public"
-    local ape="activity-personal"
+    local apu="~/activity-public"
+    local ape="~/activity-personal"
+    local as="~/activity-shared"
     typeset -Ag abbreviations
     abbreviations=()
 
     abbreviations+=(
     "apu"	"$apu/"
-    "as"	"activity-shared/"
+    "as"	"$as/"
     "ape"	"$ape/"
     "draf"	"$ape/draft_mak/"
-    "wpu"	"works-public/"
-    "ws"	"works-shared/"
-    "wpe"	"works-personal/"
-    "a"		"activity/"
+    "wpu"	"~/works-public/"
+    "ws"	"~/works-shared/"
+    "wpe"	"~/works-personal/"
     "ppe"	"physics-particle-experiment/"
     "ppt"	"physics-particle-theory/"
     "qm"	"quantum_mechanics/"
@@ -285,6 +285,7 @@ if [[ $CURSHELL == zsh ]]; then
     "msdp"	"mathematics-statistics&data_processing/"
     "mt"	"mathematics-topology/"
     "mmp"	"mathematics-mathematical_physics/"
+    "nim"       "$apu/Nim"
     )
 
 

@@ -380,7 +380,7 @@ set_display () {
 alias t=tmux_try_start
 tmux_try_start () {
     if exist tmux; then
-        export TERM=xterm
+        #export TERM=xterm
         if [[ -z $TMUX ]]; then
             set_display
             ensure_ssh_agent
@@ -431,6 +431,56 @@ tmux_try_start () {
     fi
 }
 
+screen_try_attach () {
+    local session_type=${1:-"("}
+    exec screen -r "`screen -list | grep "$session_type" | awk '{print $1}'`"
+}
+
+screen_try_start () {
+    if exist screen; then
+        #export TERM=xterm
+        if [[ -z $IN_SCREEN ]]; then
+            export IN_SCREEN=1
+            set_display
+            ensure_ssh_agent
+            echo Starting screen
+            #screen -list
+            if screen -list > /dev/null 2>&1; then
+                echo Grepping
+                screen -list | grep --color=always -e '^' -e aux -e work
+            else
+                bold_echo no Screen sessions
+            fi
+            mydialog "what to do?
+       a - (default) Screen create auxillary session = throwaway =
+           not intended for persistency;
+       A - Screen attach to auxillary session;
+       s - start just shell;
+       b - start bash;
+       w - Screen create work session;
+       W - Screen attach to work session;
+       t - Screen atttach any session;
+       q - exit" \
+           "h exec screen -S aux" \
+           "s echo Just shell" \
+           "b bash" \
+           "w exec screen -S work" \
+           "W screen_try_attach work" \
+           "a exec screen -S aux" \
+           "A screen_try_attach aux" \
+           "t screen_try_attach" \
+           "q exit 0"
+
+        else # we'are in tmux already
+            echo Just shell
+        fi
+    else
+        echo no screen in PATH:
+        echo $PATH
+        set_display
+    fi
+}
+
 pickup_ssh_agent
 
 # exit without closing session and therefore window
@@ -442,7 +492,8 @@ fin () {
 }
 
 if [ $inside_ssh ] && [ ! $inside_vnc ] && [ -z $ALLOW_BASH ]; then
-    tmux_try_start
+    #tmux_try_start
+    screen_try_start
 fi
 ##############################################################################
 # definitions for interactive work only
@@ -610,7 +661,7 @@ o () {
     fi
 }
 if exist ncal; then
-    alias cal="ncal -y"
+    alias cal="ncal -y -w"
 fi
 alias mypatch="patch -p1 --ignore-whitespace"
 

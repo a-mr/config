@@ -1,12 +1,11 @@
 # use visual bell
 vbell on
-# replace ctrl-A by ctrl-O
-#escape ^Oo
+# replace ctrl-A by ctrl-N
+escape ^Nn
 # set a big scrolling buffer
 defscrollback 5000
 # Set the caption on the bottom line
-caption always "%{= kw}%H | %-w%{= wk}%n %t%{-}%+w | %-= (%l) . %0c"
-#caption always "%{= kw}%H | %-w%{= wk}%n %t%{-}%+w | %-= (%l) %d.%m.%Y %0c"
+caption always "%{= bw}%H | %-w%{= wb}%n %t%{-}%+w | %-= %0c"
 ignorecase on
 altscreen on
 

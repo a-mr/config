@@ -1,8 +1,8 @@
-Bash/Zsh                                      Tmux
-  !$       last word of previous command           PRE ]  paste
-  $_       last arg  of previous command           PRE "  split horizontally
-  C-v C-j  insert newline w/o executing            PRE %  split vertically
-  !str     repeat prev cmd started w/ str     hold PRE -> resize pane
+Bash/Zsh
+  !$       last word of previous command     A-p  command beginning backward
+  $_       last arg  of previous command     A-i  command beginning forward
+  C-v C-j  insert newline w/o executing
+  !str     repeat prev cmd started w/ str
   !?str    repeat prev cmd containing str
   !:0      name of prev cmd
 
@@ -22,6 +22,12 @@ my Vim:                                              ssf<SYM> goto symbol <SYM>
          H  jump to screen top       zt  position cur.line at top
          M  jump to screen middle    zz  position cur.line at middle
          L  jump to screen bottom    zb  position cur.line at bottom
+ Tmux                              Screen
+      PRE ]  paste                   PRE ]  paste
+      PRE "  split horizontally      PRE S  split horizontally ... PRE tab PRE c
+      PRE %  split vertically        PRE |  split vertiacally
+                                     PRE X  close region
+ hold PRE -> resize pane             PRE :resize +10
                             XFCE4
 C-A-t  Terminal           C-A-k  Tile top     C-A-S-k  Tile top-right
 C-A-C  Clipboard Manager  C-A-j  Tile bottom  C-A-S-j  Tile bottom-left

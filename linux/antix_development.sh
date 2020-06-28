@@ -18,7 +18,7 @@ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-
 sudo apt update
 $INS code virtualbox-6.0
 
-$INS build-essential libncurses5-dev gcc libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
+$INS build-essential libncurses5-dev gcc gdb libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
 
 # misc
 $INS m4 libev-dev cputool rlwrap python-pygments manpages-dev speedcrunch

@@ -43,3 +43,6 @@
 [submodule "development/zsh-syntax-highlighting"]
 	path = development/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "development/gdb-dashboard"]
+	path = development/gdb-dashboard
+	url = https://github.com/cyrus-and/gdb-dashboard
