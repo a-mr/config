@@ -3,4 +3,5 @@ set editing-mode vi
 set show-mode-in-prompt on
 #highlight directories on Tab
 set colored-stats on
+"\C-l": clear-screen
 

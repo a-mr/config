@@ -163,6 +163,7 @@ hi NonText ctermfg=yellow
 set wrap
 " make it not wrap in the middle of a "word"
 set linebreak
+set breakat=\ ,(
 "set breakindentopt=shift:4
 
 set cpoptions+=n

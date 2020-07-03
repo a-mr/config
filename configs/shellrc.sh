@@ -381,7 +381,7 @@ alias t=tmux_try_start
 tmux_try_start () {
     if exist tmux; then
         #export TERM=xterm
-        if [[ -z $TMUX ]]; then
+        if [[ -z $TMUX && -z $IN_SCREEN ]]; then
             set_display
             ensure_ssh_agent
             echo Starting tmux
@@ -405,7 +405,7 @@ tmux_try_start () {
        q - exit" \
            "h tmux_new_window heap" \
            "s echo Just shell" \
-           "b bash" \
+           "b exec bash" \
            "w tmux_new_window work-base" \
            "W exec tmux attach -t work-base" \
            "a tmux_new_window aux-base" \
@@ -439,18 +439,14 @@ screen_try_attach () {
 screen_try_start () {
     if exist screen; then
         #export TERM=xterm
-        if [[ -z $IN_SCREEN ]]; then
+        if [[ -z $TMUX && -z $IN_SCREEN ]]; then
             export IN_SCREEN=1
             set_display
             ensure_ssh_agent
             echo Starting screen
-            #screen -list
-            if screen -list > /dev/null 2>&1; then
-                echo Grepping
-                screen -list | grep --color=always -e '^' -e aux -e work
-            else
-                bold_echo no Screen sessions
-            fi
+            # display all the lines ('^') but highlight selected words
+            screen -list | grep --color=always -e '^' \
+                -e aux -e work -e Attached -e Detached
             mydialog "what to do?
        a - (default) Screen create auxillary session = throwaway =
            not intended for persistency;
@@ -463,7 +459,7 @@ screen_try_start () {
        q - exit" \
            "h exec screen -S aux" \
            "s echo Just shell" \
-           "b bash" \
+           "b exec bash" \
            "w exec screen -S work" \
            "W screen_try_attach work" \
            "a exec screen -S aux" \
@@ -503,7 +499,9 @@ fi
 # tt Name 7  # move window to 7 and rename to "Name"
 tt () {
     if [[ "$1" == "" ]]; then
+        echo "Current pane:"
         tmux display-message -p '#I : #W #H   pane_id=#D   pane_index=#P   session=#S'
+        echo
     else
         if [[ "$1" != "_" ]]; then
             tmux rename-window "$1"
@@ -512,6 +510,7 @@ tt () {
             tmux swap-window -t "$2"
         fi
     fi
+    tmux list-panes -aF "#{window_index}	#{pane_tty}	#{window_name}"
 }
 
 rr () {
@@ -519,7 +518,12 @@ rr () {
     $XTERMINAL -e $CURSHELL -i -c "$CMD ; bold_echo 'press <Enter> to close the terminal' ; getch" &
 }
 
-unalias ls >/dev/null 2>&1
+unalias ls 2> /dev/null
+unalias dir 2> /dev/null
+unalias grep 2> /dev/null
+unalias la 2> /dev/null
+unalias l 2> /dev/null
+unalias o 2> /dev/null
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -576,6 +580,9 @@ users () {
 }
 psc () {
     ps -f --forest | less
+}
+tree () {
+    command tree -C --charset utf8 $@ | less
 }
 alias mv='mv -i'
 # some more ls aliases
@@ -1101,6 +1108,12 @@ opfd () {
     ll /proc/$1/fd
 }
 
+function makes () {
+    gmake -qp | awk -F':' \
+        '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | \
+        sort -u | less
+}
+
 act () {
     echo set ~/active to $PWD
     ln -sfT "$PWD" ~/active
@@ -1498,6 +1511,29 @@ gitlogb () {
     git log --decorate --graph --tags --name-status --first-parent "$branch" | p
 }
 
+gitgrb () {
+    if [ "$1" -eq "" ]; then
+        local branch="$(bra)"
+    else
+        local branch="$1"
+    fi
+    git log --decorate --graph --oneline --first-parent "$branch" | less -S
+}
+
+# con branch revision — check that branch contains revision
+function con {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) git merge-base --is-ancestor $2 $1
+          ;;
+      mercurial) hg log -r $2 -b $1
+          ;;
+      svn) echo not implemented for svn
+          ;;
+      *) red_echo unknown repository: $REPO
+  esac
+}
+
 # history of all changes to file(s)
 his () {
   REPO=`what_is_repo_type`
@@ -1515,11 +1551,11 @@ his () {
 ann () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git annotate $@|p
+      git) git blame --date=short $@ | less -S
           ;;
-      mercurial) hg ann -b $@
+      mercurial) hg ann -b $@ | less -S
           ;;
-      svn) svn ann $@|p
+      svn) svn ann $@ | less -S
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -1616,6 +1652,11 @@ datshort () {
   esac
 }
 
+# show files that are in repository
+lsf () {
+    git ls-files --error-unmatch $@
+}
+
 sta () {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -1703,11 +1744,11 @@ pri () {
 pat () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git show $@|p
+      git) git show --parents $@ | less -X
           ;;
-      mercurial) hg diff -c $@|p
+      mercurial) hg diff -c $@ | less -X
           ;;
-      svn) svn diff -c $@|p
+      svn) svn diff -c $@ | less -X
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -1795,6 +1836,11 @@ pus () {
   esac
 }
 
+gitlfspur () {
+    git lfs ls-files -n | xargs -d '\n' rm
+    rvr "${1:-.}"
+}
+
 pur () {
   REPO=`what_is_repo_type`
   if [ -z $1 ]; then
@@ -1808,6 +1854,7 @@ pur () {
   case "$REPO" in
       git) mydialog $msg "n green_echo skipped" "y git clean  -d  -f -x $arg $@"
           # (-d untracked directories, -f untracked files, -x also ignored files)
+          gitlfspur .
           ;;
       mercurial) mydialog $msg "n green_echo skipped" "y hg purge $arg $@"
           ;;
@@ -1887,7 +1934,7 @@ pul () {
       git) git pull --recurse-submodules origin "$(bra)"
           git submodule update
           if exist git-lfs; then
-              git lfs pull
+              mydialog "Pull git lfs? [n|y]" "n green_echo skipped" "y git lfs pull"
           fi
           ;;
       mercurial) hg pull -u $@
@@ -1910,9 +1957,9 @@ get () {
               local branch="$(bra)"
           fi
           if [[ "$branch" != "$default" ]]; then
-              git fetch --recurse-submodules origin "$branch"
+              git fetch --recurse-submodules origin $branch:$branch
           fi
-          git fetch --recurse-submodules origin $default
+          git fetch --recurse-submodules origin $default:$default
           ;;
       mercurial) hg pull $@
           ;;

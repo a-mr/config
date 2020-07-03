@@ -18,6 +18,10 @@
         cmd = git-latexdiff "$LOCAL" "$REMOTE"
 [difftool]
         prompt = false
+[diff]
+    tool = meld
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
 [alias]
         ldiff = difftool -t latex   
 	sta = status
@@ -34,3 +38,5 @@
 	date = iso-local
 [merge]
 	renameLimit = 999999
+[blame]
+	coloring = highlightRecent

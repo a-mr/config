@@ -18,6 +18,11 @@ end
 # TUI commands
 ###############################################################################
 
+define et
+    tui enable
+    set $USECOLOR=0
+end
+
 define dt
     tui disable
     set $USECOLOR=1
@@ -47,6 +52,16 @@ end
 # aliases
 ###############################################################################
 
+define d
+    disable $arg0
+    info breakpoints
+end
+
+define e
+    enable $arg0
+    info breakpoints
+end
+
 define il
     info locals
 end
@@ -57,6 +72,14 @@ end
 
 define it
     info threads
+end
+
+define ifu
+    info functions
+end
+
+define ifr
+    info frame
 end
 
 define ir
@@ -107,7 +130,7 @@ end
 #trust all
 set auto-load safe-path /
 
-source /home/amakarov/activity-public/computer-program-data/development/gdb-dashboard/.gdbinit
+source ~/activity-public/computer-program-data/development/gdb-dashboard/.gdbinit
 
 define dof
     dashboard -enabled off

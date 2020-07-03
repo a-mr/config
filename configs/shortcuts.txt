@@ -14,6 +14,8 @@ Vim                     Vim spellcheck                 Vim window
   zz  curr.line ->center
                           %    current file in :!
   ]c  goto next VCS chg   %:p  the same, full path
+  :g/PAT show lines
+         matching PAT
 my Vim:                                              ssf<SYM> goto symbol <SYM>
   A-t  select buffers     st    select tag           ssw      select downwards
   A-n  next buffer        <F9>  select spell lang    ssb      select upwards
@@ -28,6 +30,7 @@ my Vim:                                              ssf<SYM> goto symbol <SYM>
       PRE %  split vertically        PRE |  split vertiacally
                                      PRE X  close region
  hold PRE -> resize pane             PRE :resize +10
+
                             XFCE4
 C-A-t  Terminal           C-A-k  Tile top     C-A-S-k  Tile top-right
 C-A-C  Clipboard Manager  C-A-j  Tile bottom  C-A-S-j  Tile bottom-left
