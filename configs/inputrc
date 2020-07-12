@@ -1,7 +1,13 @@
 set editing-mode vi
 #set keymap vi-command
 set show-mode-in-prompt on
-#highlight directories on Tab
+# highlight directories on Tab
 set colored-stats on
+# to enable it in mintty
 "\C-l": clear-screen
+# by default C-backspace is bacward-delete-char. Does not work in konsole.
+"\C-H": unix-filename-rubout
+# alt-o, alt-i: search by beginning of the command
+"o": history-search-backward
+"i": history-search-forward
 

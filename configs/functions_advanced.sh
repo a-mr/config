@@ -96,8 +96,18 @@ if [[ $CURSHELL == zsh ]]; then
     zle -N re-read-init-file
     # backspace in vim's style instead of vi
     bindkey "^?" backward-delete-char
-    bindkey "^W" backward-kill-word
-    bindkey "^H" backward-delete-char
+    backward-kill-fname () {
+        local WORDCHARS=${WORDCHARS/\/}
+        zle backward-kill-word
+    }
+    zle -N backward-kill-fname
+    # ctrl-w, delete file name
+    bindkey '\C-w' backward-kill-fname
+    # ctrl-backspace, does not work in konsole
+    bindkey "^H" backward-kill-fname
+    # alt-backspace, delete all the word including '/'
+    bindkey '^[^?' backward-kill-word
+
     # Control-h also deletes the previous char
     bindkey "^U" kill-whole-line
     # home/end in gnome terminal
@@ -109,8 +119,8 @@ if [[ $CURSHELL == zsh ]]; then
     # (hopefully) in many other terminals:
     bindkey "${terminfo[khome]}" beginning-of-line
     bindkey "${terminfo[kend]}" end-of-line
-    # search for the command beginning
-    bindkey "p" history-beginning-search-backward
+    # alt-o, alt-i: search for the command beginning
+    bindkey "o" history-beginning-search-backward
     bindkey "i" history-beginning-search-forward
 
     # print function definition in which

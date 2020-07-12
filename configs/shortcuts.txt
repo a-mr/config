@@ -1,5 +1,5 @@
-Bash/Zsh
-  !$       last word of previous command     A-p  command beginning backward
+Bash/Zsh                                   my Bash/Zsh:
+  !$       last word of previous command     A-o  command beginning backward
   $_       last arg  of previous command     A-i  command beginning forward
   C-v C-j  insert newline w/o executing
   !str     repeat prev cmd started w/ str

@@ -787,12 +787,19 @@ bv () {
     else
         local n=$1
     fi
+    filter="$2"
     local line="$(cat ~/tmp/buffer|decolorize|head -n $n|tail -n 1)"
-    echo line: $line
-    local fname="$(echo $line | cut -f1 -d: | trim_spaces)"
-    local lineNo="$(echo $line: | cut -f2 -d: | trim_spaces)"
-    echo fname: $fname
-    echo lineNo: $lineNo
+    echo \ \ line:	$line
+    local line_proc
+    if [[ "$filter" == "" ]]; then
+        line_proc="$line"
+    else
+        line_proc="`echo $line | eval $filter`"
+    fi
+    local fname="$(echo $line_proc | cut -f1 -d: | trim_spaces)"
+    local lineNo="$(echo $line_proc: | cut -f2 -d: | trim_spaces)"
+    echo \ \ fname:	$fname
+    echo \ \ lineN:	$lineNo
     if [[ "$lineNo" == "" ]]; then
         echo vim \'$fname\'
         add_command vim \'$fname\'
@@ -819,6 +826,8 @@ for i in `seq 1 999`; do alias bv$i="bv $i"; done
 for i in `seq 1 999`; do alias b$i:="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b${i}l="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b${i}r="bb $i 'cut -f2- -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias bv${i}l="bv $i 'cut -f1  -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias bv${i}r="bv $i 'cut -f2- -d: | trim_spaces'"; done
 
 lcd () {
     cd "$1" && ls | p
