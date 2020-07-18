@@ -28,3 +28,8 @@
 #touchpad
 "~/bin/toggletouchpad.sh"
   XF86TouchpadToggle
+# additional mouse buttons on the side
+"xte 'key Page_Up'"
+b:9
+"xte 'key Page_Down'"
+b:8

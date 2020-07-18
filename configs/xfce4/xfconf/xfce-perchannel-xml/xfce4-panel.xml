@@ -34,12 +34,12 @@
       <property name="mode" type="uint" value="1"/>
       <property name="disable-struts" type="bool" value="false"/>
       <property name="background-alpha" type="uint" value="100"/>
-      <property name="leave-opacity" type="uint" value="77"/>
+      <property name="leave-opacity" type="uint" value="100"/>
       <property name="background-style" type="uint" value="1"/>
       <property name="background-color" type="array">
-        <value type="uint" value="11051"/>
-        <value type="uint" value="14135"/>
-        <value type="uint" value="11626"/>
+        <value type="uint" value="20495"/>
+        <value type="uint" value="26214"/>
+        <value type="uint" value="21561"/>
         <value type="uint" value="65535"/>
       </property>
       <property name="span-monitors" type="bool" value="true"/>
@@ -60,12 +60,12 @@
       <property name="size" type="uint" value="48"/>
       <property name="background-style" type="uint" value="1"/>
       <property name="background-color" type="array">
-        <value type="uint" value="20971"/>
-        <value type="uint" value="16233"/>
         <value type="uint" value="0"/>
+        <value type="uint" value="34734"/>
+        <value type="uint" value="30363"/>
         <value type="uint" value="65535"/>
       </property>
-      <property name="leave-opacity" type="uint" value="73"/>
+      <property name="leave-opacity" type="uint" value="100"/>
     </property>
   </property>
   <property name="plugins" type="empty">
@@ -102,6 +102,7 @@
         <value type="string" value="pidgin"/>
         <value type="string" value="ktorrent"/>
         <value type="string" value="networkmanager applet"/>
+        <value type="string" value="apt-notifier.py"/>
         <value type="string" value="diodon"/>
         <value type="string" value="xpra"/>
         <value type="string" value="system-config-printer"/>
@@ -183,7 +184,7 @@
     <property name="plugin-3" type="string" value="whiskermenu"/>
     <property name="plugin-1" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-      <property name="mpris-players" type="string" value="chromium.instance17551;parole;rhythmbox;smplayer"/>
+      <property name="mpris-players" type="string" value="chromium.instance12274;chromium.instance17551;chromium.instance5543;parole;rhythmbox;smplayer"/>
     </property>
     <property name="plugin-18" type="string" value="launcher">
       <property name="items" type="array">
@@ -202,9 +203,8 @@
         <value type="string" value="-shutdown"/>
         <value type="string" value="-restart"/>
         <value type="string" value="+separator"/>
-        <value type="string" value="+logout"/>
-        <value type="string" value="-logout-dialog"/>
-        <value type="string" value="-hybrid-sleep"/>
+        <value type="string" value="-logout"/>
+        <value type="string" value="+logout-dialog"/>
       </property>
       <property name="invert-orientation" type="bool" value="true"/>
     </property>

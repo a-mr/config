@@ -69,6 +69,7 @@ inst konsole/konsolerc ~/.config/konsolerc
 inst konsole/konsoleui.rc ~/.local/share/kxmlgui5/konsole/konsoleui.rc
 inst konsole/sessionui.rc ~/.local/share/kxmlgui5/konsole/sessionui.rc
 inst "konsole/Profile 5.profile" "$HOME/.local/share/konsole/Profile 5.profile"
+inst konsole/Linux.colorscheme ~/.local/share/konsole/Linux.colorscheme
 
 oinst roxterm.sourceforge.net ~/.config/roxterm.sourceforge.net
 oinst lxpanel-default ~/.config/lxpanel/default

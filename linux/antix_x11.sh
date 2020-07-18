@@ -20,13 +20,13 @@ $INS ibus-table-latex
 
 $INS psutils xournal xsane
 #pdf manipulation:
-$INS texlive-extra-utils texlive-latex-recommended pdftk
+$INS atril texlive-extra-utils texlive-latex-recommended pdftk
 
 # x tools
 $INS xbindkeys xvkbd xdotool gkrellm gkrellm-cpufreq
 
 #doc reader
-$INS gv fbreader djview4 xchm
+$INS gv fbreader djview4 xchm okular okular-extra-backends libqca-qt5-2-plugins
 
 #mulit-MEDIA&sound
 $INS vlc mplayer smplayer ffmpeg handbrake moc xine-ui rhythmbox audacity pasystray pavucontrol guvcview cheese mediainfo soundconverter
@@ -37,10 +37,3 @@ $INS gimp inkscape dia
 #torrents & p2p
 $INS transmission 
 
-#converters
-$INS python-plastex pandoc antiword unoconv writer2latex
-
-$INS aspell-ru myspell-ru mythes-ru
-
-#misc
-$INS fortune-mod fortunes fortunes-ru
