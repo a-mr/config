@@ -210,13 +210,13 @@ mydialog () {
   if [ "$variant" = "" ]; then
       split1 "$1" tag command
       eval $command
-      return
+      return $?
   fi
   while (( $# )); do
       split1 "$1" tag command
       if [[ "$variant" == "$tag" ]]; then
           eval $command
-          return
+          return $?
       fi
       shift 1
   done

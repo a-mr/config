@@ -90,3 +90,5 @@ Rotate all virtual framebuffers:
 
 echo 1 | sudo tee /sys/class/graphics/fbcon/rotate_all
 
+=== check USB version (2.0/3.0/...)  ==========================================
+lsusb -vvv | grep -i -B5 -A5 bcdUSB | less

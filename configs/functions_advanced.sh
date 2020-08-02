@@ -295,7 +295,7 @@ if [[ $CURSHELL == zsh ]]; then
     "msdp"	"mathematics-statistics&data_processing/"
     "mt"	"mathematics-topology/"
     "mmp"	"mathematics-mathematical_physics/"
-    "nim"       "$apu/Nim"
+    "nim"       "$apu/Nim/"
     )
 
 

@@ -25,7 +25,12 @@ if [ -z "$ALLOW_BASH" ] && which zsh > /dev/null 2>&1 && \
     [[ $CURSHELL != zsh ]]; then
     if shopt -q login_shell; then
         echo we are in bash, starting zsh log-in
-        exec zsh -l
+        case "$BASH_VERSION" in
+            5.0.[0-7]"("*)
+            echo Bad bash version, spawing another process
+            zsh -l ;;
+            *) exec zsh -l
+        esac
     else
         exec zsh
         echo we are in bash, starting zsh
@@ -135,6 +140,7 @@ nctr () {
 mknim2 () {
     nim c --lib:lib --debuginfo --lineDir:on -o:$HOME/activity-public/Nim/bin/nim2 $HOME/activity-public/Nim/compiler/nim.nim
 }
+[[ $CURSHELL == bash ]] && export -f mknim2
 
 #julia
 julianb () {
@@ -433,7 +439,18 @@ tmux_try_start () {
 
 screen_try_attach () {
     local session_type=${1:-"("}
-    exec screen -r "`screen -list | grep "$session_type" | awk '{print $1}'`"
+    local session="`screen -list | grep "$session_type" | awk '{print $1}'`"
+    if [ -z $session ]; then
+        echo no session type $session_type
+        return 1
+    fi
+    screen -r "$session"
+    local exit_code=$?
+    if [ $exit_code -eq 0 ]; then
+        sleep 2
+        exit
+    fi
+    return $exit_code
 }
 
 screen_try_start () {
@@ -1941,6 +1958,8 @@ pul () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git pull --recurse-submodules origin "$(bra)"
+          local exit_code=$?
+          [ $exit_code -ne 0 ] && return $exit_code
           git submodule update
           if exist git-lfs; then
               mydialog "Pull git lfs? [n|y]" "n green_echo skipped" "y git lfs pull"

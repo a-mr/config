@@ -11,6 +11,7 @@
     </property>
     <property name="icon-size" type="empty"/>
     <property name="tooltip-size" type="empty"/>
+    <property name="gravity" type="int" value="5"/>
   </property>
   <property name="backdrop" type="empty">
     <property name="screen0" type="empty">
@@ -599,9 +600,10 @@
         <property name="workspace0" type="empty">
           <property name="color-style" type="int" value="0"/>
           <property name="image-style" type="int" value="4"/>
-          <property name="last-image" type="string" value="/home/amakarov/activity-personal/computer-program-data/pictures/1574729176_VSYa-SUT-OTNOShENIY-_demotions.ru.jpg"/>
+          <property name="last-image" type="string" value="/home/amakarov/activity-personal/computer-program-data/pictures/1587898968_Kazhdyy-vecher-posle.jpg"/>
           <property name="backdrop-cycle-enable" type="bool" value="true"/>
           <property name="backdrop-cycle-random-order" type="bool" value="true"/>
+          <property name="backdrop-cycle-timer" type="uint" value="5"/>
         </property>
         <property name="workspace1" type="empty">
           <property name="color-style" type="int" value="0"/>
@@ -639,6 +641,43 @@
           <property name="color-style" type="int" value="0"/>
           <property name="image-style" type="int" value="5"/>
           <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-stripes.png"/>
+        </property>
+        <property name="workspace1" type="empty">
+          <property name="color-style" type="int" value="0"/>
+          <property name="image-style" type="int" value="5"/>
+          <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-stripes.png"/>
+        </property>
+        <property name="workspace2" type="empty">
+          <property name="color-style" type="int" value="0"/>
+          <property name="image-style" type="int" value="5"/>
+          <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-stripes.png"/>
+        </property>
+        <property name="workspace3" type="empty">
+          <property name="color-style" type="int" value="0"/>
+          <property name="image-style" type="int" value="5"/>
+          <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-stripes.png"/>
+        </property>
+        <property name="workspace4" type="empty">
+          <property name="color-style" type="int" value="0"/>
+          <property name="image-style" type="int" value="5"/>
+          <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-stripes.png"/>
+        </property>
+        <property name="workspace5" type="empty">
+          <property name="color-style" type="int" value="0"/>
+          <property name="image-style" type="int" value="5"/>
+          <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-stripes.png"/>
+        </property>
+        <property name="workspace6" type="empty">
+          <property name="color-style" type="int" value="0"/>
+          <property name="image-style" type="int" value="5"/>
+          <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-stripes.png"/>
+        </property>
+      </property>
+      <property name="monitorVGA-1" type="empty">
+        <property name="workspace0" type="empty">
+          <property name="color-style" type="int" value="0"/>
+          <property name="image-style" type="int" value="0"/>
+          <property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-teal.jpg"/>
         </property>
         <property name="workspace1" type="empty">
           <property name="color-style" type="int" value="0"/>

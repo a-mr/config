@@ -1,11 +1,11 @@
-Bash/Zsh                                   my Bash/Zsh:
-  !$       last word of previous command     A-o  command beginning backward
-  $_       last arg  of previous command     A-i  command beginning forward
-  C-v C-j  insert newline w/o executing
-  !str     repeat prev cmd started w/ str
-  !?str    repeat prev cmd containing str
-  !:0      name of prev cmd
-
+Bash/Zsh                                  | my Bash/Zsh:
+  !$       last word of previous command  |  A-o  command beginning backward
+  $_       last arg  of previous command  |  A-i  command beginning forward
+  C-v C-j  insert newline w/o executing   |
+  !str     repeat prev cmd started w/ str |
+  !?str    repeat prev cmd containing str |
+  !:0      name of prev cmd               |
+______________________________________________________________________________
 Vim                     Vim spellcheck                 Vim window
   zo  open fold           <F9> or set spell/set nospell  C-w +-  resize up/dn
   zc  close fold          zg  add word to dict           C-w <>  resize le/ri
@@ -16,26 +16,33 @@ Vim                     Vim spellcheck                 Vim window
   ]c  goto next VCS chg   %:p  the same, full path
   :g/PAT show lines
          matching PAT
-my Vim:                                              ssf<SYM> goto symbol <SYM>
-  A-t  select buffers     st    select tag           ssw      select downwards
-  A-n  next buffer        <F9>  select spell lang    ssb      select upwards
-  A-p  prev buffer        <F8>  select encoding      ssj      select lineforward
-  A-m  select marks                                  ssk      select line back
+Easymotion                          My:  A-w  go to word beg
+ ssf<SYM> goto symbol <SYM>              A-e  go to word end
+ ssw      select downwards               A-k  go to line
+ ssb      select upwards                 A-f  go to symbol
+ ssj      select line frwd
+ ssk      select line back
+my Vim:
+  A-t  select buffers     st    select tag
+  A-n  next buffer        <F9>  select spell lang
+  A-p  prev buffer        <F8>  select encoding
+  A-m  select marks
          H  jump to screen top       zt  position cur.line at top
          M  jump to screen middle    zz  position cur.line at middle
          L  jump to screen bottom    zb  position cur.line at bottom
+______________________________________________________________________________
  Tmux                              Screen
       PRE ]  paste                   PRE ]  paste
       PRE "  split horizontally      PRE S  split horizontally ... PRE tab PRE c
       PRE %  split vertically        PRE |  split vertiacally
                                      PRE X  close region
  hold PRE -> resize pane             PRE :resize +10
-
+______________________________________________________________________________
                             XFCE4
-C-A-t  Terminal           C-A-k  Tile top     C-A-S-k  Tile top-right
-C-A-C  Clipboard Manager  C-A-j  Tile bottom  C-A-S-j  Tile bottom-left
-Win    Xfce Whisker Menu  C-A-l  Tile right   C-A-S-l  Tile bottom-right
-                          C-A-h  Tile left    C-A-S-h  Tile top-left
+C-A-t  Terminal          | C-A-k  Tile top    | C-A-S-k  Tile top-right
+C-A-C  Clipboard Manager | C-A-j  Tile bottom | C-A-S-j  Tile bottom-left
+Win    Xfce Whisker Menu | C-A-l  Tile right  | C-A-S-l  Tile bottom-right
+                         | C-A-h  Tile left   | C-A-S-h  Tile top-left
 🗔
 C-A-n   Maximize                   Win-Shift-s  screenshot of area
 C-A-v   Maximize vertically
