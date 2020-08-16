@@ -302,20 +302,17 @@ runtime macros/matchit.vim
 "EasyMotion config
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 hi link EasyMotionTarget WarningMsg
-" go to word beginning
-map w <Plug>(easymotion-bd-w)
-imap w <Esc><Plug>(easymotion-bd-w)
-" go to word end
-map e <Plug>(easymotion-bd-e)
-imap e <Esc><Plug>(easymotion-bd-e)
-" go to line
-map k <Plug>(easymotion-bd-jk)
-imap k <Esc><Plug>(easymotion-bd-jk)
-" go to character
-map f <Plug>(easymotion-bd-f)
-imap f <Esc><Plug>(easymotion-bd-f)
 
 nmap s <Leader>
+
+" go to word beginning
+map sw <Plug>(easymotion-bd-w)
+" go to word end
+map se <Plug>(easymotion-bd-e)
+" go to line
+map sk <Plug>(easymotion-bd-jk)
+" go to character
+map sn <Plug>(easymotion-bd-f)
 
 " Jump to anywhere with only `s{char}{target}`
 " `s<CR>` repeat last find motion.

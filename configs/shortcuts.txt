@@ -16,10 +16,10 @@ Vim                     Vim spellcheck                 Vim window
   ]c  goto next VCS chg   %:p  the same, full path
   :g/PAT show lines
          matching PAT
-Easymotion                          My:  A-w  go to word beg
- ssf<SYM> goto symbol <SYM>              A-e  go to word end
- ssw      select downwards               A-k  go to line
- ssb      select upwards                 A-f  go to symbol
+Easymotion                          My:  sw  go to word beg
+ ssf<SYM> goto symbol <SYM>              se  go to word end
+ ssw      select downwards               sk  go to line
+ ssb      select upwards                 sn  go to symbol
  ssj      select line frwd
  ssk      select line back
 my Vim:

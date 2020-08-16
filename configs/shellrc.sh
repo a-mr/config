@@ -712,6 +712,11 @@ p () {
     #cp ~/tmp/buffer ~/tmp/buffer2
 }
 
+# just print to buffer
+pb () {
+    tee ~/tmp/buffer | less -N -X -E
+}
+
 # simple pager with line number
 pp () {
     cat -n | less -X
@@ -1297,6 +1302,33 @@ site_to_pdf () {
     wkhtmltopdf "$name"/{index.html,*.html} "$name".pdf
 }
 
+vimprint () {
+    local output="$1.ps"
+    vim -c ":set printoptions=paper:A4,left:18mm,right:2mm,top:5mm,bottom:5mm" -c "hardcopy > $output" -c quit "$1"
+    o "$output"
+    rm "$output"
+}
+
+vimpdf () {
+    local output="$1.ps"
+    vim -c ":set printoptions=paper:A4,left:2mm,right:2mm,top:2mm,bottom:2mm" -c "hardcopy > $output" -c quit "$1"
+    local output2="$1.pdf"
+    ps2pdf "$output" "$output2"
+    rm "$output"
+    echo $output2 | pb
+    o "$output2"
+}
+
+vimpdfB5 () {
+    local output="$1.ps"
+    vim -c ":set printoptions=paper:B5,left:2mm,right:2mm,top:2mm,bottom:2mm" -c "hardcopy > $output" -c quit "$1"
+    local output2="$1.pdf"
+    ps2pdf "$output" "$output2"
+    rm "$output"
+    echo $output2 | pb
+    o "$output2"
+}
+
 # Pdf cropping
 # - to just crop bottom of pdf file on all pages, do:
 #  pdfjam --keepinfo --trim "0mm 15mm 0mm 0mm" --clip true --suffix "cropped" file_to_crop.pdf
@@ -1447,6 +1479,8 @@ log () {
         *) red_echo unknown repository: $REPO
   esac
 }
+# fix autocompletion
+[[ $CURSHELL == zsh ]] && compdef '_dispatch ls ls' log
 
 # print graph for all branches
 gra () {
