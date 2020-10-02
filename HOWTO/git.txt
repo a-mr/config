@@ -49,3 +49,9 @@ Or, if you're a busy person:
 
 > git submodule foreach git pull origin master
 ===============================================================================
+move latest commit (e.g. mistakenly committed to master) to another branch
+> git branch newbranch
+> git reset --hard HEAD~1
+> git checkout newbranch
+===============================================================================
+

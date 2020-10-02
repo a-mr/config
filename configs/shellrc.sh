@@ -587,10 +587,13 @@ vf () {
 }
 
 psu () {
-    ps -fU $USER --forest|less
+    ps -f --forest -u ${1:-$USER} | less
 }
 psa () {
-    ps axo stat,euid,ruid,tty,tpgid,sess,pgrp,ppid,pid,pcpu,comm --forest|less
+    ps ao stat,euid,ruid,tty,tpgid,sess,pgrp,ppid,pid,pcpu,comm --forest ${@-a} | less
+}
+pst () {
+    ps o user,pid,comm --forest ${@-a} | less
 }
 users () {
     who -u | grep `date +'%Y-%m-%d'` |  sort -n -k 5
@@ -818,8 +821,9 @@ bv () {
     else
         line_proc="`echo $line | eval $filter`"
     fi
-    local fname="$(echo $line_proc | cut -f1 -d: | trim_spaces)"
-    local lineNo="$(echo $line_proc: | cut -f2 -d: | trim_spaces)"
+    # /bin/echo is used since zsh echo interprets escapes like '\n' by default
+    local fname="$(/bin/echo $line_proc | cut -f1 -d: | trim_spaces)"
+    local lineNo="$(/bin/echo $line_proc: | cut -f2 -d: | trim_spaces)"
     echo \ \ fname:	$fname
     echo \ \ lineN:	$lineNo
     if [[ "$lineNo" == "" ]]; then
@@ -1139,8 +1143,8 @@ opfd () {
     ll /proc/$1/fd
 }
 
-function makes () {
-    gmake -qp | awk -F':' \
+makes () {
+    make -qp | awk -F':' \
         '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | \
         sort -u | less
 }
@@ -1159,6 +1163,17 @@ f () {
     fi
     echo find $dir -iwholename "*$1*"
     find $dir -iwholename "*$1*" | p
+}
+
+find_writable_dir () {
+    find "$1" -type d -print0 | while IFS= read -d $'\0' -r dir ; do
+        if [ -w "$dir" ]; then
+            echo -n "WRITABLE ";
+        else
+            echo -n "NOT WRITABLE ";
+        fi;
+        ls -ld "$dir";
+    done | less
 }
 
 # "findnew Dir N" finds recent files that a newer N days.
@@ -1455,8 +1470,10 @@ report_repo_type () {
 inf () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git describe --all; git branch -vv | grep "$(bra)"; git remote -v
-          dat
+      git) 
+          local branch="${1:-$(bra)}"
+          git describe --all; git branch -vv | grep "$branch"; git remote -v
+          dat "$branch"
           ;;
       mercurial) hg id; hg paths
           ;;
@@ -1580,18 +1597,27 @@ gitgrb () {
     git log --decorate --graph --oneline --first-parent "$branch" | less -S
 }
 
-# con branch revision — check that branch contains revision
-function con {
+# `has revision branch` check that branch contains revision
+function has {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git merge-base --is-ancestor $2 $1
+      git) git merge-base --is-ancestor $1 ${2:-$(bra)}
+           if [ $? -eq 0 ]; then
+              echo Yes
+           else
+              echo No
+           fi
           ;;
-      mercurial) hg log -r $2 -b $1
+      mercurial) hg log -r $1 -b $2
           ;;
       svn) echo not implemented for svn
           ;;
       *) red_echo unknown repository: $REPO
   esac
+}
+
+cnt () {
+    git rebase --continue
 }
 
 # history of all changes to file(s)
@@ -1814,27 +1840,46 @@ pat () {
   esac
 }
 
-add () {
-for i in $@; do
-  if [ -d "`dirname $i`" ]; then
-      cd "`dirname $i`"
-  else
-      red_echo no such directory
-      return 2
-  fi
-  local file="`basename $i`"
+# the same but with full files contents (1000 lines of context)
+patf () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git add $file
+      git) git show --parents -U1000 $@ | less -X
           ;;
-      mercurial) hg add $file
+      mercurial) hg diff -c $@ | less -X
           ;;
-      svn) svn add $file
+      svn) svn diff -c $@ | less -X
           ;;
       *) red_echo unknown repository: $REPO
   esac
-  cd -
-done
+}
+
+add () {
+  for i in "$@"; do
+    echo adding $i
+    if [ -d "`dirname $i`" ]; then
+        cd "`dirname $i`"
+    else
+        red_echo no such directory
+        return 2
+    fi
+    local file="`basename $i`"
+    REPO=`what_is_repo_type`
+    case "$REPO" in
+        git) git add $file
+            ;;
+        mercurial) hg add $file
+            ;;
+        svn) svn add $file
+            ;;
+        *) red_echo unknown repository: $REPO
+    esac
+    local exit_code=$?
+    cd -
+    if [ $exit_code -ne 0 ]; then
+        return $exit_code
+    fi
+  done
 }
 
 roo () {
@@ -1896,6 +1941,13 @@ pus () {
   esac
 }
 
+reb () {
+    local def_br=$(dbr)
+    local cur_br=$(bra)
+    [[ $def_br = $cur_br ]] && red_echo On default branch && return 1
+    git fetch origin "$def_br:$def_br" && git rebase "$def_br" && git push origin "$cur_br"
+}
+
 gitlfspur () {
     git lfs ls-files -n | xargs -d '\n' rm
     rvr "${1:-.}"
@@ -1928,6 +1980,10 @@ unstage () {
     if [ -f "$1" ]; then
         git reset HEAD "$1"
     fi
+}
+
+gitmerges () {
+    git log $1.."`dbr`" --ancestry-path --merges | less +G
 }
 
 rvr () {
@@ -2015,13 +2071,18 @@ get () {
       git) 
           if [[ "$1" != "" ]]; then
               local branch="$1"
+              echo git fetch --recurse-submodules origin $branch:$branch
+              git fetch --recurse-submodules origin $branch:$branch
           else
               local branch="$(bra)"
+              echo git fetch --recurse-submodules origin $branch
+              git fetch --recurse-submodules origin $branch
+              # try fetching also default branch (master)
+              if [[ "$branch" != "$default" ]]; then
+                  echo git fetch --recurse-submodules origin $default:$default
+                  git fetch --recurse-submodules origin $default:$default
+              fi
           fi
-          if [[ "$branch" != "$default" ]]; then
-              git fetch --recurse-submodules origin $branch:$branch
-          fi
-          git fetch --recurse-submodules origin $default:$default
           ;;
       mercurial) hg pull $@
           ;;

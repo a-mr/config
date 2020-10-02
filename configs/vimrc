@@ -35,10 +35,11 @@ set backupdir=~/tmp/VIM_TMP
 " Tell vim to remember certain things when we exit
 "  '10  :  marks will be remembered for up to 10 previously edited files
 "  "100 :  will save up to 100 lines for each register
-"  :20  :  up to 20 lines of command-line history will be remembered
+"  :200 :  up to 200 lines of command-line history will be remembered
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
-set viminfo='10,\"100,:20,%,n~/.viminfo
+set viminfo='10,\"100,:200,%,n~/.viminfo
+set history=200
 
 set nowrapscan
 set ignorecase
@@ -54,12 +55,13 @@ endif
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
-set grepprg=grep\ -irnH\ $*\ .
+set grepprg=grep\ -rnH\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ $*\ .
 command! -nargs=+ Grep  execute 'silent grep! <args>'    | copen | let @z = '<args>'
 command! -nargs=+ Grepw execute 'silent grep! -w <args>' | copen | let @z = '<args>'
 "| execute 'silent /<args>'
 
 map <S-F12> "zyiw:grep "<C-R>z"<CR><CR>:copen<CR>zz/<C-R>z<CR>
+map <Leader>g "zyiw:grep "<C-R>z"<CR><CR>:copen<CR>zz/<C-R>z<CR>
 vmap <S-F12> "zy:grep "<C-R>z"<CR><CR>zz/<C-R>z<CR>
 map <F12> :cn<CR>zz/<C-R>z<CR>
 map <C-F12> :cp<CR>zz/<C-R>z<CR>
@@ -183,16 +185,16 @@ endif
 
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
-    hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=0
+    hi statusline guibg=Cyan ctermfg=Green guifg=Black ctermbg=Black
   elseif a:mode == 'r'
-    hi statusline guibg=Purple ctermfg=5 guifg=Black ctermbg=0
+    hi statusline guibg=Purple ctermfg=Green guifg=Black ctermbg=Black
   else
     hi statusline guibg=DarkRed ctermfg=1 guifg=Black ctermbg=0
   endif
 endfunction
 
 au InsertEnter * call InsertStatuslineColor(v:insertmode)
-au InsertLeave * hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
+au InsertLeave * hi statusline guibg=DarkGrey ctermfg=White guifg=White ctermbg=Black
 
 " default the statusline to green when entering Vim
 hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
@@ -262,6 +264,9 @@ set laststatus=2
 "set statusline+=%1*col:%v\                            "Colnr
 ""set statusline+=%1*col:%03c\                            "Colnr
 "set statusline+=%1*line:%l/%L\                "Rownumber/total (%)
+"
+"set statusline+=\ \ %{noscrollbar#statusline(30,'-','\|')}%=
+set statusline+=\ \ %{noscrollbar#statusline(30,'─','■')}%=
 if !has("gui_running")
 "set statusline+=%4*%m%2*%r%w%1*\ %P\                    "Modified? Readonly? Top/bot.
 set statusline+=%P%4*%m%2*%r%w\                    "Modified? Readonly? Top/bot.
@@ -817,6 +822,7 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-easy-align/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easymotion/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " start interactive shell to use functions & aliases

@@ -46,3 +46,6 @@
 [submodule "development/gdb-dashboard"]
 	path = development/gdb-dashboard
 	url = https://github.com/cyrus-and/gdb-dashboard
+[submodule "vim/vim-noscrollbar"]
+	path = vim/vim-noscrollbar
+	url = https://github.com/gcavallanti/vim-noscrollbar

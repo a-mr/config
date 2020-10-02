@@ -1,21 +1,34 @@
 Bash/Zsh                                  | my Bash/Zsh:
   !$       last word of previous command  |  A-o  command beginning backward
   $_       last arg  of previous command  |  A-i  command beginning forward
-  C-v C-j  insert newline w/o executing   |
+  C-v C-j  insert newline w/o executing   |  C-e  expand abbreviation (zsh)
   !str     repeat prev cmd started w/ str |
   !?str    repeat prev cmd containing str |
   !:0      name of prev cmd               |
+  cd -<n>  cd previous directory #n
+  $OLDPWD  previous directory #1   
 ______________________________________________________________________________
 Vim                     Vim spellcheck                 Vim window
   zo  open fold           <F9> or set spell/set nospell  C-w +-  resize up/dn
   zc  close fold          zg  add word to dict           C-w <>  resize le/ri
-  zM  fold all            z=  propose completion list
+  zM  fold all            z=  propose completion list        10< resize le*10
   zR  unfold all          ]s  goto next misspelled
   zz  curr.line ->center
                           %    current file in :!
   ]c  goto next VCS chg   %:p  the same, full path
-  :g/PAT show lines
+  :g/PAT show lines                   R<C-r>"  replace-paste after yanking text
          matching PAT
+______________________________________________________________________________
+  :match  Bool      /paTTERN/   =add highlight group 1 with paTTERN & color Bool
+  :2match Character /paTTERN/   =add highlight group 2 with paTTERN & color Char
+  :set cc=8                     =highlight column 8 (to navigate long functions)
+  :put =map(range(0,75), 'printf(''// %d'', v:val)')   =insert a list of numbers
+  :for i in range(1,10) | put ='// '.i | endfor        =the same
+______________________________________________________________________________
+         H  jump to screen top       zt  position cur.line at top
+         M  jump to screen middle    zz  position cur.line at middle
+         L  jump to screen bottom    zb  position cur.line at bottom
+______________________________________________________________________________
 Easymotion                          My:  sw  go to word beg
  ssf<SYM> goto symbol <SYM>              se  go to word end
  ssw      select downwards               sk  go to line
@@ -27,9 +40,6 @@ my Vim:
   A-n  next buffer        <F9>  select spell lang
   A-p  prev buffer        <F8>  select encoding
   A-m  select marks
-         H  jump to screen top       zt  position cur.line at top
-         M  jump to screen middle    zz  position cur.line at middle
-         L  jump to screen bottom    zb  position cur.line at bottom
 ______________________________________________________________________________
  Tmux                              Screen
       PRE ]  paste                   PRE ]  paste
@@ -37,6 +47,7 @@ ______________________________________________________________________________
       PRE %  split vertically        PRE |  split vertiacally
                                      PRE X  close region
  hold PRE -> resize pane             PRE :resize +10
+                                my:  C-n C-o switch to the window before
 ______________________________________________________________________________
                             XFCE4
 C-A-t  Terminal          | C-A-k  Tile top    | C-A-S-k  Tile top-right

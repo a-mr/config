@@ -38,5 +38,9 @@
 	date = iso-local
 [merge]
 	renameLimit = 999999
+        tool = meld
+[mergetool "meld"]
+    cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+
 [blame]
 	coloring = highlightRecent
