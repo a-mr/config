@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cat > ~/tmp/pages
+tmux select-window -t 0 > /dev/null 2>&1
+exit 0
