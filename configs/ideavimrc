@@ -1,0 +1,6 @@
+
+let mapleader="s"
+set easymotion
+set hlsearch
+set ignorecase
+

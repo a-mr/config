@@ -707,16 +707,19 @@ if [ "$LESS_VERSION" -lt "381" ]; then
     GREP_COLOR=never
 fi
 
+# Use:
+# - buffer for directing multi-line outputs
+# - buffer2 for directing one-line outputs (like a long path)
+
 # pager with line numbers which copies to a file
 p () {
-    #cp ~/tmp/buffer ~/tmp/buffer2
     # add -F to exit less if it fits the screen
     tee ~/tmp/buffer | less -N -X
-    #cp ~/tmp/buffer ~/tmp/buffer2
 }
 
 # just print to buffer
 pb () {
+    # -E means exit at reaching EOF
     tee ~/tmp/buffer | less -N -X -E
 }
 
@@ -772,12 +775,31 @@ eea () {
   eea "$line2"
 }
 
+# use ~/tmp/buffer2 for passing one-line information from
+# one command (fullpath,..) to another - argument of b
+b () {
+    if [[ "$1" == "" ]]; then
+        cat ~/tmp/buffer2
+    else
+        local line_proc=$(cat ~/tmp/buffer2)
+        cmd="$@"
+        echo running:
+        bold_echo $cmd \"$line_proc\"
+        add_command $cmd \"$line_proc\"
+        eval $cmd \"$line_proc\"
+    fi
+}
+
+setb () {
+    echo $@ > ~/tmp/buffer2
+}
+
 #   bb   line number   command to filter   command to run
 bb () {
-if [[ "$1" == "" ]]; then
+  if [[ "$1" == "" ]]; then
     # less: -X don't clear the screen, -F quit if one screen
     cat ~/tmp/buffer|less -F -N -X
-else
+  else
     local n=$1
     local filter
     filter="$2"
@@ -802,7 +824,7 @@ else
     fi
     add_command $cmd \"$line_proc\"
     eval $cmd \"$line_proc\"
-fi
+  fi
 }
 
 #open file +line in vim
@@ -962,7 +984,8 @@ gc () {
 
 ngcommon () {
     nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
-        --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" $@
+        --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" \
+        --cols:$((COLUMNS-8)) --onlyAscii -j:4 $@
 }
 
 # search in Nim files, style-insensitive (-y)
@@ -1192,6 +1215,11 @@ findnew () {
         time="$2"
     fi
     find $dir -mtime -$time | p
+}
+
+# sort files by modification time
+findtime () {
+    find . -printf "%T@ %Tc %p\n" $@ | sort -n | cut -f2- -d' '
 }
 
 findbig () {
@@ -1826,15 +1854,29 @@ pri () {
   esac
 }
 
+# print history for given line: `lin <number> <file>`
+lin () {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git) git log -L $1,$1:"$2"
+          ;;
+      mercurial) red_echo not implemented
+          ;;
+      svn) red_echo not implemented
+          ;;
+      *) red_echo unknown repository: $REPO
+  esac
+}
+
 # show patch for a given revision
 pat () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git show --parents $@ | less -X
+      git) git show --parents $@ | less
           ;;
-      mercurial) hg diff -c $@ | less -X
+      mercurial) hg diff -c $@ | less
           ;;
-      svn) svn diff -c $@ | less -X
+      svn) svn diff -c $@ | less
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -2186,7 +2228,7 @@ pkg () {
               "rm") yum remove "$2" ;;
               "grep"|"ls"|"list") rpm -qa "$2";;
               "files") rpm -ql "$2" ;;
-              "owns"|"which") rpm -qf "$2" ;;
+              "owns"|"which"|"own") rpm -qf "$2" ;;
               "where") yum whatprovides "$2" ;;
               *) red_echo unknown command "$1"
           esac
@@ -2199,7 +2241,7 @@ pkg () {
               "rm") apt-get remove "$2" ;;
               "grep") dpkg -l $2 ;;
               "files"|"ls"|"list") dpkg -L "$2" ;;
-              "owns"|"which") dpkg -S "$2" ;;
+              "owns"|"which"|"own") dpkg -S "$2" ;;
               "where") apt-file search "$2" ;;
               *) red_echo unknown command "$1"
           esac
@@ -2212,7 +2254,7 @@ pkg () {
               "rm") emerge --unmerge "$2" ;;
               "files") qlist "$2" ;;
               "grep"|"ls"|"list") equery list '*' ;; #not tested
-              "owns"|"which") qfile "$2" ;;
+              "owns"|"which"|"own") qfile "$2" ;;
               *) red_echo unknown command "$1"
           esac
           ;;

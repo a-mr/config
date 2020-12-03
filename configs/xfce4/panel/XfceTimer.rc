@@ -1,3 +1,10 @@
+[G0]
+timername=10m
+time=600
+timercommand=
+timerinfo=10m 0s
+is_countdown=true
+
 [others]
 nowin_if_alarm=false
 selecting_starts=false

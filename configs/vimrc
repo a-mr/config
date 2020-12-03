@@ -55,7 +55,8 @@ endif
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
-set grepprg=grep\ -rnH\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ $*\ .
+set grepprg=/home/amakarov/activity-public/Nim/bin/nimgrep\ --text\ --recursive\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ --exclude-dir=nimcache\ --excludeDir:csources\ $*\ .
+"set grepprg=grep\ -rnH\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ $*\ .
 command! -nargs=+ Grep  execute 'silent grep! <args>'    | copen | let @z = '<args>'
 command! -nargs=+ Grepw execute 'silent grep! -w <args>' | copen | let @z = '<args>'
 "| execute 'silent /<args>'
@@ -266,13 +267,21 @@ set laststatus=2
 "set statusline+=%1*line:%l/%L\                "Rownumber/total (%)
 "
 "set statusline+=\ \ %{noscrollbar#statusline(30,'-','\|')}%=
-set statusline+=\ \ %{noscrollbar#statusline(30,'─','■')}%=
+set statusline+=\ \ %{noscrollbar#statusline(25,'─','■')}%=
 if !has("gui_running")
 "set statusline+=%4*%m%2*%r%w%1*\ %P\                    "Modified? Readonly? Top/bot.
 set statusline+=%P%4*%m%2*%r%w\                    "Modified? Readonly? Top/bot.
 else
 set statusline+=%P%m%r%w\                    "Modified? Readonly? Top/bot.
 endif
+
+command! -nargs=* Myhardcopy call DoMyPrint('<args>')
+function DoMyPrint(args)
+  let colorsave=g:colors_name
+  color print
+  exec 'hardcopy '.a:args
+  exec 'color '.colorsave
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "common settings for programming
@@ -523,25 +532,28 @@ imap <C-b> <Space>(<Space><Space>)<Esc>hi
 
 au BufRead,BufNewFile *.c,*.h syn keyword cType cycles_t
 
-hi cStatement ctermfg=DarkGreen
+"hi cStatement ctermfg=DarkGreen
 hi PreProc ctermfg=DarkYellow
 hi Constant ctermfg=DarkMagenta
+"hi Constant ctermfg=Cyan
 "hi cString ctermfg=Gray
 "hi cNumber  ctermfg=Gray
 "hi cFloat  ctermfg=Gray
 hi Special ctermfg=DarkMagenta
-hi cFormat ctermfg=DarkGreen
+"hi cFormat ctermfg=DarkGreen
 hi Repeat ctermfg=DarkYellow
-hi Conditional ctermfg=DarkYellow
+"hi Conditional ctermfg=DarkYellow
 hi Operator ctermfg=DarkGreen
 au BufRead,BufNewFile *.c,*.h syn keyword cop goto
-hi cop ctermfg=Cyan
+"hi cop ctermfg=Cyan
 hi Label ctermfg=Cyan
 hi Comment ctermfg=DarkCyan
 au BufRead,BufNewFile *.c,*.h syn match cBracketsf "\({\|}\)"
-hi cBracketsf ctermfg=DarkYellow
+"hi cBracketsf ctermfg=DarkYellow
 au BufRead,BufNewFile *.c,*.h syn match cBrackets "\((\|)\)"
-hi cBrackets ctermfg=Blue
+hi def link Label Conditional
+hi def link cLabel Conditional
+"hi cBrackets ctermfg=Blue
 
 set cinoptions={1s,f1s  " whitesmith C style indentation
 

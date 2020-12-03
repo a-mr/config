@@ -1,0 +1,6 @@
+
+to print a type for var `x`:
+
+import typetraits
+
+echo x.type.name

@@ -5,6 +5,7 @@ Bash/Zsh                                  | my Bash/Zsh:
   !str     repeat prev cmd started w/ str |
   !?str    repeat prev cmd containing str |
   !:0      name of prev cmd               |
+  !:1-$    all arguments to prev cmd
   cd -<n>  cd previous directory #n
   $OLDPWD  previous directory #1   
 ______________________________________________________________________________

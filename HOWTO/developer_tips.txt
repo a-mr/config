@@ -2,3 +2,13 @@ Download a folder from github:
 Use Svn interface by substituting tree/master with trunk:
        https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts
 svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts
+==============================================================================
+
+To profile context switches, cache misses and many other counters on Linux:
+> perf stat ./app ..arguments..
+> perf report
+
+To profile syscalls in Linux:
+> sudo perf stat -e 'syscalls:sys_e*' ./app
+
+

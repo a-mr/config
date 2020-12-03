@@ -16,12 +16,12 @@ sudo add-apt-repository "deb [arch=amd64] https://download.virtualbox.org/virtua
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 
 sudo apt update
-$INS code virtualbox-6.0
+$INS code virtualbox-6.0 dmg2img
 
 $INS build-essential libncurses5-dev gcc gdb libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
 
 # misc
-$INS m4 libev-dev cputool rlwrap python-pygments manpages-dev speedcrunch
+$INS m4 libev-dev cputool rlwrap python-pygments rst2pdf meld manpages-dev speedcrunch parallel pdfjam time
 
 #x dev
 $INS xutils libx11-dev libxkbfile-dev libsecret-1-dev libxext-dev build-essential \

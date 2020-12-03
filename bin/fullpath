@@ -5,6 +5,10 @@
 #	printf '%s\n' "$(pwd -P)/$(basename -- "$1")"
 #cd "$CUR_DIR"
 case "$1" in 
-	/*) printf "%s\n" "$1";; 
-	*)  printf "%s\n" "$PWD/$1";; 
+	#/*) printf "%s\n" "$1";; 
+	#*)  printf "%s\n" "$PWD/$1";; 
+	/*) result="$1";; 
+	*)  result="$PWD/$1";; 
 esac
+printf "%s\n" "$result"
+echo "$result" > ~/tmp/buffer2

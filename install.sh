@@ -110,7 +110,7 @@ inst gitk ~/.config/git/gitk
 inst parcelliterc ~/.config/parcellite/parcelliterc
 inst vifmrc ~/.vifm/vifmrc
 
-for i in icewm i3 i3status.conf gkrellm2 \
+for i in ideavimrc icewm i3 i3status.conf gkrellm2 \
     textadept pentadactylrc vimperatorrc keynavrc xxkbrc \
     xbindkeysrc ocamlinit ghci rootlogon.C juliarc.jl psqlrc; do
 	oinst $i

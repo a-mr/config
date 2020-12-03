@@ -85,11 +85,14 @@ if [[ $CURSHELL == zsh ]]; then
     [[ $ZSH_VERSION > 5 ]] && set -o pipefail
     HISTFILE=~/.histfile
     #almost infinite history for zsh = LONG_MAX
-
     SAVEHIST=2147483647
     HISTSIZE=$SAVEHIST
     setopt EXTENDED_HISTORY
     bindkey -v
+    help ()
+    {
+        command man zshbuiltins | less -p "^       $1 "
+    }
     # create some widgets
     zle -N next-history
     zle -N previous-history
@@ -122,6 +125,8 @@ if [[ $CURSHELL == zsh ]]; then
     # alt-o, alt-i: search for the command beginning
     bindkey "o" history-beginning-search-backward
     bindkey "i" history-beginning-search-forward
+    # enable C-r in zsh vi mode
+    bindkey "^R" history-incremental-search-backward
 
     # print function definition in which
     alias which="whence -cvf"
@@ -254,6 +259,7 @@ if [[ $CURSHELL == zsh ]]; then
     local apu="~/activity-public"
     local ape="~/activity-personal"
     local as="~/activity-shared"
+    local wpe="~/works-personal"
     typeset -Ag abbreviations
     abbreviations=()
 
@@ -295,6 +301,9 @@ if [[ $CURSHELL == zsh ]]; then
     "msdp"	"mathematics-statistics&data_processing/"
     "mt"	"mathematics-topology/"
     "mmp"	"mathematics-mathematical_physics/"
+    "lit"	"$wpe/literature/"
+    "mus"	"$wpe/Music/"
+    "phot"	"$wpe/Photos/"
     "nim"       "$apu/Nim/"
     )
 
