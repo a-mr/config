@@ -51,9 +51,11 @@ ______________________________________________________________________________
                                 my:  C-n C-o switch to the window before
 ______________________________________________________________________________
                             XFCE4
+Win-l  go to right desktop
+Win-h  go to left  desktop
 C-A-t  Terminal          | C-A-k  Tile top    | C-A-S-k  Tile top-right
 C-A-C  Clipboard Manager | C-A-j  Tile bottom | C-A-S-j  Tile bottom-left
-Win    Xfce Whisker Menu | C-A-l  Tile right  | C-A-S-l  Tile bottom-right
+C-a-w  Xfce Whisker Menu | C-A-l  Tile right  | C-A-S-l  Tile bottom-right
                          | C-A-h  Tile left   | C-A-S-h  Tile top-left
 🗔
 C-A-n   Maximize                   Win-Shift-s  screenshot of area

@@ -118,3 +118,14 @@ save_png () {
     xclip -selection clipboard -t image/png -o > "$1"
 }
 
+select_clip () {
+    xclip -selection clipboard -o -t TARGETS | pb
+    echo -n 'input number or q[uit]:'
+    read num
+    if [[ $num == "q" || $num == "quit" ]]; then
+        echo skip
+    else
+        xclip -selection clipboard -o -t `bb $num ''`
+    fi
+}
+

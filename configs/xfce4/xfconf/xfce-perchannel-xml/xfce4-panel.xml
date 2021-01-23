@@ -79,7 +79,7 @@
   <property name="plugins" type="empty">
     <property name="plugin-1" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-      <property name="mpris-players" type="string" value="chromium.instance12274;chromium.instance12728;chromium.instance12934;chromium.instance13230;chromium.instance16151;chromium.instance16774;chromium.instance17551;chromium.instance18468;chromium.instance21083;chromium.instance2619;chromium.instance2918;chromium.instance5089;chromium.instance5193;chromium.instance5285;chromium.instance5439;chromium.instance5456;chromium.instance5489;chromium.instance5543;chromium.instance5726;chromium.instance6622;chromium.instance6773;chromium.instance6812;chromium.instance8806;chromium.instance9358;firefox.instance10590;firefox.instance10796;firefox.instance11621;firefox.instance1163;firefox.instance13611;firefox.instance18568;firefox.instance19660;firefox.instance28994;firefox.instance30642;firefox.instance32043;firefox.instance4200;firefox.instance6495;firefox.instance6976;firefox.instance7383;firefox.instance8877;Gwenview;parole;rhythmbox;smplayer;vlc"/>
+      <property name="mpris-players" type="string" value="chromium.instance12274;chromium.instance12728;chromium.instance12934;chromium.instance13230;chromium.instance16151;chromium.instance16774;chromium.instance17551;chromium.instance18468;chromium.instance21083;chromium.instance2619;chromium.instance26388;chromium.instance27435;chromium.instance2918;chromium.instance31009;chromium.instance5089;chromium.instance5193;chromium.instance5285;chromium.instance5300;chromium.instance5318;chromium.instance5439;chromium.instance5456;chromium.instance5489;chromium.instance5543;chromium.instance5726;chromium.instance6036;chromium.instance653;chromium.instance6622;chromium.instance6773;chromium.instance6812;chromium.instance7411;chromium.instance8806;chromium.instance9358;firefox.instance10590;firefox.instance10796;firefox.instance11621;firefox.instance1163;firefox.instance13611;firefox.instance13666;firefox.instance17665;firefox.instance18568;firefox.instance19660;firefox.instance23020;firefox.instance23962;firefox.instance28915;firefox.instance28994;firefox.instance30642;firefox.instance32043;firefox.instance32262;firefox.instance4200;firefox.instance6495;firefox.instance6976;firefox.instance7383;firefox.instance8877;firefox.instance9573;Gwenview;parole;rhythmbox;smplayer;vlc"/>
     </property>
     <property name="plugin-2" type="string" value="launcher">
       <property name="style" type="empty"/>
@@ -98,6 +98,7 @@
         <value type="string" value="14695527406.desktop"/>
         <value type="string" value="15376355931.desktop"/>
         <value type="string" value="15730779481.desktop"/>
+        <value type="string" value="16082468581.desktop"/>
         <value type="string" value="14695522664.desktop"/>
         <value type="string" value="14733457281.desktop"/>
       </property>
@@ -156,6 +157,7 @@
         <value type="string" value="pulseaudio system tray"/>
       </property>
       <property name="names-ordered" type="array">
+        <value type="string" value="thunar"/>
         <value type="string" value="viberpc"/>
         <value type="string" value="telegram"/>
         <value type="string" value="zoom"/>

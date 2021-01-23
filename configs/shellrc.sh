@@ -383,7 +383,6 @@ set_display () {
     x $line
 }
 
-alias t=tmux_try_start
 tmux_try_start () {
     if exist tmux; then
         #export TERM=xterm
@@ -569,6 +568,9 @@ v () {
 # show my shortcuts
 k () {
     vim ~/activity-public/computer-program-data/configs/shortcuts.txt
+}
+t () {
+    vim ~/tips/tips.txt
 }
 # note taking
 n () {
@@ -931,11 +933,10 @@ getlast () {
 }
 
 man () {
-    vim -c 'let no_man_maps = 1' -c 'runtime ftplugin/man.vim' \
-        -c 'nmap K :Man <C-R>=expand("<cword>")<CR><CR>' \
+    nvim -c 'let no_man_maps = 1' -c 'runtime ftplugin/man.vim' \
         -c 'map q :q<CR>' \
         -c 'set nolist' \
-        -c "Man $*" -c 'wincmd o'
+        -c "Man $@" -c 'wincmd o'
 }
 
 find_cmd_default () {
@@ -2016,6 +2017,11 @@ pur () {
           ;;
       *) red_echo unknown repository: $REPO
   esac
+}
+
+# uncommit latest commit
+uncom () {
+    git reset --soft HEAD~1
 }
 
 unstage () {

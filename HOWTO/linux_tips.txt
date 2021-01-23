@@ -98,3 +98,8 @@ print auth info from user shell:
 > xauth list
 add it to root .xauth from root shell:
 > xauth add <that_line>
+
+=== btrfs: exclude directories from copy-on-write =============================
+chattr +C .cache
+chattr +C Downloads
+chattr +C tmp
