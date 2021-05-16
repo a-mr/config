@@ -137,10 +137,15 @@ nctr () {
 }
 
 # compile nim compiler (with debugging) as nim2 (FAST way)
-mknim2 () {
-    nim c --lib:lib --debuginfo --lineDir:on -o:$HOME/activity-public/Nim/bin/nim2 $HOME/activity-public/Nim/compiler/nim.nim
+mknimdbg () {
+    nim c --lib:lib --debuginfo --lineDir:on -o:$HOME/activity-shared/Nim/bin/nimdbg $HOME/activity-shared/Nim/compiler/nim.nim
 }
-[[ $CURSHELL == bash ]] && export -f mknim2
+[[ $CURSHELL == bash ]] && export -f mknimdbg
+
+nimrebuild () {
+    rm -rf csources bin/nim bin/nim_csources
+    sh build_all.sh
+}
 
 #julia
 julianb () {
@@ -796,7 +801,7 @@ setb () {
     echo $@ > ~/tmp/buffer2
 }
 
-#   bb   line number   command to filter   command to run
+#   bb   `line number`   `command to filter`   `command to run`
 bb () {
   if [[ "$1" == "" ]]; then
     # less: -X don't clear the screen, -F quit if one screen
@@ -873,11 +878,11 @@ for i in `seq 1 999`; do alias b$i="bb $i ''"; done
 #alias to open file +line in vim
 for i in `seq 1 999`; do alias bv$i="bv $i"; done
 #process first field, e.g. 'x' in 'x:y'
-for i in `seq 1 999`; do alias b$i:="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b${i}l="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b${i}r="bb $i 'cut -f2- -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias bv${i}l="bv $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias bv${i}r="bv $i 'cut -f2- -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias o$i="bb $i '' o"; done
 
 lcd () {
     cd "$1" && ls | p
@@ -1373,6 +1378,17 @@ vimpdfB5 () {
     o "$output2"
 }
 
+tolatex () {
+  local FILE="$1"
+  local BASE=`basename "$FILE"`
+  local EXT=`ext "$FILE"`
+  local BAS=`basename "$BASE" .$EXT`
+  pandoc "$FILE" -t latex -s \
+      -V twoside,twocolumn,top=10mm,bottom=20mm,left=30mm,right=6mm \
+      --number-sections --extract-media tmp_images -o "tmp/$BAS.tex"
+  mv tmp_images tmp
+}
+
 # Pdf cropping
 # - to just crop bottom of pdf file on all pages, do:
 #  pdfjam --keepinfo --trim "0mm 15mm 0mm 0mm" --clip true --suffix "cropped" file_to_crop.pdf
@@ -1381,6 +1397,20 @@ vimpdfB5 () {
 
 all_pdf_crop () {
     find . -type f -name "*.pdf" | parallel  pdfcrop3.sh -m 5 {}
+}
+
+# for two side printing: add left margin for odd/even pages
+twoside () {
+  file=${2:-`mktemp`.pdf}
+  # 50 pts means ~ 1.7cm
+  gs -q -sDEVICE=pdfwrite -dBATCH -dNOPAUSE -sOutputFile="$file" \
+  -dDEVICEWIDTHPOINTS=623 -dDEVICEHEIGHTPOINTS=842 -dFIXEDMEDIA \
+  -c "<< /CurrPageNum 1 def /Install { /CurrPageNum CurrPageNum 1 add def
+   CurrPageNum 2 mod 0 eq {50 0 translate} {-50 0 translate} ifelse } bind  >> setpagedevice" \
+  -f "$1"
+
+   o $file
+   [ -z "$2" ] && rm $file || echo Output to file $2
 }
 
 # functions to echo file and print page count:
@@ -1412,9 +1442,24 @@ mypdfcrop () {
         return 0
     fi
     pdfcrop3.sh -m 5 "$1" $file
-    #pdfcrop.sh "$1" $file
-    # the next line may work better:
-    # pdfcrop --margins '5 5 5 5' "$1" $file
+    o $file
+    bold_echo new file
+    ls -l $file
+    mydialog -warning "Substitute? [y|n]" "y mv -f $file \"$1\"" "n rm $file"
+}
+
+# the same but with enough space for `twoside` (odd/even page fixer)
+mypdfcrop2 () {
+    file=`mktemp`.pdf
+    o "$1"
+    bold_echo current file
+    ls -l "$1"
+    mydialog "Process? [y|n]" "y bold_echo processing" "n return 1"
+    if [ $? -ne 0 ]
+    then
+        return 0
+    fi
+    pdfcrop3.sh -m "5 35 5 32" "$1" $file
     o $file
     bold_echo new file
     ls -l $file
@@ -1460,6 +1505,12 @@ export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/op
 
 ##############################################################################
 # functions for working with version control repositories & others
+
+# fetch & checkout Github PR
+github () {
+    git fetch origin pull/$1/head:pr/$1
+    git co pr/$1
+}
 
 # Usage : hgdiff file -r rev
 hgdiff () {
@@ -1578,6 +1629,18 @@ lgb () {
       *) red_echo unknown repository: $REPO
 
   esac
+}
+
+# show stashed changes
+sho () {
+    git stash show -p $@
+}
+
+# squash commits
+squ () {
+  local default=$(dbr)
+  local branch=$(bra)
+  git rebase -i $(git merge-base $branch $default)
 }
 
 # graph for feature branch
@@ -2154,6 +2217,21 @@ upd () {
   esac
 }
 
+# list branches
+lbr () {
+  REPO=`what_is_repo_type`
+  case "$REPO" in
+      git)
+          git for-each-ref --sort=committerdate refs/heads/ \
+              --format='%(committerdate:short): %(refname:short)' | pb
+          ;;
+      mercurial) red_echo not implemented
+          ;;
+      svn) red_echo not implemented
+          ;;
+  esac
+}
+
 # checkout specified revision
 cou () {
   REPO=`what_is_repo_type`
@@ -2313,8 +2391,11 @@ my () {
   case "$EXT" in
       "tex")
           cd $DIR
-          pdflatex "$BASE" && o "$BAS.pdf"&
+          pdflatex "$BASE" && pdflatex "$BASE" && o "$BAS.pdf"&
           cd -
+          ;;
+      "nim")
+          nim c -r "$FILE"
           ;;
       *)
           red_echo unknown file extension: $EXT

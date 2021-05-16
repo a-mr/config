@@ -118,9 +118,10 @@ save_png () {
     xclip -selection clipboard -t image/png -o > "$1"
 }
 
+# output current clipboard in different formats
 select_clip () {
     xclip -selection clipboard -o -t TARGETS | pb
-    echo -n 'input number or q[uit]:'
+    echo -n 'select ouptut format by inputting number or q[uit]:'
     read num
     if [[ $num == "q" || $num == "quit" ]]; then
         echo skip
@@ -129,3 +130,12 @@ select_clip () {
     fi
 }
 
+# copy file to clipboard
+# TODO: does not work!!
+copyclip () {
+  local FILE="$1"
+  local EXT=`ext "$FILE"`
+
+  echo xclip -selection clipboard -t image/$EXT -i $FILE
+  xclip -selection clipboard -t image/$EXT -i $FILE
+}

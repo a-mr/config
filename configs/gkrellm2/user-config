@@ -60,7 +60,7 @@ proc text_format \w88\a$p\f procs\n\e$u\f users
 proc chart_config 40 100 0 0 0 0 : 1 0 0 0 500 : 0 0 0 0 500
 disk assign_method 2
 disk device Disk 0 0 0 1 1 0 0 Disk
-disk chart_config Disk 40 7000000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk chart_config Disk 40 10000000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 disk device sdb 0 0 13 0 1 -1 0 sdb
 disk device sdb1 0 0 13 0 1 1 0 sdb1
 disk device sdb2 0 0 13 0 1 2 0 sdb2
@@ -70,20 +70,20 @@ disk device sdb7 0 0 13 0 1 7 0 sdb7
 disk device sda 0 0 13 0 1 -1 0 sda
 disk device sda1 0 0 13 0 1 1 0 sda1
 disk device sda2 0 0 13 0 1 2 0 sda2
+disk device sdd 0 0 13 0 1 -1 0 sdd
+disk device sdd1 0 0 13 0 1 1 0 sdd1
+disk device sdd2 0 0 13 0 1 2 0 sdd2
+disk device sde 0 0 13 0 1 -1 0 sde
+disk device sde1 0 0 13 0 1 1 0 sde1
 disk device sdc 0 0 13 0 1 -1 0 sdc
 disk device sdc1 0 0 13 0 1 1 0 sdc1
-disk device sdc2 0 0 13 0 1 2 0 sdc2
-disk device sdd 0 0 13 0 1 -1 0 sdd
-disk device sdi 0 0 13 0 1 -1 0 sdi
-disk device sdi1 0 0 13 0 1 1 0 sdi1
-disk device sdj 0 0 13 0 1 -1 0 sdj
 disk text_format $T
 inet text_format all \t$a\f $l\N$A\f $L
 inet update_interval all 1
 net enables eno1 1 1 0
 net chart_config eno1 40 3000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables eth0 1 1 0
-net chart_config eth0 40 2000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+net chart_config eth0 40 5000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables lo 0 1 0
 net enables wlan0 1 1 0
 net chart_config wlan0 40 500000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500

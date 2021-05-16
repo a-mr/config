@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Color picker
+Comment=Choose colors from the picker or the screen
+Exec=gcolor3
+Icon=nl.hjdskes.gcolor3
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Graphics;
+Keywords=Color;Picker;Palette;
+X-Ubuntu-Gettext-Domain=gcolor3
+X-XFCE-Source=file:///usr/share/applications/nl.hjdskes.gcolor3.desktop

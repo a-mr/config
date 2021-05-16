@@ -303,8 +303,11 @@ if [[ $CURSHELL == zsh ]]; then
     "mmp"	"mathematics-mathematical_physics/"
     "lit"	"$wpe/literature/"
     "mus"	"$wpe/Music/"
+    "pic"       "$ape/computer-program-data/pictures"
     "phot"	"$wpe/Photos/"
-    "nim"       "$apu/Nim/"
+    "nim"       "$as/Nim/"
+    "nim2"      "$as/nim2"
+    "nimd"      "$as/nim-devel"
     )
 
 

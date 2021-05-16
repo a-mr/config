@@ -369,24 +369,26 @@ inoremap n <Esc>:tabnext<CR>
 nnoremap p :tabprev<CR>
 inoremap p <Esc>:tabprev<CR>
 
-nnoremap 1 :tabnext 1<CR>
-inoremap 1 <Esc>:tabnext 1<CR>
-nnoremap 2 :tabnext 2<CR>
-inoremap 2 <Esc>:tabnext 2<CR>
-nnoremap 3 :tabnext 3<CR>
-inoremap 3 <Esc>:tabnext 3<CR>
-nnoremap 4 :tabnext 4<CR>
-inoremap 4 <Esc>:tabnext 4<CR>
-nnoremap 5 :tabnext 5<CR>
-inoremap 5 <Esc>:tabnext 5<CR>
-nnoremap 6 :tabnext 6<CR>
-inoremap 6 <Esc>:tabnext 6<CR>
-nnoremap 7 :tabnext 7<CR>
-inoremap 7 <Esc>:tabnext 7<CR>
-nnoremap 8 :tabnext 8<CR>
-inoremap 8 <Esc>:tabnext 8<CR>
-nnoremap 9 :tabnext 9<CR>
-inoremap 9 <Esc>:tabnext 9<CR>
+nnoremap 0 :tabnext 1<CR>
+inoremap 0 <Esc>:tabnext 1<CR>
+nnoremap 1 :tabnext 2<CR>
+inoremap 1 <Esc>:tabnext 2<CR>
+nnoremap 2 :tabnext 3<CR>
+inoremap 2 <Esc>:tabnext 3<CR>
+nnoremap 3 :tabnext 4<CR>
+inoremap 3 <Esc>:tabnext 4<CR>
+nnoremap 4 :tabnext 5<CR>
+inoremap 4 <Esc>:tabnext 5<CR>
+nnoremap 5 :tabnext 6<CR>
+inoremap 5 <Esc>:tabnext 6<CR>
+nnoremap 6 :tabnext 7<CR>
+inoremap 6 <Esc>:tabnext 7<CR>
+nnoremap 7 :tabnext 8<CR>
+inoremap 7 <Esc>:tabnext 8<CR>
+nnoremap 8 :tabnext 9<CR>
+inoremap 8 <Esc>:tabnext 9<CR>
+nnoremap 9 :tabnext 10<CR>
+inoremap 9 <Esc>:tabnext 10<CR>
 
 nnoremap m :marks<CR>
 inoremap m <Esc>:marks<CR>

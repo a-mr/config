@@ -19,8 +19,8 @@ end
 ###############################################################################
 
 define et
-    tui enable
     set $USECOLOR=0
+    tui enable
 end
 
 define dt
@@ -68,6 +68,10 @@ end
 
 define ib
     info breakpoints
+end
+
+define is
+    info stack
 end
 
 define it
@@ -137,3 +141,10 @@ define dof
 end
 # to redraw or re-enable: das[hboard]
 
+#dashboard -layout source variables stack
+dashboard -layout source stack
+dashboard source -style height 25
+
+# to redirect program output to another terminal, run in gdb:
+# >>> tty /dev/pts/N
+# Where /dev/pts/N is obtained from running `tty` in the terminal

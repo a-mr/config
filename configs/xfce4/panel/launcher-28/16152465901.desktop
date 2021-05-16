@@ -1,0 +1,24 @@
+[Desktop Entry]
+Categories=Network;WebBrowser;
+Comment[en_US]=Browse the World Wide Web
+Comment=Browse the World Wide Web
+Encoding=UTF-8
+Exec=firefox %u
+GenericName[en_US]=Web Browser
+GenericName=Web Browser
+Icon=firefox
+MimeType=text/html;image/png;image/jpeg;image/gif;application/xml;application/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;application/rss+xml;application/rdf+xml;
+Name[en_US]=Firefox
+Name=Firefox
+StartupNotify=true
+StartupWMClass=Firefox
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-GNOME-FullName=Firefox Web Browser
+X-KDE-SubstituteUID=false
+X-KDE-Username=
+X-MultipleArgs=false
+X-XFCE-Source=file:///usr/share/applications/firefox.desktop
