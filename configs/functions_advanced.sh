@@ -14,7 +14,9 @@ print_precmd () {
     else
         exe_time=`awk "BEGIN { print $finish_time-$start_time }"`
     fi
-    local info=$(printf "%s(%.2f) %s" "$(date +%H:%M:%S)" "$exe_time" "`dirs -p | head -n1`")
+    local curdir=`dirs -p | head -n1`
+    local info=$(printf "%s(%.2f)" "$(date +%H:%M:%S)" "$exe_time")
+    info+=" $curdir"
     #show repository branch if requested
     if [ "$wrepo" != "none" ]; then
         info+=" '$(bra) $(datshort)'"

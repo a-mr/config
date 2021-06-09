@@ -1296,7 +1296,7 @@ curtime () {
 fi
 
 if [[ $CURSHELL == bash || $CURSHELL == zsh ]]; then
-    . ~/.functions_advanced.sh
+    . $HOME/.functions_advanced.sh
 fi
 
 fileinfo () {
