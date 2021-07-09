@@ -10,6 +10,8 @@ ShowMenuBarByDefault=false
 ShowWindowTitleOnTitleBar=true
 
 [MainWindow]
+DisplayPort-0 XPosition=971
+DisplayPort-0 YPosition=25
 MenuBar=Disabled
 State=AAAA/wAAAAD9AAAAAAAAAt8AAAGiAAAABAAAAAQAAAAIAAAACPwAAAAA
 ToolBarsMovable=Disabled

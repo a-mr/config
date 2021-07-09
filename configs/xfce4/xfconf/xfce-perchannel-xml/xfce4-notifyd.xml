@@ -20,11 +20,11 @@
       <value type="string" value="thunar"/>
       <value type="string" value="nm-applet"/>
       <value type="string" value="org.kde.konsole"/>
-      <value type="string" value="Skype"/>
       <value type="string" value="Transmission"/>
+      <value type="string" value="Skype"/>
       <value type="string" value="Pidgin"/>
-      <value type="string" value="Xpra (via Xpra)"/>
       <value type="string" value="chromium-browser"/>
+      <value type="string" value="Xpra (via Xpra)"/>
       <value type="string" value="Thunderbird"/>
       <value type="string" value="Xfce4-notifyd settings"/>
       <value type="string" value="rhythmbox"/>

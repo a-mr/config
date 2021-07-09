@@ -55,12 +55,12 @@ Win-l  go to right desktop
 Win-h  go to left  desktop
 C-A-t  Terminal          | C-A-k  Tile top    | C-A-S-k  Tile top-right
 C-A-C  Clipboard Manager | C-A-j  Tile bottom | C-A-S-j  Tile bottom-left
-C-a-w  Xfce Whisker Menu | C-A-l  Tile right  | C-A-S-l  Tile bottom-right
-                         | C-A-h  Tile left   | C-A-S-h  Tile top-left
-🗔
+C-A-m  Xfce Whisker Menu | C-A-l  Tile right  | C-A-S-l  Tile bottom-right
+C-A-d  xrandr -o left    | C-A-h  Tile left   | C-A-S-h  Tile top-left
+C-A-S-d  xrandr -o normal
 C-A-n   Maximize                   Win-Shift-s  screenshot of area
 C-A-v   Maximize vertically
 C-A-S-v Maximize horizontally
 C-S-n   Move Win to workspace <n>
 
-C-A-e   this help
+C-A-e   this help                  C-A-r  open scratchpad

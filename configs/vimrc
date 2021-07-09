@@ -55,7 +55,7 @@ endif
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
-set grepprg=/home/amakarov/activity-public/Nim/bin/nimgrep\ --text\ --recursive\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ --exclude-dir=nimcache\ --excludeDir:csources\ $*\ .
+set grepprg=nimgrep\ --text\ --recursive\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ --exclude-dir=nimcache\ --excludeDir:csources\ $*\ .
 "set grepprg=grep\ -rnH\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ $*\ .
 command! -nargs=+ Grep  execute 'silent grep! <args>'    | copen | let @z = '<args>'
 command! -nargs=+ Grepw execute 'silent grep! -w <args>' | copen | let @z = '<args>'
@@ -475,16 +475,19 @@ endif
 "map <F5> :make `basename % .c`
 "map <F5> :make `i=%; echo ${i\%.*}`<cr>
 
-autocmd bufenter *.tex map <F5> :!latex %<CR>
-:autocmd bufenter *.tex map <F6> :!xdvi -hush %<&<cr>
-:autocmd bufenter *.tex map <S-F6> :!dvips %< -o %<.ps; gv %<&<cr>
+autocmd bufenter *.tex map <F5> :update<CR>:!xelatex %<CR>
+autocmd bufenter *.tex imap <F5> <ESC>:update<CR>:!xelatex %<CR>
+autocmd bufenter *.tex map <F6> :update<CR>:!xelatex %<CR>:!xdg-open %<.pdf&<CR>
+autocmd bufenter *.tex imap <F6> <ESC>:update<CR>:!xelatex %<CR>:!xdg-open %<.pdf&<CR>
 "autocmd bufenter *.C map <F6> :!root %<CR>
 "map <F5> :!make `i=%; echo ${i\%.*}`<cr>
-map <F5> :!make %< <cr>
+map <F5> :update<CR>:!make %<<CR>
+imap <F5> <ESC>:update<CR>:!make %<<CR>
 "map <S-F5> :!i=%; strace ./${i\%.*}<cr>
 map <S-F5> :!strace ./%<<cr>
 "map <F6> :!i=%; ./${i\%.*}<cr>
-map <F6> :!./%<<cr>
+map <F6> :update<CR>:!make %<<CR>:!./%<<cr>
+imap <F6> <ESC>:update<CR>:!make %<<CR>:!./%<<cr>
 map <S-F6> :!time ./%<<cr>
 map <F7> :!make&<cr>
 autocmd bufenter *.py map <F7> :!python -m py_compile %<cr>
@@ -808,7 +811,10 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Nim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"autocmd bufenter *.nim map <F5> :!nim c %< <cr>
+autocmd bufenter *.nim map <F5> :update<CR>:!nim c %<<cr>
+autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:!nim c %<<cr>
+autocmd bufenter *.nim map <F6> :update<CR>:!nim c -r %<<cr>
+autocmd bufenter *.nim imap <F6> <ESC>:update<CR>:!nim c -r %<<cr>
 "autocmd bufenter *.nim filetype off
 "autocmd bufenter *.nim filetype plugin indent on
 fun! JumpToDef()

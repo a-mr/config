@@ -137,7 +137,7 @@ if [[ $CURSHELL == zsh ]]; then
     setopt pushd_ignore_dups
 
     # add local directory to additional completions path
-    fpath[1,0]=~/activity-public/computer-program-data/development
+    fpath=( ~/activity-public/computer-program-data/development "${fpath[@]}" )
     # tell zsh not to trust its cache when completing
     # There is a performance cost, but it is negligible on a typical desktop
     # setting today. (It isn't if you have $PATH on NFS, or a RAM-starved

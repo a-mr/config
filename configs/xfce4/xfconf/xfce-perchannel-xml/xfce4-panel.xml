@@ -18,7 +18,6 @@
         <value type="int" value="26"/>
         <value type="int" value="7"/>
         <value type="int" value="9"/>
-        <value type="int" value="25"/>
         <value type="int" value="19"/>
         <value type="int" value="2"/>
         <value type="int" value="17"/>
@@ -32,7 +31,6 @@
         <value type="int" value="8"/>
         <value type="int" value="1"/>
         <value type="int" value="21"/>
-        <value type="int" value="27"/>
         <value type="int" value="18"/>
         <value type="int" value="4"/>
         <value type="int" value="13"/>
@@ -80,7 +78,7 @@
   <property name="plugins" type="empty">
     <property name="plugin-1" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-      <property name="mpris-players" type="string" value="chromium.instance10146;chromium.instance12274;chromium.instance12728;chromium.instance12934;chromium.instance13230;chromium.instance13387;chromium.instance16151;chromium.instance16774;chromium.instance17551;chromium.instance18468;chromium.instance21083;chromium.instance22088;chromium.instance25300;chromium.instance2619;chromium.instance26388;chromium.instance27435;chromium.instance2918;chromium.instance31009;chromium.instance31851;chromium.instance5089;chromium.instance5144;chromium.instance5193;chromium.instance5244;chromium.instance5246;chromium.instance5262;chromium.instance5267;chromium.instance5285;chromium.instance5300;chromium.instance5318;chromium.instance5439;chromium.instance5456;chromium.instance5464;chromium.instance5489;chromium.instance5543;chromium.instance5726;chromium.instance5760;chromium.instance6036;chromium.instance653;chromium.instance6622;chromium.instance6773;chromium.instance6812;chromium.instance7411;chromium.instance8806;chromium.instance9358;chromium.instance9816;firefox.instance10590;firefox.instance10796;firefox.instance11621;firefox.instance1163;firefox.instance13611;firefox.instance13666;firefox.instance17665;firefox.instance18568;firefox.instance1954;firefox.instance19660;firefox.instance23020;firefox.instance23797;firefox.instance23962;firefox.instance27051;firefox.instance28783;firefox.instance28803;firefox.instance28915;firefox.instance28994;firefox.instance29282;firefox.instance30346;firefox.instance30642;firefox.instance32043;firefox.instance32262;firefox.instance4200;firefox.instance5329;firefox.instance5364;firefox.instance5447;firefox.instance6495;firefox.instance6976;firefox.instance7383;firefox.instance827;firefox.instance8877;firefox.instance9573;firefox.instance9945;Gwenview;parole;rhythmbox;smplayer;vlc"/>
+      <property name="mpris-players" type="string" value="chromium.instance10146;chromium.instance12274;chromium.instance12728;chromium.instance12934;chromium.instance13230;chromium.instance13387;chromium.instance16151;chromium.instance16774;chromium.instance17551;chromium.instance18468;chromium.instance21083;chromium.instance22088;chromium.instance25300;chromium.instance2619;chromium.instance26388;chromium.instance27435;chromium.instance2918;chromium.instance31009;chromium.instance31851;chromium.instance5089;chromium.instance5144;chromium.instance5193;chromium.instance5244;chromium.instance5246;chromium.instance5262;chromium.instance5267;chromium.instance5285;chromium.instance5300;chromium.instance5318;chromium.instance5439;chromium.instance5456;chromium.instance5464;chromium.instance5489;chromium.instance5543;chromium.instance5726;chromium.instance5760;chromium.instance6036;chromium.instance653;chromium.instance6622;chromium.instance6773;chromium.instance6812;chromium.instance7411;chromium.instance8806;chromium.instance9358;chromium.instance9816;firefox.instance10590;firefox.instance10796;firefox.instance11621;firefox.instance1163;firefox.instance13611;firefox.instance13666;firefox.instance17665;firefox.instance18056;firefox.instance18568;firefox.instance1954;firefox.instance19660;firefox.instance23020;firefox.instance23797;firefox.instance23962;firefox.instance27051;firefox.instance28783;firefox.instance28803;firefox.instance28915;firefox.instance28994;firefox.instance29282;firefox.instance30346;firefox.instance30642;firefox.instance31452;firefox.instance32043;firefox.instance32262;firefox.instance4200;firefox.instance5184;firefox.instance5329;firefox.instance5334;firefox.instance5364;firefox.instance5383;firefox.instance5447;firefox.instance5587;firefox.instance5605;firefox.instance5730;firefox.instance6495;firefox.instance6976;firefox.instance7383;firefox.instance8239;firefox.instance827;firefox.instance8877;firefox.instance9573;firefox.instance9898;firefox.instance9945;Gwenview;parole;rhythmbox;smplayer;vlc"/>
     </property>
     <property name="plugin-2" type="string" value="launcher">
       <property name="style" type="empty"/>
@@ -183,6 +181,10 @@
         <value type="string" value="networkmanager applet"/>
         <value type="string" value="yad"/>
       </property>
+      <property name="known-items" type="array">
+        <value type="string" value="org.guido-berhoerster.code.package-update-indicator"/>
+        <value type="string" value="nm-applet"/>
+      </property>
     </property>
     <property name="plugin-14" type="string" value="pager">
       <property name="rows" type="uint" value="1"/>
@@ -193,6 +195,8 @@
     <property name="plugin-7" type="string" value="separator">
       <property name="show-frame" type="empty"/>
       <property name="square-icons" type="empty"/>
+      <property name="icon-size" type="empty"/>
+      <property name="symbolic-icons" type="empty"/>
       <property name="size-max" type="empty"/>
     </property>
     <property name="plugin-15" type="string" value="launcher">
@@ -292,11 +296,6 @@
     <property name="plugin-24" type="string" value="launcher">
       <property name="items" type="array">
         <value type="string" value="15956355425.desktop"/>
-      </property>
-    </property>
-    <property name="plugin-25" type="string" value="launcher">
-      <property name="items" type="array">
-        <value type="string" value="15956365896.desktop"/>
       </property>
     </property>
     <property name="plugin-26" type="string" value="actions">

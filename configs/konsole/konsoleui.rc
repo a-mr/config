@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui version="10" name="konsole">
+<kpartgui name="konsole" version="11">
  <MenuBar>
   <Menu name="file">
    <text>File</text>
@@ -28,6 +28,7 @@
     <Action name="shrink-active-view"/>
    </Menu>
    <Separator/>
+   <Action name="detach-tab"/>
    <Action name="detach-view"/>
    <Separator/>
    <DefineGroup name="session-view-operations"/>
@@ -49,20 +50,20 @@
    <text>Help</text>
   </Menu>
  </MenuBar>
- <ActionProperties scheme="Default">
-  <Action shortcut="" name="clone-tab"/>
-  <Action shortcut="" name="help_contents"/>
-  <Action shortcut="" name="new-window"/>
-  <Action shortcut="Ctrl+Shift+N" name="next-view"/>
-  <Action shortcut="Meta+0" name="switch-to-tab-0"/>
-  <Action shortcut="Meta+1" name="switch-to-tab-1"/>
-  <Action shortcut="Meta+2" name="switch-to-tab-2"/>
-  <Action shortcut="Meta+3" name="switch-to-tab-3"/>
-  <Action shortcut="Meta+4" name="switch-to-tab-4"/>
-  <Action shortcut="Meta+5" name="switch-to-tab-5"/>
-  <Action shortcut="Meta+6" name="switch-to-tab-6"/>
-  <Action shortcut="Meta+7" name="switch-to-tab-7"/>
-  <Action shortcut="Meta+8" name="switch-to-tab-8"/>
-  <Action shortcut="Meta+9" name="switch-to-tab-9"/>
+ <ActionProperties>
+  <Action name="clone-tab" shortcut=""/>
+  <Action name="help_contents" shortcut=""/>
+  <Action name="new-window" shortcut=""/>
+  <Action name="next-view" shortcut="Ctrl+Shift+N"/>
+  <Action name="switch-to-tab-0" shortcut="Meta+0"/>
+  <Action name="switch-to-tab-1" shortcut="Meta+1"/>
+  <Action name="switch-to-tab-2" shortcut="Meta+2"/>
+  <Action name="switch-to-tab-3" shortcut="Meta+3"/>
+  <Action name="switch-to-tab-4" shortcut="Meta+4"/>
+  <Action name="switch-to-tab-5" shortcut="Meta+5"/>
+  <Action name="switch-to-tab-6" shortcut="Meta+6"/>
+  <Action name="switch-to-tab-7" shortcut="Meta+7"/>
+  <Action name="switch-to-tab-8" shortcut="Meta+8"/>
+  <Action name="switch-to-tab-9" shortcut="Meta+9"/>
  </ActionProperties>
 </kpartgui>

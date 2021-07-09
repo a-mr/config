@@ -1402,11 +1402,11 @@ all_pdf_crop () {
 # for two side printing: add left margin for odd/even pages
 twoside () {
   file=${2:-`mktemp`.pdf}
-  # 50 pts means ~ 1.7cm
+  # 40 pts means ~ 1.45cm
   gs -q -sDEVICE=pdfwrite -dBATCH -dNOPAUSE -sOutputFile="$file" \
   -dDEVICEWIDTHPOINTS=623 -dDEVICEHEIGHTPOINTS=842 -dFIXEDMEDIA \
   -c "<< /CurrPageNum 1 def /Install { /CurrPageNum CurrPageNum 1 add def
-   CurrPageNum 2 mod 0 eq {50 0 translate} {-50 0 translate} ifelse } bind  >> setpagedevice" \
+   CurrPageNum 2 mod 0 eq {40 0 translate} {-40 0 translate} ifelse } bind  >> setpagedevice" \
   -f "$1"
 
    o $file
