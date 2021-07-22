@@ -19,6 +19,7 @@
 # Note $SHELL env. variable can be wrong
 CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 CURSHELL=${CURSHELL##*/}  # basename
+CURSHELL=${CURSHELL##*-}  # drop first - in -zsh on MacOS
 
 default_shell () {
 if [ -z "$ALLOW_BASH" ] && which zsh > /dev/null 2>&1 && \
@@ -603,7 +604,7 @@ pst () {
     ps o user,pid,comm --forest ${@-a} | less
 }
 users () {
-    who -u | grep `date +'%Y-%m-%d'` |  sort -n -k 5
+    who -u | grep `$DATE_COMMAND +'%Y-%m-%d'` |  sort -n -k 5
 }
 psc () {
     ps -f --forest | less
@@ -1286,14 +1287,15 @@ hexd () {
 }
 
 if exist gdate; then
-curtime () {
-	gdate +%s.%N
-}
+    # assuming GNU coreutils installed in FreeBSD or MacOS
+    DATE_COMMAND=gdate
 else
-curtime () {
-	date +%s.%N
-}
+    DATE_COMMAND=date
 fi
+
+curtime () {
+    $DATE_COMMAND +%s.%N
+}
 
 if [[ $CURSHELL == bash || $CURSHELL == zsh ]]; then
     . $HOME/.functions_advanced.sh
@@ -1522,7 +1524,7 @@ hgvim () {
 }
 
 hgfix () {
-    hg commit -m "never-push work-in-progress `date`. If you see this commit then please notify me about it."
+    hg commit -m "never-push work-in-progress `$DATE_COMMAND`. If you see this commit then please notify me about it."
 }
 
 hgsea () {
@@ -1800,7 +1802,7 @@ dat () {
           else
               local id="HEAD"
           fi
-          git log -1 --format="%at" $id | xargs -I{} date -d @{} +%y-%b-%d\ %H:%M
+          git log -1 --format="%at" $id | xargs -I{} $DATE_COMMAND -d @{} +%y-%b-%d\ %H:%M
           ;;
       mercurial) echo "d:hg"
           ;;
@@ -1820,7 +1822,7 @@ datshort () {
           else
               local id="HEAD"
           fi
-          git log -1 --format="%at" $id | xargs -I{} date -d @{} +%b%d
+          git log -1 --format="%at" $id | xargs -I{} $DATE_COMMAND -d @{} +%b%d
           ;;
       mercurial) echo "d:hg"
           ;;
@@ -2266,7 +2268,7 @@ mov () {
 alias d="dirs -v"
 
 ts () {
-    date -R -r $@
+    $DATE_COMMAND -R -r $@
 }
 
 mysetfont () {
@@ -2358,7 +2360,7 @@ clock () {
     clear
     while :
     do
-        ti=`date +"%r"`
+        ti=`$DATE_COMMAND +"%r"`
         # save current screen position & attributes
         echo -e -n "\033[7s"
         # row 0 and column 69 is used to show clock
