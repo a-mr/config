@@ -29,18 +29,22 @@ print_precmd () {
     else
         error_echo "exit=$RESULT; $info"
     fi
+    local name=$force_window_name
+    if [ -z "$name" ]; then
+        name="${PWD##*/}"  # get last part of the path
+    fi
     # set the titles to last path component of working directory
     case "$TERM" in
-      screen|screen.rxvt)
+      screen|screen.*)
         # set screen title
-        echo -ne "\ek${PWD##*/}\e\\"
+        echo -ne "\ek${name}\e\\"
         # must (re)set xterm title
-        echo -ne "\e]0;${PWD##*/}\a"
+        echo -ne "\e]0;${name}\a"
         #alarm
         echo -ne \\a
         ;;
       rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-        echo -ne "\e]0;${PWD##*/}\a"
+        echo -ne "\e]0;${name}\a"
         ;;
     esac
 }

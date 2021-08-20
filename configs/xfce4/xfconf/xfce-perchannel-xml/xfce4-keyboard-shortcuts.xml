@@ -14,12 +14,12 @@
       <property name="&lt;Primary&gt;&lt;Alt&gt;l" type="empty"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;t" type="empty"/>
       <property name="XF86Display" type="empty"/>
-      <property name="&lt;Super&gt;p" type="empty"/>
       <property name="&lt;Primary&gt;Escape" type="empty"/>
       <property name="XF86WWW" type="empty"/>
       <property name="XF86Mail" type="empty"/>
       <property name="Print" type="empty"/>
       <property name="Super_L" type="empty"/>
+      <property name="&lt;Super&gt;p" type="empty"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;Escape" type="empty"/>
       <property name="&lt;Alt&gt;Print" type="empty"/>
       <property name="XF86HomePage" type="empty"/>
@@ -41,12 +41,12 @@
       <property name="XF86Calculator" type="string" value="mate-calc"/>
       <property name="XF86Search" type="string" value="recoll"/>
       <property name="&lt;Super&gt;s" type="string" value="xfce4-screenshooter"/>
-      <property name="&lt;Primary&gt;&lt;Alt&gt;t" type="string" value="my-x-terminal"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;e" type="string" value="my-x-terminal -e &quot;vim $HOME/activity-public/computer-program-data/configs/shortcuts.txt&quot;"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;r" type="string" value="my-x-terminal -e &quot;vim $HOME/tmp/notes.txt&quot;"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;m" type="string" value="xfce4-popup-whiskermenu"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;apostrophe" type="string" value="xrandr -o left"/>
       <property name="&lt;Primary&gt;&lt;Shift&gt;&lt;Alt&gt;bar" type="string" value="xrandr -o normal"/>
+      <property name="&lt;Primary&gt;&lt;Alt&gt;t" type="string" value="my-x-terminal"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
@@ -90,7 +90,7 @@
       <property name="&lt;Primary&gt;&lt;Alt&gt;Right" type="empty"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;d" type="empty"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;Up" type="empty"/>
-      <property name="&lt;Super&gt;Tab" type="empty"/>
+      <property name="&lt;Alt&gt;grave" type="empty"/>
       <property name="&lt;Primary&gt;F1" type="empty"/>
       <property name="&lt;Primary&gt;F2" type="empty"/>
       <property name="&lt;Primary&gt;F3" type="empty"/>
@@ -103,7 +103,7 @@
       <property name="&lt;Primary&gt;F10" type="empty"/>
       <property name="&lt;Primary&gt;F11" type="empty"/>
       <property name="&lt;Primary&gt;F12" type="empty"/>
-      <property name="&lt;Alt&gt;grave" type="empty"/>
+      <property name="&lt;Super&gt;Tab" type="empty"/>
       <property name="&lt;Alt&gt;F5" type="empty"/>
       <property name="&lt;Control&gt;&lt;Alt&gt;Down" type="empty"/>
       <property name="&lt;Control&gt;&lt;Alt&gt;Left" type="empty"/>

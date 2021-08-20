@@ -516,10 +516,20 @@ fi
 ##############################################################################
 # definitions for interactive work only
 
+# tt: set Tab Title (and optionally Tab number)
 # rename current tmux window and move it to the specified number
 # tt _ 7     # move window to 7
 # tt Name 7  # move window to 7 and rename to "Name"
 tt () {
+force_window_name=$1
+case "$TERM" in
+  screen|screen.*)
+      if [ ! -z "$2" ]; then
+          screen -X number "$2"
+      fi
+      echo -ne "\ek${1}\e\\"
+      ;;
+  *)
     if [[ "$1" == "" ]]; then
         echo "Current pane:"
         tmux display-message -p '#I : #W #H   pane_id=#D   pane_index=#P   session=#S'
@@ -533,6 +543,18 @@ tt () {
         fi
     fi
     tmux list-panes -aF "#{window_index}	#{pane_tty}	#{window_name}"
+esac
+}
+
+# tn: set Tab Number
+tn () {
+case "$TERM" in
+  screen|screen.*)
+      screen -X number "$1"
+      ;;
+  *)
+      tmux swap-window -t "$1"
+esac
 }
 
 rr () {
@@ -881,6 +903,9 @@ for i in `seq 1 999`; do alias bv$i="bv $i"; done
 #process first field, e.g. 'x' in 'x:y'
 for i in `seq 1 999`; do alias b${i}l="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b${i}r="bb $i 'cut -f2- -d: | trim_spaces'"; done
+# for git output
+for i in `seq 1 999`; do alias b${i}d="bb $i 'cut -f2- -d: | trim_spaces' dif"; done
+for i in `seq 1 999`; do alias b${i}a="bb $i 'cut -f2- -d: | trim_spaces' add"; done
 for i in `seq 1 999`; do alias bv${i}l="bv $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias bv${i}r="bv $i 'cut -f2- -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias o$i="bb $i '' o"; done
@@ -2053,7 +2078,7 @@ reb () {
     local def_br=$(dbr)
     local cur_br=$(bra)
     [[ $def_br = $cur_br ]] && red_echo On default branch && return 1
-    git fetch origin "$def_br:$def_br" && git rebase "$def_br" && git push origin "$cur_br"
+    git fetch origin "$def_br:$def_br" && git rebase "$def_br" && git push origin "$cur_br" -f
 }
 
 gitlfspur () {
@@ -2263,6 +2288,9 @@ mov () {
           ;;
   esac
 }
+
+# End VCS commands
+#############################################################################
 
 # show pushd stack
 alias d="dirs -v"

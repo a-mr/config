@@ -1,5 +1,5 @@
 favorites=
-recent=xfce-keyboard-settings.desktop,system-config-printer.desktop,xfce-ui-settings.desktop,asunder.desktop,gkrellm.desktop,xfce4-about.desktop,Documentation Navigator_1554408017328.desktop,FoxitReader.desktop,Xilinx Information Center_1554408017371.desktop
+recent=xfce-ui-settings.desktop,chromium.desktop,audio-recorder.desktop,firefox.desktop,org.kde.konsole.desktop,gkrellm.desktop,xfce-session-settings.desktop,xfce-keyboard-settings.desktop,xfce-wmtweaks-settings.desktop,xfce-wm-settings.desktop
 button-icon=xfce4-whiskermenu
 button-single-row=false
 show-button-title=false

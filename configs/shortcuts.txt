@@ -2,8 +2,8 @@ Bash/Zsh                                  | my Bash/Zsh:
   !$       last word of previous command  |  A-o  command beginning backward
   $_       last arg  of previous command  |  A-i  command beginning forward
   C-v C-j  insert newline w/o executing   |  C-e  expand abbreviation (zsh)
-  !str     repeat prev cmd started w/ str |
-  !?str    repeat prev cmd containing str |
+  !str     repeat prev cmd started w/ str | tt T  set Screen/tmux Tab Title T
+  !?str    repeat prev cmd containing str | tn N  set Screen/tmux Tab Num N
   !:0      name of prev cmd               |
   !* or !!1* or !!:1-$    all arguments to prev cmd
   cd -<n>  cd previous directory #n
@@ -20,10 +20,10 @@ Vim                     Vim spellcheck                 Vim window
   :g/PAT show lines                   R<C-r>"  replace-paste after yanking text
          matching PAT
 ______________________________________________________________________________
-  :match  Bool      /paTTERN/   =add highlight group 1 with paTTERN & color Bool
-  :2match Character /paTTERN/   =add highlight group 2 with paTTERN & color Char
-  :set cc=8                     =highlight column 8 (to navigate long functions)
-  :put =map(range(0,75), 'printf(''// %d'', v:val)')   =insert a list of numbers
+  :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
+  :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char
+  :set cc=8                     #highlight column 8 (to navigate long funcs)
+  :put =map(range(0,75), 'printf(''// %d'', v:val)')   #insert list of numbers
   :for i in range(1,10) | put ='// '.i | endfor        =the same
 ______________________________________________________________________________
          H  jump to screen top       zt  position cur.line at top
@@ -43,10 +43,11 @@ my Vim:
   A-m  select marks
 ______________________________________________________________________________
  Tmux                              Screen
-      PRE ]  paste                   PRE ]  paste
-      PRE "  split horizontally      PRE S  split horizontally ... PRE tab PRE c
-      PRE %  split vertically        PRE |  split vertiacally
-                                     PRE X  close region
+      PRE ]  paste                   PRE ]    paste
+      PRE "  split horizontally      PRE S    split horizontally
+      PRE %  split vertically        PRE |    split vertiacally
+                                     PRE tab  next pane
+                                     PRE X    close region (note Shift-x)
  hold PRE -> resize pane             PRE :resize +10
                                 my:  C-n C-o switch to the window before
 ______________________________________________________________________________
@@ -64,3 +65,66 @@ C-A-S-v Maximize horizontally
 C-S-n   Move Win to workspace <n>
 
 C-A-e   this help                  C-A-r  open scratchpad
+______________________________________________________________________________
+                            Git / VCS
+b10d       show diff for `10`th entry in current buffer
+b10a       add `10`th file
+add F      add file F to staged area
+uad F      undo addition of new file
+unstage F  remove F from Git staged area preserving the changes
+rvr F      !!! revert changes to file F !!!
+pus        push the curr feat branch
+pul        fetch & update curr.feat.branch
+get [BR]   fetch changes (to BR-anch or both to def.branch & curr.feat.branch)
+upd        update to latest revision of curr.branch (Git fast forward)
+upd_master Git: move master to origin/master
+cou REV    checkout specific revision REV
+
+com MSG    commit with message MSG
+uncom      uncommit Git preserving the changes
+
+cnt        continue rebase
+gitmerges  show merges to curr.feat.branch
+squ        squash commits on curr. feature branch
+reb        Git fetch default branch, rebase on it, and push -f
+
+sho   show stashed changes
+sav   save to stash
+res   restore stashed
+
+lsb   list branches
+lbr   ~ the same, with dates!
+dbr   show default branch name
+bra   show curr.branch name
+inf   information about repo and curr.branch/revision
+roo   root directory of the repo - absolute path
+
+gra   graph for all branches
+grb   graph for current branch
+log   log of all branches
+lgf   log with all file changes
+lgf BRANCH            the same for BRANCH
+has REVISION BRANCH   check if BRANCH contains REVISION
+
+dif [FILE]            diff w.r.t. latest commit
+dfp [FILE]            the same, in patch format (uncolored), without pager
+dat [REVISION]        print date of REVISION (or latest commit)
+datshort              the same, short version
+pat [REVISION]        print patch [for REVISION]
+patf [REVISION]       the same with 1000 lines of context
+his FILE              history of all changes to FILE
+lin LINENUM FILE      print history for LINENUM-ber of FILE
+pri REVISION FILE     print FILE contents at REVISION
+ann FILE              annotate=blame
+lsf FILE              check if FILE in repository
+lsf DIRECTORY         list files in DIRECTORY
+lsf                   list files in whole repository
+mov NAME1 NAME2       rename file NAME1 to NAME2
+
+pur        purge: clean all extra files
+gitlfspur  remove all downloaded LFS files
+
+clo REPO              clone repository REPO
+clb REPO BRANCH       clone specific BRANCH of REPO
+
+github NUMBER         fetch & checkout Github PR number

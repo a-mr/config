@@ -2,7 +2,7 @@
 
 <channel name="xsettings" version="1.0">
   <property name="Net" type="empty">
-    <property name="ThemeName" type="string" value="Arc-Dark"/>
+    <property name="ThemeName" type="string" value="Matcha-dark-sea"/>
     <property name="IconThemeName" type="string" value="Adwaita"/>
     <property name="DoubleClickTime" type="empty"/>
     <property name="DoubleClickDistance" type="empty"/>
@@ -15,7 +15,7 @@
     <property name="FallbackIconTheme" type="empty"/>
   </property>
   <property name="Xft" type="empty">
-    <property name="DPI" type="int" value="120"/>
+    <property name="DPI" type="int" value="130"/>
     <property name="Antialias" type="int" value="1"/>
     <property name="Hinting" type="int" value="1"/>
     <property name="HintStyle" type="string" value="hintfull"/>
@@ -42,6 +42,6 @@
     <property name="WindowScalingFactor" type="empty"/>
   </property>
   <property name="Xfce" type="empty">
-    <property name="LastCustomDPI" type="int" value="120"/>
+    <property name="LastCustomDPI" type="int" value="130"/>
   </property>
 </channel>
