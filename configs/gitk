@@ -1,5 +1,5 @@
 set mainfont {{dejavu sans} 12}
-set textfont {courier 12}
+set textfont {{Liberation Mono} 12}
 set uifont {{dejavu sans} 10}
 set tabstop 8
 set findmergefiles 0

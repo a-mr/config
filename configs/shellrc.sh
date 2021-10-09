@@ -905,7 +905,7 @@ for i in `seq 1 999`; do alias b${i}l="bb $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias b${i}r="bb $i 'cut -f2- -d: | trim_spaces'"; done
 # for git output
 for i in `seq 1 999`; do alias b${i}d="bb $i 'cut -f2- -d: | trim_spaces' dif"; done
-for i in `seq 1 999`; do alias b${i}a="bb $i 'cut -f2- -d: | trim_spaces' add"; done
+for i in `seq 1 999`; do alias b${i}a="bb $i 'cut -f2- -d: | trim_spaces' git add -p"; done
 for i in `seq 1 999`; do alias bv${i}l="bv $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias bv${i}r="bv $i 'cut -f2- -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias o$i="bb $i '' o"; done
@@ -1428,13 +1428,28 @@ all_pdf_crop () {
 
 # for two side printing: add left margin for odd/even pages
 twoside () {
-  file=${2:-`mktemp`.pdf}
-  # 40 pts means ~ 1.45cm
+  local input=$1
+  local file=${2:-`mktemp`.pdf}
+  echo "output will be to $file"
+  local numOdd
+  local numEven
+  echo "Number odd [pt]? (default: 30pt=1.06cm) "
+  read numOdd
+  if [ -z "$numOdd" ]; then
+      numOdd=30
+  fi
+  echo "Number even [pt]? (default: 30pt=1.06cm) "
+  read numEven
+  if [ -z "$numEven" ]; then
+      numEven=30
+  fi
+  echo "shifting odd = $((numOdd*0.0353)) cm  even = $((numEven*0.0353)) cm"
+  # 40 pts means ~ 1.41cm
   gs -q -sDEVICE=pdfwrite -dBATCH -dNOPAUSE -sOutputFile="$file" \
   -dDEVICEWIDTHPOINTS=623 -dDEVICEHEIGHTPOINTS=842 -dFIXEDMEDIA \
   -c "<< /CurrPageNum 1 def /Install { /CurrPageNum CurrPageNum 1 add def
-   CurrPageNum 2 mod 0 eq {40 0 translate} {-40 0 translate} ifelse } bind  >> setpagedevice" \
-  -f "$1"
+   CurrPageNum 2 mod 0 eq {$numOdd 0 translate} {-$numEven 0 translate} ifelse } bind  >> setpagedevice" \
+  -f "$input"
 
    o $file
    [ -z "$2" ] && rm $file || echo Output to file $2

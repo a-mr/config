@@ -1,5 +1,5 @@
 
-export QT_QPA_PLATFORMTHEME=gtk2
+# export QT_QPA_PLATFORMTHEME=gtk2
 
 x () {
     if [[ "$1" != "" ]]; then
