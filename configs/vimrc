@@ -288,6 +288,8 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 syntax on
+" disable it for files > 10 MB
+autocmd BufReadPre * if getfsize(expand("%")) > 10000000 | syntax off | endif
 set ts=8
 set shiftwidth=4
 set softtabstop=4 "delete 4 spaces by backspace
@@ -563,8 +565,11 @@ hi def link cLabel Conditional
 set cinoptions={1s,f1s  " whitesmith C style indentation
 
 "fix colors in vimdiff
-hi DiffText   cterm=none ctermfg=Black ctermbg=Red gui=none guifg=Black guibg=Red
-hi DiffChange cterm=none ctermfg=Black ctermbg=LightMagenta gui=none guifg=Black guibg=LightMagenta
+"hi DiffText   cterm=none ctermfg=Black ctermbg=Red gui=none guifg=Black guibg=Red
+"hi DiffChange cterm=none ctermfg=Black ctermbg=LightMagenta gui=none guifg=Black guibg=LightMagenta
+if &diff
+    colorscheme evening
+endif
 
 "set cinoptions+=f-2
 "au BufRead,BufNewFile *.c,*.h set cino+=>2,e2

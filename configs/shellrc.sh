@@ -12,6 +12,10 @@
 
 ##############################################################################
 # initial settings
+if [ -f ~/local.init.sh ] ; then
+    . ~/local.init.sh
+fi
+
 [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH2_CLIENT" ] \
     && inside_ssh=true
 [ -n "$VNCDESKTOP" ] && inside_vnc=true
@@ -1893,11 +1897,11 @@ sta () {
 # colored diff
 dif () {
   REPO=`what_is_repo_type`
+  if [ ! -f "$1" -a ! -d "$1" ]; then
+      red_echo file/dir $1 not found
+  fi
   case "$REPO" in
       git)
-          if [ ! -f $1 ]; then
-              red_echo file $1 not found
-          fi
           git diff -r HEAD -- $@|less
           ;;
       mercurial) hg diff $@|less
@@ -2423,7 +2427,7 @@ if exist hg; then
 fi
 
 # path for latex (final ":" is essential)
-export TEXINPUTS=$HOME/activity-public/computer-program-data/latex:
+export TEXINPUTS=$HOME/activity-personal/computer-program-data/latex:
 
 # wrapper for dealing with various file types
 

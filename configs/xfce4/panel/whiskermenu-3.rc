@@ -1,5 +1,5 @@
 favorites=
-recent=skypeforlinux.desktop,xfce4-about.desktop,xfce-wmtweaks-settings.desktop,xfce-wm-settings.desktop,chromium.desktop,xfce-ui-settings.desktop,audio-recorder.desktop,firefox.desktop,org.kde.konsole.desktop,gkrellm.desktop
+recent=google-chrome.desktop,skypeforlinux.desktop,xfce4-about.desktop,xfce-wmtweaks-settings.desktop,xfce-wm-settings.desktop,chromium.desktop,xfce-ui-settings.desktop,audio-recorder.desktop,firefox.desktop,org.kde.konsole.desktop
 button-icon=xfce4-whiskermenu
 button-single-row=false
 show-button-title=false
