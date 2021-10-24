@@ -1214,14 +1214,15 @@ act () {
 }
 
 f () {
-    local dir
-    if [[ "$2" == "" ]]; then
-        dir=.
+    local pat=$1
+    if [ $# -gt 1 ]; then
+        shift 1
+        echo find $@ -iwholename "*$pat*"
+        find $@ -iwholename "*$pat*" | p
     else
-        dir="$2"/
+        echo find . -iwholename "*$pat*"
+        find . -iwholename "*$pat*" | p
     fi
-    echo find $dir -iwholename "*$1*"
-    find $dir -iwholename "*$1*" | p
 }
 
 find_writable_dir () {
@@ -1554,8 +1555,8 @@ export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/op
 
 # fetch & checkout Github PR
 github () {
-    git fetch origin pull/$1/head:pr/$1
-    git co pr/$1
+    git fetch origin pull/$1/head:pull/$1/head
+    git co pull/$1/head
 }
 
 # Usage : hgdiff file -r rev
@@ -2204,7 +2205,7 @@ clb () {
 pul () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git pull --recurse-submodules origin "$(bra)"
+      git) git pull --ff-only --recurse-submodules origin "$(bra)"
           local exit_code=$?
           [ $exit_code -ne 0 ] && return $exit_code
           git submodule update
