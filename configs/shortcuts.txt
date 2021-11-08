@@ -12,8 +12,8 @@ ______________________________________________________________________________
 Vim                     Vim spellcheck                 Vim window
   zo  open fold           <F9> or set spell/set nospell  C-w +-  resize up/dn
   zc  close fold          zg  add word to dict           C-w <>  resize le/ri
-  zM  fold all            z=  propose completion list        10< resize le*10
-  zR  unfold all          ]s  goto next misspelled
+  zM  fold all            z=  propose completion list    C-w 10< resize le*10
+  zR  unfold all          ]s  goto next misspelled       C-w v   vertical pane
   zz  curr.line ->center
                           %    current file in :!
   ]c  goto next VCS chg   %:p  the same, full path

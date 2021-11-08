@@ -284,6 +284,58 @@ function DoMyPrint(args)
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tab line
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" copied from https://superuser.com/a/477221
+" Rename tabs to show tab number.
+" (Based on http://stackoverflow.com/questions/5927952/whats-implementation-of-vims-default-tabline-function)
+if exists("+showtabline")
+    function! MyTabLine()
+        let s = ''
+        let wn = ''
+        let t = tabpagenr()
+        let i = 1
+        while i <= tabpagenr('$')
+            let buflist = tabpagebuflist(i)
+            let winnr = tabpagewinnr(i)
+            let s .= '%' . i . 'T'
+            let s .= (i == t ? '%1*' : '%2*')
+            " let s .= ' '
+            let wn = tabpagewinnr(i,'$')
+
+            let s .= '%#TabNum#'
+            " let s .= i
+            let s .= i . ':'
+            " let s .= '%*'
+            let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+            let bufnr = buflist[winnr - 1]
+            let file = bufname(bufnr)
+            let buftype = getbufvar(bufnr, 'buftype')
+            if buftype == 'nofile'
+                if file =~ '\/.'
+                    let file = substitute(file, '.*\/\ze.', '', '')
+                endif
+            else
+                let file = fnamemodify(file, ':p:t')
+            endif
+            if file == ''
+                let file = '[No Name]'
+            endif
+            "let s .= ' ' . file . ' '
+            let s .= file . ' '
+            let i = i + 1
+        endwhile
+        let s .= '%T%#TabLineFill#%='
+        let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
+        return s
+    endfunction
+    set stal=2
+    set tabline=%!MyTabLine()
+    set showtabline=1
+    highlight link TabNum Special
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "common settings for programming
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -371,26 +423,28 @@ inoremap n <Esc>:tabnext<CR>
 nnoremap p :tabprev<CR>
 inoremap p <Esc>:tabprev<CR>
 
-nnoremap 0 :tabnext 1<CR>
-inoremap 0 <Esc>:tabnext 1<CR>
-nnoremap 1 :tabnext 2<CR>
-inoremap 1 <Esc>:tabnext 2<CR>
-nnoremap 2 :tabnext 3<CR>
-inoremap 2 <Esc>:tabnext 3<CR>
-nnoremap 3 :tabnext 4<CR>
-inoremap 3 <Esc>:tabnext 4<CR>
-nnoremap 4 :tabnext 5<CR>
-inoremap 4 <Esc>:tabnext 5<CR>
-nnoremap 5 :tabnext 6<CR>
-inoremap 5 <Esc>:tabnext 6<CR>
-nnoremap 6 :tabnext 7<CR>
-inoremap 6 <Esc>:tabnext 7<CR>
-nnoremap 7 :tabnext 8<CR>
-inoremap 7 <Esc>:tabnext 8<CR>
-nnoremap 8 :tabnext 9<CR>
-inoremap 8 <Esc>:tabnext 9<CR>
-nnoremap 9 :tabnext 10<CR>
-inoremap 9 <Esc>:tabnext 10<CR>
+nnoremap 1 :tabnext 1<CR>
+inoremap 1 <Esc>:tabnext 1<CR>
+nnoremap 2 :tabnext 2<CR>
+inoremap 2 <Esc>:tabnext 2<CR>
+nnoremap 3 :tabnext 3<CR>
+inoremap 3 <Esc>:tabnext 3<CR>
+nnoremap 4 :tabnext 4<CR>
+inoremap 4 <Esc>:tabnext 4<CR>
+nnoremap 5 :tabnext 5<CR>
+inoremap 5 <Esc>:tabnext 5<CR>
+nnoremap 6 :tabnext 6<CR>
+inoremap 6 <Esc>:tabnext 6<CR>
+nnoremap 7 :tabnext 7<CR>
+inoremap 7 <Esc>:tabnext 7<CR>
+nnoremap 8 :tabnext 8<CR>
+inoremap 8 <Esc>:tabnext 8<CR>
+nnoremap 9 :tabnext 9<CR>
+inoremap 9 <Esc>:tabnext 9<CR>
+"nnoremap 0 :tabnext 10<CR>
+"inoremap 0 <Esc>:tabnext 10<CR>
+nnoremap 0 :vert sb
+inoremap 0 <Esc>:vert sb
 
 nnoremap m :marks<CR>
 inoremap m <Esc>:marks<CR>
