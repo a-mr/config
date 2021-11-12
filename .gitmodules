@@ -49,3 +49,6 @@
 [submodule "vim/vim-noscrollbar"]
 	path = vim/vim-noscrollbar
 	url = https://github.com/gcavallanti/vim-noscrollbar
+[submodule "vim/vim-signature"]
+	path = vim/vim-signature
+	url = https://github.com/kshenoy/vim-signature

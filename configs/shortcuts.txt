@@ -17,6 +17,7 @@ Vim                     Vim spellcheck                 Vim window
   zz  curr.line ->center
                           %    current file in :!
   ]c  goto next VCS chg   %:p  the same, full path
+  ]'  goto next mark
   :g/PAT show lines                   R<C-r>"  replace-paste after yanking text
          matching PAT
 ______________________________________________________________________________

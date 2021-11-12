@@ -291,7 +291,7 @@ if [[ $CURSHELL == zsh ]]; then
     "cpd"	"$apu/computer-program-data/"
     "cpdo"	"$apu/computer-program-doc/"
     "cpli"	"computer-program-libraries/"
-    "cpads"	"computer-program-algorithms_and_data_structures"
+    "cpads"	"computer-program-algorithms_and_data_structures/"
     "capp"	"computer-applications/"
     "cpp"	"computer-program-proof/"
     "csym"	"computer-symbolic_calculations_computer_algebra/"
@@ -309,11 +309,11 @@ if [[ $CURSHELL == zsh ]]; then
     "mmp"	"mathematics-mathematical_physics/"
     "lit"	"$wpe/literature/"
     "mus"	"$wpe/Music/"
-    "pic"       "$ape/computer-program-data/pictures"
+    "pic"       "$ape/computer-program-data/pictures/"
     "phot"	"$wpe/Photos/"
-    "nim"       "$as/Nim/"
-    "nim2"      "$as/nim2"
-    "nimd"      "$as/nim-devel"
+    "Nim"       "$as/Nim/"
+    "nim2"      "$as/nim2/"
+    "nimd"      "$as/nim-devel/"
     )
 
 
