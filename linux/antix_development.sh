@@ -20,6 +20,9 @@ $INS code virtualbox-6.0 dmg2img
 
 $INS build-essential libncurses5-dev gcc gdb libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
 
+# for xilinx vivado
+$INS libtinfo-dev libncursesw5-dev libncurses5 libtinfo5
+
 # misc
 $INS m4 libev-dev cputool rlwrap python-pygments rst2pdf meld manpages-dev speedcrunch parallel pdfjam time
 

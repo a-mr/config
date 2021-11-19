@@ -52,3 +52,9 @@
 [submodule "vim/vim-signature"]
 	path = vim/vim-signature
 	url = https://github.com/kshenoy/vim-signature
+[submodule "vim/vim-ingo-library"]
+	path = vim/vim-ingo-library
+	url = https://github.com/inkarkat/vim-ingo-library
+[submodule "vim/vim-mark"]
+	path = vim/vim-mark
+	url = https://github.com/inkarkat/vim-mark

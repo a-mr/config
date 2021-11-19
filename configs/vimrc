@@ -33,12 +33,13 @@ set backupdir=~/tmp/VIM_TMP
 :set clipboard=
 "set clipboard+=unnamed
 " Tell vim to remember certain things when we exit
+"  !    :  save and restore global variables (for vim-mark plugin)
 "  '10  :  marks will be remembered for up to 10 previously edited files
 "  "100 :  will save up to 100 lines for each register
 "  :200 :  up to 200 lines of command-line history will be remembered
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
-set viminfo='10,\"100,:200,%,n~/.viminfo
+set viminfo=!,'10,\"100,:200,%,n~/.viminfo
 set history=200
 
 set nowrapscan
@@ -906,6 +907,8 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-signature/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-ingo-library/
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-mark/
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " start interactive shell to use functions & aliases

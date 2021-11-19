@@ -10,9 +10,10 @@ $INS xfce4 xfce4-appfinder xfce4-battery-plugin xfce4-clipman-plugin xfce4-cpufr
 #xpra, with all bells and whistles
 #$INS python-pyinotify python-gtkglext1
 #$INS --install-suggests xpra
+$INS x2goserver x2goserver-xsession x2goclient
 
 # use eom (eye of mate) as image viewer
-$INS chromium spacefm
+# $INS chromium spacefm
 
 #clipboard manager
 $INS parcellite
@@ -26,7 +27,7 @@ $INS sdcv goldendict
 $INS pulseaudio pulseaudio-module-bluetooth pavucontrol bluez-firmware blueman
 
 # messaging
-$INS pidgin pidgin-sipe pidgin-skype pidgin-latex
+# $INS pidgin pidgin-sipe pidgin-skype pidgin-latex
 
 #converters
 $INS python-plastex pandoc antiword writer2latex
@@ -34,5 +35,6 @@ $INS python-plastex pandoc antiword writer2latex
 
 $INS aspell-ru myspell-ru mythes-ru
 
+$INS texlive biber texlive-bibtex-extra texlive-lang-cyrillic
 #misc
 $INS fortune-mod fortunes fortunes-ru

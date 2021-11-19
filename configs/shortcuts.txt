@@ -23,6 +23,10 @@ Vim                     Vim spellcheck                 Vim window
 ______________________________________________________________________________
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
   :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char
+vim-mark:
+  1\m  highlight group 1, etc           :Marks  print all marks
+  :MarkLoad  load saved highlightings
+______________________________________________________________________________
   :set cc=8                     #highlight column 8 (to navigate long funcs)
   :put =map(range(0,75), 'printf(''// %d'', v:val)')   #insert list of numbers
   :for i in range(1,10) | put ='// '.i | endfor        =the same
