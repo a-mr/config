@@ -16,7 +16,7 @@ Vim                     Vim spellcheck                 Vim window
   zR  unfold all          ]s  goto next misspelled       C-w v   vertical pane
   zz  curr.line ->center
                           %    current file in :!
-  ]c  goto next VCS chg   %:p  the same, full path
+  ]c  goto next VCS chg   %:p  the same, full path       ''   go to last line
   ]'  goto next mark
   :g/PAT show lines                   R<C-r>"  replace-paste after yanking text
          matching PAT
@@ -24,7 +24,7 @@ ______________________________________________________________________________
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
   :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char
 vim-mark:
-  1\m  highlight group 1, etc           :Marks  print all marks
+  1\m  highlight group 1, etc           :Marks  print all marks (vim-mark)
   :MarkLoad  load saved highlightings
 ______________________________________________________________________________
   :set cc=8                     #highlight column 8 (to navigate long funcs)
@@ -42,9 +42,10 @@ Easymotion                          My:  sw  go to word beg
  ssj      select line frwd
  ssk      select line back
 my Vim:
-  A-t  select buffers     st    select tag
-  A-n  next buffer        <F9>  select spell lang
-  A-p  prev buffer        <F8>  select encoding
+  A-t  enter tab to edit  st    select tag
+  A-n  next tab           <F9>  select spell lang
+  A-p  prev tab           <F8>  select encoding
+  A-o  to last tab
   A-m  select marks
 ______________________________________________________________________________
  Tmux                              Screen

@@ -1316,7 +1316,7 @@ hexd () {
     hexdump -v -e '/1 "0x%02x\n"' $@
 }
 
-if exist gdate; then
+if [[ "$OSTYPE" != "linux-gnu" ]] && exist gdate; then
     # assuming GNU coreutils installed in FreeBSD or MacOS
     DATE_COMMAND=gdate
 else
@@ -1885,11 +1885,11 @@ lsf () {
 sta () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | p
+      git) git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
           ;;
-      mercurial) hg status $@|p
+      mercurial) hg status $@ | pb
           ;;
-      svn) svn status $@|p
+      svn) svn status $@ | pb
           ;;
       *) red_echo unknown repository: $REPO
   esac

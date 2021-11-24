@@ -420,12 +420,22 @@ nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
 nnoremap <C-C> "+y
 inoremap <C-C> <ESC>"+y
 
+" Tab-related settings
+set tabpagemax=20
+
 nnoremap t :tabedit<Space>
 inoremap t <Esc>:tabedit<Space>
 nnoremap n :tabnext<CR>
 inoremap n <Esc>:tabnext<CR>
 nnoremap p :tabprev<CR>
 inoremap p <Esc>:tabprev<CR>
+
+" switch to last visited tab via A-o
+if !exists('g:lasttab')
+  let g:lasttab = 1
+endif
+nmap o :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
 
 nnoremap 1 :tabnext 1<CR>
 inoremap 1 <Esc>:tabnext 1<CR>
