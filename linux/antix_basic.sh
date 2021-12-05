@@ -9,13 +9,14 @@ INS="red_command sudo apt-get install -y $1"
 #Version control:
 $INS cvs subversion mercurial tortoisehg bzr git gitk gitweb darcs
 
-$INS zsh libfile-mimeinfo-perl # for mimeopen
-$INS crudini dos2unix gawk aptitude python-tk vim-gtk konsole kinit kio kio-extras kded5 lfhex ht vifm
+$INS zsh mosh libfile-mimeinfo-perl # for mimeopen
+$INS crudini dos2unix gawk aptitude python3-tk vim-gtk3 konsole kinit kio kio-extras kded5 ht vifm
+# lfhex - no ubuntu
 
 #hardware tools:
 $INS msr-tools lshw pciutils dmidecode
 # file systems
-$INS exfat-utils exfat-fuse sshfs archivemount jmtpfs partitionmanager
+$INS exfat-utils exfat-fuse sshfs archivemount jmtpfs partitionmanager nfs-common nfs-kernel-server
 
 #networking
 $INS iftop ethtool net-tools traceroute

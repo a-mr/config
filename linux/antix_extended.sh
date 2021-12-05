@@ -24,17 +24,24 @@ $INS jupyter-notebook
 $INS sdcv goldendict
 
 #bluetooth headset
-$INS pulseaudio pulseaudio-module-bluetooth pavucontrol bluez-firmware blueman
+$INS pulseaudio pulseaudio-module-bluetooth pavucontrol blueman
+# bluez-firmware: not in ubuntu
 
 # messaging
 # $INS pidgin pidgin-sipe pidgin-skype pidgin-latex
 
+wget http://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
+red_command sudo dpkg -i viber.deb
+rm -f viber.deb
+
+$INS telegram-desktop
+
 #converters
-$INS python-plastex pandoc antiword writer2latex
+$INS python3-plastex pandoc antiword writer2latex
 #$INS python-plastex pandoc antiword unoconv writer2latex
 
 $INS aspell-ru myspell-ru mythes-ru
 
-$INS texlive biber texlive-bibtex-extra texlive-lang-cyrillic
+$INS texlive biber texlive-bibtex-extra texlive-lang-cyrillic texlive-fonts-extra
 #misc
 $INS fortune-mod fortunes fortunes-ru

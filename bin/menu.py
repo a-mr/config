@@ -1,5 +1,5 @@
 
-from Tkinter import *
+from tkinter import *
 import os
 def selection_menu(options,default='',label='',title='?'):
     root = Tk()

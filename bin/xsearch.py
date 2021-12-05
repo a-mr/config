@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from menu import selection_menu
 import sys
 import subprocess
-import urllib
+import urllib.parse
 
 #primary selection
 buff=""
@@ -16,8 +16,8 @@ except subprocess.CalledProcessError as exc:
     buff += exc.output
 except:
     buff += str(sys.exc_info())
-# will be urllib.parse.quote in python3
-quoted = urllib.quote(search_str, safe='')
+
+quoted = urllib.parse.quote(search_str, safe='')
 
 options = [
     [ 'Google', 'my-web-browser https://www.google.com/search?q=%s'%quoted ],

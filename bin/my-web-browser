@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-if which chromium-browser; then
+if which chrome; then
+    exec chrome --new-window $@
+elif [ -x /opt/google/chrome/chrome ]; then
+    exec /opt/google/chrome/chrome --new-window $@
+elif which chromium-browser; then
     exec chromium-browser --new-window $@
 elif which chromium; then
     exec chromium --new-window $@
-elif which chrome; then
-    exec chrome --new-window $@
 elif which firefox; then
     exec firefox --new-window $@
 else

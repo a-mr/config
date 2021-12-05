@@ -6,25 +6,9 @@
 
 INS="red_command sudo apt-get install -y $1"
 
-# for add-apt-repository
-$INS software-properties-common
-
-curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-
-sudo add-apt-repository "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian buster contrib"
-wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-
-sudo apt update
-$INS code virtualbox-6.0 dmg2img
-
-$INS build-essential libncurses5-dev gcc gdb libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
-
-# for xilinx vivado
-$INS libtinfo-dev libncursesw5-dev libncurses5 libtinfo5
-
 # misc
-$INS m4 libev-dev cputool rlwrap python-pygments rst2pdf meld manpages-dev speedcrunch parallel pdfjam time
+$INS m4 libev-dev cputool rlwrap python3-pygments rst2pdf meld manpages-dev speedcrunch parallel time
+# ubuntu: pdfjam in texlive-extra-utils
 
 #x dev
 $INS xutils libx11-dev libxkbfile-dev libsecret-1-dev libxext-dev build-essential \
@@ -38,7 +22,27 @@ $INSB trackballs extremetuxracer nautilus
 # build systems
 $INS cmake meson
 # other
-$INS libgdbm-dev libgsl0-dev libprotobuf-dev protobuf-compiler python-protobuf
+$INS libgdbm-dev libgsl0-dev libprotobuf-dev protobuf-compiler python3-protobuf
 
 #nim:
-$INS lmodern nodejs
+$INS lmodern nodejs npm
+
+# for add-apt-repository
+$INS software-properties-common
+
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+
+# Ubuntu has its own virtualbox:
+#sudo add-apt-repository "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian buster contrib"
+#wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+
+sudo apt update
+#$INS virtualbox-6.1 dmg2img  # debian
+$INS virtualbox dmg2img  # ubuntu
+$INS code
+
+$INS build-essential libncurses5-dev gcc gdb libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
+
+# for xilinx vivado
+$INS libtinfo-dev libncursesw5-dev libncurses5 libtinfo5

@@ -65,10 +65,40 @@ C-A-C  Clipboard Manager | C-A-j  Tile bottom | C-A-S-j  Tile bottom-left
 C-A-m  Xfce Whisker Menu | C-A-l  Tile right  | C-A-S-l  Tile bottom-right
 C-A-d  xrandr -o left    | C-A-h  Tile left   | C-A-S-h  Tile top-left
 C-A-S-d  xrandr -o normal
-C-A-n   Maximize                   Win-Shift-s  screenshot of area
+C-A-n   Maximize                   Win-s  screenshot of area
 C-A-v   Maximize vertically
 C-A-S-v Maximize horizontally
+C-A-w   Resize window (j/k/h/l)    C-A-o  Move window (j/k/h/l)
 C-S-n   Move Win to workspace <n>
+______________________________________________________________________________
+                            Ibus input
+C-space  switch between System/Latex layouts
+C-.      start emoji input BELOW then <Space> (1+ times) then <Enter>:
+     thumbs 👍👎     popper 🎉    smile 😃😄😁😆😅  angry 😠
+     facepalm 🤦‍♂️     rolling 🤣   glasses 😎        scream 😱
+     affection 🥰    love 😍      kiss 😘           think 🤔
+     heart' ❤️       warning ⚠️   [no] entry ⛔     [no] entry'=prohibited🚫
+     biohazard ☣️    cancel' ❌   radioactive ☢️☢   info(rmation source)' 🛈
+     check[mark]' ✔  bullet' •    minus ➖          copy(right) ©
+     books 📚        notebook 📔  scroll 📜         write ✍️
+     pencil ✏️       ballpoint 🖊️ paperclip 📎      scissors ✂️
+     russia 🇷🇺       bomb 💣      firecraker 🧨     hourglass ⏳
+     fireworks 🎆    sparkler 🎇  trophy 🏆         medal 🎖️🏅
+     gift 🎁         ribbon 🎀    magic 🪄          gem 💎
+     shopping 🛍️🛒   battery 🔋   keyboard ⌨️ 🎹    movie 🎥
+     magnifying 🔍   knot🪢       flashlight 🔦     label 🏷️
+     money 🤑💰      coin 🪙      email ✉️          folder 📁
+     clipboard 📋    locked 🔒    waste(basket) 🗑   key 🔑
+     hammer 🔨       axe 🪓       wrench 🔧         screwdriver 🪛
+     gear ⚙️         link 🔗      stethoscope 🩺    plunger 🪠
+     broom 🧹        knob 🎛       slider 🎚️🎚        clamp 🗜️
+     headstone 🪦    voltage ⚡   (nut and) bolt 🔩 (balance)scale ⚖️⚖
+     ruler 📏📐      pushpin 📌   (carpentry)saw🪚  [test] tube 🧪
+     globe 🌍        sun' ☀️      rain' 🌧️🌧        tornado 🌪️
+     rainbow 🌈      droplet 💧
+     bread 🍞        cheese 🧀    pizza 🍕          birthday [cake] 🎂
+     cookie 🍪       chocolate 🍫 wine 🍷           tea, beverage ☕
+
 
 C-A-e   this help                  C-A-r  open scratchpad
 ______________________________________________________________________________

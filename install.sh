@@ -79,6 +79,7 @@ inst autostart ~/.config/autostart
 ln -f mimeapps.list ~/.local/share/applications/mimeapps.list
 ln -f defaults.list ~/.local/share/applications/defaults.list
 
+inst xsessionrc ~/.xsessionrc-x2go
 inst gtk-3.0-settings.ini ~/.config/gtk-3.0/settings.ini
 #for gnome
 inst user-dirs.conf ~/.config/user-dirs.conf

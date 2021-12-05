@@ -1,5 +1,5 @@
 favorites=
-recent=google-chrome.desktop,skypeforlinux.desktop,xfce4-about.desktop,xfce-wmtweaks-settings.desktop,xfce-wm-settings.desktop,chromium.desktop,xfce-ui-settings.desktop,audio-recorder.desktop,firefox.desktop,org.kde.konsole.desktop
+recent=xfce4-settings-editor.desktop,xfce-session-settings.desktop,x2goclient.desktop,firefox.desktop,xfce-wm-settings.desktop,xfce-keyboard-settings.desktop,xfce-ui-settings.desktop,xfce-mouse-settings.desktop,xfce4-about.desktop,gkrellm.desktop
 button-icon=xfce4-whiskermenu
 button-single-row=false
 show-button-title=false
@@ -11,8 +11,8 @@ item-icon-size=2
 hover-switch-category=false
 category-show-name=true
 category-icon-size=1
-load-hierarchy=false
-view-as-icons=false
+sort-categories=false
+view-mode=1
 default-category=0
 recent-items-max=10
 favorites-in-recent=true
