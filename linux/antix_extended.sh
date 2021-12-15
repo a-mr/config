@@ -10,7 +10,7 @@ $INS xfce4 xfce4-appfinder xfce4-battery-plugin xfce4-clipman-plugin xfce4-cpufr
 #xpra, with all bells and whistles
 #$INS python-pyinotify python-gtkglext1
 #$INS --install-suggests xpra
-$INS x2goserver x2goserver-xsession x2goclient
+$INS x2goserver x2goserver-xsession x2goclient x2goserver-desktopsharing
 
 # use eom (eye of mate) as image viewer
 # $INS chromium spacefm

@@ -70,6 +70,16 @@ fc-list|cut -d: -f2|sort|uniq
 specify language 'russian':
 fc-list :lang=ru|cut -d: -f2|sort|uniq
 
+=== print symbols implemented by font =========================================
+
+bin/checkfont.py /path/to/ttf/or/otf
+
+=== in which fonts are given codepoint present ================================
+
+fc-list ':charset=<hexedecimal code>'
+e.g.:
+fc-list ':charset=e803'
+
 === speed up CPU if it is stuck in low-power mode =============================
 # use wrmsr from msr-tools
 # disable BD PROCHOT

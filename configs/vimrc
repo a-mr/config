@@ -823,7 +823,7 @@ imap <S-F2> <ESC>l<S-F2>i
 "map <F2> ?\(\\begin\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}\|\\[\|\$\$\|\$\)<cr>v/\(\\end\s*{\s*\(align\|alignat\|displaymath\|eqnarray\|equation\|flalign\|gather\|math\|multline\|xalignat\)\*\=\s*}\|\\]\|\$\$\|\$\)<cr>y:split _reg_vim.tex<cr>p:wq<cr>
 
 
-autocmd bufenter *.tex set formatoptions=aw2tq
+"autocmd bufenter *.tex set formatoptions=aw2tq
 ":set formatprg=par\ -80j
 "enable hard wrap:
 autocmd bufenter *.tex set textwidth=80

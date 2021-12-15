@@ -1,5 +1,5 @@
 favorites=
-recent=xfce4-settings-editor.desktop,xfce-session-settings.desktop,x2goclient.desktop,firefox.desktop,xfce-wm-settings.desktop,xfce-keyboard-settings.desktop,xfce-ui-settings.desktop,xfce-mouse-settings.desktop,xfce4-about.desktop,gkrellm.desktop
+recent=system-config-printer.desktop,xfce-wmtweaks-settings.desktop,xfce-wm-settings.desktop,xfce-keyboard-settings.desktop,libreoffice-writer.desktop,users.desktop,x2goclient.desktop,xfce4-about.desktop,xfce4-settings-editor.desktop,xfce-session-settings.desktop
 button-icon=xfce4-whiskermenu
 button-single-row=false
 show-button-title=false

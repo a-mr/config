@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from itertools import chain
 import sys
 
@@ -10,7 +10,7 @@ ttf = TTFont(sys.argv[1], 0, verbose=0, allowVID=0,
                 fontNumber=-1)
 
 chars = chain.from_iterable([y + (Unicode[y[0]],) for y in x.cmap.items()] for x in ttf["cmap"].tables)
-print(list(chars))
+print("\n".join(map(str, list(chars))))
 
 # Use this for just checking if the font contains the codepoint given as
 # second argument:

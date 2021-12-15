@@ -1438,22 +1438,22 @@ twoside () {
   echo "output will be to $file"
   local numOdd
   local numEven
-  echo "Number odd [pt]? (default: 30pt=1.06cm) "
+  echo "Number odd [pt]? (default: 30pt = 1.06cm) "
   read numOdd
   if [ -z "$numOdd" ]; then
       numOdd=30
   fi
-  echo "Number even [pt]? (default: 30pt=1.06cm) "
+  echo "Number even [pt]? (default: -30pt = -1.06cm) "
   read numEven
   if [ -z "$numEven" ]; then
-      numEven=30
+      numEven=-30
   fi
   echo "shifting odd = $((numOdd*0.0353)) cm  even = $((numEven*0.0353)) cm"
   # 40 pts means ~ 1.41cm
   gs -q -sDEVICE=pdfwrite -dBATCH -dNOPAUSE -sOutputFile="$file" \
   -dDEVICEWIDTHPOINTS=623 -dDEVICEHEIGHTPOINTS=842 -dFIXEDMEDIA \
   -c "<< /CurrPageNum 1 def /Install { /CurrPageNum CurrPageNum 1 add def
-   CurrPageNum 2 mod 0 eq {$numOdd 0 translate} {-$numEven 0 translate} ifelse } bind  >> setpagedevice" \
+   CurrPageNum 2 mod 1 eq {$numOdd 0 translate} {$numEven 0 translate} ifelse } bind  >> setpagedevice" \
   -f "$input"
 
    o $file
@@ -2201,6 +2201,10 @@ clb () {
   esac
 }
 
+check-git-lfs () {
+  grep -q filter=lfs `roo`/.gitattributes
+}
+
 # download & update
 pul () {
   REPO=`what_is_repo_type`
@@ -2209,7 +2213,7 @@ pul () {
           local exit_code=$?
           [ $exit_code -ne 0 ] && return $exit_code
           git submodule update
-          if exist git-lfs; then
+          if check-git-lfs; then
               mydialog "Pull git lfs? [n|y]" "n green_echo skipped" "y git lfs pull"
           fi
           ;;
@@ -2252,8 +2256,8 @@ get () {
 upd () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git merge
-          if exist git-lfs; then
+      git) git merge --ff-only
+          if check-git-lfs; then
               git lfs pull
           fi
           ;;

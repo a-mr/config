@@ -6,8 +6,12 @@
 
 INS="red_command sudo apt-get install -y $1"
 
+#Version control:
+$INS cvs subversion mercurial tortoisehg bzr git git-lfs gitk gitweb darcs
+
 # misc
 $INS m4 libev-dev cputool rlwrap python3-pygments rst2pdf meld manpages-dev speedcrunch parallel time
+$INS linux-tools-generic linux-tools-common # for perf
 # ubuntu: pdfjam in texlive-extra-utils
 
 #x dev
@@ -22,7 +26,7 @@ $INSB trackballs extremetuxracer nautilus
 # build systems
 $INS cmake meson
 # other
-$INS libgdbm-dev libgsl0-dev libprotobuf-dev protobuf-compiler python3-protobuf
+$INS libgdbm-dev libgsl0-dev libprotobuf-dev protobuf-compiler python3-protobuf python3-fonttools
 
 #nim:
 $INS lmodern nodejs npm

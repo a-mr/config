@@ -30,7 +30,7 @@ clock_cal clock_options 0
 clock_cal cal_options 0
 clock_cal cal_format %a <span foreground="$A"><big><big>%e</big></big></span> %b
 clock_cal clock_format %l:%M <span foreground="$A"><small>%S</small></span>
-cpufreq khz_max 3300000
+cpufreq khz_max 3300002
 cpufreq gov_enable 1
 cpufreq slider_userspace_enable 0
 cpufreq slider_enable 0
@@ -67,7 +67,7 @@ proc text_format \w88\a$p\f procs\n\e$u\f users
 proc chart_config 40 100 0 0 0 0 : 1 0 0 0 500 : 0 0 0 0 500
 disk assign_method 2
 disk device Disk 0 0 0 1 1 0 0 Disk
-disk chart_config Disk 40 100000000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk chart_config Disk 40 7000000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 disk device nvme0n1 0 0 28 0 1 -1 0 nvme0n1
 disk device nvme0n1p1 0 0 28 0 1 1 0 nvme0n1p1
 disk device nvme0n1p2 0 0 28 0 1 2 0 nvme0n1p2
@@ -80,14 +80,14 @@ inet update_interval all 1
 net enables eno1 1 1 0
 net chart_config eno1 40 3000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables enp6s0 1 1 0
-net chart_config enp6s0 40 30000000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+net chart_config enp6s0 40 3000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables eth0 1 1 0
 net chart_config eth0 40 50 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables lo 0 1 0
 net enables wlan0 1 1 0
 net chart_config wlan0 40 500000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables wlp0s20f3 1 1 0
-net chart_config wlp0s20f3 40 100 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+net chart_config wlp0s20f3 40 1000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net timer_enabled 0
 net timer_seconds 1
 net timer_iface none
