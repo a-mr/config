@@ -1,5 +1,5 @@
 favorites=
-recent=system-config-printer.desktop,xfce-wmtweaks-settings.desktop,xfce-wm-settings.desktop,xfce-keyboard-settings.desktop,libreoffice-writer.desktop,users.desktop,x2goclient.desktop,xfce4-about.desktop,xfce4-settings-editor.desktop,xfce-session-settings.desktop
+recent=xfce-session-settings.desktop,xfce-wm-settings.desktop,xfce-backdrop-settings.desktop,xfce-ui-settings.desktop,system-config-printer.desktop,xfce-wmtweaks-settings.desktop,xfce-keyboard-settings.desktop,libreoffice-writer.desktop,x2goclient.desktop,xfce4-about.desktop
 button-icon=xfce4-whiskermenu
 button-single-row=false
 show-button-title=false
@@ -11,8 +11,8 @@ item-icon-size=2
 hover-switch-category=false
 category-show-name=true
 category-icon-size=1
-sort-categories=false
-view-mode=1
+load-hierarchy=false
+view-as-icons=true
 default-category=0
 recent-items-max=10
 favorites-in-recent=true

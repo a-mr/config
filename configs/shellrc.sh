@@ -263,7 +263,7 @@ if [[ "$ONLYREADCONF" == "y" ]]; then
 fi
 
 bash () {
-  env ALLOW_BASH=true bash
+  env ALLOW_BASH=true bash $@
 }
 
 # TMUX:
@@ -378,8 +378,9 @@ show_displays () {
     find /tmp/.X11-unix -type s -printf "%f\t%u\n" | hgrep $USER
     echo
     echo remote displays:
+    # adding + 0 to force numeric comparison
     netstat -lnt | awk '
-    sub(/.*:/,"",$4) && $4 >= 6000 && $4 < 6100 {
+    sub(/.*:/,"",$4) && ($4 + 0) >= 6000 && ($4 + 0) < 6100 {
     print ($1 == "tcp6" ? "ip6-localhost:" : "localhost:") ($4 - 6000)
     }'
     echo

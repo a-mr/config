@@ -2,7 +2,7 @@
 
 <channel name="xsettings" version="1.0">
   <property name="Net" type="empty">
-    <property name="ThemeName" type="string" value="Greybird-dark"/>
+    <property name="ThemeName" type="string" value="Arc-Dark"/>
     <property name="IconThemeName" type="empty"/>
     <property name="DoubleClickTime" type="empty"/>
     <property name="DoubleClickDistance" type="empty"/>
@@ -15,7 +15,7 @@
     <property name="FallbackIconTheme" type="empty"/>
   </property>
   <property name="Xft" type="empty">
-    <property name="DPI" type="int" value="140"/>
+    <property name="DPI" type="int" value="130"/>
     <property name="Antialias" type="empty"/>
     <property name="Hinting" type="int" value="1"/>
     <property name="HintStyle" type="string" value="hintfull"/>
@@ -44,6 +44,6 @@
     <property name="WindowScalingFactor" type="int" value="1"/>
   </property>
   <property name="Xfce" type="empty">
-    <property name="LastCustomDPI" type="int" value="140"/>
+    <property name="LastCustomDPI" type="int" value="130"/>
   </property>
 </channel>
