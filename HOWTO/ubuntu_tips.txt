@@ -4,6 +4,10 @@
 add-apt-repository ppa:$REPO
 apt-get update
 
+=== hibernate to /swapfile ===
+
+https://www.linuxuprising.com/2021/08/how-to-enable-hibernation-on-ubuntu.html
+
 === fix hibernate ===
 
 edit /etc/default/grub

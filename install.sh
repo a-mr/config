@@ -76,7 +76,8 @@ oinst lxpanel-default ~/.config/lxpanel/default
 inst easystroke ~/.easystroke
 inst fonts.conf
 inst autostart ~/.config/autostart
-ln -f mimeapps.list ~/.local/share/applications/mimeapps.list
+ln -f mimeapps.list ~/.local/share/applications/mimeapps.list  # older Linuxes
+ln -f mimeapps.list ~/.config/mimeapps.list
 ln -f defaults.list ~/.local/share/applications/defaults.list
 
 inst xsessionrc ~/.xsessionrc-x2go

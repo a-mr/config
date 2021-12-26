@@ -621,24 +621,28 @@ vf () {
    cd "$dst"
 }
 
+# show only my processes, full format
 psu () {
     ps -f --forest -u ${1:-$USER} | less
 }
+
+# show all processes, short format
 psa () {
-    ps ao stat,euid,ruid,tty,tpgid,sess,pgrp,ppid,pid,pcpu,comm --forest ${@-a} | less
+    ps -A o user,pid,comm --forest | less
 }
-pst () {
-    ps o user,pid,comm --forest ${@-a} | less
-}
+
 users () {
     who -u | grep `$DATE_COMMAND +'%Y-%m-%d'` |  sort -n -k 5
 }
 psc () {
     ps -f --forest | less
 }
+
+# show file system hierarchy
 tree () {
     command tree -C --charset utf8 $@ | less
 }
+
 alias mv='mv -i'
 # some more ls aliases
 if alias ll > /dev/null 2>&1; then
@@ -969,7 +973,11 @@ getlast () {
 }
 
 man () {
-    nvim -c 'let no_man_maps = 1' -c 'runtime ftplugin/man.vim' \
+    local vim_variant=vim
+    if exist nvim; then
+        vim_variant=nvim
+    fi
+    $vim_variant -c 'let no_man_maps = 1' -c 'runtime ftplugin/man.vim' \
         -c 'map q :q<CR>' \
         -c 'set nolist' \
         -c "Man $@" -c 'wincmd o'
@@ -1828,7 +1836,14 @@ lsb () {
 dbr () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+      git)
+          local remote_head
+          remote_head="`git symbolic-ref refs/remotes/origin/HEAD`" 2>/dev/null
+          if [ $? -eq 0 ]; then
+              echo $remote_head | sed 's@^refs/remotes/origin/@@'
+          else  # go long way
+              git remote show origin | awk '/HEAD branch/ {print $NF}'
+          fi
           ;;
       mercurial) echo default
           ;;
@@ -2294,6 +2309,24 @@ cou () {
           ;;
       svn) svn up $@
           ;;
+  esac
+}
+
+# switch to default branch
+cod () {
+  REPO=`what_is_repo_type`
+  local default=$(dbr)
+  case "$REPO" in
+      git)
+          echo git checkout "$default"
+          git checkout "$default"
+          ;;
+      mercurial) hg co "$default"
+          ;;
+      svn) svn up "$default" # TODO
+          ;;
+      *) red_echo unknown repository: $REPO
+
   esac
 }
 
