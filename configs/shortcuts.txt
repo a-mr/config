@@ -26,7 +26,7 @@ ______________________________________________________________________________
   :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char
 vim-mark:
   1\m  highlight group 1, etc           :Marks  print all marks (vim-mark)
-  :MarkLoad  load saved highlightings
+  :MarkLoad  load saved highlightings   sr      input pattern to mark
 ______________________________________________________________________________
   :set cc=8                     #highlight column 8 (to navigate long funcs)
   :put =map(range(0,75), 'printf(''// %d'', v:val)')   #insert list of numbers
@@ -42,11 +42,11 @@ Easymotion                          My:  sw  go to word beg
  ssb      select upwards                 sn  go to symbol
  ssj      select line frwd
  ssk      select line back
-my Vim:
-  A-t  enter tab to edit  st    select tag
-  A-n  next tab           <F9>  select spell lang
-  A-p  prev tab           <F8>  select encoding
-  A-o  to last tab
+my Vim:                                                vim-markgroup:
+  A-t  enter tab to edit  st    select tag             sb  open quick mark bar
+  A-n  next tab           <F9>  select spell lang      so  open slow mark bar
+  A-p  prev tab           <F8>  select encoding        n/N  move in slow one
+  A-o  to last tab        sl    highlight current line  r  set name for mark
   A-m  select marks
 ______________________________________________________________________________
  Tmux                              Screen

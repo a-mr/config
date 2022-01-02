@@ -508,6 +508,7 @@ function! TogglePaste()
       set nolinebreak
       call UnHighlightWindow()
    endif
+   SignatureToggle
    SignifyToggle
    " BUG in signify disable: adds an extra space after \
 endfunction
@@ -914,6 +915,12 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-signify/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easy-align/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easymotion/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-signature/
+let g:markbar_peekaboo_marks_to_display = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+let g:markbar_width = 40
+let g:markbar_peekaboo_width = 40
+nmap <Leader>o <Plug>ToggleMarkbar
+let g:markbar_peekaboo_apostrophe_mapping = '<leader>b'
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-markbar/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/

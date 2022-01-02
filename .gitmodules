@@ -58,3 +58,6 @@
 [submodule "vim/vim-mark"]
 	path = vim/vim-mark
 	url = https://github.com/inkarkat/vim-mark
+[submodule "vim/vim-markbar"]
+	path = vim/vim-markbar
+	url = https://github.com/Yilin-Yang/vim-markbar
