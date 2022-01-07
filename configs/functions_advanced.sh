@@ -311,6 +311,7 @@ if [[ $CURSHELL == zsh ]]; then
     "mus"	"$wpe/Music/"
     "pic"       "$ape/computer-program-data/pictures/"
     "phot"	"$wpe/Photos/"
+    "nim"       "$as/nim-stable/"
     "Nim"       "$as/Nim/"
     "nim2"      "$as/nim2/"
     "nimd"      "$as/nim-devel/"

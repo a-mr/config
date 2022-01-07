@@ -2218,7 +2218,8 @@ clb () {
 }
 
 check-git-lfs () {
-  grep -q filter=lfs `roo`/.gitattributes
+  local file=`roo`/.gitattributes
+  [ -f "$file" ] && grep -q filter=lfs "$file"
 }
 
 # download & update
