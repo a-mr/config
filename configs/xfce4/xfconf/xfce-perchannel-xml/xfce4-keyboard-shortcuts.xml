@@ -61,6 +61,7 @@
       <property name="&lt;Primary&gt;&lt;Alt&gt;r" type="string" value="my-x-terminal -e &apos;vim $HOME/tmp/notes.txt&apos;"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;m" type="string" value="xfce4-popup-whiskermenu"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;z" type="string" value="my-x-terminal -e &apos;vim $HOME/activity-public/computer-program-data/configs/shortcuts.txt&apos;"/>
+      <property name="&lt;Primary&gt;&lt;Alt&gt;s" type="string" value="synapse"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
@@ -218,7 +219,6 @@
       <property name="j" type="string" value="down_key"/>
       <property name="h" type="string" value="left_key"/>
       <property name="l" type="string" value="right_key"/>
-      <property name="&lt;Primary&gt;&lt;Alt&gt;s" type="string" value="stick_window_key"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;w" type="string" value="resize_window_key"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;o" type="string" value="move_window_key"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;p" type="string" value="prev_workspace_key"/>
