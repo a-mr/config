@@ -594,13 +594,13 @@ au! BufRead,BufNewFile *.f let b:fortran_do_enddo=1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "C settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-iabbrev #d #define
-iabbrev #i #include <
-
-iabbrev #m int main ( int argc, char *argv[] )<cr>{<cr>}<esc>ko
-
-imap <C-l> <Esc>o{<CR>}<Esc>ko
-imap <C-b> <Space>(<Space><Space>)<Esc>hi
+"iabbrev #d #define
+"iabbrev #i #include <
+"
+"iabbrev #m int main ( int argc, char *argv[] )<cr>{<cr>}<esc>ko
+"
+"imap <C-l> <Esc>o{<CR>}<Esc>ko
+"imap <C-b> <Space>(<Space><Space>)<Esc>hi
 
 
 "map <F2> 
@@ -926,6 +926,9 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-markbar/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-ingo-library/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-mark/
+
+set runtimepath+=~/activity-public/computer-program-data/vim/ultisnips/
+let g:UltiSnipsSnippetDirectories = ["~/activity-public/computer-program-data/vim/vim-snippets/UltiSnips"]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " start interactive shell to use functions & aliases

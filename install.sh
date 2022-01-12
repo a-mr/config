@@ -95,6 +95,12 @@ mkdir -p ~/tmp/VIM_TMP
 mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     oinst $CTPATH/vim/vim-pathogen/autoload/pathogen.vim ~/.vim/autoload/pathogen.vim 
 inst $CTPATH/vim/vim-easymotion ~/.vim/bundle/vim-easymotion
+
+# vim does not consider directory `ftdetect` if it's not in ~/.vim
+mkdir -p ~/.vim/ftdetect
+inst $CTPATH/vim/ultisnips/ftdetect/snippets.vim ~/.vim/ftdetect/snippets.vim
+inst $CTPATH/vim/nim.vim/ftdetect/nim.vim ~/.vim/ftdetect/nim.vim
+
 #red_command vim-addons install latex-suite
 oinst xmonad.hs ~/.xmonad/xmonad.hs
 aux_echo xmonad recompile

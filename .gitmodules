@@ -61,3 +61,6 @@
 [submodule "vim/vim-markbar"]
 	path = vim/vim-markbar
 	url = https://github.com/Yilin-Yang/vim-markbar
+[submodule "vim/ultisnips"]
+	path = vim/ultisnips
+	url = https://github.com/sirver/ultisnips
