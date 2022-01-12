@@ -46,20 +46,23 @@ endglobal
 
 snippet "\\?b(egin)?" "begin{} / end{}" br
 \begin{${1:something}}
-	${0:${VISUAL}}
+	${2:${VISUAL}}
 \end{$1}
+$0
 endsnippet
 
 snippet abs "abstract environment" b
 \begin{abstract}
-	$0
+	$1
 \end{abstract}
+$0
 endsnippet
 
 snippet tab "tabular / array environment" b
 \begin{${1:t}${1/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${2:c}}
-$0${2/(?<=.)(c|l|r)|./(?1: & )/g}
+$3${2/(?<=.)(c|l|r)|./(?1: & )/g}
 \end{$1${1/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
+$0
 endsnippet
 
 pre_expand "create_table(snip)"
@@ -76,36 +79,41 @@ snippet table "Table environment" b
 	\caption{${2:caption}}
 	\label{tab:${3:label}}
 	\begin{${4:t}${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${5:c}}
-	$0${5/(?<=.)(c|l|r)|./(?1: & )/g}
+	$6${5/(?<=.)(c|l|r)|./(?1: & )/g}
 	\end{$4${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
 \end{table}
+$0
 endsnippet
 
 snippet fig "Figure environment" b
 \begin{figure}[${2:htpb}]
 	\centering
 	\includegraphics[width=${3:0.8}\linewidth]{${4:name.ext}}
-	\caption{${4/(\w+)\.\w+/\u$1/}$0}%
+	\caption{${4/(\w+)\.\w+/\u$1/}$5}%
 	\label{fig:${4/(\w+)\.\w+/$1/}}
 \end{figure}
+$0
 endsnippet
 
 snippet enum "Enumerate" b
 \begin{enumerate}
-	\item $0
+	\item $1
 \end{enumerate}
+$0
 endsnippet
 
 snippet item "Itemize" b
 \begin{itemize}
-	\item $0
+	\item $1
 \end{itemize}
+$0
 endsnippet
 
 snippet desc "Description" b
 \begin{description}
-	\item[$1] $0
+	\item[$1] $2
 \end{description}
+$0
 endsnippet
 
 snippet it "Individual item" b
@@ -199,7 +207,8 @@ $0
 endsnippet
 
 snippet pac "Package" b
-\usepackage`!p snip.rv='[' if t[1] else ""`${1:options}`!p snip.rv = ']' if t[1] else ""`{${2:package}}$0
+\usepackage`!p snip.rv='[' if t[1] else ""`${1:options}`!p snip.rv = ']' if t[1] else ""`{${2:package}}
+$0
 endsnippet
 
 snippet lp "Long parenthesis"
@@ -225,8 +234,9 @@ snippet gln "New glossary item" b
   name={${2:name}},
   first={${3:first occurrence}},
   sort={${4:sort value}},
-  description={${0:description}},
+  description={${5:description}},
 }
+$0
 endsnippet
 snippet glnl "New long glossary item" b
 \longnewglossaryentry{${1:identifier}}
@@ -236,8 +246,9 @@ snippet glnl "New long glossary item" b
   sort={${4:sort value}},
 }
 {
-  ${0:description}
+  ${5:description}
 }
+$0
 endsnippet
 
 # Bold text
