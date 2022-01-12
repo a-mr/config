@@ -122,9 +122,28 @@ $0
 endsnippet
 
 snippet st "struct"
-struct ${1:`!p snip.rv = (snip.basename or "name") + "_t"`} {
-	${0:/* data */}
-};
+typedef struct {
+	${2:/* data */}
+} ${1:`!p snip.rv = (snip.basename or "name") + "_t"`};
+$0
+endsnippet
+
+snippet en "enum"
+typedef enum {
+	${2:/* data */}
+} ${1:`!p snip.rv = (snip.basename or "name") + "_t"`};
+$0
+endsnippet
+
+snippet "\\?swi(tch)?" "switch-case" br
+switch (${1:expression}) {
+case ${2:constant}:
+	$3
+	break;
+default:
+	$4
+}
+$0
 endsnippet
 
 snippet fun "function" b
