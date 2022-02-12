@@ -7,6 +7,7 @@ Bash/Zsh                                  | my Bash/Zsh:
   !:0      name of prev cmd               |  psu  show my processes
   !* or !!1* or !!:1-$                    |  psa  show all processes
            all arguments to prev cmd
+  !-2:0    name of cmd before previous
   cd -<n>  cd previous directory #n
   $OLDPWD  previous directory #1   
 ______________________________________________________________________________

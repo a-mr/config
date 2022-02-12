@@ -598,6 +598,11 @@ fi
 v () {
     vim -p $@
 }
+vr () {
+    # Add $(roo)/ before all arguments in $@
+    vim -p "${@/#/$(roo)/}"
+}
+
 # show my shortcuts
 k () {
     vim ~/activity-public/computer-program-data/configs/shortcuts.txt
@@ -945,6 +950,15 @@ get_n_arg () {
 
 get_last_arg () {
     echo $@[$#]
+}
+
+# print history commands with relative numbers like -1, -2, etc
+h () {
+    local first=${1-30}
+    local shiftval=0
+    [[ $CURSHELL == zsh ]] && shiftval=1
+    fc -l -$first | awk "{printf(\"%3s \", \$1-$HISTCMD-$shiftval);
+                         \$1=\"\"; print \$0}" | less -E -X
 }
 
 # get argument of previous command:
@@ -1465,8 +1479,32 @@ twoside () {
    CurrPageNum 2 mod 1 eq {$numOdd 0 translate} {$numEven 0 translate} ifelse } bind  >> setpagedevice" \
   -f "$input"
 
-   o $file
-   [ -z "$2" ] && rm $file || echo Output to file $2
+   o "$file"
+   [ -z "$2" ] && rm "$file" || echo Output to file $2
+}
+
+pdfmargins () {
+  local input=$1
+  local file=${2:-`mktemp`.pdf}
+  echo "output will be to $file"
+  local numLeft
+  local numRight
+  echo "Number left [pt]? (default: -40pt = -1.06cm) "
+  read numLeft
+  if [ -z "$numLeft" ]; then
+      numLeft=-40
+  fi
+  echo "Number right [pt]? (default: -40pt = -1.06cm) "
+  read numRight
+  if [ -z "$numRight" ]; then
+      numRight=-40
+  fi
+  echo "margins right = $((numLeft*0.0353)) cm  right = $((numRight*0.0353)) cm"
+  # 40 pts means ~ 1.41cm
+  pdf-crop-margins -a4 $numLeft 0 $numRight 0 "$input" -o "$file"
+
+   o "$file"
+   [ -z "$2" ] && rm "$file" || echo Output to file $2
 }
 
 # functions to echo file and print page count:

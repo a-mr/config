@@ -4,6 +4,8 @@ difftree () {
 }
 
 
+local FIRST_HISTCMD=0
+
 # print something before command next command prompt
 print_precmd () {
     local RESULT=$?
@@ -156,12 +158,14 @@ if [[ $CURSHELL == zsh ]]; then
 
     set_prompt () {
         # default value for main/viins/"" modes
-        local MYPS1="+->"
+        local MYPS1="+"
         if [[ "$KEYMAP" == "vicmd" ]]; then
-            MYPS1=":->"
+            MYPS1=":"
         fi
-        (( cols = $COLUMNS*6/10 ))
-        PROMPT="$MYPS1 "
+        if (( FIRST_HISTCMD == 0)); then
+            FIRST_HISTCMD=$HISTCMD
+        fi
+        PROMPT="$MYPS1$((HISTCMD-FIRST_HISTCMD))> "
     }
 
     set_prompt
@@ -338,11 +342,7 @@ elif [[ $CURSHELL == bash ]]; then
     #infinite history for bash
     export HISTSIZE=""
 
-    export PS1="-> "
-    if [ "$TERM" != "" ]; then
-        #export PS1="\[\033]0;\w> \$BASH_COMMAND \007\]-> "
-        export PS1="-> "
-    fi
+    export PS1="\#> "
 
     # preexec analogue of zsh for bash using DEBUG hook
     preexec_invoke_exec () {
