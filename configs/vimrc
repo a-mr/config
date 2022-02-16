@@ -250,6 +250,11 @@ hi User6 ctermbg=0  ctermfg=0 cterm=bold
 hi User7 ctermbg=0  ctermfg=1 cterm=bold
 "auxillary
 hi User8 ctermbg=7  ctermfg=6 
+"bright
+hi User9 cterm=bold
+"highlight parentheses/brackets/braces by bright white color:
+autocmd bufenter * match USer9 /(\|)\|\[\|\]\|{\|}/
+"use 'hi User9 none' to turn it off
 
 set noruler
 set laststatus=2
