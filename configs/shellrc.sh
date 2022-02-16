@@ -988,13 +988,15 @@ getlast () {
 
 man () {
     local vim_variant=vim
-    if exist nvim; then
-        vim_variant=nvim
-    fi
-    $vim_variant -c 'let no_man_maps = 1' -c 'runtime ftplugin/man.vim' \
+    # if exist nvim; then
+    #     vim_variant=nvim
+    # fi
+    # Note that "Man $@" would behave incorrectly,
+    # it would expand to "'Man $1' '$2' ..."
+    $vim_variant -c 'runtime ftplugin/man.vim' \
         -c 'map q :q<CR>' \
         -c 'set nolist' \
-        -c "Man $@" -c 'wincmd o'
+        -c "Man $*" -c 'wincmd o'
 }
 
 find_cmd_default () {
@@ -1460,6 +1462,23 @@ twoside () {
   local file=${2:-`mktemp`.pdf}
   echo "output will be to $file"
   local numOdd
+  echo "Number odd [cm]? (default: 1.0 cm) "
+  read numOdd
+  if [ -z "$numOdd" ]; then
+      numOdd=1.0
+  fi
+  echo "shifting odd = $numOdd cm"
+
+  pdfjam --twoside --offset "${numOdd}cm 0cm 0cm 0cm" "$input" -o "$file"
+  o "$file"
+  [ -z "$2" ] && rm "$file" || echo Output to file $2
+}
+
+twoside2 () {
+  local input=$1
+  local file=${2:-`mktemp`.pdf}
+  echo "output will be to $file"
+  local numOdd
   local numEven
   echo "Number odd [pt]? (default: 30pt = 1.06cm) "
   read numOdd
@@ -1479,8 +1498,8 @@ twoside () {
    CurrPageNum 2 mod 1 eq {$numOdd 0 translate} {$numEven 0 translate} ifelse } bind  >> setpagedevice" \
   -f "$input"
 
-   o "$file"
-   [ -z "$2" ] && rm "$file" || echo Output to file $2
+  o "$file"
+  [ -z "$2" ] && rm "$file" || echo Output to file $2
 }
 
 pdfmargins () {

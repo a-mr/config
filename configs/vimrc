@@ -11,9 +11,9 @@ set backspace=indent,start
 " 'eol' to allow delete new line
 "set backspace=indent,eol,start
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "common settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if has("autocmd")
   filetype indent on
@@ -176,9 +176,9 @@ set cpoptions+=n
 
 "set helplang=ru
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "colors & statusline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "Gvim colorsheme
 if has("gui_running")
@@ -284,9 +284,9 @@ function DoMyPrint(args)
   exec 'color '.colorsave
 endfunction
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tab line
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " copied from https://superuser.com/a/477221
 " Rename tabs to show tab number.
 " (Based on http://stackoverflow.com/questions/5927952/whats-implementation-of-vims-default-tabline-function)
@@ -336,9 +336,9 @@ if exists("+showtabline")
     highlight link TabNum Special
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "common settings for programming
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 syntax on
 " disable it for files > 10 MB
@@ -367,9 +367,9 @@ autocmd bufenter *.mlt set filetype=ocaml
 autocmd bufenter *.proto set filetype=cpp
 runtime macros/matchit.vim
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "EasyMotion config
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 hi link EasyMotionTarget WarningMsg
 
 nmap s <Leader>
@@ -395,7 +395,7 @@ let g:EasyMotion_use_upper = 1
 "map <Leader>h <Plug>(easymotion-linebackward)
 let g:EasyMotion_keys = ",.'abcdfghijklmpqrtuvxyzswone"
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
@@ -403,9 +403,9 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "key mappings: keys, shortcuts
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " timeout for alt, leader is 100 [ms]:
 set timeoutlen=300 ttimeoutlen=0
@@ -577,23 +577,23 @@ nnoremap <F4> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 map <F10> :emenu Encoding.<TAB>
 map <F9> :emenu SetSpell.<Tab>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Lua settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd BufRead *.lua setlocal makeprg=lua\ %
 autocmd BufRead *.lua setlocal efm=%s:\ %f:%l:%m
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "fortran settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let fortran_more_precise=1
 au! BufRead,BufNewFile *.f let b:fortran_do_enddo=1
 
 "runtime! ftplugin/man.vim
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "C settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "iabbrev #d #define
 "iabbrev #i #include <
 "
@@ -696,9 +696,9 @@ hi ccond ctermfg=DarkYellow
 "au BufRead,BufNewFile *.c,*.h syn match cpointer "\([;{}]\(\_k\|\_s\)*\)\@<=\*"
 "au BufRead,BufNewFile *.c,*.h syn match cpointer "\([;{}]\(\_k\|\_s\)*\)\zs\*"
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "LaTeX
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "au BufRead,BufNewFile *.tex set makeprg=latex
 
@@ -855,9 +855,9 @@ endfunction
 
 map <F2> :call SyncTex()<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Pascal
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 autocmd bufenter *.pas setlocal shiftwidth=2 softtabstop=2
@@ -868,9 +868,9 @@ iabbrev e, end
 iabbrev e. end;
 iabbrev w, writeln
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "OCaml
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set ofu=syntaxcomplete#Complete
 set runtimepath+=~/.opam/4.00.1/share/ocamlmerlin/vim
@@ -905,7 +905,7 @@ ino <M-g> <esc>:call JumpToDef()<cr>i
 nn <C-g> :call JumpToDef()<cr>
 ino <C-g> <esc>:call JumpToDef()<cr>i
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-slime plugin config
 let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": ":"}
@@ -921,7 +921,7 @@ let g:markbar_peekaboo_width = 40
 nmap <Leader>o <Plug>ToggleMarkbar
 let g:markbar_peekaboo_apostrophe_mapping = '<leader>b'
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-markbar/
-"set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
+set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-ingo-library/
@@ -930,7 +930,7 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-mark/
 set runtimepath+=~/activity-public/computer-program-data/vim/ultisnips/
 let g:UltiSnipsSnippetDirectories = ["~/activity-public/computer-program-data/vim/vim-snippets/UltiSnips"]
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " start interactive shell to use functions & aliases
 "set shellcmdflag=-ic
 

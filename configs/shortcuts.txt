@@ -21,7 +21,7 @@ Vim                     |Vim spellcheck                |Vim window
   ]c  goto next VCS chg | %:p  the same, full path     |
   ]'  goto next mark    |                              | ''   go to last line
   :g/PAT show lines     |           R<C-r>"  replace-paste after yanking text
-         matching PAT   |           K        follow link (e.g. man mode)
+         matching PAT   |           C-]      follow link (e.g. man mode)
 ______________________________________________________________________________
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
   :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char
