@@ -29,9 +29,12 @@ set showcmd
 
 set backup
 set backupdir=~/tmp/VIM_TMP
+" Use Ctrl-C/Ctrl-V clipboard (NOT selection/S-Insert) for y/p operations:
+set clipboard=unnamedplus
 "disable copy/paste to system clipboard
-:set clipboard=
+"set clipboard=
 "set clipboard+=unnamed
+
 " Tell vim to remember certain things when we exit
 "  !    :  save and restore global variables (for vim-mark plugin)
 "  '10  :  marks will be remembered for up to 10 previously edited files
@@ -422,8 +425,8 @@ set timeoutlen=300 ttimeoutlen=0
 nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
 
 " convenience shortcuts for copying into CLIPBOARD (+), expect to complete it
-nnoremap <C-C> "+y
-inoremap <C-C> <ESC>"+y
+" nnoremap <C-C> "+y
+" inoremap <C-C> <ESC>"+y
 
 " Tab-related settings
 set tabpagemax=20

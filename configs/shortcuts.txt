@@ -72,6 +72,7 @@ C-A-v   Maximize vertically        C-A-s  synapse search
 C-A-S-v Maximize horizontally
 C-A-w   Resize window (j/k/h/l)    C-A-o  Move window (j/k/h/l)
 C-S-n   Move Win to workspace <n>
+ hold Win and scroll on the window decoration — to change transparency of window
 ______________________________________________________________________________
                             Ibus input
 C-space  switch between System/Latex layouts
