@@ -554,19 +554,19 @@ endif
 "map <F5> :make `basename % .c`
 "map <F5> :make `i=%; echo ${i\%.*}`<cr>
 
-autocmd bufenter *.tex map <F5> :update<CR>:!xelatex %<CR>
-autocmd bufenter *.tex imap <F5> <ESC>:update<CR>:!xelatex %<CR>
-autocmd bufenter *.tex map <F6> :update<CR>:!xelatex % && xdg-open %<.pdf&<CR>
-autocmd bufenter *.tex imap <F6> <ESC>:update<CR>:!xelatex % && xdg-open %<.pdf&<CR>
+autocmd bufenter *.tex map <F5> :update<CR>:!draw_line.sh xelatex % && xelatex %<CR>
+autocmd bufenter *.tex imap <F5> <ESC>:update<CR>:!draw_line.sh xelatex % && xelatex %<CR>
+autocmd bufenter *.tex map <F6> :update<CR>:!draw_line.sh xelatex % && xelatex % && draw_line.sh %<.pdf && xdg-open %<.pdf&<CR>
+autocmd bufenter *.tex imap <F6> <ESC>:update<CR>:!draw_line.sh xelatex % && xelatex % && draw_line.sh %<.pdf && xdg-open %<.pdf&<CR>
 "autocmd bufenter *.C map <F6> :!root %<CR>
 "map <F5> :!make `i=%; echo ${i\%.*}`<cr>
-map <F5> :update<CR>:!make %<<CR>
-imap <F5> <ESC>:update<CR>:!make %<<CR>
+map <F5> :update<CR>:!draw_line.sh make %<<CR>:make %<<CR>
+imap <F5> <ESC>:update<CR>:!draw_line.sh make %<<CR>:make %<<CR>
 "map <S-F5> :!i=%; strace ./${i\%.*}<cr>
 map <S-F5> :!strace ./%<<cr>
 "map <F6> :!i=%; ./${i\%.*}<cr>
-map <F6> :update<CR>:!make %< && ./%<<cr>
-imap <F6> <ESC>:update<CR>:!make %< && ./%<<cr>
+map <F6> :update<CR>:!draw_line.sh make %< && make %< && draw_line.sh ./%< && ./%<<cr>
+imap <F6> <ESC>:update<CR>:!draw_line.sh make %< && make %< && draw_line.sh ./%< && ./%<<cr>
 map <S-F6> :!time ./%<<cr>
 map <F7> :make<cr>
 autocmd bufenter *.py map <F7> :!python -m py_compile %<cr>
