@@ -145,8 +145,9 @@ lgf   log with all file changes
 lgf BRANCH            the same for BRANCH
 has REVISION BRANCH   check if BRANCH contains REVISION
 
-dif [FILE]            diff w.r.t. latest commit
-dfp [FILE]            the same, in patch format (uncolored), without pager
+dif  [FILE]           diff w.r.t. latest commit
+difp [FILE]           the same, in patch format (uncolored)
+difb [BRANCH]         show all changes in current branch (or BRANCH)
 dat [REVISION]        print date of REVISION (or latest commit)
 datshort              the same, short version
 pat [REVISION]        print patch [for REVISION]

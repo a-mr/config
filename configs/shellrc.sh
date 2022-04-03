@@ -1715,6 +1715,35 @@ lgf () {
     fi
 }
 
+# show all changes in the current (or specified in 1st argument) branch
+difb () {
+  REPO=`what_is_repo_type`
+  local default=$(dbr)
+  case "$REPO" in
+      git) 
+          if [ -z "$1" ] || [[ "$1" == "--" ]]; then
+              branch=$(bra)
+          else
+              branch=$1
+              shift 1
+          fi
+          if [[ "$branch" == "$default" ]]; then
+              red_echo default branch was provided
+          else
+              git diff $(git merge-base $branch $default)..$branch $@ | less
+          fi
+          ;;
+      mercurial)
+          # see https://stackoverflow.com/questions/13991969/mercurial-see-changes-on-the-branch-ignoring-all-the-merge-commits
+          hg export -r "branch('$(hg branch)') and not merge()" | less
+          ;;
+      svn) red_echo not implemented
+          ;;
+      *) red_echo unknown repository: $REPO
+
+  esac
+}
+
 # show log for specified branch
 lgb () {
   REPO=`what_is_repo_type`
@@ -1986,25 +2015,7 @@ dif () {
   esac
 }
 
-# diff for patch, uncolored, without pager
-dfp () {
-  REPO=`what_is_repo_type`
-  case "$REPO" in
-      git)
-          if [ ! -f $1 ]; then
-              red_echo file $1 not found
-          fi
-          git diff --color=never -r HEAD -- $@
-          ;;
-      mercurial) hg diff --color never $@
-          ;;
-      svn) svn diff $@
-          ;;
-      *) red_echo unknown repository: $REPO
-  esac
-}
-
-# VCS diff without colors (for patch)
+# VCS diff for specific file without colors (for patch)
 difp () {
   REPO=`what_is_repo_type`
   case "$REPO" in
