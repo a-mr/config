@@ -23,6 +23,7 @@
         <value type="int" value="2"/>
         <value type="int" value="17"/>
         <value type="int" value="23"/>
+        <value type="int" value="31"/>
         <value type="int" value="28"/>
         <value type="int" value="25"/>
         <value type="int" value="15"/>
@@ -77,7 +78,7 @@
         <value type="int" value="29"/>
         <value type="int" value="5"/>
         <value type="int" value="13"/>
-        <value type="int" value="31"/>
+        <value type="int" value="32"/>
       </property>
       <property name="icon-size" type="uint" value="0"/>
       <property name="autohide-behavior" type="uint" value="0"/>
@@ -216,6 +217,7 @@
         <value type="string" value="yad"/>
       </property>
       <property name="known-items" type="array">
+        <value type="string" value="TelegramDesktop"/>
         <value type="string" value="x2goclient"/>
         <value type="string" value="software-update-available"/>
         <value type="string" value="vlc"/>
@@ -225,6 +227,7 @@
         <value type="string" value="nm-applet"/>
       </property>
       <property name="known-legacy-items" type="array">
+        <value type="string" value="skypeforlinux"/>
         <value type="string" value="synapse"/>
         <value type="string" value="nxclient.bin"/>
         <value type="string" value="gpick"/>
@@ -379,6 +382,11 @@
       <property name="style" type="uint" value="2"/>
     </property>
     <property name="plugin-30" type="string" value="tasklist"/>
-    <property name="plugin-31" type="string" value="genmon"/>
+    <property name="plugin-31" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16495103041.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-32" type="string" value="genmon"/>
   </property>
 </channel>

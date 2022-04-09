@@ -64,3 +64,18 @@
 [submodule "vim/ultisnips"]
 	path = vim/ultisnips
 	url = https://github.com/sirver/ultisnips
+[submodule "vim/async.vim"]
+	path = vim/async.vim
+	url = https://github.com/prabirshrestha/async.vim
+[submodule "vim/asyncomplete-lsp.vim"]
+	path = vim/asyncomplete-lsp.vim
+	url = https://github.com/prabirshrestha/asyncomplete-lsp.vim
+[submodule "vim/asyncomplete.vim"]
+	path = vim/asyncomplete.vim
+	url = https://github.com/prabirshrestha/asyncomplete.vim
+[submodule "vim/nimlsp"]
+	path = vim/nimlsp
+	url = https://github.com/PMunch/nimlsp
+[submodule "vim/vim-lsp"]
+	path = vim/vim-lsp
+	url = https://github.com/prabirshrestha/vim-lsp

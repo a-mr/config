@@ -28,6 +28,9 @@ ______________________________________________________________________________
 vim-mark:
   1\m  highlight group 1, etc           :Marks  print all marks (vim-mark)
   :MarkLoad  load saved highlightings   sr      input pattern to mark
+vim-ultisnips:                       vim-lsp:
+  TAB  expand a snippet              A-e  next completion
+  C-j  next field in the snippet     A-o  prev completion
 ______________________________________________________________________________
   :set cc=8                     #highlight column 8 (to navigate long funcs)
   :put =map(range(0,75), 'printf(''// %d'', v:val)')   #insert list of numbers

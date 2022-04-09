@@ -5,6 +5,9 @@
 
 INS="red_command sudo apt-get install -y $1"
 
+add-apt-repository ppa:mozillateam/ppa
+$INS firefox-esr
+
 # use eom (eye of mate) as image viewer
 $INS filezilla eom webp
 #fonts
