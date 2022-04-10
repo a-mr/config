@@ -73,9 +73,6 @@
 [submodule "vim/asyncomplete.vim"]
 	path = vim/asyncomplete.vim
 	url = https://github.com/prabirshrestha/asyncomplete.vim
-[submodule "vim/nimlsp"]
-	path = vim/nimlsp
-	url = https://github.com/PMunch/nimlsp
 [submodule "vim/vim-lsp"]
 	path = vim/vim-lsp
 	url = https://github.com/prabirshrestha/vim-lsp
