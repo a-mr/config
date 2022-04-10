@@ -46,7 +46,7 @@ sudo apt update
 $INS virtualbox dmg2img  # ubuntu
 $INS code
 
-$INS build-essential libncurses5-dev gcc gdb libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
+$INS build-essential libncurses5-dev gcc clangd gdb libssl-dev bc cdbs devscripts dh-make fakeroot libxml-parser-perl check avahi-daemon valgrind graphviz libgraphviz-dev
 
 # for xilinx vivado
 $INS libtinfo-dev libncursesw5-dev libncurses5 libtinfo5

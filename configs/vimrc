@@ -913,6 +913,11 @@ ino <M-g> <esc>:call JumpToDef()<cr>i
 nn <C-g> :call JumpToDef()<cr>
 ino <C-g> <esc>:call JumpToDef()<cr>i
 
+" go next in popup window (my config reserves C-n for screen/tmux):
+inoremap <expr><C-e> "\<C-n>"
+" for vim-lsp code suggestion
+inoremap <C-f> <ESC><Plug>(lsp-code-action)
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-slime plugin config
 let g:slime_target = "tmux"
@@ -937,6 +942,18 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-mark/
 
 set runtimepath+=~/activity-public/computer-program-data/vim/ultisnips/
 let g:UltiSnipsSnippetDirectories = ["~/activity-public/computer-program-data/vim/vim-snippets/UltiSnips"]
+
+let g:lsp_diagnostics_float_cursor = 1
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-lsp/
+set runtimepath+=~/activity-public/computer-program-data/vim/asyncomplete.vim
+set runtimepath+=~/activity-public/computer-program-data/vim/async.vim
+set runtimepath+=~/activity-public/computer-program-data/vim/asyncomplete-lsp.vim
+
+" disable :LspInstallServer suggestion:
+let g:lsp_settings_enable_suggestions = 0
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-lsp-settings
+
+set runtimepath+=~/activity-public/computer-program-data/vim/nimlsp
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " start interactive shell to use functions & aliases
