@@ -664,9 +664,6 @@ llthis () {
 la () {
     ls -A $@
 }
-l () {
-    ls -CF $@
-}
 #sort files by size
 lls () {
     ls -lhrS $@
@@ -924,8 +921,12 @@ for i in `seq 1 999`; do alias bv${i}l="bv $i 'cut -f1  -d: | trim_spaces'"; don
 for i in `seq 1 999`; do alias bv${i}r="bv $i 'cut -f2- -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias o$i="bb $i '' o"; done
 
-lcd () {
-    cd "$1" && ls | p
+nd () {
+    mkdir -p "$1" && cd "$1"
+}
+
+l () {
+    cd "$1" && ls -C -w "$COLUMNS" | less -F
 }
 
 lsp () {
@@ -1674,6 +1675,11 @@ inf () {
           ;;
       *) red_echo unknown repository: $REPO
   esac
+}
+
+logmy () {
+    git log --decorate --graph --all --tags --name-status --parents \
+        --abbrev-commit --author `git config --get user.email` $@ | pp
 }
 
 log () {

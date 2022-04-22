@@ -30,7 +30,7 @@ set showcmd
 set backup
 set backupdir=~/tmp/VIM_TMP
 " Use Ctrl-C/Ctrl-V clipboard (NOT selection/S-Insert) for y/p operations:
-set clipboard=unnamedplus
+"set clipboard=unnamedplus
 "disable copy/paste to system clipboard
 "set clipboard=
 "set clipboard+=unnamed
@@ -421,6 +421,10 @@ set timeoutlen=300 ttimeoutlen=0
 " pressing <ESC>w (in insert mode)
 " lower timeout would cause <Leader> be impossible to use (it fades too fast)
 
+" save file by Ctrl-S
+nmap <C-s> :w<Return>
+imap <C-s> <ESC><C-s>
+
 " highlight the current line until `:call clearmatches()`
 nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
 
@@ -468,8 +472,17 @@ inoremap 9 <Esc>:tabnext 9<CR>
 nnoremap 0 :vert sb
 inoremap 0 <Esc>:vert sb
 
-nnoremap m :marks<CR>
-inoremap m <Esc>:marks<CR>
+nnoremap b :tab ball<CR>
+inoremap b <Esc>b
+
+nmap ' ]'
+imap ' <Esc>]'
+nmap q ['
+imap q <Esc>['
+nmap y ]c
+imap y <Esc>]c
+nmap u [c
+imap u <Esc>[c
 
 nnoremap st <C-]>:tselect<CR>
 vnoremap st <C-]>:tselect<CR>
@@ -915,8 +928,46 @@ ino <C-g> <esc>:call JumpToDef()<cr>i
 
 " go next in popup window (my config reserves C-n for screen/tmux):
 inoremap <expr><C-e> "\<C-n>"
-" for vim-lsp code suggestion
-inoremap <C-f> <ESC><Plug>(lsp-code-action)
+
+nmap i <C-w>w
+imap i <ESC>i
+
+nmap w <Plug>(easymotion-bd-w)
+imap w <ESC>w
+
+" for vim-lsp
+nmap f <Plug>(lsp-document-range-format)
+imap f <ESC>f
+vmap f <Plug>(lsp-document-range-format)
+
+" apply fix from code suggestion
+nmap a <Plug>(lsp-code-action)
+imap a <ESC>a
+
+nmap d <Plug>(lsp-peek-definition)
+imap d <ESC>d
+nmap g <Plug>(lsp-definition)
+imap g <ESC>g
+
+nmap l <Plug>(lsp-peek-declaration)
+imap l <ESC>l
+"nmap k <Plug>(lsp-declaration)
+"imap k <ESC>k
+
+nmap e <Plug>(lsp-next-error)
+imap e <ESC>e
+
+nmap r <Plug>(lsp-next-warning)
+imap r <ESC>r
+
+nmap v <Plug>(lsp-next-reference)
+imap v <ESC>v
+
+nmap h <Plug>(lsp-type-hierarchy)
+imap h <ESC>h
+
+nmap s <Plug>(lsp-hover)
+imap s <ESC>s
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-slime plugin config
@@ -932,7 +983,8 @@ let g:markbar_peekaboo_marks_to_display = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJK
 let g:markbar_width = 40
 let g:markbar_peekaboo_width = 40
 nmap <Leader>o <Plug>ToggleMarkbar
-let g:markbar_peekaboo_apostrophe_mapping = '<leader>b'
+"open quick mark bar
+let g:markbar_peekaboo_apostrophe_mapping = 'm'
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-markbar/
 set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/

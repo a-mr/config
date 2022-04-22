@@ -107,6 +107,8 @@ if [[ $CURSHELL == zsh ]]; then
     zle -N re-read-init-file
     # backspace in vim's style instead of vi
     bindkey "^?" backward-delete-char
+    # to copy command previously deleted with C-u:
+    bindkey '^Y' yank
     backward-kill-fname () {
         local WORDCHARS=${WORDCHARS/\/}
         zle backward-kill-word
@@ -133,6 +135,11 @@ if [[ $CURSHELL == zsh ]]; then
     # alt-o, alt-i: search for the command beginning
     bindkey "o" history-beginning-search-backward
     bindkey "i" history-beginning-search-forward
+    if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+        source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+        bindkey 'a' autosuggest-execute
+        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
+    fi
     # enable C-r in zsh vi mode
     bindkey "^R" history-incremental-search-backward
 

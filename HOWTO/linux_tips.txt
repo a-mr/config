@@ -74,7 +74,7 @@ fc-list :lang=ru|cut -d: -f2|sort|uniq
 
 bin/checkfont.py /path/to/ttf/or/otf
 
-=== in which fonts are given codepoint present ================================
+=== find in which fonts are given symbol/codepoint present ====================
 
 fc-list ':charset=<hexedecimal code>'
 e.g.:

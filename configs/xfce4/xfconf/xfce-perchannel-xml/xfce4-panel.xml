@@ -34,7 +34,6 @@
         <value type="int" value="10"/>
         <value type="int" value="6"/>
         <value type="int" value="1"/>
-        <value type="int" value="21"/>
       </property>
       <property name="nrows" type="uint" value="1"/>
       <property name="mode" type="uint" value="1"/>
@@ -78,6 +77,7 @@
         <value type="int" value="29"/>
         <value type="int" value="5"/>
         <value type="int" value="13"/>
+        <value type="int" value="21"/>
         <value type="int" value="32"/>
       </property>
       <property name="icon-size" type="uint" value="0"/>
@@ -217,6 +217,12 @@
         <value type="string" value="yad"/>
       </property>
       <property name="known-items" type="array">
+        <value type="string" value="join?action=join&amp;confno=97095171173&amp;confid=dXRpZD1VVElEXzJiNWIxMGRjNmVjNjQ2MGY5NThjMTA3M2JjMjUwNDBhJnVzcz15WkpHMDVPNEhBbkpaVEltZ0t6c3lqVDc1cUhxU0NSWVdxdUlETFF5Mlg5S0ktOTVkdmtZbEhwZHhBUmVXTkV1ckQySVR0a0FfbmtkUlBubHZnLnJKZmVwRzNjS1lLdVVwcUYmdGlkPTk2YmM2MzM0NWRmZDQ2N2M4MWFkMDYxMzNjNjRiNDg2&amp;browser=firefox"/>
+        <value type="string" value="join?action=join&amp;confno=88320532423&amp;pwd=bmV5N1QrUFJqelZsaTZpRldqRGxtUT09&amp;confid=dXRpZD1VVElEXzBkZGE3MmY3YWI1MTQ5NzU5OGIwMWUzYTk3YzY1YmU2JnVzcz10R3dqQkJSbDhMZzhJMkYwTFlSTGtxYTJBRTYySW5aTFpHdWxGMWxxaEstVDFmNUNIWldFck5fY3JYdzI1LVZ2ekQzUFRZQnhpWXZoR2ZFX3pZd1lWby01ejBwOS5BaU5wM1NtNVFKaHcyTFg1JnRpZD05NmJjNjMzNDVkZmQ0NjdjODFhZDA2MTMzYzY0YjQ4Ng%3D%3D&amp;browser=firefox"/>
+        <value type="string" value="join?action=join&amp;confno=94641761513&amp;confid=dXRpZD1VVElEXzc0N2I2YWNmOTMxNjRjZjE5YTNhNWU3M2ZiZGFlNjI0JnVzcz1LdHVjdVBXZW9DaXNYWEE4eVZUel9wOU05RHQ3TmRYeW9uVk1va29fU0t0UnhoX2Z2dUJhMGJ6ZllpX09GYWh4WDZRSTZhNmZJNHRRU0ZzMFFBLnRvajJYX2RNcGdFLVlmd1ImdGlkPTk2YmM2MzM0NWRmZDQ2N2M4MWFkMDYxMzNjNjRiNDg2&amp;browser=firefox"/>
+        <value type="string" value="join?action=join&amp;confno=94641761513&amp;confid=dXRpZD1VVElEXzMyOGMyNjg3MjUzNDRlODJhMGExMTdhYzIwZGMxZTE5JnVzcz1fWk5yc0dVTG0xTTI3NEpFTEMtZC00RkdYNkZzZkMteldLUWI3eXppeE5CNzd0UW95S3BkUjdKbENzN1RFeE9NTG9OSjUtNGtCMlk4N3VPQk5nLjQ3ZlBCSDhXUnlkSnNMcm8mdGlkPTk2YmM2MzM0NWRmZDQ2N2M4MWFkMDYxMzNjNjRiNDg2&amp;browser=firefox"/>
+        <value type="string" value="join?action=join&amp;confno=88320532423&amp;pwd=bmV5N1QrUFJqelZsaTZpRldqRGxtUT09&amp;confid=dXRpZD1VVElEX2FiZWNlMTU0MjlhMTQ3MDBhMzJmNTdlYzk4NDhmMzhjJnVzcz1OZS1HZlR5V2FOc0ExcUNQdkQ1Qi1Qd0FGV3BKS180bjFfNUkwai0xdTJsOUF4LTFqRGhraENteDEzakk4T1Myb3ZBdURhTmRvM3c1MFhwai01bU1hdHRvdm5uTy5NWmJpdU9oZ0hYdFk4S2lLJnRpZD05NmJjNjMzNDVkZmQ0NjdjODFhZDA2MTMzYzY0YjQ4Ng%3D%3D&amp;browser=firefox"/>
+        <value type="string" value="join?action=join&amp;confno=88320532423&amp;pwd=bmV5N1QrUFJqelZsaTZpRldqRGxtUT09&amp;confid=dXRpZD1VVElEXzE1NzBhYzA5ZDc1ZTQwNzk4MzJkNjJlZDFjM2Q3NzhlJnVzcz1kclpKQzNrQkVWMEExNWswcVZaeEI3WW5HUW1EM01tVHNVLVd6cGpEMHpKXzBwTHRMMkdSSFhkM3RQYXNQRnFJN0hfZFYwMXlsc3d3b1hEdlYzS2labGF2bEJsdS5BRVJXRjBFZEdza0lzei12JnRpZD05NmJjNjMzNDVkZmQ0NjdjODFhZDA2MTMzYzY0YjQ4Ng%3D%3D&amp;browser=firefox"/>
         <value type="string" value="TelegramDesktop"/>
         <value type="string" value="x2goclient"/>
         <value type="string" value="software-update-available"/>
