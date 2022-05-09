@@ -53,6 +53,10 @@ My Vim:                   s     <Leader>             vim-markgroup:
   A-m  select marks       A-i   next window
  A-y  goto next VCS chg   A-b   convert buffers->tabs
  A-u  goto prev VCS chg 
+   F2    toggle syntax               F3   toggle paste mode
+   S-F2  toggle parens highlighting  F4   remove trailnig whitespace
+   F5    compile                     F6   compile & run        F7   call make
+   F8    call SyncTex                F9   spell check          F10  encoding
 My Vim clangd:                  A-g  GOTO DEFINITION
   A-f  format code              A-h  show type hierarchy  A-v  cycle var usage
   A-a  apply suggestion action  A-s  SHOW SYMBOL INFO     A-e  next error

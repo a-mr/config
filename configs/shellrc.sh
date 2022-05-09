@@ -1475,6 +1475,11 @@ twoside () {
   [ -z "$2" ] && rm "$file" || echo Output to file $2
 }
 
+# Crow leaving only these margins for twoside printing
+twosidecrop () {
+    pdfcrop3.sh -two -m "50 20 20 20" "$1" "$2"
+}
+
 twoside2 () {
   local input=$1
   local file=${2:-`mktemp`.pdf}
@@ -2188,7 +2193,9 @@ reb () {
     local def_br=$(dbr)
     local cur_br=$(bra)
     [[ $def_br = $cur_br ]] && red_echo On default branch && return 1
-    git fetch origin "$def_br:$def_br" && git rebase "$def_br" && git push origin "$cur_br" -f
+    git fetch origin "$def_br:$def_br" && git rebase "$def_br" &&
+        mydialog "push?[n|y|f]" "n green_echo Done" \
+        "y git push origin \"$cur_br\"" "f git push origin -f \"$cur_br\""
 }
 
 gitlfspur () {

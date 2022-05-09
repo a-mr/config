@@ -156,7 +156,9 @@ if [[ "$1" == "-a" ]]; then
 
     if [[ -d /usr/share/texlive/texmf-dist/fonts/truetype/paratype/ ]]; then
         mkdir -p ~/.fonts
-        ln -sfT /usr/share/texlive/texmf-dist/fonts/truetype/paratype/ ~/.fonts/paratype
+        LNK /usr/share/texlive/texmf-dist/fonts/truetype/paratype/ ~/.fonts/paratype
+        LNK /usr/share/texlive/texmf-dist/fonts/truetype/public/droid ~/.fonts/droid
+        LNK /usr/share/texlive/texmf-dist/fonts/opentype/public/ebgaramond ~/.fonts/ebgaramond
         fc-cache -fv
     fi
 fi
