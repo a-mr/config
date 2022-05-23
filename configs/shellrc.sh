@@ -141,9 +141,10 @@ nctr () {
     fi
 }
 
-# compile nim compiler (with debugging) as nim2 (FAST way)
+# compile nim compiler (with debugging) as `nimdbg` (FAST way)
 mknimdbg () {
-    nim c --lib:lib --debuginfo --lineDir:on -o:$HOME/activity-shared/Nim/bin/nimdbg $HOME/activity-shared/Nim/compiler/nim.nim
+    local dir="$HOME/share/activity-public/Nim"
+    nim c --lib:lib --debuginfo --lineDir:on -o:"$dir"/bin/nimdbg "$dir"/compiler/nim.nim
 }
 [[ $CURSHELL == bash ]] && export -f mknimdbg
 
