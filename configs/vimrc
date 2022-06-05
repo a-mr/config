@@ -594,19 +594,21 @@ imap <F3> <ESC>:call TogglePaste()<CR>a
 nnoremap <F4> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 inoremap <F4> <ESC><F4>
 
-autocmd bufenter *.tex map <F5> :update<CR>:!draw_line.sh xelatex % && xelatex %<CR>
+set shell=~/bin/vim-shell-wrapper.sh
+
+autocmd bufenter *.tex map <F5> :update<CR>:!xelatex %<CR>
 autocmd bufenter *.tex imap <F5> <ESC><F5>
-autocmd bufenter *.tex map <F6> :update<CR>:!draw_line.sh xelatex % && xelatex % && draw_line.sh %<.pdf && xdg-open %<.pdf&<CR>
+autocmd bufenter *.tex map <F6> :update<CR>:!xelatex % && xdg-open %<.pdf<CR>
 autocmd bufenter *.tex imap <F6> <ESC><F6>
 autocmd bufenter *.C map <F6> :!root %<CR>
 autocmd bufenter *.C imap <F6> <ESC><F6>
 autocmd bufenter *.py map <F5> :!python -m py_compile %<cr>
 autocmd bufenter *.py imap <F5> <ESC><F5>
-map <F5> :update<CR>:!draw_line.sh make %<<CR>:make %<<CR>
+map <F5> :update<CR>:make %<<CR>
 imap <F5> <ESC><F5>
 map <S-F5> :!strace ./%<<cr>
 imap <S-F5> <ESC><S-F5>
-map <F6> :update<CR>:!draw_line.sh make %< && make %< && draw_line.sh ./%< && ./%<<cr>
+map <F6> :update<CR>:!make %< && draw_line.sh running... && ./%<<cr>
 imap <F6> <ESC><F6>
 map <S-F6> :!time ./%<<cr>
 imap <S-F6> <ESC><S-F6>
@@ -925,7 +927,7 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd bufenter *.nim map <F5> :update<CR>:!nim c %<<cr>
 autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:!nim c %<<cr>
-autocmd bufenter *.nim map <F6> :update<CR>:!draw_line.sh nim c -r %< && nim c --hints:off -r %<<cr>
+autocmd bufenter *.nim map <F6> :update<CR>:!nim c --hints:off -r %<<CR>
 autocmd bufenter *.nim imap <F6> <ESC><F6>
 "autocmd bufenter *.nim filetype off
 "autocmd bufenter *.nim filetype plugin indent on

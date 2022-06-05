@@ -483,6 +483,7 @@ screen_try_start () {
        b - start bash;
        w - Screen create work session;
        W - Screen attach to work session;
+       f - Screen force attach to work session;
        t - Screen atttach any session;
        q - exit" \
            "h exec screen -S aux" \
@@ -490,6 +491,7 @@ screen_try_start () {
            "b exec bash" \
            "w exec screen -S work" \
            "W screen_try_attach work" \
+           "f screen -dr" \
            "a exec screen -S aux" \
            "A screen_try_attach aux" \
            "t screen_try_attach" \

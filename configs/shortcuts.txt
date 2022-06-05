@@ -147,6 +147,9 @@ clb REPO BRANCH       clone specific BRANCH of REPO
 
 github NUMBER         fetch & checkout Github PR number
 ______________________________________________________________________________
+0 - admin/program start   2 - Web         4 - auxiliary work         6 - VMs
+1 - e-mail/messagers      3 - main work   5 - remote work (ssh...)
+______________________________________________________________________________
                             Ibus input
 C-space  switch between System/Latex layouts
 C-.      start emoji input BELOW then <Space> (1+ times) then <Enter>:

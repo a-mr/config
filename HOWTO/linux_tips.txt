@@ -64,28 +64,35 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 And put correct dns servers in client's /etc/resolv.conf
 
-=== show fonts ================================================================
+=== show fonts ===============================================================
 
 fc-list|cut -d: -f2|sort|uniq
 specify language 'russian':
 fc-list :lang=ru|cut -d: -f2|sort|uniq
 
-=== print symbols implemented by font =========================================
+=== print symbols implemented by font ========================================
 
 bin/checkfont.py /path/to/ttf/or/otf
 
-=== find in which fonts are given symbol/codepoint present ====================
+=== find in which fonts are given symbol/codepoint present ===================
 
 fc-list ':charset=<hexedecimal code>'
 e.g.:
 fc-list ':charset=e803'
 
-=== speed up CPU if it is stuck in low-power mode =============================
+=== know which program is using disk now =====================================
+fatrace  # for printing files on the fly
+iotop    # for statistics
+
+=== speed up CPU if it is stuck in low-power mode ============================
 # use wrmsr from msr-tools
 # disable BD PROCHOT
 wrmsr -a 0x1FC 262238
+wrmsr -a 0x1FC 0x4005e  # the same
+# to enable throttling back:
+wrmsr -a 0x1FC 0x4005f
 
-=== rotate screen in Linux console ============================================
+=== rotate screen in Linux console ===========================================
 https://askubuntu.com/questions/237963/how-do-i-rotate-my-display-when-not-using-an-x-server
 You can rotate your virtual framebuffers using fbcon. 0 through 3 to represent the various rotations:
 
@@ -100,16 +107,16 @@ Rotate all virtual framebuffers:
 
 echo 1 | sudo tee /sys/class/graphics/fbcon/rotate_all
 
-=== check USB version (2.0/3.0/...)  ==========================================
+=== check USB version (2.0/3.0/...)  =========================================
 lsusb -vvv | grep -i -B5 -A5 bcdUSB | less
 
-=== fix root X11 access to a user display =====================================
+=== fix root X11 access to a user display ====================================
 print auth info from user shell:
 > xauth list
 add it to root .xauth from root shell:
 > xauth add <that_line>
 
-=== btrfs: exclude directories from copy-on-write =============================
+=== btrfs: exclude directories from copy-on-write ============================
 chattr -R +C ~/.cache
 chattr -R +C ~/Downloads
 chattr -R +C ~/tmp
