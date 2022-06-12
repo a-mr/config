@@ -18,7 +18,7 @@ $INS xfce4 xfce4-appfinder xfce4-battery-plugin xfce4-clipman-plugin xfce4-cpufr
 #clipboard manager
 $INS parcellite
 
-$INS julia lua5.1 lua5.3 luajit
+$INS julia lua5.1 lua5.3 luajit python3-pip
 
 $INS jupyter-notebook
 $INS sdcv goldendict
@@ -33,6 +33,10 @@ $INS pulseaudio pulseaudio-module-bluetooth pavucontrol blueman
 wget http://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
 red_command sudo dpkg -i viber.deb
 rm -f viber.deb
+
+wget https://go.skype.com/skypeforlinux-64.deb
+red_command sudo dpkg -i skypeforlinux-64.deb
+rm -f skypeforlinux-64.deb
 
 $INS telegram-desktop
 

@@ -117,7 +117,7 @@ if [[ $CURSHELL == zsh ]]; then
     # ctrl-w, delete file name
     bindkey '\C-w' backward-kill-fname
     # ctrl-backspace, does not work in konsole
-    bindkey "^H" backward-kill-fname
+    # bindkey "^H" backward-kill-fname
     # alt-backspace, delete all the word including '/'
     bindkey '^[^?' backward-kill-word
 

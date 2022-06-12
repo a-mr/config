@@ -1,16 +1,23 @@
 [Added Associations]
-x-scheme-handler/http=exo-web-browser.desktop
-x-scheme-handler/https=exo-web-browser.desktop
+x-scheme-handler/http=exo-web-browser.desktop;firefox-esr.desktop;
+x-scheme-handler/https=exo-web-browser.desktop;firefox-esr.desktop;
 x-scheme-handler/mailto=exo-mail-reader.desktop
 video/mp4=totem.desktop;
 video/quicktime=totem.desktop;
 application/x-bittorrent=transmission-gtk.desktop;
+x-scheme-handler/chrome=firefox-esr.desktop;
+application/x-extension-htm=firefox-esr.desktop;
+application/x-extension-html=firefox-esr.desktop;
+application/x-extension-shtml=firefox-esr.desktop;
+application/xhtml+xml=firefox-esr.desktop;
+application/x-extension-xhtml=firefox-esr.desktop;
+application/x-extension-xht=firefox-esr.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-YM2VN1.desktop;
 
 [Default Applications]
 application/x-bittorrent=transmission-gtk.desktop
-text/html=exo-web-browser.desktop
 inode/directory=thunar.desktop
-x-scheme-handler/tg=telegramdesktop.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-YM2VN1.desktop
 x-scheme-handler/viber=viber.desktop
 application/ppdf=FoxitReader.desktop
 application/xfdf=FoxitReader.desktop
@@ -41,3 +48,13 @@ application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=libreoffice-ca
 text/x-python=gvim.desktop;
 text/x-chdr=gvim.desktop;
 text/x-c++hdr=gvim.desktop;
+x-scheme-handler/http=firefox-esr.desktop
+x-scheme-handler/https=firefox-esr.desktop
+x-scheme-handler/chrome=firefox-esr.desktop
+application/x-extension-htm=firefox-esr.desktop
+application/x-extension-html=firefox-esr.desktop
+application/x-extension-shtml=firefox-esr.desktop
+application/xhtml+xml=firefox-esr.desktop
+application/x-extension-xhtml=firefox-esr.desktop
+application/x-extension-xht=firefox-esr.desktop
+text/html=firefox-esr.desktop;

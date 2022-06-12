@@ -65,6 +65,7 @@ inst shellprofile.sh ~/.zprofile
 inst shellrc.sh ~/.bashrc
 inst shellrc.sh ~/.zshrc
 
+inst qterminal.org ~/.config/qterminal.org
 inst konsole/konsolerc ~/.config/konsolerc
 inst konsole/konsoleui.rc ~/.local/share/kxmlgui5/konsole/konsoleui.rc
 inst konsole/sessionui.rc ~/.local/share/kxmlgui5/konsole/sessionui.rc
@@ -157,7 +158,7 @@ if [[ "$1" == "-a" ]]; then
     if [[ -d /usr/share/texlive/texmf-dist/fonts/truetype/paratype/ ]]; then
         mkdir -p ~/.fonts
         LNK /usr/share/texlive/texmf-dist/fonts/truetype/paratype/ ~/.fonts/paratype
-        LNK /usr/share/texlive/texmf-dist/fonts/truetype/public/droid ~/.fonts/droid
+        LNK /usr/share/texlive/texmf-dist/fonts/truetype/ascender/droid/ ~/.fonts/droid
         LNK /usr/share/texlive/texmf-dist/fonts/opentype/public/ebgaramond ~/.fonts/ebgaramond
         fc-cache -fv
     fi

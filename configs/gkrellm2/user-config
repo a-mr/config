@@ -14,7 +14,7 @@ below 0
 track_gtk_theme_name 0
 default_track_theme "Default"
 save_position 1
-chart_width 145
+chart_width 150
 update_HZ 2
 allow_multiple_instances 0
 float_factor 1000
@@ -26,11 +26,11 @@ clock_cal cal_tooltip
 clock_cal hour_chime_command 
 clock_cal quarter_chime_command 
 clock_cal loop_chime_enable 0
-clock_cal clock_options 0
-clock_cal cal_options 0
-clock_cal cal_format %a <span foreground="$A"><big><big>%e</big></big></span> %b
+clock_cal clock_options 1
+clock_cal cal_options 1
+clock_cal cal_format ww%V %a <span foreground="$A"><big><big>%e</big></big></span> %b
 clock_cal clock_format %l:%M <span foreground="$A"><small>%S</small></span>
-cpufreq khz_max 3300002
+cpufreq khz_max 3403285
 cpufreq gov_enable 1
 cpufreq slider_userspace_enable 0
 cpufreq slider_enable 0
@@ -43,7 +43,7 @@ cpu enabled cpu 0
 cpu extra_info cpu 1
 cpu chart_config cpu 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
 cpu enabled cpu0 1
-cpu extra_info cpu0 0
+cpu extra_info cpu0 1
 cpu chart_config cpu0 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
 cpu enabled cpu1 1
 cpu extra_info cpu1 1
@@ -56,10 +56,10 @@ cpu extra_info cpu3 1
 cpu chart_config cpu3 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
 cpu show_panel_labels 1
 cpu omit_nice_mode 0
-cpu config_tracking 0
+cpu config_tracking 1
 cpu sensor_mode 0
 cpu text_format $T
-proc enable 1 1
+proc enable 1 0
 proc launch 
 proc tooltip_comment 
 proc sensor_mode 1
@@ -67,22 +67,48 @@ proc text_format \w88\a$p\f procs\n\e$u\f users
 proc chart_config 40 100 0 0 0 0 : 1 0 0 0 500 : 0 0 0 0 500
 disk assign_method 2
 disk device Disk 0 0 0 1 1 0 0 Disk
-disk chart_config Disk 40 7000000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
-disk device nvme0n1 0 0 28 0 1 -1 0 nvme0n1
-disk device nvme0n1p1 0 0 28 0 1 1 0 nvme0n1p1
-disk device nvme0n1p2 0 0 28 0 1 2 0 nvme0n1p2
-disk device nvme0n1p3 0 0 28 0 1 3 0 nvme0n1p3
-disk device nvme0n1p4 0 0 28 0 1 4 0 nvme0n1p4
-disk device nvme0n1p5 0 0 28 0 1 5 0 nvme0n1p5
+disk chart_config Disk 40 10000000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk device sda 0 0 45 0 1 -1 0 sda
+disk chart_config sda 40 2000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk device sda1 0 0 45 0 1 1 0 sda1
+disk device sda2 0 0 45 0 1 2 0 sda2
+disk device sda3 0 0 45 0 1 3 0 sda3
+disk device sdb 0 0 46 0 1 -1 0 sdb
+disk chart_config sdb 40 2000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk device sdb1 0 0 46 0 1 1 0 sdb1
+disk device sdb2 0 0 46 0 1 2 0 sdb2
+disk device sdb5 0 0 46 0 1 5 0 sdb5
+disk device sdb6 0 0 46 0 1 6 0 sdb6
+disk device sdb7 0 0 46 0 1 7 0 sdb7
+disk device sdc 0 0 47 0 1 -1 0 sdc
+disk chart_config sdc 40 2000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk device sdc1 0 0 47 0 1 1 0 sdc1
+disk device sdd 0 0 48 0 1 -1 0 sdd
+disk chart_config sdd 40 1500000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk device sdd1 0 0 48 0 1 1 0 sdd1
+disk device sde 0 0 49 0 1 -1 0 sde
+disk chart_config sde 40 30000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk device sde1 0 0 49 0 1 1 0 sde1
+disk device sde2 0 0 49 0 1 2 0 sde2
+disk device sdf 0 0 50 0 1 -1 0 sdf
+disk chart_config sdf 40 2000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+disk device sdf1 0 0 50 0 1 1 0 sdf1
+disk device sdg 0 0 51 0 1 -1 0 sdg
+disk device sdh 0 0 52 0 1 -1 0 sdh
+disk device sdi 0 0 53 0 1 -1 0 sdi
+disk device sdj 0 0 54 0 1 -1 0 sdj
+disk device sr0 0 0 96 0 1 -1 0 sr0
 disk text_format $T
 inet text_format all \t$a\f $l\N$A\f $L
 inet update_interval all 1
+net enables docker0 1 1 0
+net chart_config docker0 40 10000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables eno1 1 1 0
 net chart_config eno1 40 3000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables enp6s0 1 1 0
 net chart_config enp6s0 40 3000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables eth0 1 1 0
-net chart_config eth0 40 50 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
+net chart_config eth0 40 300000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
 net enables lo 0 1 0
 net enables wlan0 1 1 0
 net chart_config wlan0 40 500000 0 1 0 0 : 0 0 0 0 500 : 0 0 0 0 500
@@ -93,10 +119,10 @@ net timer_seconds 1
 net timer_iface none
 net timer_on 
 net timer_off 
-net text_format $T\b\c\f$L
+net text_format \c\f$M\n$T\b\c\f$L
 net reset_mday 1
 net net_enabled_as_default 1
-net net_stats_window_height 200
+net net_stats_window_height 582
 meminfo mem_meter 1 0 1
 meminfo swap_meter 1 1
 meminfo swap_chart 0 1
@@ -110,7 +136,7 @@ meminfo text_format $T
 fs fs_check_timeout 2
 fs nfs_check_timeout 16
 fs auto_eject 0
-fs binary_units 0
+fs binary_units 1
 fs data_format $t - $f free
 mail mailbox-local mbox /var/mail/amakarov
 mail mua 

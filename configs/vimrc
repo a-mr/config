@@ -32,7 +32,7 @@ set backupdir=~/tmp/VIM_TMP
 " Use Ctrl-C/Ctrl-V clipboard (NOT selection/S-Insert) for y/p operations:
 "set clipboard=unnamedplus
 "disable copy/paste to system clipboard
-"set clipboard=
+set clipboard=
 "set clipboard+=unnamed
 
 " Tell vim to remember certain things when we exit

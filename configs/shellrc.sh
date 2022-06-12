@@ -56,6 +56,10 @@ fi
 # ~/.functions.sh
 . ~/.functions.sh
 
+if [ -z "$DISPLAY" ]; then
+    setfont FullCyrAsia-Terminus32x16
+fi
+
 . ~/.functions_X11.sh
 
 # Enforce correct locales from the beginning:
@@ -93,7 +97,7 @@ else
 fi
 
 export VISUAL="$EDITOR"
-for term in konsole urxvt gnome-terminal xterm roxterm rxvt-unicode xfce4-terminal ; do
+for term in qterminal konsole urxvt gnome-terminal xterm roxterm rxvt-unicode xfce4-terminal ; do
     if exist $term; then
         export XTERMINAL=$term
         break

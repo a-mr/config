@@ -1,5 +1,6 @@
 
 # export QT_QPA_PLATFORMTHEME=gtk2
+export QT_STYLE_OVERRIDE=kvantum
 
 x () {
     if [[ "$1" != "" ]]; then

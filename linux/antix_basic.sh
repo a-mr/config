@@ -7,7 +7,7 @@
 INS="red_command sudo apt-get install -y $1"
 
 $INS zsh zsh-autosuggestions mosh libfile-mimeinfo-perl # for mimeopen
-$INS crudini dos2unix gawk aptitude python3-tk vim-gtk3 konsole kinit kio kio-extras kded5 ht vifm
+$INS crudini dos2unix gawk aptitude python3-tk vim-gtk3 konsole qterminal kinit kio kio-extras kded5 ht vifm screen
 # lfhex - no ubuntu
 
 #hardware tools:

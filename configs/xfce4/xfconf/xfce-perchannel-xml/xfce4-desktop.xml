@@ -9,7 +9,7 @@
       <property name="show-removable" type="bool" value="true"/>
       <property name="show-trash" type="empty"/>
     </property>
-    <property name="icon-size" type="empty"/>
+    <property name="icon-size" type="uint" value="78"/>
     <property name="tooltip-size" type="empty"/>
     <property name="gravity" type="int" value="1"/>
   </property>

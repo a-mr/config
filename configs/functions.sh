@@ -367,3 +367,15 @@ uncomment () {
   local file="$2"
   awk -i inplace "BEGIN{IGNORECASE=1} /#*$pattern*/ { sub (\"^ *#\",\"\") } { print }" $file
 }
+
+cle() {
+    echo 3 > /sys/class/graphics/fbcon/rotate_all
+}
+
+cri() {
+    echo 1 > /sys/class/graphics/fbcon/rotate_all
+}
+
+cno() {
+    echo 0 > /sys/class/graphics/fbcon/rotate_all
+}
