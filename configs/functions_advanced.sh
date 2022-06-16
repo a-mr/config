@@ -57,6 +57,7 @@ print_preexec () {
 
     case "$TERM" in
       screen|screen.*)
+        export DISPLAY=`cat $HOME/.display-x11-$HOSTNAME`
         local a=""
         if [[ $CURSHELL == bash ]]; then
           a="$1"

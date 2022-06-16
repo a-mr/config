@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+. ~/.functions.sh
+. ~/.functions_vcs.sh
+
+if [ "`what_is_repo_type`" == "unknown" ]; then
+    cmd=nim
+else
+    cmd="`roo`/bin/nim"
+fi
+
+exec "$cmd" $@

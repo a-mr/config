@@ -2,6 +2,9 @@
 echo "reading profile file..."
 CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 
+if [ -z "$HOSTNAME" ]; then  # for Zsh
+    export HOSTNAME=$HOST
+fi
 echo $DISPLAY > ~/.display-x11-$HOSTNAME
 
 # some systems provide their local settings here (it is not loaded if

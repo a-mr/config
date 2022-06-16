@@ -13,6 +13,12 @@ x () {
     unset XAUTHORITY
 }
 
+# reattach GNU screen from current terminal
+dr () {
+    x $DISPLAY
+    screen -dr
+}
+
 day () {
  printf '\033]11;white\007'
  printf '\033]10;black\007'
@@ -58,7 +64,7 @@ xri () {
 #usage mod_unlock 0x1 to unlock Shift, mod_unlock 0x2 to unlock Caps lock
 # KEYMASK	{ Shift, Lock, Control, Mod1, Mod2, Mod3, Mod4, Mod5 } 
 mod_unlock () {
-  python -c "from ctypes import *; X11 = cdll.LoadLibrary('libX11.so.6'); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint($1), c_uint(0)); X11.XCloseDisplay(display)"
+  python3 -c "from ctypes import *; X11 = cdll.LoadLibrary('libX11.so.6'); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint($1), c_uint(0)); X11.XCloseDisplay(display)"
 }
 
 mysetxkb () {

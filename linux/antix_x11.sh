@@ -6,6 +6,7 @@
 INS="red_command sudo apt-get install -y $1"
 
 add-apt-repository ppa:mozillateam/ppa
+sudo apt remove -y firefox
 $INS firefox-esr
 
 # use eom (eye of mate) as image viewer

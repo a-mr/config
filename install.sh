@@ -66,6 +66,7 @@ inst shellrc.sh ~/.bashrc
 inst shellrc.sh ~/.zshrc
 
 inst qterminal.org ~/.config/qterminal.org
+inst qpdfview ~/.config/qpdfview
 inst konsole/konsolerc ~/.config/konsolerc
 inst konsole/konsoleui.rc ~/.local/share/kxmlgui5/konsole/konsoleui.rc
 inst konsole/sessionui.rc ~/.local/share/kxmlgui5/konsole/sessionui.rc
@@ -107,7 +108,7 @@ oinst xmonad.hs ~/.xmonad/xmonad.hs
 aux_echo xmonad recompile
 xmonad --recompile
 
-for i in functions.sh functions_advanced.sh functions_X11.sh \
+for i in functions.sh functions_advanced.sh functions_X11.sh functions_vcs.sh \
     emacs vimrc gdbinit gdbinit.local \
     hgrc hgstyle gitconfig xsession xsessionrc \
     tmux.conf screenrc Xresources inputrc \

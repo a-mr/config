@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import copy, sys
 from pyPdf import PdfFileWriter, PdfFileReader
 input = PdfFileReader(sys.stdin)

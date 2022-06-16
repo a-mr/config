@@ -27,6 +27,10 @@ $INS sdcv goldendict
 $INS pulseaudio pulseaudio-module-bluetooth pavucontrol blueman
 # bluez-firmware: not in ubuntu
 
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+$INS ./google-chrome-stable_current_amd64.deb
+rm -f ./google-chrome-stable_current_amd64.deb
+
 # messaging
 # $INS pidgin pidgin-sipe pidgin-skype pidgin-latex
 
@@ -38,7 +42,16 @@ wget https://go.skype.com/skypeforlinux-64.deb
 red_command sudo dpkg -i skypeforlinux-64.deb
 rm -f skypeforlinux-64.deb
 
+$INS libgl1-mesa-glx libegl1-mesa libxcb-xtest0
+wget https://zoom.us/client/latest/zoom_amd64.deb
+red_command sudo dpkg -i zoom_amd64.deb
+rm -f zoom_amd64.deb
+
 $INS telegram-desktop
+
+# for Check Point Mobile VPN:
+$INS libx11-6:i386 libpam0g:i386 libstdc++6:i386 libstdc++5:i386 libnss3-tools xterm libnss3-tools
+$INS xterm libnss3-tools
 
 #converters
 $INS python3-plastex pandoc antiword writer2latex

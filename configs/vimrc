@@ -562,6 +562,19 @@ endfunction
 
 call ToggleParenColors()
 
+let g:lsp_on = 1
+function! ToggleLsp()
+   if g:lsp_on
+       call lsp#disable()
+       let g:lsp_on = 0
+       echo "lsp server disabled"
+   else
+       call lsp#enable()
+       let g:lsp_on = 1
+       echo "lsp server enabled"
+   endif
+endfunction
+
 "my dvorus layout for russian
 if has('win32') && has('gui_running')
     " win gvim does not like aný
@@ -580,6 +593,9 @@ endif
 "map <F5> :!i=%; make ${i\%.*}<cr>
 "map <F5> :make `basename % .c`
 "map <F5> :make `i=%; echo ${i\%.*}`<cr>
+
+nmap <F1> :call ToggleLsp()<CR>
+imap <F1> <ESC><F1>
 
 nmap <F2> :call ToggleSyntax()<CR>
 imap <F2> <ESC><F2>
@@ -602,7 +618,7 @@ autocmd bufenter *.tex map <F6> :update<CR>:!xelatex % && xdg-open %<.pdf<CR>
 autocmd bufenter *.tex imap <F6> <ESC><F6>
 autocmd bufenter *.C map <F6> :!root %<CR>
 autocmd bufenter *.C imap <F6> <ESC><F6>
-autocmd bufenter *.py map <F5> :!python -m py_compile %<cr>
+autocmd bufenter *.py map <F5> :!python3 -m py_compile %<cr>
 autocmd bufenter *.py imap <F5> <ESC><F5>
 map <F5> :update<CR>:make %<<CR>
 imap <F5> <ESC><F5>
@@ -889,7 +905,7 @@ function! SyncTex()
 	let lineno = line(".")
 	for syncfile in split(system('zgrep -l "' . filename . '" *.synctex.gz'), "\n")
 		let pdffile = substitute(syncfile, ".synctex.gz$", ".pdf", "")
-		exec 'silent ! python ~/bin/evince_dbus.py ' .
+		exec 'silent ! python3 ~/bin/evince_dbus.py ' .
 			\ '"' . pdffile . '" ' . lineno . ' "' . filename . '"'
 	endfor
 	redraw!
@@ -925,9 +941,9 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Nim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd bufenter *.nim map <F5> :update<CR>:!nim c %<<cr>
-autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:!nim c %<<cr>
-autocmd bufenter *.nim map <F6> :update<CR>:!nim c --hints:off -r %<<CR>
+autocmd bufenter *.nim map <F5> :update<CR>:!curnim c %<<cr>
+autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:!curnim c %<<cr>
+autocmd bufenter *.nim map <F6> :update<CR>:!curnim c --hints:off -r %<<CR>
 autocmd bufenter *.nim imap <F6> <ESC><F6>
 "autocmd bufenter *.nim filetype off
 "autocmd bufenter *.nim filetype plugin indent on

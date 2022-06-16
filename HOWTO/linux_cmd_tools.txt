@@ -6,7 +6,7 @@ aa    bb    cc    dd
 aaaa  bbbb  cccc  dddd
 
 # draw nice graph of Linux process hierarchy and inter-process communication:
-sudo lsof -n -F | python lsofgraph.py | dot -Tjpg > /tmp/a.jpg
+sudo lsof -n -F | python3 lsofgraph.py | dot -Tjpg > /tmp/a.jpg
 
 https://github.com/akme/lsofgraph-python
 
