@@ -20,11 +20,11 @@ except:
 quoted = urllib.parse.quote(search_str, safe='')
 
 options = [
-    [ 'Google', 'my-web-browser https://www.google.com/search?q=%s'%quoted ],
-    [ 'Yandex', 'my-web-browser https://www.yandex.ru/search/?text=%s'%quoted ],
-    [ 'Mail.ru','my-web-browser https://go.mail.ru/search?q=%s'%quoted ],
+    [ 'Google', 'xdg-open https://www.google.com/search?q=%s'%quoted ],
+    [ 'Yandex', 'xdg-open https://www.yandex.ru/search/?text=%s'%quoted ],
+    [ 'Mail.ru','xdg-open https://go.mail.ru/search?q=%s'%quoted ],
     [ 'StackOverflow', 
-      'my-web-browser https://stackoverflow.com/search?q=%s'%quoted ],
+      'xdg-open https://stackoverflow.com/search?q=%s'%quoted ],
 ]
 
-selection_menu(options,default=0,title='search',label=buff)
+s=selection_menu(options,default=0,title='search',label=buff.decode('utf-8'))

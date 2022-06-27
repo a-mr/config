@@ -108,6 +108,7 @@ if [[ $CURSHELL == zsh ]]; then
     zle -N re-read-init-file
     # backspace in vim's style instead of vi
     bindkey "^?" backward-delete-char
+    bindkey -v '^H' backward-delete-char
     # to copy command previously deleted with C-u:
     bindkey '^Y' yank
     backward-kill-fname () {

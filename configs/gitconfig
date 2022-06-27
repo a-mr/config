@@ -1,6 +1,11 @@
 [user]  
         email = ph.makarov@gmail.com
         name = Andrey Makarov
+[sendemail]
+       smtpserver = smtp.gmail.com
+       smtpuser = ph.makarov@gmail.com
+       smtpencryption = tls
+       smtpserverport = 587
 [color] 
         diff = always
         status = auto

@@ -151,7 +151,7 @@
     </property>
   </property>
   <property name="Notify" type="bool" value="true"/>
-  <property name="ActiveProfile" type="string" value="a38c1f3e9d573132527669e6667efece6869c965"/>
+  <property name="ActiveProfile" type="string" value="83e8cef8d84f02139290f90f29c0338ee7b4c246"/>
   <property name="Fallback" type="empty">
     <property name="DisplayPort-0" type="string" value="AOC International 32&quot;">
       <property name="Active" type="bool" value="true"/>
@@ -264,4 +264,23 @@
   </property>
   <property name="AutoEnableProfiles" type="bool" value="true"/>
   <property name="IdentityPopups" type="bool" value="true"/>
+  <property name="83e8cef8d84f02139290f90f29c0338ee7b4c246" type="string" value="moscow">
+    <property name="DisplayPort-0" type="string" value="AOC International 32&quot;">
+      <property name="Active" type="bool" value="true"/>
+      <property name="EDID" type="string" value="13975c2429cfb0d0f3a350f0908d77ff5f4c019e"/>
+      <property name="Resolution" type="string" value="3840x2160"/>
+      <property name="RefreshRate" type="double" value="59.996625"/>
+      <property name="Rotation" type="int" value="0"/>
+      <property name="Reflection" type="string" value="0"/>
+      <property name="Primary" type="bool" value="false"/>
+      <property name="Scale" type="empty">
+        <property name="X" type="double" value="1.000000"/>
+        <property name="Y" type="double" value="1.000000"/>
+      </property>
+      <property name="Position" type="empty">
+        <property name="X" type="int" value="0"/>
+        <property name="Y" type="int" value="0"/>
+      </property>
+    </property>
+  </property>
 </channel>

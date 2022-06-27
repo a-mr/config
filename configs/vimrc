@@ -423,6 +423,10 @@ set timeoutlen=300 ttimeoutlen=0
 nmap <C-s> :w<Return>
 imap <C-s> <ESC><C-s>
 
+" exit by Ctrl-q
+nmap <C-q> :q<Return>
+imap <C-q> <ESC><C-q>
+
 " highlight the current line until `:call clearmatches()`
 nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
 

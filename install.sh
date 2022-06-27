@@ -118,6 +118,8 @@ done
 
 inst gitk ~/.config/git/gitk
 inst parcelliterc ~/.config/parcellite/parcelliterc
+inst ranger-rc.conf ~/.config/ranger/rc.conf
+inst ranger-rifle.conf ~/.config/ranger/rifle.conf
 inst vifmrc ~/.vifm/vifmrc
 
 for i in ideavimrc icewm i3 i3status.conf gkrellm2 \

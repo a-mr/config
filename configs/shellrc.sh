@@ -396,7 +396,7 @@ show_displays () {
 
 set_display () {
     show_displays
-    bold_echo Input display or press enter
+    bold_echo Input display or press enter \[default: `cat ~/.display-x11-$HOSTNAME`\]
     local line
     read line
     x $line
@@ -635,6 +635,10 @@ vf () {
    fi
    cd "$dst"
 }
+r () {
+    ranger --choosedir=$HOME/.config/ranger/lastdir
+    cd "`cat $HOME/.config/ranger/lastdir`"
+}
 
 # show only my processes, full format
 psu () {
@@ -730,13 +734,14 @@ a () {
 }
 
 o () {
-    if exist mimeopen; then
-        mimeopen $@
-    elif exist xdg-open; then
-        xdg-open $@
-    else
-        red_echo neither mimeopen nor xdg-open exists
-    fi
+    xdg-open $@
+    #if exist mimeopen; then
+    #    mimeopen $@
+    #elif exist xdg-open; then
+    #    xdg-open $@
+    #else
+    #    red_echo neither mimeopen nor xdg-open exists
+    #fi
 }
 if exist ncal; then
     alias cal="ncal -y -w"

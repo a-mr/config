@@ -120,3 +120,26 @@ add it to root .xauth from root shell:
 chattr -R +C ~/.cache
 chattr -R +C ~/Downloads
 chattr -R +C ~/tmp
+
+=== firefox: Tree style tabs
+Get:
+  https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
+Info:
+  moz-extension://df518495-ea70-42ab-aebe-af9de4931fcc/resources/startup.html
+Hide native tab bar:
+  (from https://superuser.com/a/1619663)
+
+  Re-enable Custom CSS
+
+    Visit about:config
+    Search toolkit.legacyUserProfileCustomizations.stylesheets
+    Toggle it, making the value true
+
+  Create userChrome.css
+
+    Visit about:support
+    To the right of "Profile Directory", press the button Open Directory
+    Create a new folder named chrome
+    Open the chrome folder and create a new file named userChrome.css
+
+  ALREADY in configs/userChrome.css
