@@ -35,19 +35,20 @@ rm -f ./google-chrome-stable_current_amd64.deb
 # $INS pidgin pidgin-sipe pidgin-skype pidgin-latex
 
 wget http://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
-red_command sudo dpkg -i viber.deb
+red_command sudo apt install ./viber.deb
 rm -f viber.deb
 
 wget https://go.skype.com/skypeforlinux-64.deb
-red_command sudo dpkg -i skypeforlinux-64.deb
+red_command sudo apt install ./skypeforlinux-64.deb
 rm -f skypeforlinux-64.deb
 
 $INS libgl1-mesa-glx libegl1-mesa libxcb-xtest0
 wget https://zoom.us/client/latest/zoom_amd64.deb
-red_command sudo dpkg -i zoom_amd64.deb
+red_command sudo apt install ./zoom_amd64.deb
 rm -f zoom_amd64.deb
 
-$INS telegram-desktop
+#$INS telegram-desktop
+flatpak -y install https://dl.flathub.org/repo/appstream/org.telegram.desktop.flatpakref
 
 # for Check Point Mobile VPN:
 $INS libx11-6:i386 libpam0g:i386 libstdc++6:i386 libstdc++5:i386 libnss3-tools xterm libnss3-tools

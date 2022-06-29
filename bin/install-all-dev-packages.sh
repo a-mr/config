@@ -43,16 +43,18 @@ do
   #fi
 done
 
-echo "The following packages have been found:"
-echo
-echo sudo apt-get install $NEWPKGLIST
-echo
-echo -n "Do you want to install them? (y/n) "
-read YN
-if [ a$YN = ay ]
-then
-  sudo apt-get install $NEWPKGLIST --install-suggests
-fi
+#echo "The following packages have been found:"
+#echo
+#echo sudo apt-get install $NEWPKGLIST
+#echo
+#echo -n "Do you want to install them? (y/n) "
+#read YN
+#if [ a$YN = ay ]
+#then
+#  sudo apt-get install $NEWPKGLIST --install-suggests
+#fi
+echo sudo apt-get install -y $NEWPKGLIST --install-suggests
+sudo apt-get install -y $NEWPKGLIST --install-suggests
 
 if [ $? -eq 100 ]
 then

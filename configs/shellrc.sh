@@ -352,7 +352,9 @@ pickup_ssh_agent () {
 
 ensure_ssh_agent () {
     # define SSH_AUTH_SOCK & SSH_AGENT_PID
-    . ~/.ssh/myagent.sh
+    if [[ -f ~/.ssh/myagent.sh ]]; then
+        . ~/.ssh/myagent.sh
+    fi
     if [[ ! -z $SSH2_AUTH_SOCK ]]; then
         local socket="$SSH2_AUTH_SOCK"
     fi
