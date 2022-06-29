@@ -224,6 +224,7 @@
         <value type="string" value="yad"/>
       </property>
       <property name="known-items" type="array">
+        <value type="string" value="join?action=join&amp;confno=88320532423&amp;pwd=bmV5N1QrUFJqelZsaTZpRldqRGxtUT09&amp;confid=dXRpZD1VVElEXzQ2ZmU2MTY0MDYyZDQ2M2JhYjkyYTE4MTNhNTA4YWZmJnVzcz1hRmNTMUYzcVBEeUNJOUNiZEczX3pOaVR6QmttM1hzMmR1N25NYmZZQURJa19LeTl6eFN6UXdFVTlmOXpNNHpvSzF6Q1VDS2xreDFKdDBabFNnb2toM1Z5cHNRZy5zZjZEU1hxX3FZUlBmZlRPJnRpZD02YmJiYmM2ZjZlZjg0MzYxYTE3ZDRhMjgxMjA0NzBjZg%3D%3D&amp;browser=firefox"/>
         <value type="string" value="join?action=join&amp;confno=88320532423&amp;pwd=bmV5N1QrUFJqelZsaTZpRldqRGxtUT09&amp;confid=dXRpZD1VVElEXzZkYTVjMjJiN2MzOTQ5OTY4NGZiODhkOTRiOTkxODA5JnVzcz1UTDBPNHdIX1JORXFQUW1CU3lKYkNDNlI2WUFfbnpfWmQxVVZta2JGZUZQX1k3clJPa2xnRG4xeVp3a2VhZFpRenB5amFYbW9kUjBkc3JwaWJVU1J3dWlOcGRkXy4yQ1hqTDM3MmFNZHlDYkJpJnRpZD02YmJiYmM2ZjZlZjg0MzYxYTE3ZDRhMjgxMjA0NzBjZg%3D%3D&amp;browser=firefox"/>
         <value type="string" value="join?action=join&amp;confno=88320532423&amp;pwd=bmV5N1QrUFJqelZsaTZpRldqRGxtUT09&amp;confid=dXRpZD1VVElEX2Y0MjVhNGM5YWJkZDRhMzc4NmY2MzhmZGRlNTc1NzcwJnVzcz1jVjlMemtfM25kQjl5VGNib1Rqd0ZoNkE1SVNOSnhVaEVpdzJhamxDdzk1M2t2cXV6TzhMSlRRd0FvNHdkR1lyVWRkRmRiQVN2cDg0TXY4ZGdwVEZSa2VyWk90RC4zVkV4LTZrRmQyYlNRT3pEJnRpZD02YmJiYmM2ZjZlZjg0MzYxYTE3ZDRhMjgxMjA0NzBjZg%3D%3D&amp;browser=firefox"/>
         <value type="string" value="hp-systray"/>

@@ -313,6 +313,7 @@ if [[ $CURSHELL == zsh ]]; then
     "csym"	"computer-symbolic_calculations_computer_algebra/"
     "cvis"	"computer-visualization/"
     "eng"	"$ape/english"
+    "soft"      "~/nfs/s/software"
     "mal"	"mathematics-algebra-linear/"
     "mc"	"mathematics-common/"
     "mca"	"mathematics-complex_analysis/"

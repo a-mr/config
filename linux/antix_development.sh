@@ -7,7 +7,7 @@
 INS="red_command sudo apt-get install -y $1"
 
 #Version control:
-$INS cvs subversion mercurial tortoisehg bzr git git-lfs gitk gitweb darcs
+$INS cvs subversion mercurial tortoisehg bzr git git-lfs gitk gitweb git-email libemail-valid-perl libmailtools-perl libauthen-sasl-perl darcs
 
 # misc
 $INS m4 libev-dev cputool rlwrap python3-pygments rst2pdf meld manpages-dev speedcrunch parallel time
