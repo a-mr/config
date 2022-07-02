@@ -22,6 +22,8 @@ Vim                     |Vim spellcheck                |Vim window
   A-'  goto next mark   | %:p  the same, full path     | ''   go to last line
   :g/PAT show lines     |           R<C-r>"  replace-paste after yanking text
          matching PAT   |           C-]      follow link (e.g. man mode)
+  C-y  insert chars above cursor   Normal mode:  C-e  move screen down
+                                                 C-y  move screen up
 ______________________________________________________________________________
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
   :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char
@@ -50,17 +52,20 @@ My Vim:                   s     <Leader>             vim-markgroup:
   A-n  next tab           <F9>  select spell lang      so   open slow mark bar
   A-p  prev tab           <F8>  select encoding        n/N  move in slow m/b
   A-o  to last tab        sl    highlight current line   r  set name for mark
-  A-m  select marks       A-i   next window
- A-y  goto next VCS chg   A-b   convert buffers->tabs      C-s  save
- A-u  goto prev VCS chg                                    C-q  quit
+  A-m  select marks       A-i   NEXT WINDOW
+ A-j  goto next VCS chg   A-b   convert buffers->tabs               C-s  SAVE
+ A-k  goto prev VCS chg   A-x   show VCS changes for file           C-q  CLOSE
+ C-c  copy to Clipboard                      Insert:  C-e/C-n  next completion
+ C-a  paste from Clipboard(preserving indent)         C-p      prev completion
+
    F2    toggle syntax               F3   toggle paste mode
    S-F2  toggle parens highlighting  F4   remove trailnig whitespace
    F5    compile                     F6   compile & run        F7   call make
    F8    call SyncTex                F9   spell check          F10  encoding
 My Vim clangd:                  A-g  GOTO DEFINITION
   A-f  format code              A-h  show type hierarchy  A-v  cycle var usage
-  A-a  apply suggestion action  A-s  SHOW SYMBOL INFO     A-e  next error
-  A-d  show definition <------> A-l  show declaration     A-r  next warning
+  A-a  apply suggestion action  A-s  SHOW SYMBOL INFO
+  A-d  show definition <------> A-l  show declaration     A-r  next error
 ______________________________________________________________________________
  Tmux                              Screen
       PRE ]  paste                   PRE ]    paste

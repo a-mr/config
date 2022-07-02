@@ -117,7 +117,7 @@ for i in functions.sh functions_advanced.sh functions_X11.sh functions_vcs.sh \
 done
 
 inst gitk ~/.config/git/gitk
-inst parcelliterc ~/.config/parcellite/parcelliterc
+inst parcellite ~/.config/parcellite
 inst ranger-rc.conf ~/.config/ranger/rc.conf
 inst ranger-rifle.conf ~/.config/ranger/rifle.conf
 inst vifmrc ~/.vifm/vifmrc

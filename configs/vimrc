@@ -413,26 +413,30 @@ nmap ga <Plug>(EasyAlign)
 "key mappings: keys, shortcuts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" timeout for alt, leader is 100 [ms]:
-set timeoutlen=300 ttimeoutlen=0
-" higher timeouts would lead e.g. to accidental triggering of Alt-w in case of
-" pressing <ESC>w (in insert mode)
-" lower timeout would cause <Leader> be impossible to use (it fades too fast)
+" timeout for leader and other key combination is 1000 [ms]:
+set timeout
+set timeoutlen=1000
+
+" Pressing <ESC>j in insert mode leads e.g. to accidental triggering of Alt-j.
+" Escape to normal mode without triggering alt keys accidentaly:
+imap e <ESC>:<CR>
 
 " save file by Ctrl-S
 nmap <C-s> :w<Return>
 imap <C-s> <ESC><C-s>
 
-" exit by Ctrl-q
+" close current window by Ctrl-q
 nmap <C-q> :q<Return>
 imap <C-q> <ESC><C-q>
 
 " highlight the current line until `:call clearmatches()`
 nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
 
-" convenience shortcuts for copying into CLIPBOARD (+), expect to complete it
-" nnoremap <C-C> "+y
-" inoremap <C-C> <ESC>"+y
+" convenience shortcuts for copy/paste into CLIPBOARD (+) or PRIMARY (*)
+nnoremap <C-C> "+yiw
+vnoremap <C-C> "+y
+nnoremap <C-A> "+p
+inoremap <C-A> <ESC>:<CR>l"+pli
 
 " Tab-related settings
 set tabpagemax=20
@@ -481,10 +485,24 @@ nmap ' ]'
 imap ' <Esc>]'
 nmap q ['
 imap q <Esc>['
-nmap y ]c
-imap y <Esc>]c
-nmap u [c
-imap u <Esc>[c
+" version control
+nmap j ]c
+imap j <Esc>]c
+nmap k [c
+imap k <Esc>[c
+"show latest committed version of this line
+function! GitDiff()
+    let diff_cmd = "git diff --color=never " . expand('%')
+    rightbelow vnew
+    setlocal buftype=nofile
+    let diff_output = system(diff_cmd)
+    call append(0, split(diff_output, "\n"))
+    setlocal ft=diff
+    wincmd p
+    setlocal spell spelllang=en_us
+endfunction
+map x :call GitDiff()<CR>
+imap x <ESC>x
 
 nnoremap st <C-]>:tselect<CR>
 vnoremap st <C-]>:tselect<CR>
@@ -990,13 +1008,8 @@ imap g <ESC>g
 
 nmap l <Plug>(lsp-peek-declaration)
 imap l <ESC>l
-"nmap k <Plug>(lsp-declaration)
-"imap k <ESC>k
 
-nmap e <Plug>(lsp-next-error)
-imap e <ESC>e
-
-nmap r <Plug>(lsp-next-warning)
+nmap r <Plug>(lsp-next-error)
 imap r <ESC>r
 
 nmap v <Plug>(lsp-next-reference)
