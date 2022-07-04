@@ -56,7 +56,7 @@ My Vim:                   s     <Leader>             vim-markgroup:
  A-j  goto next VCS chg   A-b   convert buffers->tabs               C-s  SAVE
  A-k  goto prev VCS chg   A-x   show VCS changes for file           C-q  CLOSE
  C-c  copy to Clipboard                      Insert:  C-e/C-n  next completion
- C-a  paste from Clipboard(preserving indent)         C-p      prev completion
+ C-j  paste from Clipboard(preserving indent)         C-p      prev completion
 
    F2    toggle syntax               F3   toggle paste mode
    S-F2  toggle parens highlighting  F4   remove trailnig whitespace

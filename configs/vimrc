@@ -435,8 +435,8 @@ nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
 " convenience shortcuts for copy/paste into CLIPBOARD (+) or PRIMARY (*)
 nnoremap <C-C> "+yiw
 vnoremap <C-C> "+y
-nnoremap <C-A> "+p
-inoremap <C-A> <ESC>:<CR>l"+pli
+nnoremap <C-J> "+p
+inoremap <C-J> <ESC>:<CR>l"+pli
 
 " Tab-related settings
 set tabpagemax=20

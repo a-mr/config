@@ -397,11 +397,17 @@ show_displays () {
 }
 
 set_display () {
-    show_displays
-    bold_echo Input display or press enter \[default: `cat ~/.display-x11-$HOSTNAME`\]
-    local line
-    read line
-    x $line
+    if [ $inside_ssh ]; then
+        show_displays
+        bold_echo Input display or press enter \[default: `cat ~/.display-x11-$HOSTNAME`\]
+        local line
+        read line
+        x $line
+    elif [ ! -z "$DISPLAY" ]; then
+        x $DISPLAY
+    else
+        bold_echo no X11 display was determined
+    fi
 }
 
 tmux_try_start () {
@@ -526,7 +532,8 @@ fin () {
     exit
 }
 
-if [ $inside_ssh ] && [ ! $inside_vnc ] && [ -z $ALLOW_BASH ]; then
+#if [ $inside_ssh ] && [ ! $inside_vnc ] && [ -z $ALLOW_BASH ]; then
+if [ -z $ALLOW_BASH ]; then
     #tmux_try_start
     screen_try_start
 fi
