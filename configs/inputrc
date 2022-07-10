@@ -12,4 +12,5 @@ set colored-stats on
 # alt-o, alt-i: search by beginning of the command
 "o": history-search-backward
 "i": history-search-forward
+"e": vi-movement-mode
 

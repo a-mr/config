@@ -137,6 +137,7 @@ if [[ $CURSHELL == zsh ]]; then
     # alt-o, alt-i: search for the command beginning
     bindkey "o" history-beginning-search-backward
     bindkey "i" history-beginning-search-forward
+    bindkey -s "e" '\e'
     if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
         source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
         bindkey 'a' autosuggest-execute

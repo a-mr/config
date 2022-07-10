@@ -121,7 +121,7 @@ chattr -R +C ~/.cache
 chattr -R +C ~/Downloads
 chattr -R +C ~/tmp
 
-=== firefox: Tree style tabs
+=== firefox: Tree style tabs =================================================
 Get:
   https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
 Info:
@@ -143,3 +143,10 @@ Hide native tab bar:
     Open the chrome folder and create a new file named userChrome.css
 
   ALREADY in configs/userChrome.css
+
+=== sudoers: increase timeot =================================================
+To 1 week:
+
+$ sudo visudo
+
+Defaults:USER timestamp_timeout=10000
