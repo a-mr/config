@@ -1644,7 +1644,7 @@ if [ -f  ~/local.sh ] ; then
 fi
 
 # path priorities: my scripts, /usr/local/bin, default PATH, additional paths
-export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
+export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
 
 . ~/.functions_vcs.sh
 
@@ -1678,15 +1678,15 @@ pkg () {
   fi
   if [[ "$1" == "help" || "$1" == "-h" || "$1" ==  "--help" ||
         "$1" == "-help" ]]; then
-      echo -e " s"\|"se"\|"search"\\tsearch package name \\n\
+      echo -e " s"\|"se"\|"search"\\tsearch any package name in repo\\n\
+          "grep"\|"list"\\tsearch installed packages \\n\
           "i"\\t\\tinstall package \\n\
           "info"\\t\\tinformation about package \\n\
           "rm"\\t\\tremove package \\n\
-          "grep"\\tlist installed packages \\n\
-          "files"\|"ls"\|"list"\\t\\tlist files owned by package \\n\
-          "which"\\t\\twhich "  "installed package owns this file\? \\n\
+          "files"\|"ls"\\tlist files owned by package \\n\
+          "owns"\\t\\twhich "  "installed package owns this file\? \\n\
           "where"\\t\\twhich uninstalled package owns this file\? \\n\
-          "help|-h"\\tthis help
+          "help|h"\\t\\tthis help
       return
   fi
   case "$SYSDIST" in
@@ -1696,9 +1696,9 @@ pkg () {
               "i") yum install "$2" ;;
               "info") yum info "$2" ;;
               "rm") yum remove "$2" ;;
-              "grep"|"ls"|"list") rpm -qa "$2";;
-              "files") rpm -ql "$2" ;;
-              "owns"|"which"|"own") rpm -qf "$2" ;;
+              "grep"|"list") rpm -qa "$2";;
+              "files"|"ls") rpm -ql "$2" ;;
+              "owns"|"own") rpm -qf "$2" ;;
               "where") yum whatprovides "$2" ;;
               *) red_echo unknown command "$1"
           esac
@@ -1709,9 +1709,9 @@ pkg () {
               "i"|"install") apt-get install "$2" ;;
               "info") apt-cache showpkg "$2" ;;
               "rm") apt-get remove "$2" ;;
-              "grep") dpkg -l $2 ;;
-              "files"|"ls"|"list") dpkg -L "$2" ;;
-              "owns"|"which"|"own") dpkg -S "$2" ;;
+              "grep"|"list") dpkg -l "*$2*" ;;
+              "files"|"ls") dpkg -L "$2" ;;
+              "owns"|"own") dpkg -S "$2" ;;
               "where") apt-file search "$2" ;;
               *) red_echo unknown command "$1"
           esac
@@ -1722,9 +1722,9 @@ pkg () {
               "i"|"install") emerge --ask "$2" ;;
               "info") emerge -s "$2" ;;
               "rm") emerge --unmerge "$2" ;;
-              "files") qlist "$2" ;;
-              "grep"|"ls"|"list") equery list '*' ;; #not tested
-              "owns"|"which"|"own") qfile "$2" ;;
+              "grep"|"list") equery list '*' ;; #not tested
+              "files"|"ls") qlist "$2" ;;
+              "owns"|"own") qfile "$2" ;;
               *) red_echo unknown command "$1"
           esac
           ;;

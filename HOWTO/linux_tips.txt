@@ -8,6 +8,10 @@ grub-install --root-directory=/mnt/disk /dev/disk
 OR, if it complains about map absence,
 grub-install --root-directory=/mnt/disk --recheck /dev/disk
 
+=== Find how long a process has been running ================================
+
+ps -p PID -o etime
+
 === download site by wget====================================================
 
 wget -m protocol://site
@@ -116,6 +120,18 @@ print auth info from user shell:
 add it to root .xauth from root shell:
 > xauth add <that_line>
 
+=== btrfs: clone saved partition (snapshot) ===================================
+
+# format the new partition:
+mkfs.btrfs /dev/sdf1
+# edit /etc/fstab so that it's associated with /mnt/newdisk
+mount /mnt/newdisk
+mkdir -p /mnt/newdisk/@/.snapshots
+cd /mnt/newdisk/@/.snapshots
+# copy saved PARTITIONX from backup location to the new drive:
+btrfs send /mnt/backup/@/.snapshots/PARTITIONX_2022.01.01/ | btrfs receive .
+btrfs subvolume snapshot PARTITIONX_2022.01.01 /mnt/newdisk/@/PARTITIONX
+
 === btrfs: exclude directories from copy-on-write ============================
 chattr -R +C ~/.cache
 chattr -R +C ~/Downloads
@@ -150,3 +166,4 @@ To 1 week:
 $ sudo visudo
 
 Defaults:USER timestamp_timeout=10000
+
