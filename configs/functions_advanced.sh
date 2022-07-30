@@ -34,6 +34,10 @@ print_precmd () {
     local name=$force_window_name
     if [ -z "$name" ]; then
         name="${PWD##*/}"  # get last part of the path
+        name=${PWD##*/}
+        if [ ${#name} -gt 10 ]; then
+            name="${name:0:4}~${name:0-4}"
+        fi
     fi
     # set the titles to last path component of working directory
     case "$TERM" in
@@ -72,10 +76,15 @@ print_preexec () {
           a=$(print -Pn "$a" | tr -d "\t\n\v\f\r")  # remove fancy whitespace
           a=${(V)a//\%/\%\%}  # escape non-visibles and print specials
         fi
+        local name=${PWD##*/}
+        if [ ${#name} -gt 10 ]; then
+            name="${name:0:4}~${name:0-4}"
+        fi
         # See screen(1) "TITLES (naming windows)".
         # "\ek" and "\e\" are the delimiters for screen(1) window titles
         # set screen title
-        echo -ne "\ek$a\e\\"
+        #echo -ne "\ek$a\e\\"
+        echo -ne "\ek$name'$a\e\\"
         # must (re)set xterm title
         echo -ne "\e]0;${PWD##*/}> $1\a"
         ;;
@@ -128,6 +137,8 @@ if [[ $CURSHELL == zsh ]]; then
     # home/end in gnome terminal
     bindkey  "^[[H"   beginning-of-line
     bindkey  "^[[F"   end-of-line
+    bindkey -v "y" beginning-of-line
+    bindkey -v "u" end-of-line
     # in putty:
     bindkey  "^[[1~"   beginning-of-line
     bindkey  "^[[4~"   end-of-line
@@ -228,6 +239,42 @@ if [[ $CURSHELL == zsh ]]; then
         rxvt-unicode|rxvt-256color) bindkey "\e[7~" beginning-of-line
             ;;
     esac
+
+    function run_pager () { 
+        BUFFER="$BUFFER | less"
+        zle accept-line
+    }
+    zle -N run_pager
+    bindkey "p" run_pager
+
+    function run_vim_pager () { 
+        BUFFER="$BUFFER | vim -c \"setlocal buftype=nofile bufhidden=hide noswapfile\" -"
+        zle accept-line
+    }
+    zle -N run_vim_pager
+    bindkey "v" run_vim_pager
+
+    function run_pb_pager () { 
+        BUFFER="$BUFFER | pb"
+        zle accept-line
+    }
+    zle -N run_pb_pager
+    bindkey "n" run_pb_pager
+
+    function run_help_pager () { 
+        BUFFER="$BUFFER --help | less"
+        zle accept-line
+    }
+    zle -N run_help_pager
+    bindkey "h" run_help_pager
+
+    function run_man_pager () { 
+        BUFFER="mm $BUFFER"
+        zle accept-line
+    }
+    zle -N run_man_pager
+    bindkey "k" run_man_pager
+
     autoload -Uz compinit
     compinit
     # complete 'd' function by directories

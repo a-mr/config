@@ -793,6 +793,12 @@ pp () {
     cat -n | less -X
 }
 
+# pager for graphical info (like git log --graph): preserving long lines
+pg () {
+    # -S means don't wrap lines
+    less -X -F -S
+}
+
 lsdirs () {
   ( fullpath; echo ./; echo ../; lsd ) | \
       tee ~/tmp/buffer | cat -n | less -X -F
@@ -884,7 +890,7 @@ bb () {
         cmd=echo
     else
         cmd="$@"
-        echo running:
+        #echo running:
         bold_echo $cmd \"$line_proc\"
     fi
     add_command $cmd \"$line_proc\"
@@ -901,7 +907,7 @@ bv () {
     fi
     filter="$2"
     local line="$(cat ~/tmp/buffer|decolorize|head -n $n|tail -n 1)"
-    echo \ \ line:	$line
+    #echo \ \ line:	$line
     local line_proc
     if [[ "$filter" == "" ]]; then
         line_proc="$line"
@@ -911,14 +917,14 @@ bv () {
     # /bin/echo is used since zsh echo interprets escapes like '\n' by default
     local fname="$(/bin/echo $line_proc | cut -f1 -d: | trim_spaces)"
     local lineNo="$(/bin/echo $line_proc: | cut -f2 -d: | trim_spaces)"
-    echo \ \ fname:	$fname
-    echo \ \ lineN:	$lineNo
+    #echo \ \ fname:	$fname
+    #echo \ \ lineN:	$lineNo
     if [[ "$lineNo" == "" ]]; then
-        echo vim \'$fname\'
+        bold_echo vim \'$fname\'
         add_command vim \'$fname\'
         eval vim \'$fname\'
     else
-        echo vim \'$fname\' +$lineNo
+        bold_echo vim \'$fname\' +$lineNo
         add_command vim \'$fname\' +$lineNo
         eval vim \'$fname\' +$lineNo
     fi
@@ -1011,7 +1017,9 @@ getlast () {
 
 }
 
-man () {
+# use mm (my man) instead of `man` 
+# (because defining `man` makes zsh autocompletion hang)
+mm () {
     local vim_variant=vim
     # if exist nvim; then
     #     vim_variant=nvim

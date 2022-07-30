@@ -78,6 +78,18 @@ cpu chart_config cpu10 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
 cpu enabled cpu11 0
 cpu extra_info cpu11 1
 cpu chart_config cpu11 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
+cpu enabled cpu12 0
+cpu extra_info cpu12 1
+cpu chart_config cpu12 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
+cpu enabled cpu13 0
+cpu extra_info cpu13 1
+cpu chart_config cpu13 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
+cpu enabled cpu14 0
+cpu extra_info cpu14 1
+cpu chart_config cpu14 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
+cpu enabled cpu15 0
+cpu extra_info cpu15 1
+cpu chart_config cpu15 40 20 0 0 0 0 : 0 0 0 0 500 : 0 0 0 0 500 : 0 0 0 0 500
 cpu show_panel_labels 1
 cpu omit_nice_mode 0
 cpu config_tracking 1

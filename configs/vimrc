@@ -145,7 +145,8 @@ function! Setshowbreak()
     if has('win32') && has('gui_running')
         set showbreak=\ \ \ \ \ ->\ 
     else
-        set showbreak=\ \ \ \ \ ↪\ 
+        "set showbreak=\ \ \ \ \ ↪\ 
+        set showbreak=\ \ ╰─\ \ 
     endif
     if v:version >= 800
         set breakindent
@@ -420,6 +421,17 @@ set timeoutlen=1000
 " Pressing <ESC>j in insert mode leads e.g. to accidental triggering of Alt-j.
 " Escape to normal mode without triggering alt keys accidentaly:
 imap e <ESC>:<CR>
+map u $a
+imap u <ESC>$a
+map y ^i
+imap y <ESC>^i
+
+" basic editing: Alt-, to go to new line
+imap , <ESC>^o
+map , o
+" Alt-; to put ; at the end of line and go to new line
+imap ; <ESC>A;<CR>
+map ; A;<CR>
 
 " save file by Ctrl-S
 nmap <C-s> :w<Return>
@@ -453,6 +465,7 @@ if !exists('g:lasttab')
   let g:lasttab = 1
 endif
 nmap o :exe "tabn ".g:lasttab<CR>
+imap o <Esc>o
 au TabLeave * let g:lasttab = tabpagenr()
 
 nnoremap 1 :tabnext 1<CR>
@@ -650,7 +663,7 @@ map <F6> :update<CR>:!make %< && draw_line.sh running... && ./%<<cr>
 imap <F6> <ESC><F6>
 map <S-F6> :!time ./%<<cr>
 imap <S-F6> <ESC><S-F6>
-map <F7> :make<cr>
+map <F7> :update<CR>:make<cr>
 imap <F7> <ESC><F7>
 autocmd bufenter *.tex map <F8> :call SyncTex()<CR>
 autocmd bufenter *.tex imap <F8> <ESC><F8>

@@ -9,9 +9,14 @@ Bash/Zsh                                  | my Bash/Zsh:
            all arguments to prev cmd      | nd D  mkdir D and cd D
   !-2:0    name of cmd before previous    |  l D  cd directory D and ls D
                                           | A-a   zsh: execute auto suggestion
-  cd -<N>  cd previous directory <N>    C-u <next cmd> C-y   to delete command
-  $OLDPWD  previous directory #1              and take it back to the prompt
-______________________________________________________________________________
+  cd -<N>  cd previous directory <N>      | A-p   append pager  A-v  vim pager
+  $OLDPWD  previous directory #1          | A-k   run in man
+  C-u <next cmd> C-y    to delete command | A-h   run cmd --help
+           and take it back to the prompt | A-n   run numbered pager(for b<N>)
+__________________________________________|b10 c  open 10th line by `c` cmd
+My Vim/Bash/Zsh:   A-y  beginning-of-line | bv10  open 10th line by vim
+  A-e  escape      A-u  end-of-line       |       b10l : b10r    bv10l : bv10r
+__________________________________________________^^^^___^^^^____^^^^^___^^^^^
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold         | <F9> or set spell/set nospell| C-w +-  resize up/dn
   zc  close fold        | zg  add word to dict         | C-w <>  resize le/ri
@@ -27,7 +32,7 @@ Vim                     |Vim spellcheck                |Vim window
 ______________________________________________________________________________
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
   :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char
-vim-mark:
+vim-mark:   (highlighting selected words with different colors)
   1sm  highlight group 1, etc           :Marks  print all marks (vim-mark)
   :MarkLoad  load saved highlightings   sr      input pattern to mark
 vim-ultisnips:
@@ -57,7 +62,7 @@ My Vim:                   s     <Leader>             vim-markgroup:
  A-k  goto prev VCS chg   A-x   show VCS changes for file           C-q  CLOSE
  C-c  copy to Clipboard                      Insert:  C-e/C-n  next completion
  C-j  paste from Clipboard(preserving indent)         C-p      prev completion
-
+   A-,  new line after current       A-;  put ; at the end and new line
    F2    toggle syntax               F3   toggle paste mode
    S-F2  toggle parens highlighting  F4   remove trailnig whitespace
    F5    compile                     F6   compile & run        F7   call make
@@ -94,6 +99,12 @@ C-A-z   this help                  C-A-r  open scratchpad
 ______________________________________________________________________________
 Ranger:  E/e edit        i  pager  <Enter>/l  xdg-open    s  run Shell cmd
          S  start Shell  yy yank          pp  paste       !  run cmd w/output
+         ya  add file to %c     yr  remove from %c   uy  clear all files from %c
+my:  xx  execute                xtx  execute in x/term   xo   xdg-open on %f
+     xv  Run vim on %f           xf  any cmd on %f        xn/xg  (nim)grep on %f
+     xtv Run vim in x/term                              x.n/x.g  (nim)grep on .
+     cv  Run vim on %c           c!  any cmd on %c        cn/cg  (nim)grep on %c
+     ctv Run vim on %c in x/term                         co   xdg-open on all %c
                             Git / VCS
 b10d       show diff for `10`th entry in current buffer
 b10a       add `10`th file

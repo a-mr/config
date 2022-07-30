@@ -82,13 +82,11 @@ fill_echo () {
     shift 1
     local msg="$*"
     local cols=${COLUMNS:-$(tput cols)}
-    if [ ${#msg} -gt 0 ]; then
-        let "lines=(${#msg}-1)/$cols+1"
-        let "fillsize=$lines*$cols-${#msg}"
-        echo -ne $color 1>&2
-        printf '%s%*s\n' "$msg" $fillsize 1>&2
-        echo -ne "\033[0m" 1>&2
-    fi
+    let "lines=(${#msg}-1)/$cols+1"
+    let "fillsize=$lines*$cols-${#msg}"
+    echo -ne $color 1>&2
+    printf '%s%*s\n' "$msg" $fillsize 1>&2
+    echo -ne "\033[0m" 1>&2
 }
 
 #6. for warnings (yellow echo)

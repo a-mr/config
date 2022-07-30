@@ -60,18 +60,18 @@ inf () {
 
 logmy () {
     git log --decorate --graph --all --tags --name-status --parents \
-        --abbrev-commit --author `git config --get user.email` $@ | pp
+        --abbrev-commit --author `git config --get user.email` $@ | pg
 }
 
 log () {
     REPO=`what_is_repo_type`
     case "$REPO" in
         git) git log --decorate --graph --all --tags --name-status \
-            --parents --abbrev-commit $@ | pp
+            --parents --abbrev-commit $@ | pg
             ;;
-        mercurial) hg log -v $@ | pp
+        mercurial) hg log -v $@ | pg
             ;;
-        svn) svn log $@ | pp
+        svn) svn log $@ | pg
             ;;
         *) red_echo unknown repository: $REPO
   esac
@@ -83,11 +83,11 @@ log () {
 gra () {
     REPO=`what_is_repo_type`
     case "$REPO" in
-        git) git log --oneline --tags --all --graph $@ | less -S
+        git) git log --oneline --tags --all --graph $@ | pg
             ;;
-        mercurial) hg log $@ | pp
+        mercurial) hg log $@ | pg
             ;;
-        svn) svn log $@ | pp
+        svn) svn log $@ | pg
             ;;
         *) red_echo unknown repository: $REPO
   esac
@@ -96,9 +96,9 @@ gra () {
 # log with changes (-p)
 lgf () {
     if [[ "$1" == "" ]]; then
-        git log -p --parents $@ | less
+        git log -p --parents $@ | pg
     else
-        git log -p --follow --parents $@ | less
+        git log -p --follow --parents $@ | pg
     fi
 }
 
@@ -145,10 +145,10 @@ lgb () {
           fi
           if [[ "$branch" == "$default" ]]; then
               git log --decorate --graph --name-status \
-              --parents --abbrev-commit $default $@ | pp
+              --parents --abbrev-commit $default $@ | pg
           else
               git log --decorate --graph --name-status \
-              --parents --abbrev-commit $(git merge-base $branch $default)..$branch $@ | pp
+              --parents --abbrev-commit $(git merge-base $branch $default)..$branch $@ | pg
           fi
           ;;
       mercurial) hg log -b `hg branch`
@@ -185,15 +185,15 @@ grb () {
               shift 1
           fi
           if [[ "$branch" == "$default" ]]; then
-              git log --oneline --graph $default $@ | less -S
+              git log --oneline --graph $default $@ | pg
           else
               git log --oneline --graph \
-                  $(git merge-base $branch $default)..$branch $@ | less -S
+                  $(git merge-base $branch $default)..$branch $@ | pg
           fi
           ;;
-      mercurial) hg log $@ | pp
+      mercurial) hg log $@ | pg
           ;;
-      svn) svn log $@ | pp
+      svn) svn log $@ | pg
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -206,7 +206,7 @@ gitlogb () {
     else
         local branch="$1"
     fi
-    git log --decorate --graph --tags --name-status --first-parent "$branch" | p
+    git log --decorate --graph --tags --name-status --first-parent "$branch" | pg
 }
 
 gitgrb () {
@@ -215,7 +215,7 @@ gitgrb () {
     else
         local branch="$1"
     fi
-    git log --decorate --graph --oneline --first-parent "$branch" | less -S
+    git log --decorate --graph --oneline --first-parent "$branch" | pg
 }
 
 # `has revision branch` check that branch contains revision
