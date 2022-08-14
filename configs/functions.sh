@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+
+is_number () {
+    case "$1" in
+        ''|*[!0-9]*) return 1 ;;
+        *) return 0  ;;
+    esac
+}
+
 # Variables for terminal requests.
 [[ -t 2 ]] && { 
     alt=$(      tput smcup  || tput ti      ) # Start alt display

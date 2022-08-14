@@ -51,6 +51,15 @@ set ignorecase
 "allows use vim as pager
 let $PAGER=''
 
+if &term == "screen"
+    set t_ts=k
+    set t_fs=\
+endif
+if &term == "screen.xterm-256color"
+    set t_ts=k
+    set t_fs=\
+endif
+
 " jump to the last position when reopening a file
 if has("autocmd")
    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif

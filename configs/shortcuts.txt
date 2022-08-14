@@ -14,9 +14,9 @@ Bash/Zsh                                  | my Bash/Zsh:
   C-u <next cmd> C-y    to delete command | A-h   run cmd --help
            and take it back to the prompt | A-n   run numbered pager(for b<N>)
 __________________________________________|b10 c  open 10th line by `c` cmd
-My Vim/Bash/Zsh:   A-y  beginning-of-line | bv10  open 10th line by vim
-  A-e  escape      A-u  end-of-line       |       b10l : b10r    bv10l : bv10r
-__________________________________________________^^^^___^^^^____^^^^^___^^^^^
+My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
+  A-e  escape      A-u  end-of-line       |       b10p : b10n     v10p : v10n
+__________________________________________| n10   just print 10th buffer line
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold         | <F9> or set spell/set nospell| C-w +-  resize up/dn
   zc  close fold        | zg  add word to dict         | C-w <>  resize le/ri
@@ -29,6 +29,7 @@ Vim                     |Vim spellcheck                |Vim window
          matching PAT   |           C-]      follow link (e.g. man mode)
   C-y  insert chars above cursor   Normal mode:  C-e  move screen down
                                                  C-y  move screen up
+  @:  repeat substitution command (1st time repeat -- then use just @@)
 ______________________________________________________________________________
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
   :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char

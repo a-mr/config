@@ -49,6 +49,7 @@ inf () {
           local branch="${1:-$(bra)}"
           git describe --all; git branch -vv | grep "$branch"; git remote -v
           dat "$branch"
+          git diff --stat
           ;;
       mercurial) hg id; hg paths
           ;;
@@ -59,15 +60,16 @@ inf () {
 }
 
 logmy () {
-    git log --decorate --graph --all --tags --name-status --parents \
-        --abbrev-commit --author `git config --get user.email` $@ | pg
+    git log --graph --all --tags --name-status --parents \
+        --abbrev-commit --decorate=full \
+        --author `git config --get user.email` $@ | pg
 }
 
 log () {
     REPO=`what_is_repo_type`
     case "$REPO" in
-        git) git log --decorate --graph --all --tags --name-status \
-            --parents --abbrev-commit $@ | pg
+        git) git log --graph --all --tags --name-status \
+            --parents --abbrev-commit --decorate=full $@ | pg
             ;;
         mercurial) hg log -v $@ | pg
             ;;
@@ -83,7 +85,7 @@ log () {
 gra () {
     REPO=`what_is_repo_type`
     case "$REPO" in
-        git) git log --oneline --tags --all --graph $@ | pg
+        git) git log --oneline --tags --all --graph --decorate=full $@ | pg
             ;;
         mercurial) hg log $@ | pg
             ;;
@@ -96,9 +98,9 @@ gra () {
 # log with changes (-p)
 lgf () {
     if [[ "$1" == "" ]]; then
-        git log -p --parents $@ | pg
+        git log -p --decorate=full --parents $@ | pg
     else
-        git log -p --follow --parents $@ | pg
+        git log -p --decorate=full --follow --parents $@ | pg
     fi
 }
 
@@ -144,11 +146,11 @@ lgb () {
               shift 1
           fi
           if [[ "$branch" == "$default" ]]; then
-              git log --decorate --graph --name-status \
-              --parents --abbrev-commit $default $@ | pg
+              git log --graph --name-status \
+              --parents --decorate=full --abbrev-commit $default $@ | pg
           else
-              git log --decorate --graph --name-status \
-              --parents --abbrev-commit $(git merge-base $branch $default)..$branch $@ | pg
+              git log --graph --name-status \
+              --parents --decorate=full --abbrev-commit $(git merge-base $branch $default)..$branch $@ | pg
           fi
           ;;
       mercurial) hg log -b `hg branch`
@@ -185,9 +187,9 @@ grb () {
               shift 1
           fi
           if [[ "$branch" == "$default" ]]; then
-              git log --oneline --graph $default $@ | pg
+              git log --decorate=full --oneline --graph $default $@ | pg
           else
-              git log --oneline --graph \
+              git log --decorate=full --oneline --graph \
                   $(git merge-base $branch $default)..$branch $@ | pg
           fi
           ;;
@@ -206,7 +208,7 @@ gitlogb () {
     else
         local branch="$1"
     fi
-    git log --decorate --graph --tags --name-status --first-parent "$branch" | pg
+    git log --decorate=full --graph --tags --name-status --first-parent "$branch" | pg
 }
 
 gitgrb () {
@@ -215,7 +217,7 @@ gitgrb () {
     else
         local branch="$1"
     fi
-    git log --decorate --graph --oneline --first-parent "$branch" | pg
+    git log --decorate=full --graph --oneline --first-parent "$branch" | pg
 }
 
 # `has revision branch` check that branch contains revision
@@ -245,7 +247,7 @@ cnt () {
 his () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git log --follow -p -- $@|p
+      git) git log --decorate=full --follow -p -- $@|p
           ;;
       mercurial) hg record $@|p
           ;;
@@ -269,7 +271,11 @@ ann () {
 }
 
 # whether to print version info in PS1
-wrepo="none"
+if [ "$SCREEN_WORK_SESSION" = "true" ]; then
+    wrepo="any"
+else
+    wrepo="none"
+fi
 wrepo () {
     if [ "$wrepo" = "none" ]; then
         wrepo="any"

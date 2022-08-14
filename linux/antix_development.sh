@@ -51,6 +51,11 @@ $INS build-essential libncurses5-dev gcc clangd gdb libssl-dev bc cdbs devscript
 # script that should install all development packages of installed packages:
 ~/bin/install-all-dev-packages.sh
 
+# for debugging any C program in gdb, etc
+cd /usr/src
+red_command sudo apt source glibc
+cd -
+
 # for xilinx vivado
 $INS libtinfo-dev libncursesw5-dev libncurses5 libtinfo5
 

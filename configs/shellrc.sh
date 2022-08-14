@@ -504,7 +504,7 @@ screen_try_start () {
            "h exec screen -S aux" \
            "s echo Just shell" \
            "b exec bash" \
-           "w exec screen -S work" \
+           "w SCREEN_WORK_SESSION=true exec screen -S work" \
            "W screen_try_attach work" \
            "f screen -dr" \
            "a exec screen -S aux" \
@@ -625,6 +625,10 @@ vr () {
 # show my shortcuts
 k () {
     vim ~/activity-public/computer-program-data/configs/shortcuts.txt
+}
+
+T () {
+    vim -c "set title" -c "set titlestring=TASK" ~/tips/
 }
 t () {
     vim ~/tips/tips.txt
@@ -865,6 +869,11 @@ setb () {
     echo $@ > ~/tmp/buffer2
 }
 
+nn () {
+  local n=$1
+  echo "$(cat ~/tmp/buffer|decolorize|head -n $n|tail -n 1|trim_spaces)"
+}
+
 #   bb   `line number`   `command to filter`   `command to run`
 bb () {
   if [[ "$1" == "" ]]; then
@@ -899,7 +908,7 @@ bb () {
 }
 
 #open file +line in vim
-bv () {
+vv () {
     if [[ "$1" == "" ]]; then
         local n=1
     else
@@ -923,10 +932,14 @@ bv () {
         bold_echo vim \'$fname\'
         add_command vim \'$fname\'
         eval vim \'$fname\'
-    else
+    elif is_number "$lineNo"; then
         bold_echo vim \'$fname\' +$lineNo
         add_command vim \'$fname\' +$lineNo
         eval vim \'$fname\' +$lineNo
+    else
+        bold_echo vim -p \'$fname\' \'$lineNo\'
+        aux_command vim -p \'$fname\' \'$lineNo\'
+        eval vim -p \'$fname\' \'$lineNo\'
     fi
 }
 
@@ -937,22 +950,28 @@ trim_spaces () {
 # aliases named b1, b2, ..., b999 to process string as an argument of a
 # command:
 # > b111 command
+#just print line:
+for i in `seq 1 999`; do alias n$i="nn $i ''"; done
 #process all line
 for i in `seq 1 999`; do alias b$i="bb $i ''"; done
-#alias to open file +line in vim
-for i in `seq 1 999`; do alias bv$i="bv $i"; done
+for i in `seq 1 999`; do alias o$i="bb $i '' o"; done
 #process first field, e.g. 'x' in 'x:y'
-for i in `seq 1 999`; do alias b${i}l="bb $i 'cut -f1  -d: | trim_spaces'"; done
-for i in `seq 1 999`; do alias b${i}r="bb $i 'cut -f2- -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias b${i}p="bb $i 'cut -f1  -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias b${i}n="bb $i 'cut -f2- -d: | trim_spaces'"; done
 # for git output
 for i in `seq 1 999`; do alias b${i}d="bb $i 'cut -f2- -d: | trim_spaces' dif"; done
 for i in `seq 1 999`; do alias b${i}a="bb $i 'cut -f2- -d: | trim_spaces' git add -p"; done
-for i in `seq 1 999`; do alias bv${i}l="bv $i 'cut -f1  -d: | trim_spaces'"; done
-for i in `seq 1 999`; do alias bv${i}r="bv $i 'cut -f2- -d: | trim_spaces'"; done
-for i in `seq 1 999`; do alias o$i="bb $i '' o"; done
+#alias to open file +line in vim
+for i in `seq 1 999`; do alias v$i="vv $i"; done
+for i in `seq 1 999`; do alias v${i}p="vv $i 'cut -f1  -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias v${i}n="vv $i 'cut -f2- -d: | trim_spaces'"; done
 
 nd () {
     mkdir -p "$1" && cd "$1"
+}
+
+loc () {
+    locate $@ | pb
 }
 
 l () {
