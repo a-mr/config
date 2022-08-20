@@ -506,7 +506,7 @@ screen_try_start () {
            "b exec bash" \
            "w SCREEN_WORK_SESSION=true exec screen -S work" \
            "W screen_try_attach work" \
-           "f screen -dr" \
+           "f screen -dr -S work" \
            "a exec screen -S aux" \
            "A screen_try_attach aux" \
            "t screen_try_attach" \

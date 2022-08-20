@@ -84,7 +84,7 @@ print_preexec () {
         # "\ek" and "\e\" are the delimiters for screen(1) window titles
         # set screen title
         #echo -ne "\ek$a\e\\"
-        echo -ne "\ek$name'$a\e\\"
+        echo -ne "\ek$name $a\e\\"
         # must (re)set xterm title
         echo -ne "\e]0;${PWD##*/}> $1\a"
         ;;

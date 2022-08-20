@@ -962,11 +962,11 @@ endfunction
 
 autocmd bufenter *.pas setlocal shiftwidth=2 softtabstop=2
 "let g:pascal_delphi=1
-let g:pascal_fpc=1
-iabbrev b, begin
-iabbrev e, end
-iabbrev e. end;
-iabbrev w, writeln
+au FileType pascal let g:pascal_fpc=1
+au FileType pascal iabbrev b, begin
+au FileType pascal iabbrev e, end
+au FileType pascal iabbrev e. end;
+au FileType pascal iabbrev w, writeln
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "OCaml

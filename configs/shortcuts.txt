@@ -24,11 +24,12 @@ Vim                     |Vim spellcheck                |Vim window
   zR  unfold all        | ]s  goto next misspelled     | C-w v   vertical pane
   zz  curr.line ->center|                              | C-w |   maximize vert
      my: A-' A-q (prev) | %    current file in :!      | C-w _   maximize hor.
-  A-'  goto next mark   | %:p  the same, full path     | ''   go to last line
-  :g/PAT show lines     |           R<C-r>"  replace-paste after yanking text
-         matching PAT   |           C-]      follow link (e.g. man mode)
-  C-y  insert chars above cursor   Normal mode:  C-e  move screen down
-                                                 C-y  move screen up
+  A-'  goto next mark   | %:p  the same, full path     | C-w H   to vert.split
+  :g/PAT show lines matching PAT                       | C-w K  to horiz.split
+  R<C-r>"  replace-paste after yanking text      ''  jump to prev.visited mark
+  C-]      follow link (e.g. man mode)           '^  jump to prev.edited pos.
+  :Man 2 fork  open man page in sec.2   Normal mode:  C-e  move screen down
+  C-y  insert chars above cursor                      C-y  move screen up
   @:  repeat substitution command (1st time repeat -- then use just @@)
 ______________________________________________________________________________
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
