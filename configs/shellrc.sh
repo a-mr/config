@@ -532,10 +532,22 @@ fin () {
     exit
 }
 
-#if [ $inside_ssh ] && [ ! $inside_vnc ] && [ -z $ALLOW_BASH ]; then
+# when in ssh -- try to attach to work session, otherwise propose new screen:
 if [ -z $ALLOW_BASH ]; then
-    #tmux_try_start
-    screen_try_start
+    if [ $inside_ssh ] && [ ! $inside_vnc ]; then
+        if [ ! -z "$DISPLAY" ]; then
+            x $DISPLAY
+        fi
+        if screen -list | grep -q work; then
+            screen -dr -S work
+        else
+            #tmux_try_start
+            screen_try_start
+        fi
+    else
+        #tmux_try_start
+        screen_try_start
+    fi
 fi
 ##############################################################################
 # definitions for interactive work only

@@ -37,8 +37,7 @@ ______________________________________________________________________________
 vim-mark:   (highlighting selected words with different colors)
   1sm  highlight group 1, etc           :Marks  print all marks (vim-mark)
   :MarkLoad  load saved highlightings   sr      input pattern to mark
-vim-ultisnips:
-  TAB  expand a snippet                 C-j  next field in the snippet
+vim-ultisnips:  TAB  expand a snippet/next field      S-Tab  previous field
 ______________________________________________________________________________
   :set cc=8                     #highlight column 8 (to navigate long funcs)
   :put =map(range(0,75), 'printf(''// %d'', v:val)')   #insert list of numbers
@@ -54,15 +53,15 @@ Easymotion                          My:   sw A-w  go to word beg
   ssb      select word upwards            sn      go to symbol
   ssj      select line frwd
   ssk      select line back
-My Vim:                   s     <Leader>             vim-markgroup:
-  A-t  enter tab to edit  st    select tag             A-m  open quick markbar
-  A-n  next tab           <F9>  select spell lang      so   open slow mark bar
-  A-p  prev tab           <F8>  select encoding        n/N  move in slow m/b
-  A-o  to last tab        sl    highlight current line   r  set name for mark
+My Vim:                   s     <Leader>              |vim-markgroup:
+  A-t  enter tab to edit  st    select tag            |A-m  open quick markbar
+  A-n  next tab           <F9>  select spell lang     |so   open slow mark bar
+  A-p  prev tab           <F8>  select encoding       |n/N  move in slow m/b
+  A-o  to last tab        sl    highlight current line|  r  set name for mark
   A-m  select marks       A-i   NEXT WINDOW
  A-j  goto next VCS chg   A-b   convert buffers->tabs               C-s  SAVE
  A-k  goto prev VCS chg   A-x   show VCS changes for file           C-q  CLOSE
- C-c  copy to Clipboard                      Insert:  C-e/C-n  next completion
+ C-c  copy to Clipboard   A-z   comment      Insert:  C-e/C-n  next completion
  C-j  paste from Clipboard(preserving indent)         C-p      prev completion
    A-,  new line after current       A-;  put ; at the end and new line
    F2    toggle syntax               F3   toggle paste mode

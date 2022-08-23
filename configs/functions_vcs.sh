@@ -525,6 +525,14 @@ roo () {
     
 com () {
   REPO=`what_is_repo_type`
+  if [ "`dbr`" = "`bra`" ]; then
+      bold_echo "Commit to default branch? [n|y]"
+      local answer
+      read answer
+      if [ "$answer" != "y" ]; then
+          return
+      fi
+  fi
   local msg=""
   if [ "$1" != "" ]; then
       msg="-m \"$1\""

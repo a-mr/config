@@ -93,10 +93,18 @@ nnoremap c :call SideComment()<CR>a
 inoremap c <ESC>:call SideComment()<CR>a
 function! SideComment()
     normal 45|
-    "don't put space after "
+    "don't put space after # (to be able to add second #)
     exe ":normal i" . g:Comment
     "exe ":normal i" . g:Comment . "\ "
 endfunction
+
+" comment out line(s) from the beginning
+function! CommentLines()
+    exe ":s/^\\( *\\)/\\1" . g:Comment . "\ "
+endfunction
+vnoremap z :call CommentLines()<CR>
+nnoremap z :call CommentLines()<CR>
+inoremap z <ESC>:call CommentLines()<CR>
 
 " comments in C files
 nmap <Leader>c _i/* <Esc>A */<Esc>
@@ -654,7 +662,12 @@ imap <F3> <ESC>:call TogglePaste()<CR>a
 nnoremap <F4> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 inoremap <F4> <ESC><F4>
 
+" draw nice line for clarity on any command run:
 set shell=~/bin/vim-shell-wrapper.sh
+" then need to redefine shellpipe to restore redirection stderr also:
+if has('unix')
+    set shellpipe=2>&1\|\ tee"
+endif
 
 autocmd bufenter *.tex map <F5> :update<CR>:!xelatex %<CR>
 autocmd bufenter *.tex imap <F5> <ESC><F5>
@@ -985,8 +998,12 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Nim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd bufenter *.nim map <F5> :update<CR>:!curnim c %<<cr>
-autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:!curnim c %<<cr>
+"autocmd bufenter *.nim map <F5> :update<CR>:!curnim c %<<cr>
+"autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:!curnim c %<<cr>
+
+" nim.vim defines makeprg appropriately so just use :make
+autocmd bufenter *.nim map <F5> :update<CR>:make<cr>
+autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:make<cr>
 autocmd bufenter *.nim map <F6> :update<CR>:!curnim c --hints:off -r %<<CR>
 autocmd bufenter *.nim imap <F6> <ESC><F6>
 "autocmd bufenter *.nim filetype off
@@ -1066,6 +1083,10 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-ingo-library/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-mark/
 
+" Set ultisnips triggers
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 set runtimepath+=~/activity-public/computer-program-data/vim/ultisnips/
 let g:UltiSnipsSnippetDirectories = ["~/activity-public/computer-program-data/vim/vim-snippets/UltiSnips"]
 
