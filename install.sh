@@ -78,6 +78,8 @@ oinst lxpanel-default ~/.config/lxpanel/default
 inst easystroke ~/.easystroke
 inst fonts.conf
 inst autostart ~/.config/autostart
+inst recoll.conf ~/.recoll/recoll.conf
+inst recoll.ini ~/.config/Recoll.org/recoll.ini
 ln -f mimeapps.list ~/.local/share/applications/mimeapps.list  # older Linuxes
 ln -f mimeapps.list ~/.config/mimeapps.list
 ln -f defaults.list ~/.local/share/applications/defaults.list

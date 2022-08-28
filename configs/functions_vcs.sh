@@ -622,8 +622,13 @@ uncom () {
 }
 
 unstage () {
-    if [ -f "$1" ]; then
+    if [ "$1" = "" ]; then
+        git reset HEAD
+    elif [ -f "$1" ]; then
         git reset HEAD "$1"
+    else
+        red_echo unknown type of argument $1
+        return 1
     fi
 }
 

@@ -552,7 +552,7 @@ imap <PageUp> <C-O><C-U><C-O><C-U>
 nmap <PageDown> <C-D><C-D>
 imap <PageDown> <C-O><C-D><C-O><C-D>
 
-nmap <Space> i_<Esc>r
+nmap <Space> i_<Esc>:<CR>r
 "nmap <CR> o<Esc>
 
 function! CapitalizeCenterAndMoveDown()
@@ -673,10 +673,15 @@ autocmd bufenter *.tex map <F5> :update<CR>:!xelatex %<CR>
 autocmd bufenter *.tex imap <F5> <ESC><F5>
 autocmd bufenter *.tex map <F6> :update<CR>:!xelatex % && xdg-open %<.pdf<CR>
 autocmd bufenter *.tex imap <F6> <ESC><F6>
+
 autocmd bufenter *.C map <F6> :!root %<CR>
 autocmd bufenter *.C imap <F6> <ESC><F6>
-autocmd bufenter *.py map <F5> :!python3 -m py_compile %<cr>
+
+autocmd bufenter *.py map <F5> :update<CR>:!python3 -m py_compile %<cr>
 autocmd bufenter *.py imap <F5> <ESC><F5>
+autocmd bufenter *.py map <F6> :update<CR>:!python3 %<cr>
+autocmd bufenter *.py imap <F6> <ESC><F6>
+
 map <F5> :update<CR>:make %<<CR>
 imap <F5> <ESC><F5>
 map <S-F5> :!strace ./%<<cr>
@@ -906,10 +911,10 @@ endfunction
 
 autocmd bufenter *.tex map <F1> :call Copy_formula_to__part_vim_(1)<cr>:!rm -f _part_.dvi _part_1.png;
 			\latex _part_.tex;dvipng _part_.dvi;ee _part_1.png&<cr><cr>
-autocmd bufenter *.tex imap <F1> <ESC>l<F1>i
+autocmd bufenter *.tex imap <F1> <ESC>:<CR>l<F1>i
 autocmd bufenter *.tex map <S-F1> :call Copy_formula_to__part_vim_(0)<cr>:!rm -f _part_.dvi _part_1.png;
 			\latex _part_.tex;dvipng _part_.dvi;ee _part_1.png&<cr><cr>
-autocmd bufenter *.tex imap <S-F1> <ESC>l<S-F1>i
+autocmd bufenter *.tex imap <S-F1> <ESC>:<CR>l<S-F1>i
 "map <F2>    ?\(\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|
 "			\equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)
 "			\\*\=\s*}\\|\\[\\|\$\$\\|\$\\|\\(\)

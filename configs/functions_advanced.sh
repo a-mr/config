@@ -240,29 +240,36 @@ if [[ $CURSHELL == zsh ]]; then
             ;;
     esac
 
+    function run_tee () { 
+        BUFFER="$BUFFER 2>&1 | tee ~/tmp/buffer3"
+        zle accept-line
+    }
+    zle -N run_tee
+    bindkey "t" run_tee
+
     function run_pager () { 
-        BUFFER="$BUFFER | less"
+        BUFFER="$BUFFER 2>&1 | less"
         zle accept-line
     }
     zle -N run_pager
     bindkey "p" run_pager
 
     function run_vim_pager () { 
-        BUFFER="$BUFFER | vim -c \"setlocal buftype=nofile bufhidden=hide noswapfile\" -"
+        BUFFER="$BUFFER 2>&1 | vim -c \"setlocal buftype=nofile bufhidden=hide noswapfile\" -"
         zle accept-line
     }
     zle -N run_vim_pager
     bindkey "v" run_vim_pager
 
     function run_pb_pager () { 
-        BUFFER="$BUFFER | pb"
+        BUFFER="$BUFFER 2>&1 | pb"
         zle accept-line
     }
     zle -N run_pb_pager
     bindkey "n" run_pb_pager
 
     function run_help_pager () { 
-        BUFFER="$BUFFER --help | less"
+        BUFFER="$BUFFER --help 2>&1 | less"
         zle accept-line
     }
     zle -N run_help_pager
