@@ -60,6 +60,6 @@ $INS python3-plastex pandoc antiword writer2latex
 
 $INS aspell-ru myspell-ru mythes-ru
 
-$INS texlive texlive-xetex biber texlive-bibtex-extra texlive-lang-cyrillic texlive-fonts-extra fonts-texgyre
+$INS texlive texlive-xetex biber texlive-bibtex-extra texlive-lang-cyrillic texlive-fonts-extra fonts-texgyre texlive-science
 #misc
 $INS fortune-mod fortunes fortunes-ru

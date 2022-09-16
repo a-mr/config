@@ -450,6 +450,14 @@ map , o
 imap ; <ESC>A;<CR>
 map ; A;<CR>
 
+" Alt-. printf
+map . oprint("━━━━━━━━━━━━━━━━━━━ ", )<ESC>:<CR>i
+au FileType c,cpp  map . oprintf<TAB>━━━━━━━━━━━━━━━━━━━  
+au FileType nim    map . oecho "━━━━━━━━━━━━━━━━━━━ 
+au FileType sh     map . oecho "━━━━━━━━━━━━━━━━━━━  " 
+au FileType python map . oprint("━━━━━━━━━━━━━━━━━━━ ", )<ESC>:<CR>i
+imap . <ESC>.
+
 " save file by Ctrl-S
 nmap <C-s> :w<Return>
 imap <C-s> <ESC><C-s>
@@ -528,8 +536,8 @@ function! GitDiff()
     let diff_output = system(diff_cmd)
     call append(0, split(diff_output, "\n"))
     setlocal ft=diff
-    wincmd p
-    setlocal spell spelllang=en_us
+    "wincmd p
+    "setlocal spell spelllang=en_us
 endfunction
 map x :call GitDiff()<CR>
 imap x <ESC>x

@@ -10,7 +10,7 @@ INS="red_command sudo apt-get install -y $1"
 $INS cvs subversion mercurial tortoisehg bzr git git-lfs gitk gitweb git-email libemail-valid-perl libmailtools-perl libauthen-sasl-perl darcs
 
 # misc
-$INS m4 libev-dev cputool rlwrap python3-pygments rst2pdf meld manpages-dev speedcrunch parallel time
+$INS m4 libev-dev cputool rlwrap python3-pygments python3-venv rst2pdf meld manpages-dev speedcrunch parallel time
 # $INS linux-tools-generic linux-tools-common # for perf
 # ubuntu: pdfjam in texlive-extra-utils
 
@@ -35,10 +35,10 @@ $INS lmodern nodejs npm
 # for add-apt-repository
 $INS software-properties-common
 
-# curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-# sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-# sudo apt update
-# $INS code
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+sudo apt update
+$INS code
 
 # Ubuntu has its own virtualbox:
 #sudo add-apt-repository "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian buster contrib"

@@ -470,6 +470,11 @@ pat () {
   esac
 }
 
+# show files changed in a given revision
+pats () {
+    git show --stat ${1:-HEAD}
+}
+
 # the same but with full files contents (1000 lines of context)
 patf () {
   REPO=`what_is_repo_type`
