@@ -6,6 +6,10 @@
 
 INS="red_command sudo apt-get install -y $1"
 
+echo Updating apt database:
+mx-repo-manager
+sudo apt update
+
 $INS zsh zsh-autosuggestions openssh-server autossh mosh
 $INS crudini dos2unix gawk aptitude python3-tk vim-gtk3 konsole qterminal kinit kio kio-extras kded5 ht ranger python3-ueberzug screen
 # lfhex - no ubuntu
