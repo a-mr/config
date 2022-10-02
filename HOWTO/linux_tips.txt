@@ -167,3 +167,28 @@ $ sudo visudo
 
 Defaults:USER timestamp_timeout=10000
 
+=== Hibernate ====================================================
+https://forums.debian.net/viewtopic.php?t=150284
+
+$ sudo fallocate -l 8G /swapfile
+$ sudo chmod 600 /swapfile
+
+$ sudo mkswap /swapfile
+$ sudo swapon /swapfile
+  # to make it permanent add to /etc/fstab:
+  # /swapfile    none    swap    sw    0   0
+
+$ RESUME_PARAMS="resume=UUID=$(findmnt / -o UUID -n) resume_offset=$(sudo filefrag -v /swapfile|awk 'NR==4{gsub(/\./,"");print $4;}') " && echo $RESUME_PARAMS
+resume=UUID=61fb0058-de91-4943-9c1f-12da1c622520 resume_offset=2951168 
+
+put results in /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT="<OUTPUT OF PREVIOUS COMMAND>"
+
+$ sudo update-grub
+
+put UUID to /etc/initramfs-tools/conf.d/resume:
+
+RESUME=UUID=<UUID FROM PREV COMMAND>
+
+$ sudo update-initramfs -c -k $(uname -r)
+
