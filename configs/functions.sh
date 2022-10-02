@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# reset terminal with disabling ctrl-s/ctrl-q
+re () {
+    reset
+    stty stop undef
+    stty start undef
+}
+
 is_number () {
     case "$1" in
         ''|*[!0-9]*) return 1 ;;

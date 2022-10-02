@@ -370,6 +370,7 @@ if [[ $CURSHELL == zsh ]]; then
     "cvis"	"computer-visualization/"
     "eng"	"$ape/english"
     "soft"      "~/nfs/s/software"
+    "vbox"      "~/nfs/s/vbox"
     "mal"	"mathematics-algebra-linear/"
     "mc"	"mathematics-common/"
     "mca"	"mathematics-complex_analysis/"

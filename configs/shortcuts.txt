@@ -18,20 +18,24 @@ My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
   A-e  escape      A-u  end-of-line       |       b10p : b10n     v10p : v10n
 __________________________________________| n10   just print 10th buffer line
 Vim                     |Vim spellcheck                |Vim window
-  zo  open fold         | <F9> or set spell/set nospell| C-w +-  resize up/dn
-  zc  close fold        | zg  add word to dict         | C-w <>  resize le/ri
-  zM  fold all          | z=  propose completion list  | C-w 10< resize le*10
-  zR  unfold all        | ]s  goto next misspelled     | C-w v   vertical pane
-  zz  curr.line ->center|                              | C-w |   maximize vert
-     my: A-' A-q (prev) | %    current file in :!      | C-w _   maximize hor.
-  A-'  goto next mark   | %:p  the same, full path     | C-w H   to vert.split
-  :g/PAT show lines matching PAT                       | C-w K  to horiz.split
-  R<C-r>"  replace-paste after yanking text      ''  jump to prev.visited mark
-  C-]      follow link (e.g. man mode)           '^  jump to prev.edited pos.
-  :Man 2 fork  open man page in sec.2   Normal mode:  C-e  move screen down
-  C-y  insert chars above cursor                      C-y  move screen up
+  zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn
+  zc  close fold(zC-rec)| zg  add word to dict         | C-w <>  resize le/ri
+  zM    fold all        | z=  propose completion list  | C-w 10< resize le*10
+  zR    unfold all      | ]s  goto next misspelled     | C-w v   vertical pane
+  zm/r  fold level +/-  |Paths_________________________| C-w |   maximize vert
+  za  toggle fold       | %    current file in :!      | C-w _   maximize hor.
+  zA  toggle fold recur.| %:p  the same, full path     | C-w H   to vert.split
+                                                       | C-w K  to horiz.split
+  R<C-r>"  replace-paste after yanking text |    ''  jump to prev.visited mark
+  C-]      follow link (e.g. man mode)      |    '^  jump to prev.edited pos.
+  |Normal mode:  C-e  move screen           |my: A-q  goto prev mark
+  |              C-y  move screen           |    A-'  goto next mark
+  |              zz   curr.line ->center
+  :Man 2 fork  open man page in sec.2    C-y  insert chars above cursor
   @:  repeat substitution command (1st time repeat -- then use just @@)
 ______________________________________________________________________________
+  :%sort  or  :%!sort     sort the whole file (range=%), `-n` for numeric sort
+  :g/PAT show lines matching PAT           :read <file>  paste <file> contents
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool
   :2match Character /paTTERN/   #add highlight grp 2 with paTTERN & color Char
 vim-mark:   (highlighting selected words with different colors)
@@ -76,38 +80,41 @@ ______________________________________________________________________________
  Tmux                              Screen
       PRE ]  paste                   PRE ]    paste
       PRE "  split horizontally      PRE S    split horizontally
-      PRE %  split vertically        PRE |    split vertiacally
+      PRE %  split vertically        PRE |    split vertically
                                      PRE tab  next pane
                                      PRE X    close region (note Shift-x)
  hold PRE -> resize pane             PRE :resize +10
                                 my:  C-n C-o switch to the window before
 ______________________________________________________________________________
-                            XFCE4
-C-a-n  go to right desktop
-C-a-p  go to left  desktop
-C-A-t  Terminal          | C-A-k  Tile top    | C-A-S-k  Tile top-right
-C-A-C  Clipboard Manager | C-A-j  Tile bottom | C-A-S-j  Tile bottom-left
-C-A-m  Xfce Whisker Menu | C-A-l  Tile right  | C-A-S-l  Tile bottom-right
-C-A-d  xrandr -o left    | C-A-h  Tile left   | C-A-S-h  Tile top-left
-C-A-S-d  xrandr -o normal
-C-A-e   Maximize                   Win-s  screenshot of area
-C-A-v   Maximize vertically        C-A-s  synapse search
-C-A-S-v Maximize horizontally
-C-A-w   Resize window (j/k/h/l)    C-A-o  Move window (j/k/h/l)
-C-S-N   Move Win to workspace <N>
-C-A-z   this help                  C-A-r  open scratchpad
- hold Win and scroll on the window decoration to change transparency of window
+                            My XFCE4
+C-A-t    terminal          | C-A-k  tile top    | C-A-S-k  tile top-right
+C-A-C    clipboard Manager | C-A-j  tile bottom | C-A-S-j  tile bottom-left
+C-A-m    xfce Whisker Menu | C-A-l  tile right  | C-A-S-l  tile bottom-right
+C-A-d    xrandr -o left    | C-A-h  tile left   | C-A-S-h  tile top-left
+C-A-S-d  xrandr -o normal  |         Win-s  screenshot of area
+C-A-e   maximize                     C-A-s  synapse search
+C-A-v   maximize vertically          C-A-w  resize window (j/k/h/l)
+C-A-S-v maximize horizontally        C-A-o  move window (j/k/h/l)
+C-S-N   move Win to workspace <N>    C-A-z  this help
+C-N     go to workspace <N>          C-A-r  open scratchpad
+C-A-n   go to right desktop     |hold Win and scroll on the window decoration
+C-A-p   go to left  desktop     |to change transparency of window
 ______________________________________________________________________________
 Ranger:  E/e edit        i  pager  <Enter>/l  xdg-open    s  run Shell cmd
          S  start Shell       yy yank    pp  paste     !  run cmd w/output
          ya  add file to %c   yr  remove from %c   uy  clear all files from %c
 my:  xx  execute              xtx  execute in x/term   xo   xdg-open on %f
-     xv  Run vim on %f         xf  any cmd on %f        xn/xg  (nim)grep on %f
-     xtv Run vim in x/term                            x.n/x.g  (nim)grep on .
-     cv  Run vim on %c         c!  any cmd on %c        cn/cg  (nim)grep on %c
-     ctv Run vim on %c in x/term                       co   xdg-open on all %c
+     xv  run vim on %f         xf  any cmd on %f        xn/xg  (nim)grep on %f
+     xtv run vim in x/term                            x.n/x.g  (nim)grep on .
+     cv  run vim on %c         c!  any cmd on %c        cn/cg  (nim)grep on %c
+     ctv run vim on %c in x/term                       co   xdg-open on all %c
 Confluence:   ?  help   C-S-d  insert Markdown mark-up   C-k   link
   C-m  image/file       C-S-H  find and replace          C-S-e preview
+My qpdfview: Ctrl-g  search   Ctrl-j  jump page number   Ctrl+-/+  zoom out/in
+   o  open   m  add bookmark  Ctrl-M  toggle bookmark bar  F6  toggle TOC
+   Ctrl-C  copy to clipboard  Ctrl-V  invert colors      Ctrl-Alt-6  two pages
+   Ctrl-N/P  next/previous tab            Ctrl-B/F/H/J/K/L/O/I vim navigation
+   s/v   split view horizontally/vertically        x  close view
 ______________________________________________________________________________
                             Git / VCS
 b10d       show diff for `10`th entry in current buffer

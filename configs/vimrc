@@ -100,7 +100,7 @@ endfunction
 
 " comment out line(s) from the beginning
 function! CommentLines()
-    exe ":s/^\\( *\\)/\\1" . g:Comment . "\ "
+    exe ":s/^\\( *\\)/\\1" . escape(g:Comment, '/') . "\ "
 endfunction
 vnoremap z :call CommentLines()<CR>
 nnoremap z :call CommentLines()<CR>
@@ -374,6 +374,20 @@ set softtabstop=4 "delete 4 spaces by backspace
 " activate julia's latex->unicode completion
 let g:latex_to_unicode_file_types = ["julia", "lisp", "tex", "latex"]
 let g:latex_to_unicode_auto = 1
+
+" no folding after file opening
+set foldlevel=99
+
+" enable Markdown folding
+let g:markdown_folding = 1
+
+set foldmethod=expr
+  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+  \ foldtext=lsp#ui#vim#folding#foldtext()
+
+" clangd does NOT support folding yet
+au FileType c,cpp setlocal foldmethod=indent
+
 
 "autocmd bufenter *.c,*.h,*.C,*.cxx,*.cpp,*.cc,*.hh,*.hxx,*.f,*.F,*.for set expandtab 
 "autocmd bufenter *.py,*.hs,*.nim setlocal expandtab
@@ -677,18 +691,18 @@ if has('unix')
     set shellpipe=2>&1\|\ tee"
 endif
 
-autocmd bufenter *.tex map <F5> :update<CR>:!xelatex %<CR>
-autocmd bufenter *.tex imap <F5> <ESC><F5>
-autocmd bufenter *.tex map <F6> :update<CR>:!xelatex % && xdg-open %<.pdf<CR>
-autocmd bufenter *.tex imap <F6> <ESC><F6>
+autocmd bufenter *.tex map <buffer> <F5> :update<CR>:!xelatex %<CR>
+autocmd bufenter *.tex imap <buffer> <F5> <ESC><F5>
+autocmd bufenter *.tex map <buffer> <F6> :update<CR>:!xelatex % && xdg-open %<.pdf<CR>
+autocmd bufenter *.tex imap <buffer> <F6> <ESC><F6>
 
-autocmd bufenter *.C map <F6> :!root %<CR>
-autocmd bufenter *.C imap <F6> <ESC><F6>
+autocmd bufenter *.C map <buffer> <F6> :!root %<CR>
+autocmd bufenter *.C imap <buffer> <F6> <ESC><F6>
 
-autocmd bufenter *.py map <F5> :update<CR>:!python3 -m py_compile %<cr>
-autocmd bufenter *.py imap <F5> <ESC><F5>
-autocmd bufenter *.py map <F6> :update<CR>:!python3 %<cr>
-autocmd bufenter *.py imap <F6> <ESC><F6>
+autocmd bufenter *.py map <buffer> <F5> :update<CR>:!python3 -m py_compile %<cr>
+autocmd bufenter *.py imap <buffer> <F5> <ESC><F5>
+autocmd bufenter *.py map <buffer> <F6> :update<CR>:!python3 %<cr>
+autocmd bufenter *.py imap <buffer> <F6> <ESC><F6>
 
 map <F5> :update<CR>:make %<<CR>
 imap <F5> <ESC><F5>
@@ -700,8 +714,8 @@ map <S-F6> :!time ./%<<cr>
 imap <S-F6> <ESC><S-F6>
 map <F7> :update<CR>:make<cr>
 imap <F7> <ESC><F7>
-autocmd bufenter *.tex map <F8> :call SyncTex()<CR>
-autocmd bufenter *.tex imap <F8> <ESC><F8>
+autocmd bufenter *.tex map <buffer> <F8> :call SyncTex()<CR>
+autocmd bufenter *.tex imap <buffer> <F8> <ESC><F8>
 map <F9> :emenu SetSpell.<Tab>
 map <F10> :emenu Encoding.<TAB>
 
@@ -917,12 +931,12 @@ redir END
 call cursor(lnum, col)
 endfunction
 
-autocmd bufenter *.tex map <F1> :call Copy_formula_to__part_vim_(1)<cr>:!rm -f _part_.dvi _part_1.png;
+autocmd bufenter *.tex map <buffer> <F1> :call Copy_formula_to__part_vim_(1)<cr>:!rm -f _part_.dvi _part_1.png;
 			\latex _part_.tex;dvipng _part_.dvi;ee _part_1.png&<cr><cr>
-autocmd bufenter *.tex imap <F1> <ESC>:<CR>l<F1>i
-autocmd bufenter *.tex map <S-F1> :call Copy_formula_to__part_vim_(0)<cr>:!rm -f _part_.dvi _part_1.png;
+autocmd bufenter *.tex imap <buffer> <F1> <ESC>:<CR>l<F1>i
+autocmd bufenter *.tex map <buffer> <S-F1> :call Copy_formula_to__part_vim_(0)<cr>:!rm -f _part_.dvi _part_1.png;
 			\latex _part_.tex;dvipng _part_.dvi;ee _part_1.png&<cr><cr>
-autocmd bufenter *.tex imap <S-F1> <ESC>:<CR>l<S-F1>i
+autocmd bufenter *.tex imap <buffer> <S-F1> <ESC>:<CR>l<S-F1>i
 "map <F2>    ?\(\\begin\s*{\s*\(align\\|alignat\\|displaymath\\|eqnarray\\|
 "			\equation\\|flalign\\|gather\\|math\\|multline\\|xalignat\)
 "			\\*\=\s*}\\|\\[\\|\$\$\\|\$\\|\\(\)
@@ -1015,10 +1029,10 @@ endif
 "autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:!curnim c %<<cr>
 
 " nim.vim defines makeprg appropriately so just use :make
-autocmd bufenter *.nim map <F5> :update<CR>:make<cr>
-autocmd bufenter *.nim imap <F5> <ESC>:update<CR>:make<cr>
-autocmd bufenter *.nim map <F6> :update<CR>:!curnim c --hints:off -r %<<CR>
-autocmd bufenter *.nim imap <F6> <ESC><F6>
+autocmd bufenter *.nim map <buffer> <F5> :update<CR>:make<cr>
+autocmd bufenter *.nim imap <buffer> <F5> <ESC>:update<CR>:make<cr>
+autocmd bufenter *.nim map <buffer> <F6> :update<CR>:!curnim c --hints:off -r %<<CR>
+autocmd bufenter *.nim imap <buffer> <F6> <ESC><F6>
 "autocmd bufenter *.nim filetype off
 "autocmd bufenter *.nim filetype plugin indent on
 fun! JumpToDef()
