@@ -4,7 +4,7 @@ difftree () {
 }
 
 
-local FIRST_HISTCMD=0
+FIRST_HISTCMD=0
 
 # print something before command next command prompt
 print_precmd () {
@@ -137,6 +137,8 @@ if [[ $CURSHELL == zsh ]]; then
     # home/end in gnome terminal
     bindkey  "^[[H"   beginning-of-line
     bindkey  "^[[F"   end-of-line
+    bindkey -M vicmd "y" beginning-of-line
+    bindkey -M vicmd "u" end-of-line
     bindkey -v "y" beginning-of-line
     bindkey -v "u" end-of-line
     # in putty:
@@ -232,7 +234,7 @@ if [[ $CURSHELL == zsh ]]; then
     # reduce ESC delay to 0.01 sec
     export KEYTIMEOUT=1
 
-	if [ -f /etc/inputrc ]; then
+    if [ -f /etc/inputrc ]; then
         eval "`sed -n 's/^/bindkey /; s/: / /p' /etc/inputrc`" > /dev/null
     fi
     case "$TERM" in
@@ -329,12 +331,21 @@ if [[ $CURSHELL == zsh ]]; then
       print_precmd
     }
 
+    # define function to be able to use `local` properly:
+
+    set_abbrevs() {
     # some abbrev.s may be defined in local.sh
     local lapu="~/activity-public"
     local lape="~/activity-personal"
-    local apu="~/nfs/s/activity-public"
-    local ape="~/nfs/s/activity-personal"
-    local wpe="~/nfs/s/works-personal"
+    local share_root
+    if [ -d ~/nfs/s ]; then
+        share_root="~/nfs/s"
+    else
+        share_root="~"
+    fi
+    local apu="$share_root/activity-public"
+    local ape="$share_root/activity-personal"
+    local wpe="$share_root/works-personal"
     typeset -Ag abbreviations
     abbreviations=()
 
@@ -344,11 +355,11 @@ if [[ $CURSHELL == zsh ]]; then
     "ape"	"$ape/"
     "lape"	"$lape/"
     "draf"	"$ape/draft_mak/"
-    "wpu"	"~/nfs/s/works-public/"
+    "wpu"	"$share_root/works-public/"
     "wpe"	"$wpe/"
-    "dpu"	"~/nfs/s/docs-public/"
-    "dau"	"~/nfs/s/docs-aux/"
-    "dpe"	"~/nfs/s/docs-personal/"
+    "dpu"	"$share_root/docs-public/"
+    "dau"	"$share_root/docs-aux/"
+    "dpe"	"$share_root/docs-personal/"
     "ppe"	"physics-particle-experiment/"
     "ppt"	"physics-particle-theory/"
     "qm"	"quantum_mechanics/"
@@ -368,9 +379,9 @@ if [[ $CURSHELL == zsh ]]; then
     "cpp"	"computer-program-proof/"
     "csym"	"computer-symbolic_calculations_computer_algebra/"
     "cvis"	"computer-visualization/"
-    "eng"	"$ape/english"
-    "soft"      "~/nfs/s/software"
-    "vbox"      "~/nfs/s/vbox"
+    "eng"	"$ape/english/"
+    "soft"      "$share_root/software/"
+    "vbox"      "$share_root/vbox/"
     "mal"	"mathematics-algebra-linear/"
     "mc"	"mathematics-common/"
     "mca"	"mathematics-complex_analysis/"
@@ -392,6 +403,8 @@ if [[ $CURSHELL == zsh ]]; then
     "nim2"      "$apu/nim2/"
     "nimd"      "$apu/nim-devel/"
     )
+    } # end set_abbrevs
+    set_abbrevs
 
 
     magic-abbrev-expand () {

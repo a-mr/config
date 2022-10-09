@@ -96,12 +96,26 @@ gra () {
 }
 
 # log with changes (-p)
-lgf () {
-    if [[ "$1" == "" ]]; then
-        git log -p --decorate=full --parents $@ | pg
-    else
-        git log -p --decorate=full --follow --parents $@ | pg
-    fi
+hisb () {
+  local default=$(dbr)
+  local branch
+  local follow=""
+  if [ -z "$1" ]; then
+      branch=$(bra)
+  elif [[ "$1" == "--" ]]; then
+      branch=$(bra)
+      follow="--follow"
+  else
+      branch=$1
+      shift 1
+  fi
+  if [[ "$branch" == "$default" ]]; then
+      red_echo default branch was provided
+  else
+      local cmd="git log -p --decorate=full --parents $(git merge-base $branch $default)..$branch $follow $@"
+      echo $cmd
+      eval $cmd | less
+  fi
 }
 
 # show all changes in the current (or specified in 1st argument) branch
@@ -110,8 +124,13 @@ difb () {
   local default=$(dbr)
   case "$REPO" in
       git) 
-          if [ -z "$1" ] || [[ "$1" == "--" ]]; then
+          local branch
+          local follow=""
+          if [ -z "$1" ]; then
               branch=$(bra)
+          elif [[ "$1" == "--" ]]; then
+              branch=$(bra)
+              follow="--follow"
           else
               branch=$1
               shift 1
@@ -119,12 +138,48 @@ difb () {
           if [[ "$branch" == "$default" ]]; then
               red_echo default branch was provided
           else
-              git diff $(git merge-base $branch $default)..$branch $@ | less
+              local cmd="git diff $(git merge-base $branch $default)..$branch $follow $@"
+              echo $cmd
+              eval $cmd | less
           fi
           ;;
       mercurial)
           # see https://stackoverflow.com/questions/13991969/mercurial-see-changes-on-the-branch-ignoring-all-the-merge-commits
           hg export -r "branch('$(hg branch)') and not merge()" | less
+          ;;
+      svn) red_echo not implemented
+          ;;
+      *) red_echo unknown repository: $REPO
+
+  esac
+}
+
+# show changed files for specified branch
+stab () {
+  REPO=`what_is_repo_type`
+  local default=$(dbr)
+  case "$REPO" in
+      git) 
+          local branch
+          local follow=""
+          if [ -z "$1" ]; then
+              branch=$(bra)
+          elif [[ "$1" == "--" ]]; then
+              branch=$(bra)
+              follow="--follow"
+          else
+              branch=$1
+              shift 1
+          fi
+          if [[ "$branch" == "$default" ]]; then
+              git diff --stat $default $@ | pb
+          else
+              local cmd="git diff --name-status $(git merge-base $branch $default)..$branch $follow $@ | sed -e 's/	/:\t/g'"
+              echo $cmd
+              eval $cmd | pb
+          fi
+          ;;
+      mercurial) red_echo not implemented
           ;;
       svn) red_echo not implemented
           ;;
@@ -139,18 +194,25 @@ lgb () {
   local default=$(dbr)
   case "$REPO" in
       git) 
-          if [ -z "$1" ] || [[ "$1" == "--" ]]; then
+          local branch
+          local follow=""
+          if [ -z "$1" ]; then
               branch=$(bra)
+          elif [[ "$1" == "--" ]]; then
+              branch=$(bra)
+              follow="--follow"
           else
               branch=$1
               shift 1
           fi
           if [[ "$branch" == "$default" ]]; then
               git log --graph --name-status \
-              --parents --decorate=full --abbrev-commit $default $@ | pg
+              --parents --decorate=full --abbrev-commit $default $follow $@ | pg
           else
-              git log --graph --name-status \
-              --parents --decorate=full --abbrev-commit $(git merge-base $branch $default)..$branch $@ | pg
+              local cmd="git log --graph --name-status \
+              --parents --decorate=full --abbrev-commit $(git merge-base $branch $default)..$branch $follow $@"
+              echo $cmd
+              eval $cmd | pg
           fi
           ;;
       mercurial) hg log -b `hg branch`
@@ -171,6 +233,7 @@ sho () {
 squ () {
   local default=$(dbr)
   local branch=$(bra)
+  echo git rebase -i $(git merge-base $branch $default)
   git rebase -i $(git merge-base $branch $default)
 }
 
@@ -180,17 +243,24 @@ grb () {
   local default=$(dbr)
   case "$REPO" in
       git) 
-          if [ -z "$1" ] || [[ "$1" == "--" ]]; then
+          local branch
+          local follow=""
+          if [ -z "$1" ]; then
               branch=$(bra)
+          elif [[ "$1" == "--" ]]; then
+              branch=$(bra)
+              follow="--follow"
           else
               branch=$1
               shift 1
           fi
           if [[ "$branch" == "$default" ]]; then
-              git log --decorate=full --oneline --graph $default $@ | pg
+              git log --decorate=full --oneline --graph $default $follow $@ | pg
           else
-              git log --decorate=full --oneline --graph \
-                  $(git merge-base $branch $default)..$branch $@ | pg
+              local cmd="git log --decorate=full --oneline --graph \
+                  $(git merge-base $branch $default)..$branch $follow $@"
+              echo $cmd
+              eval $cmd | pg
           fi
           ;;
       mercurial) hg log $@ | pg
@@ -245,6 +315,10 @@ cnt () {
 
 # history of all changes to file(s)
 his () {
+  if [ -z "$1" ]; then
+      red_echo "file name was not provided"
+      return 1
+  fi
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git log --decorate=full --follow -p -- $@|p

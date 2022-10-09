@@ -665,6 +665,10 @@ r () {
     cd "`cat $HOME/.config/ranger/lastdir`"
 }
 
+dm () {
+    dmesg -T -w
+}
+
 # show only my processes, full format
 psu () {
     ps -f --forest -u ${1:-$USER} | less
@@ -881,13 +885,9 @@ setb () {
     echo $@ > ~/tmp/buffer2
 }
 
+#   nn   `line number`   `command to filter`   `command to run`
+# default is to just print the line for `line number`
 nn () {
-  local n=$1
-  echo "$(cat ~/tmp/buffer|decolorize|head -n $n|tail -n 1|trim_spaces)"
-}
-
-#   bb   `line number`   `command to filter`   `command to run`
-bb () {
   if [[ "$1" == "" ]]; then
     # less: -X don't clear the screen, -F quit if one screen
     cat ~/tmp/buffer|less -F -N -X
@@ -903,9 +903,9 @@ bb () {
     else
         line_proc="`echo $line2 | eval $filter`"
     fi
-    if [ -f "$line_proc" ]; then
-        ls -l "$line_proc"
-    fi
+    #if [ -f "$line_proc" ]; then
+    #    ls -l "$line_proc"
+    #fi
     local cmd
     if [[ "$@" == "" ]]; then
         cmd=echo
@@ -962,17 +962,15 @@ trim_spaces () {
 # aliases named b1, b2, ..., b999 to process string as an argument of a
 # command:
 # > b111 command
-#just print line:
-for i in `seq 1 999`; do alias n$i="nn $i ''"; done
 #process all line
-for i in `seq 1 999`; do alias b$i="bb $i ''"; done
-for i in `seq 1 999`; do alias o$i="bb $i '' o"; done
+for i in `seq 1 999`; do alias n$i="nn $i ''"; done
+for i in `seq 1 999`; do alias o$i="nn $i '' o"; done
 #process first field, e.g. 'x' in 'x:y'
-for i in `seq 1 999`; do alias b${i}p="bb $i 'cut -f1  -d: | trim_spaces'"; done
-for i in `seq 1 999`; do alias b${i}n="bb $i 'cut -f2- -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias n${i}p="nn $i 'cut -f1  -d: | trim_spaces'"; done
+for i in `seq 1 999`; do alias n${i}n="nn $i 'cut -f2- -d: | trim_spaces'"; done
 # for git output
-for i in `seq 1 999`; do alias b${i}d="bb $i 'cut -f2- -d: | trim_spaces' dif"; done
-for i in `seq 1 999`; do alias b${i}a="bb $i 'cut -f2- -d: | trim_spaces' git add -p"; done
+for i in `seq 1 999`; do alias n${i}d="nn $i 'cut -f2- -d: | trim_spaces' dif"; done
+for i in `seq 1 999`; do alias n${i}a="nn $i 'cut -f2- -d: | trim_spaces' git add -p"; done
 #alias to open file +line in vim
 for i in `seq 1 999`; do alias v$i="vv $i"; done
 for i in `seq 1 999`; do alias v${i}p="vv $i 'cut -f1  -d: | trim_spaces'"; done
@@ -1844,6 +1842,13 @@ if exist fortune; then
     echo
     fortune 2> /dev/null
 fi
+
+# helper for setting dimensions of serial console opened in other Screen window
+dim () {
+    echo stty rows $LINES cols $COLUMNS
+    echo stty rows $LINES cols $COLUMNS | toclip
+    echo Copied to clipboard.
+}
 
 # to disable sw flow control (ctrl-s, ctrl-q)
 #stty stop undef

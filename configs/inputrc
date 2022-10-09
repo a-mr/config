@@ -13,6 +13,11 @@ set colored-stats on
 "o": history-search-backward
 "i": history-search-forward
 "e": vi-movement-mode
+
 "y": beginning-of-line
 "u": end-of-line
 
+# set the keys above for vi command mode also:
+set keymap vi-command
+"y": beginning-of-line
+"u": end-of-line

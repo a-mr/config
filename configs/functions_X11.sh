@@ -146,3 +146,11 @@ copyclip () {
   echo xclip -selection clipboard -t image/$EXT -i $FILE
   xclip -selection clipboard -t image/$EXT -i $FILE
 }
+
+xcl () {
+  if [ -z "$1" ]; then
+      xclip -selection clipboard
+  else
+      xclip -selection -i "$1"
+  fi
+}

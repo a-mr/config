@@ -12,11 +12,11 @@ Bash/Zsh                                  | my Bash/Zsh:
   cd -<N>  cd previous directory <N>      | A-p   append pager  A-v  vim pager
   $OLDPWD  previous directory #1          | A-k   run in man
   C-u <next cmd> C-y    to delete command | A-h   run cmd --help
-           and take it back to the prompt | A-n   run numbered pager(for b<N>)
-__________________________________________|b10 c  open 10th line by `c` cmd
+           and take it back to the prompt | A-n   run numbered pager(for n<N>)
+__________________________________________|n10 c  open 10th line by `c` cmd
 My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
-  A-e  escape      A-u  end-of-line       |       b10p : b10n     v10p : v10n
-__________________________________________| n10   just print 10th buffer line
+  A-e  escape      A-u  end-of-line       |       n10p : n10n     v10p : v10n
+__________________________________________| o10   open 10th line by xgd-open
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn
   zc  close fold(zC-rec)| zg  add word to dict         | C-w <>  resize le/ri
@@ -72,6 +72,7 @@ My Vim:                   s     <Leader>              |vim-markgroup:
    S-F2  toggle parens highlighting  F4   remove trailnig whitespace
    F5    compile                     F6   compile & run        F7   call make
    F8    call SyncTex                F9   spell check          F10  encoding
+  :S  do multiline search (if lines were wrapped)
 My Vim clangd:                  A-g  GOTO DEFINITION
   A-f  format code              A-h  show type hierarchy  A-v  cycle var usage
   A-a  apply suggestion action  A-s  SHOW SYMBOL INFO
@@ -84,7 +85,9 @@ ______________________________________________________________________________
                                      PRE tab  next pane
                                      PRE X    close region (note Shift-x)
  hold PRE -> resize pane             PRE :resize +10
-                                my:  C-n C-o switch to the window before
+      PRE q  kill the window         PRE k    close ("kill") current window
+      PRE l  previous window    my:  C-n C-o switch to the window before
+stty rows 40 cols 145  change dimensions of serial console     dim  print that
 ______________________________________________________________________________
                             My XFCE4
 C-A-t    terminal          | C-A-k  tile top    | C-A-S-k  tile top-right
@@ -97,9 +100,10 @@ C-A-v   maximize vertically          C-A-w  resize window (j/k/h/l)
 C-A-S-v maximize horizontally        C-A-o  move window (j/k/h/l)
 C-S-N   move Win to workspace <N>    C-A-z  this help
 C-N     go to workspace <N>          C-A-r  open scratchpad
-C-A-n   go to right desktop     |hold Win and scroll on the window decoration
-C-A-p   go to left  desktop     |to change transparency of window
+C-A-n   go to right desktop     | hold Win and scroll on the window decoration
+C-A-p   go to left  desktop     | to change transparency of window
 ______________________________________________________________________________
+  xcl [FILE]  copy text to clipboard from stdin [or FILE]
 Ranger:  E/e edit        i  pager  <Enter>/l  xdg-open    s  run Shell cmd
          S  start Shell       yy yank    pp  paste     !  run cmd w/output
          ya  add file to %c   yr  remove from %c   uy  clear all files from %c
@@ -117,8 +121,8 @@ My qpdfview: Ctrl-g  search   Ctrl-j  jump page number   Ctrl+-/+  zoom out/in
    s/v   split view horizontally/vertically        x  close view
 ______________________________________________________________________________
                             Git / VCS
-b10d       show diff for `10`th entry in current buffer
-b10a       add `10`th file
+n10d       show diff for `10`th entry in current buffer
+n10a       add `10`th file
 add F      add file F to staged area
 uad F      undo addition of new file
 unstage F  remove F from Git staged area preserving the changes
@@ -138,12 +142,11 @@ gitmerges  show merges to curr.feat.branch
 squ        squash commits on curr. feature branch
 reb        Git fetch default branch, rebase on it, and push -f
 
-gra      graph for all branches        sho   show stashed changes
-grb      graph for current branch      sav   save to stash
-log      log of all branches           res   restore stashed
+gra      graph for all branches         sho   show stashed changes
+grb      graph for current branch       sav   save to stash
+log      log of all branches            res   restore stashed
 lgb [BR] the same for branch BR
 logmy    all of my commits
-lgf      log with all file changes
 
 lsb   list branches                     dbr   show default branch name
 lbr   ~ the same, with dates!           bra   show curr.branch name
@@ -154,13 +157,16 @@ has REVISION BRANCH   check if BRANCH contains REVISION
 
 dif  [FILE]           diff w.r.t. latest commit
 difp [FILE]           the same, in patch format (uncolored)
-difb [BRANCH]         show all changes in current branch (or BRANCH)
+difb [BRANCH]         show all changes in cur.branch[or BRANCH] (difb -- FILE)
+sta                   show statistics
+stab [BRANCH]         show changed files in current branch (or BRANCH)
 dat [REVISION]        print date of REVISION (or latest commit)
 datshort              the same, short version
 pat  [REVISION]       print patch [for REVISION]
 pats [REVISION]       print list of files changed [for REVISION]
 patf [REVISION]       the same with 1000 lines of context
 his FILE              history of all changes to FILE
+hisb [BRANCH]         log all file changes  (`hisb -- FILE` for only 1 file)
 lin LINENUM FILE      print history for LINENUM-ber of FILE
 pri REVISION FILE     print FILE contents at REVISION
 ann FILE              annotate=blame
