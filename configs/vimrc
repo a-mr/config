@@ -76,7 +76,7 @@ command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
-set grepprg=nimgrep\ --text\ --recursive\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ --exclude-dir=nimcache\ --excludeDir:csources\ $*\ .
+set grepprg=nimgrep\ --text\ --recursive\ --excludeDir=.git\ --excludeDir=.svn\ --excludeDir=.hg\ --excludeDir=nimcache\ --excludeDir:csources\ $*\ .
 "set grepprg=grep\ -rnH\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ $*\ .
 command! -nargs=+ Grep  execute 'silent grep! <args>'    | copen | let @z = '<args>'
 command! -nargs=+ Grepw execute 'silent grep! -w <args>' | copen | let @z = '<args>'

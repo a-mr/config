@@ -82,8 +82,8 @@ ______________________________________________________________________________
       PRE ]  paste                   PRE ]    paste
       PRE "  split horizontally      PRE S    split horizontally
       PRE %  split vertically        PRE |    split vertically
-                                     PRE tab  next pane
-                                     PRE X    close region (note Shift-x)
+ PRE-cursor  goto pane (to left,..)  PRE tab  next pane
+      PRE x  kill pane               PRE X    close region (NOTE Shift-x)
  hold PRE -> resize pane             PRE :resize +10
       PRE q  kill the window         PRE k    close ("kill") current window
       PRE l  previous window    my:  C-n C-o switch to the window before
@@ -117,8 +117,8 @@ Confluence:   ?  help   C-S-d  insert Markdown mark-up   C-k   link
 My qpdfview: Ctrl-g  search   Ctrl-j  jump page number   Ctrl+-/+  zoom out/in
    o  open   m  add bookmark  Ctrl-M  toggle bookmark bar  F6  toggle TOC
    Ctrl-C  copy to clipboard  Ctrl-V  invert colors      Ctrl-Alt-6  two pages
-   Ctrl-N/P  next/previous tab            Ctrl-B/F/H/J/K/L/O/I vim navigation
-   s/v   split view horizontally/vertically        x  close view
+   Ctrl-N/P  next/previous tab            Ctrl-B/F/H/J/K/L/O/I  vim navigation
+   s/v   split view horizontally/vertically   x  close view        Space  copy
 ______________________________________________________________________________
                             Git / VCS
 n10d       show diff for `10`th entry in current buffer
