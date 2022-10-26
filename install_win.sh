@@ -65,7 +65,7 @@ inst vscode-User "/c/Users/$USERNAME/AppData/Roaming/Code/User"
 mkdir -p ~/tmp/VIM_TMP
 inst $CTPATH/vim/vim-easymotion ~/.vim/bundle/vim-easymotion
 
-for i in functions.sh functions_advanced.sh functions_X11.sh \
+for i in functions.sh functions_advanced.sh functions_X11.sh functions_vcs.sh \
     emacs vimrc gdbinit gdbinit.local \
     hgrc hgstyle gitconfig tmux.conf screenrc Xresources inputrc \
     xinputrc minttyrc; do

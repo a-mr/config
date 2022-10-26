@@ -354,6 +354,9 @@ ensure_ssh_agent () {
     # define SSH_AUTH_SOCK & SSH_AGENT_PID
     if [[ -f ~/.ssh/myagent.sh ]]; then
         . ~/.ssh/myagent.sh
+    else
+        mkdir -p ~/.ssh
+        touch ~/.ssh/myagent.sh
     fi
     if [[ ! -z $SSH2_AUTH_SOCK ]]; then
         local socket="$SSH2_AUTH_SOCK"
@@ -516,9 +519,10 @@ screen_try_start () {
             echo Just shell
         fi
     else
-        echo no screen in PATH:
-        echo $PATH
+        echo no screen in PATH.
+        # echo $PATH
         set_display
+        ensure_ssh_agent
     fi
 }
 
