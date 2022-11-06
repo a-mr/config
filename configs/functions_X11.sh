@@ -149,7 +149,8 @@ copyclip () {
 
 xcl () {
   if [ -z "$1" ]; then
-      xclip -selection clipboard
+      # -r -- remove trailing newline
+      xclip -r -selection clipboard
   else
       xclip -selection -i "$1"
   fi

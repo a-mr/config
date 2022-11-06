@@ -806,7 +806,7 @@ p () {
     tee ~/tmp/buffer | less -N -X
 }
 
-# just print to buffer
+# just print to buffer, but display new lines, exiting when reaching the end
 pb () {
     # -E means exit at reaching EOF
     tee ~/tmp/buffer | less -N -X -E
@@ -887,6 +887,34 @@ b () {
 
 setb () {
     echo $@ > ~/tmp/buffer2
+}
+
+fp () {
+    local line=`fullpath $@`
+    echo $line
+    echo $line > ~/tmp/buffer2
+    if [ ! -z "$DISPLAY" ]; then
+        echo "\t...copying to clipboard..."
+        echo $line | xcl
+    fi
+}
+
+wh () {
+    local line=`which $@`
+    echo $line
+    echo $line > ~/tmp/buffer2
+    if [ ! -z "$DISPLAY" ]; then
+        echo "\t...copying to clipboard..."
+        echo $line | xcl
+    fi
+}
+
+cdb () {
+    cd "`b`"
+}
+
+vb () {
+    vim "`b`"
 }
 
 #   nn   `line number`   `command to filter`   `command to run`
@@ -985,7 +1013,7 @@ nd () {
 }
 
 loc () {
-    locate $@ | pb
+    locate -i $@ | p
 }
 
 l () {
@@ -1073,7 +1101,7 @@ find_cmd_default () {
         -not -wholename "*.svn/*" -xtype f $@
 }
 
-gi () {
+ggi () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -1092,7 +1120,7 @@ gi () {
 
 
 # case-sensitive, with color
-gc () {
+ggc () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -1116,7 +1144,7 @@ ngcommon () {
 }
 
 # search in Nim files, style-insensitive (-y)
-nng () {
+ng () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -1133,7 +1161,7 @@ nng () {
 }
 
 # search using nimgrep
-ngc () {
+gc () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -1150,7 +1178,7 @@ ngc () {
 }
 
 # search using nimgrep, case-insensitive
-ngi () {
+gi () {
     if [[ "$1" == "" ]]; then
         red_echo no search pattern
         return 1
@@ -1164,6 +1192,14 @@ ngi () {
         shift 2
     fi
     ngcommon -i $pattern $dir $@ | p
+}
+
+g () {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    nimgrep -i --color=$GREP_COLOR --colortheme:ack - $@ | p
 }
 
 # case-sensitive, with color, check that 2 strings are available in file:

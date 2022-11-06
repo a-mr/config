@@ -63,7 +63,7 @@ $INS libtinfo-dev libncursesw5-dev libncurses5 libtinfo5
 $INS device-tree-compiler qemu-user-static debootstrap gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf libc-dev-arm64-cross libc-dev-armhf-cross
 
 # doc & man pages:
-$INS manpages-posix-dev gcc-doc
+$INS manpages-posix-dev gcc-doc zeal
 
 # docker
 

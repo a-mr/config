@@ -192,3 +192,10 @@ RESUME=UUID=<UUID FROM PREV COMMAND>
 
 $ sudo update-initramfs -c -k $(uname -r)
 
+=== Zeal ====================================================
+Install contrib:
+Tools -> Docsets -> Add feed
+input https://zealusercontributions.vercel.app/api/docsets/Nim.xml -> OK
+
+To find other user's contributions: https://zealusercontributions.vercel.app/#docsets
+

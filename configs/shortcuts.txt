@@ -17,6 +17,9 @@ __________________________________________|n10 c  open 10th line by `c` cmd
 My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
   A-e  escape      A-u  end-of-line       |       n10p : n10n     v10p : v10n
 __________________________________________| o10   open 10th line by xgd-open
+fp   get fullpath  wh  get which to buffer2   b   print buffer2
+cdb  cd to buffer2 location                  vb   vim to buffer2
+______________________________________________________________________________
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn
   zc  close fold(zC-rec)| zg  add word to dict         | C-w <>  resize le/ri
@@ -104,6 +107,10 @@ C-A-n   go to right desktop     | hold Win and scroll on the window decoration
 C-A-p   go to left  desktop     | to change transparency of window
 ______________________________________________________________________________
   xcl [FILE]  copy text to clipboard from stdin [or FILE]
+  gi   nimgrep ignorecase             ggi   gnu grep ignorecase
+  g    nimgrep ignorecase from stdin  gg    gnu grep ignorecase from stdin
+  gc   nimgrep case-sensitive         ggc   gnu grep case-sensitive
+  ng   nimgrep nim-sensitive
 Ranger:  E/e edit        i  pager  <Enter>/l  xdg-open    s  run Shell cmd
          S  start Shell       yy yank    pp  paste     !  run cmd w/output
          ya  add file to %c   yr  remove from %c   uy  clear all files from %c
