@@ -1,0 +1,2 @@
+## set scheduler for all storage devices
+ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*|nvme*", ATTR{queue/scheduler}="bfq"
