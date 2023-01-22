@@ -649,10 +649,7 @@ T () {
 t () {
     vim ~/tips/tips.txt
 }
-# note taking
-n () {
-    ~/bin/notes.sh
-}
+
 # file manager with cd
 vf () {
    # from https://wiki.vifm.info/index.php?title=How_to_set_shell_working_directory_after_leaving_Vifm
@@ -680,12 +677,15 @@ psu () {
 
 # show all processes, short format
 psa () {
-    ps -A o user,pid,comm --forest | less
+    # args means "command with all arguments"
+    ps -A o user,pid,args --forest | less
 }
 
 users () {
     who -u | grep `$DATE_COMMAND +'%Y-%m-%d'` |  sort -n -k 5
 }
+
+# processes started from current console
 psc () {
     ps -f --forest | less
 }
@@ -693,6 +693,16 @@ psc () {
 # show file system hierarchy
 tree () {
     command tree -C --charset utf8 $@ | less
+}
+
+pwd () {
+    local line=`command pwd`
+    echo $line
+    echo $line > ~/tmp/buffer2
+    if [ ! -z "$DISPLAY" ]; then
+        echo "\t...copying to clipboard..."
+        echo $line | xcl
+    fi
 }
 
 alias mv='mv -i'
@@ -871,7 +881,7 @@ eea () {
 }
 
 # use ~/tmp/buffer2 for passing one-line information from
-# one command (fullpath,..) to another - argument of b
+# one command (fullpath,pwd,which) to another - argument of b
 b () {
     if [[ "$1" == "" ]]; then
         cat ~/tmp/buffer2
@@ -899,13 +909,21 @@ fp () {
     fi
 }
 
-wh () {
-    local line=`which $@`
+which () {
+    local cmd
+    if [[ $CURSHELL == zsh ]]; then
+        # print function definition in which
+        local line=`whence -cvf $@`
+    else
+        local line=`command which $@`
+    fi
     echo $line
-    echo $line > ~/tmp/buffer2
-    if [ ! -z "$DISPLAY" ]; then
-        echo "\t...copying to clipboard..."
-        echo $line | xcl
+    if [ `echo $line | wc -l` -eq 1 ]; then
+        echo $line > ~/tmp/buffer2
+        if [ ! -z "$DISPLAY" ]; then
+            echo "\t...copying to clipboard..."
+            echo $line | xcl
+        fi
     fi
 }
 
@@ -1837,7 +1855,7 @@ clock () {
 ### env.variables for correct work of some applications
 
 if exist hg; then
-    export HG=`which hg`
+    export HG=`command which hg`
 fi
 
 # path for latex (final ":" is essential)

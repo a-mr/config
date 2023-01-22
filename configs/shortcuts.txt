@@ -17,8 +17,8 @@ __________________________________________|n10 c  open 10th line by `c` cmd
 My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
   A-e  escape      A-u  end-of-line       |       n10p : n10n     v10p : v10n
 __________________________________________| o10   open 10th line by xgd-open
-fp   get fullpath  wh  get which to buffer2   b   print buffer2
-cdb  cd to buffer2 location                  vb   vim to buffer2
+fp   get fullpath  A-b  add buffer2 to line    b  print buffer2
+cdb  cd to buffer2 location                   vb  vim to buffer2
 ______________________________________________________________________________
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn

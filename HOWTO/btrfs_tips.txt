@@ -1,0 +1,24 @@
+=== btrfs: clone saved partition (snapshot) ===================================
+
+# format the new partition:
+mkfs.btrfs /dev/sdf1
+# edit /etc/fstab so that it's associated with /mnt/newdisk
+mount /mnt/newdisk
+mkdir -p /mnt/newdisk/@/.snapshots
+cd /mnt/newdisk/@/.snapshots
+# copy saved PARTITIONX from backup location to the new drive:
+btrfs send /mnt/backup/@/.snapshots/PARTITIONX_2022.01.01/ | btrfs receive .
+btrfs subvolume snapshot PARTITIONX_2022.01.01 /mnt/newdisk/@/PARTITIONX
+
+=== btrfs: exclude directories from copy-on-write ============================
+chattr -R +C ~/.cache
+chattr -R +C ~/Downloads
+chattr -R +C ~/tmp
+
+=== btrfs: defragment ========================================================
+
+# -r stands for recursive
+btrfs filesystem defragment -rvf /mnt/t3vm/
+
+=== btrfs: remove snapshot ===================================================
+btrfs subvolume delete /path/to/snapshot

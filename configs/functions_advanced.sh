@@ -6,6 +6,17 @@ difftree () {
 
 FIRST_HISTCMD=0
 
+short_dir () {
+    local name=$force_window_name
+    if [ -z "$name" ]; then
+        name="${PWD##*/}"  # get last part of the path
+        if [ ${#name} -gt 10 ]; then
+            name="${name:0:4}~${name:0-4}"
+        fi
+    fi
+    echo $name
+}
+
 # print something before command next command prompt
 print_precmd () {
     local RESULT=$?
@@ -31,14 +42,7 @@ print_precmd () {
     else
         error_echo "exit=$RESULT; $info"
     fi
-    local name=$force_window_name
-    if [ -z "$name" ]; then
-        name="${PWD##*/}"  # get last part of the path
-        name=${PWD##*/}
-        if [ ${#name} -gt 10 ]; then
-            name="${name:0:4}~${name:0-4}"
-        fi
-    fi
+    local name=`short_dir`
     # set the titles to last path component of working directory
     case "$TERM" in
       screen|screen.*)
@@ -76,15 +80,15 @@ print_preexec () {
           a=$(print -Pn "$a" | tr -d "\t\n\v\f\r")  # remove fancy whitespace
           a=${(V)a//\%/\%\%}  # escape non-visibles and print specials
         fi
-        local name=${PWD##*/}
-        if [ ${#name} -gt 10 ]; then
-            name="${name:0:4}~${name:0-4}"
+        if [ ${#a} -gt 10 ]; then
+            a="${a:0:5}"
         fi
+        local dir_name=`short_dir`
+        local name="$dir_name|$a"
         # See screen(1) "TITLES (naming windows)".
         # "\ek" and "\e\" are the delimiters for screen(1) window titles
         # set screen title
-        #echo -ne "\ek$a\e\\"
-        echo -ne "\ek$name $a\e\\"
+        echo -ne "\ek$name\e\\"
         # must (re)set xterm title
         echo -ne "\e]0;${PWD##*/}> $1\a"
         ;;
@@ -159,8 +163,6 @@ if [[ $CURSHELL == zsh ]]; then
     # enable C-r in zsh vi mode
     bindkey "^R" history-incremental-search-backward
 
-    # print function definition in which
-    alias which="whence -cvf"
     # save directory name to pushd stack automatically
     setopt auto_pushd
     setopt pushd_ignore_dups
@@ -242,44 +244,66 @@ if [[ $CURSHELL == zsh ]]; then
             ;;
     esac
 
+    function run_last_buffer () { 
+        local line=`cat ~/tmp/buffer2`
+        if [ ! -z "$BUFFER" ]; then
+          BUFFER="$BUFFER $line"
+          zle accept-line
+        fi
+    }
+    zle -N run_last_buffer
+    bindkey "b" run_last_buffer
+
     function run_tee () { 
-        BUFFER="$BUFFER 2>&1 | tee ~/tmp/buffer3"
-        zle accept-line
+        if [ ! -z "$BUFFER" ]; then
+          BUFFER="$BUFFER 2>&1 | tee ~/tmp/buffer3"
+          zle accept-line
+        fi
     }
     zle -N run_tee
     bindkey "t" run_tee
 
     function run_pager () { 
-        BUFFER="$BUFFER 2>&1 | less"
-        zle accept-line
+        if [ ! -z "$BUFFER" ]; then
+          BUFFER="$BUFFER 2>&1 | less"
+          zle accept-line
+        fi
     }
     zle -N run_pager
     bindkey "p" run_pager
 
     function run_vim_pager () { 
-        BUFFER="$BUFFER 2>&1 | vim -c \"setlocal buftype=nofile bufhidden=hide noswapfile\" -"
-        zle accept-line
+        if [ ! -z "$BUFFER" ]; then
+          BUFFER="$BUFFER 2>&1 | vim -c \"setlocal buftype=nofile bufhidden=hide noswapfile\" -"
+          zle accept-line
+        fi
     }
     zle -N run_vim_pager
     bindkey "v" run_vim_pager
 
     function run_pb_pager () { 
-        BUFFER="$BUFFER 2>&1 | pb"
-        zle accept-line
+        if [ ! -z "$BUFFER" ]; then
+          BUFFER="$BUFFER 2>&1 | pb"
+          zle accept-line
+        fi
     }
     zle -N run_pb_pager
     bindkey "n" run_pb_pager
 
     function run_help_pager () { 
-        BUFFER="$BUFFER --help 2>&1 | less"
-        zle accept-line
+        if [ ! -z "$BUFFER" ]; then
+          BUFFER="$BUFFER --help 2>&1 | less"
+          zle accept-line
+        fi
     }
     zle -N run_help_pager
     bindkey "h" run_help_pager
 
     function run_man_pager () { 
-        BUFFER="mm $BUFFER"
-        zle accept-line
+        if [ ! -z "$BUFFER" ]; then
+          BUFFER="mm $BUFFER"
+          zle accept-line
+        fi
     }
     zle -N run_man_pager
     bindkey "k" run_man_pager

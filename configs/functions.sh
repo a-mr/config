@@ -177,7 +177,7 @@ ext () {
 }
 
 exist () {
-    which $@ > /dev/null 2>&1
+    command which $@ > /dev/null 2>&1
 }
 
 getch () {

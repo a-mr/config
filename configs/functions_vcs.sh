@@ -635,6 +635,23 @@ com () {
   esac
 }
 
+# git commit --amend
+coma () {
+  if [ "`dbr`" = "`bra`" ]; then
+      bold_echo "Commit to default branch? [n|y]"
+      local answer
+      read answer
+      if [ "$answer" != "y" ]; then
+          return
+      fi
+  fi
+  local msg=""
+  if [ "$1" != "" ]; then
+      msg="-m \"$1\""
+  fi
+  eval git commit --amend $msg
+}
+
 # save changes
 sav () {
     git stash save $@
