@@ -362,7 +362,7 @@ if [[ $CURSHELL == zsh ]]; then
     local lapu="~/activity-public"
     local lape="~/activity-personal"
     local share_root
-    if [ -d ~/nfs/s ]; then
+    if [ -d ~/nfs ]; then
         share_root="~/nfs/s"
     else
         share_root="~"
