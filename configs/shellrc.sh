@@ -450,7 +450,7 @@ tmux_try_start () {
            "2 tmux_attach_group 2" \
            "t tmux_attach" \
            "q exit 0"
-    
+
         else # we'are in tmux already
             if [ "$TMUXTOPLEVEL" = "1" ]; then
                 echo We are inside tmux
@@ -801,7 +801,7 @@ export LESS="-i -R -j20"
 
 GREP_COLOR=always
 export LESS_VERSION="$(less -V|head -n1|cut -f2 -d' ')"
-if [ "$LESS_VERSION" -lt "381" ]; then 
+if [ "$LESS_VERSION" -lt "381" ]; then
     # old less version seems to have a problem with colors
     GREP_COLOR=never
 fi
@@ -1096,7 +1096,7 @@ getlast () {
 
 }
 
-# use mm (my man) instead of `man` 
+# use mm (my man) instead of `man`
 # (because defining `man` makes zsh autocompletion hang)
 mm () {
     local vim_variant=vim
@@ -1593,6 +1593,13 @@ twoside () {
   o "$file"
   [ -z "$2" ] && rm "$file" || echo Output to file $2
 }
+
+# remove 1st page from pdf document
+pdfremove1 () {
+    pdftk "$1" cat 2-end output tmp.pdf
+    mv -f tmp.pdf "$1"
+}
+
 
 # Crow leaving only these margins for twoside printing
 twosidecrop () {

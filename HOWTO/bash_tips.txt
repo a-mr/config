@@ -6,3 +6,11 @@ or by forgetting to end a command of 1-line function by ";", that is:
 function l () { ls | less }
 should be changed to:
 function l () { ls | less ; }
+
+
+=== Add some task to an already running one =================================
+
+Ctrl-z
+and then:
+fg && <<<command2>>>
+

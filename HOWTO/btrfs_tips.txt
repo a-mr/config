@@ -22,3 +22,9 @@ btrfs filesystem defragment -rvf /mnt/t3vm/
 
 === btrfs: remove snapshot ===================================================
 btrfs subvolume delete /path/to/snapshot
+
+=== check that the snapshot was successfully received ========================
+
+btrfs subvolume list -R /mnt/backup/
+
+UUID must be present in the line (it's set in the very end).

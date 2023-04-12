@@ -143,6 +143,10 @@ if [[ $CURSHELL == zsh ]]; then
     bindkey  "^[[F"   end-of-line
     bindkey -M vicmd "y" beginning-of-line
     bindkey -M vicmd "u" end-of-line
+    # swap t and j:
+    bindkey -M vicmd "j" vi-find-next-char-skip
+    bindkey -M vicmd "t" down-line-or-history                      
+
     bindkey -v "y" beginning-of-line
     bindkey -v "u" end-of-line
     # in putty:
@@ -374,6 +378,7 @@ if [[ $CURSHELL == zsh ]]; then
     abbreviations=()
 
     abbreviations+=(
+    "s"         "$share_root/"
     "apu"	"$apu/"
     "lapu"	"$lapu/"
     "ape"	"$ape/"

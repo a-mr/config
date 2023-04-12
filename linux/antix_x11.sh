@@ -10,7 +10,7 @@ sudo apt remove -y firefox
 $INS firefox-esr
 
 # use eom (eye of mate) as image viewer
-$INS filezilla eom webp
+$INS filezilla eom webp webp-pixbuf-loader
 #fonts
 $INS gsfonts gsfonts-x11 fonts-arphic-ukai fonts-arphic-uming fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core xfonts-terminus ttf-mscorefonts-installer fonts-liberation2 fonts-firacode unifont fonts-ebgaramond fonts-ebgaramond-extra
 

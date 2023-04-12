@@ -1,5 +1,11 @@
 set editing-mode vi
 #set keymap vi-command
+$if mode=vi
+    # swap t and j
+    set keymap vi-command
+    "t": history-search-forward
+    "j": vi-char-search
+$endif
 set show-mode-in-prompt on
 set vi-ins-mode-string "+"
 set vi-cmd-mode-string ":"

@@ -50,6 +50,9 @@ rm -f zoom_amd64.deb
 #$INS telegram-desktop
 sudo flatpak -y install https://dl.flathub.org/repo/appstream/org.telegram.desktop.flatpakref
 
+# confluence diagrams
+flatpak install -y flathub com.jgraph.drawio.desktop
+
 # for Check Point Mobile VPN:
 $INS libx11-6:i386 libpam0g:i386 libstdc++6:i386 libstdc++5:i386 libnss3-tools xterm libnss3-tools
 $INS xterm libnss3-tools

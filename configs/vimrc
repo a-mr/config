@@ -453,6 +453,10 @@ nmap ga <Plug>(EasyAlign)
 "key mappings: keys, shortcuts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" in dvorus-layout `j` is placed at pinky, which creates too much stress on it
+noremap t j
+noremap j t
+
 " timeout for leader and other key combination is 1000 [ms]:
 set timeout
 set timeoutlen=1000

@@ -36,6 +36,7 @@ Vim                     |Vim spellcheck                |Vim window
   |              zz   curr.line ->center
   :Man 2 fork  open man page in sec.2    C-y  insert chars above cursor
   @:  repeat substitution command (1st time repeat -- then use just @@)
+  :set textwidth=72 <CR> gq    to make text fit into 72 characters
 ______________________________________________________________________________
   :%sort  or  :%!sort     sort the whole file (range=%), `-n` for numeric sort
   :g/PAT show lines matching PAT           :read <file>  paste <file> contents
@@ -152,8 +153,8 @@ reb        Git fetch default branch, rebase on it, and push -f
 gra      graph for all branches         sho   show stashed changes
 grb      graph for current branch       sav   save to stash
 log      log of all branches            res   restore stashed
-lgb [BR] the same for branch BR
 logmy    all of my commits
+lgb [BR] the same for branch BR (`lgb -- <file>` for current branch)
 
 lsb   list branches                     dbr   show default branch name
 lbr   ~ the same, with dates!           bra   show curr.branch name

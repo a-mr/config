@@ -1,3 +1,9 @@
+Working with pdf
+================
+
+A program for rotating or deleting certain pages:
+
+    pdfarranger
 
 ===========================================
 PS -> PDF
