@@ -453,6 +453,7 @@ nmap ga <Plug>(EasyAlign)
 "key mappings: keys, shortcuts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+imap <C-t> <Return>
 " in dvorus-layout `j` is placed at pinky, which creates too much stress on it
 noremap t j
 noremap j t

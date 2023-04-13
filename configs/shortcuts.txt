@@ -16,7 +16,7 @@ Bash/Zsh                                  | my Bash/Zsh:
 __________________________________________|n10 c  open 10th line by `c` cmd
 My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
   A-e  escape      A-u  end-of-line       |       n10p : n10n     v10p : v10n
-__________________________________________| o10   open 10th line by xgd-open
+  C-t  Return      t    go down __________| o10   open 10th line by xgd-open
 fp   get fullpath  A-b  add buffer2 to line    b  print buffer2
 cdb  cd to buffer2 location                   vb  vim to buffer2
 ______________________________________________________________________________

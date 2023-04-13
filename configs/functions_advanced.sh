@@ -146,6 +146,9 @@ if [[ $CURSHELL == zsh ]]; then
     # swap t and j:
     bindkey -M vicmd "j" vi-find-next-char-skip
     bindkey -M vicmd "t" down-line-or-history                      
+    # bind C-t to Return
+    bindkey "^T" accept-line
+    bindkey -M vicmd "^T" accept-line
 
     bindkey -v "y" beginning-of-line
     bindkey -v "u" end-of-line

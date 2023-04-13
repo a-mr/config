@@ -1,10 +1,12 @@
 set editing-mode vi
 #set keymap vi-command
+"\C-t": accept-line
 $if mode=vi
     # swap t and j
     set keymap vi-command
     "t": history-search-forward
     "j": vi-char-search
+    "\C-t": accept-line
 $endif
 set show-mode-in-prompt on
 set vi-ins-mode-string "+"
