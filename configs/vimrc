@@ -454,9 +454,22 @@ nmap ga <Plug>(EasyAlign)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 imap <C-t> <Return>
+cmap <C-t> <Return>
+nmap <C-t> <C-f>
 " in dvorus-layout `j` is placed at pinky, which creates too much stress on it
 noremap t j
 noremap j t
+
+function! s:ConfigureNetrw()
+    nnoremap <buffer> t j
+    nnoremap <buffer> j t
+    nmap <buffer> <C-t> <Return>
+endfunction
+
+augroup netrw_configuration
+  autocmd!
+  autocmd FileType netrw call s:ConfigureNetrw()
+augroup end
 
 " timeout for leader and other key combination is 1000 [ms]:
 set timeout

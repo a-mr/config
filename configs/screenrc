@@ -12,6 +12,9 @@ defscrollback 5000
 # Set the caption on the bottom line
 caption always "%{= ky}%-w%{= yk}%n %t%{-}%+w | %-= %0c %H"
 
+# relieve stress on pinky
+markkeys ^F=^T:j=t
+
 ignorecase on
 altscreen on
 

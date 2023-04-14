@@ -114,7 +114,7 @@ for i in functions.sh functions_advanced.sh functions_X11.sh functions_vcs.sh \
     emacs vimrc gdbinit gdbinit.local \
     hgrc hgstyle gitconfig xsession xsessionrc \
     tmux.conf screenrc Xresources inputrc \
-    xinputrc; do
+    xinputrc less; do
     inst $i
 done
 
