@@ -118,6 +118,7 @@ lsusb -vvv | grep -i -B5 -A5 bcdUSB | less
 print auth info from user shell:
 > xauth list
 add it to root .xauth from root shell:
+> touch ~/.Xauthority
 > xauth add <that_line>
 
 === firefox: Tree style tabs =================================================

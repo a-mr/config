@@ -7,6 +7,8 @@ set history filename ~/.gdb_history
 set disassembly-flavor intel
 
 set radix 0x10
+set breakpoint pending on
+
 # unnecessary in the case of Gdbinit enabled
 #set prompt ----------------------------------------------------------------------------------\n>\ 
 # 'n' is redefined in Gdbinit
@@ -144,6 +146,8 @@ end
 #dashboard -layout source variables stack
 dashboard -layout source stack
 dashboard source -style height 25
+
+source /home/amakarov/nfs/s/activity-public/Nim/tools/debug/nim-gdb.py
 
 # to redirect program output to another terminal, run in gdb:
 # >>> tty /dev/pts/N

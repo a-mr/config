@@ -798,7 +798,7 @@ check-git-lfs () {
 pul () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git pull --ff-only --recurse-submodules origin "$(bra)"
+      git) git pull --tags --ff-only --recurse-submodules origin "$(bra)"
           local exit_code=$?
           [ $exit_code -ne 0 ] && return $exit_code
           git submodule update

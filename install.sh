@@ -153,6 +153,8 @@ oinst xpra.conf ~/.xpra/xpra.conf
 
 
 if [[ "$1" == "-a" ]]; then
+    # for telegram-desktop natural scrolling in Linux in TOUCHPAD (TODO: why is it "mouse")
+    gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
     dconf load /org/gnome/terminal/ < org.gnome.terminal
     dconf load /desktop/ibus/ < desktop.ibus
 

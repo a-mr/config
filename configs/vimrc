@@ -19,6 +19,7 @@ if has("autocmd")
   filetype indent on
 endif
 filetype plugin on
+set smartindent
 
 " execute pathogen#infect()
 
@@ -28,7 +29,9 @@ set hidden
 set showcmd
 
 set backup
-set backupdir=~/tmp/VIM_TMP
+set backupdir=~/tmp/VIM_TMP//,.
+set directory=~/tmp/VIM_TMP//,.
+set   undodir=~/tmp/VIM_TMP//,.
 " Use Ctrl-C/Ctrl-V clipboard (NOT selection/S-Insert) for y/p operations:
 "set clipboard=unnamedplus
 "disable copy/paste to system clipboard
@@ -644,6 +647,9 @@ autocmd BufRead,BufNewFile * syn match mybraces /{\|}/
 autocmd BufRead,BufNewFile * syn match mybrackets /\[\|\]/
 autocmd BufRead,BufNewFile * syn match parens /(\|)/
 
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+
 let g:parenColors = 1
 
 function! ToggleParenColors()
@@ -799,13 +805,17 @@ hi def link Label Conditional
 hi def link cLabel Conditional
 "hi cBrackets ctermfg=Blue
 
-set cinoptions={1s,f1s  " whitesmith C style indentation
+"set cinoptions={1s,f1s  " whitesmith C style indentation
 
 "fix colors in vimdiff
 "hi DiffText   cterm=none ctermfg=Black ctermbg=Red gui=none guifg=Black guibg=Red
 "hi DiffChange cterm=none ctermfg=Black ctermbg=LightMagenta gui=none guifg=Black guibg=LightMagenta
 if &diff
-    colorscheme evening
+    try
+        colorscheme quiet
+    catch /^Vim\%((\a\+)\)\=:E185/
+        colorscheme evening
+    endtry
 endif
 
 "set cinoptions+=f-2
