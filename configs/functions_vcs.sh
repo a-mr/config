@@ -60,15 +60,15 @@ inf () {
 }
 
 logmy () {
-    git log --graph --all --tags --name-status --parents \
+    git log --graph --name-status --parents \
         --abbrev-commit --decorate=full \
-        --author `git config --get user.email` $@ | pg
+        --author `git config --get user.email` `dbr` | pg
 }
 
 log () {
     REPO=`what_is_repo_type`
     case "$REPO" in
-        git) git log --graph --all --tags --name-status \
+        git) git log --graph --name-status \
             --parents --abbrev-commit --decorate=full $@ | pg
             ;;
         mercurial) hg log -v $@ | pg
@@ -124,6 +124,9 @@ difb () {
   local default=$(dbr)
   case "$REPO" in
       git) 
+          local rel="`roo_rel`"
+          # local rel_option="--src-prefix=\"a/$rel/\" --dst-prefix=\"b/$rel/\""
+          local rel_option="--src-prefix=\"$rel/\" --dst-prefix=\"$rel/\""
           local branch
           local follow=""
           if [ -z "$1" ]; then
@@ -138,7 +141,7 @@ difb () {
           if [[ "$branch" == "$default" ]]; then
               red_echo default branch was provided
           else
-              local cmd="git diff $(git merge-base $branch $default)..$branch $follow $@"
+              local cmd="git diff $rel_option $(git merge-base $branch $default)..$branch $follow $@"
               echo $cmd
               eval $cmd | less
           fi
@@ -198,7 +201,7 @@ lgb () {
           local follow=""
           if [ -z "$1" ]; then
               branch=$(bra)
-          elif [[ "$1" == "--" ]]; then
+          elif [[ "$1" == "--" || -f "$1" ]]; then
               branch=$(bra)
               follow="--follow"
           else
@@ -269,25 +272,6 @@ grb () {
           ;;
       *) red_echo unknown repository: $REPO
   esac
-}
-
-# show only branch log in git (approximately, using --first-parent)
-gitlogb () {
-    if [ "$1" -eq "" ]; then
-        local branch="$(bra)"
-    else
-        local branch="$1"
-    fi
-    git log --decorate=full --graph --tags --name-status --first-parent "$branch" | pg
-}
-
-gitgrb () {
-    if [ "$1" -eq "" ]; then
-        local branch="$(bra)"
-    else
-        local branch="$1"
-    fi
-    git log --decorate=full --graph --oneline --first-parent "$branch" | pg
 }
 
 # `has revision branch` check that branch contains revision
@@ -472,7 +456,8 @@ dif () {
   fi
   case "$REPO" in
       git)
-          git diff -r HEAD -- $@|less
+          local rel="`roo_rel`"
+          git diff --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@|less
           ;;
       mercurial) hg diff $@|less
           ;;
@@ -601,7 +586,10 @@ roo () {
       *) red_echo unknown repository: $REPO
   esac
 }
-    
+roo_rel () {
+    realpath --relative-to=. $(git rev-parse --show-toplevel)
+}
+
 com () {
   REPO=`what_is_repo_type`
   if [ "`dbr`" = "`bra`" ]; then

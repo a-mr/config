@@ -1,6 +1,15 @@
 
-CLIENT and SERVER are IP-addresses here:
+== Setup =====================================================================
 
+MX Linux:
+apt install nfs-kernel-server
+service nfs-kernel-server restart
+update-rc.d nfs-kernel-server defaults
+
+How to configure `ufw` firewall: https://serverfault.com/a/823236/1029647
+
+
+CLIENT and SERVER are IP-addresses here:
 
 == configure server ==========================================================
 /etc/exports:

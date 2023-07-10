@@ -1129,6 +1129,7 @@ let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": ":"}
 
 " plugins path
+set runtimepath+=~/activity-public/computer-program-data/vim/file-line/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-signify/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easy-align/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-easymotion/

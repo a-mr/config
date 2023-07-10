@@ -193,7 +193,13 @@ pd () {
 }
 
 c () {
-    echo $@|bc -l
+    if exist bc; then
+        echo $@|bc -l
+    elif exist python3; then
+        python3 -c "print($@)"
+    else
+        python -c "print($@)"
+    fi
 }
 
 untar () {
@@ -501,6 +507,7 @@ screen_try_start () {
        b - start bash;
        w - Screen create work session;
        W - Screen attach to work session;
+       x - Screen attach to work session one more time;
        f - Screen force attach to work session;
        t - Screen atttach any session;
        q - exit" \
@@ -508,6 +515,7 @@ screen_try_start () {
            "s echo Just shell" \
            "b exec bash" \
            "w SCREEN_WORK_SESSION=true exec screen -S work" \
+           "x SCREEN_WORK_SESSION=true exec screen -x -S work" \
            "W screen_try_attach work" \
            "f screen -dr -S work" \
            "a exec screen -S aux" \
@@ -542,7 +550,7 @@ if [ -z $ALLOW_BASH ]; then
         if [ ! -z "$DISPLAY" ]; then
             x $DISPLAY
         fi
-        if screen -list | grep -q work; then
+        if screen -list | grep -q "work.*Detached"; then
             screen -dr -S work
         else
             #tmux_try_start
@@ -913,16 +921,16 @@ which () {
     local cmd
     if [[ $CURSHELL == zsh ]]; then
         # print function definition in which
-        local line=`whence -cvf $@`
+        local line=`whence -f $@`
     else
         local line=`command which $@`
     fi
-    echo $line
-    if [ `echo $line | wc -l` -eq 1 ]; then
-        echo $line > ~/tmp/buffer2
+    echo "$line"
+    if [ `echo "$line" | wc -l` -eq 1 ]; then
+        echo "$line" > ~/tmp/buffer2
         if [ ! -z "$DISPLAY" ]; then
             echo "\t...copying to clipboard..."
-            echo $line | xcl
+            echo "$line" | xcl
         fi
     fi
 }
@@ -1749,9 +1757,6 @@ fi
 export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
 
 . ~/.functions_vcs.sh
-
-# show pushd stack
-alias d="dirs -v"
 
 ts () {
     $DATE_COMMAND -R -r $@

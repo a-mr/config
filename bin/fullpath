@@ -12,3 +12,10 @@ case "$1" in
 esac
 printf "%s\n" "$result"
 echo "$result" > ~/tmp/buffer2
+
+. ~/.functions_X11.sh
+if [ ! -z "$DISPLAY" ]
+then
+        echo "  ...copying to clipboard..."
+        echo "$result" | xcl
+fi

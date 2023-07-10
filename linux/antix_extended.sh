@@ -18,7 +18,7 @@ $INS xfce4 xfce4-appfinder xfce4-battery-plugin xfce4-clipman-plugin xfce4-cpufr
 #clipboard manager
 $INS parcellite
 
-$INS julia lua5.1 lua5.3 luajit python3-pip
+$INS lua5.1 lua5.3 luajit python3-pip
 
 $INS jupyter-notebook
 $INS sdcv goldendict
@@ -61,7 +61,7 @@ $INS xterm libnss3-tools
 $INS python3-plastex pandoc antiword writer2latex
 #$INS python-plastex pandoc antiword unoconv writer2latex
 
-$INS aspell-ru myspell-ru mythes-ru
+$INS aspell-ru myspell-ru mythes-ru hunspell-ru hunspell-es
 
 $INS texlive texlive-xetex biber texlive-bibtex-extra texlive-lang-cyrillic texlive-fonts-extra fonts-texgyre texlive-science
 #misc

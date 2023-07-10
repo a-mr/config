@@ -9,6 +9,9 @@ echo $'Section "ServerFlags"\n  Option "DontZap" "yes"\nEndSection' \
 
 # allow debugging with strace & gdb
 echo kernel.yama.ptrace_scope = 0 | sudo tee /etc/sysctl.d/10-ptrace.conf
+# allow dmesg
+echo kernel.dmesg_restrict = 0 | sudo tee /etc/sysctl.d/11-dmesg.conf
+sudo service procps restart
 
 # improve interactivity by bfq I/O scheduler
-cp 60-ioschedulers.rules /etc/udev/rules.d/
+#cp 60-ioschedulers.rules /etc/udev/rules.d/

@@ -5,6 +5,27 @@ A program for rotating or deleting certain pages:
 
     pdfarranger
 
+Merge multiple PDFs into one:
+
+    pdfunite in-1.pdf in-2.pdf in-n.pdf out.pdf
+
+Remove last page(s), leaving only pages 1--12:
+
+    pdftk input.pdf cat 1-12 output tmp.pdf
+
+Rotate the page 4 of your document test.pdf 90 degree clockwise:
+
+    pdftk test.pdf cat 1-3 4east 5-end output out.pdf
+
+Combine multiple jpg into a PDF:
+
+    convert *.jpg -auto-orient output.pdf
+
+Resize JPG
+==========
+
+    convert input.jpg -quality 80% output.jpg
+
 ===========================================
 PS -> PDF
 

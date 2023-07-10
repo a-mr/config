@@ -318,7 +318,7 @@ if [[ $CURSHELL == zsh ]]; then
     autoload -Uz compinit
     compinit
     # complete 'd' function by directories
-    compctl -/ d
+    compctl -/ l
     # when completing use the same colors as ls does
     zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
     # skip identical commands
@@ -429,7 +429,7 @@ if [[ $CURSHELL == zsh ]]; then
     "mus"	"$wpe/Music/"
     "pic"       "$wpe/pictures/"
     "phot"	"$wpe/Photos/"
-    "nim"       "$apu/nim-stable/"
+    "nims"      "$apu/nim-stable/"
     "nim1"      "$apu/nim-stable-1-0/"
     "Nim"       "$apu/Nim/"
     "nim2"      "$apu/nim2/"

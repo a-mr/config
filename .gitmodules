@@ -79,3 +79,6 @@
 [submodule "vim/vim-lsp-settings"]
 	path = vim/vim-lsp-settings
 	url = https://github.com/mattn/vim-lsp-settings
+[submodule "vim/file-line"]
+	path = vim/file-line
+	url = https://github.com/bogado/file-line
