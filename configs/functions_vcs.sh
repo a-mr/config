@@ -114,7 +114,7 @@ hisb () {
   else
       local cmd="git log -p --decorate=full --parents $(git merge-base $branch $default)..$branch $follow $@"
       echo $cmd
-      eval $cmd | less
+      eval $cmd | pgd
   fi
 }
 
@@ -141,19 +141,43 @@ difb () {
           if [[ "$branch" == "$default" ]]; then
               red_echo default branch was provided
           else
-              local cmd="git diff $rel_option $(git merge-base $branch $default)..$branch $follow $@"
+              local cmd="git diff --patch-with-stat $rel_option $(git merge-base $branch $default)..$branch $follow $@"
               echo $cmd
-              eval $cmd | less
+              eval $cmd | pgd
           fi
           ;;
       mercurial)
           # see https://stackoverflow.com/questions/13991969/mercurial-see-changes-on-the-branch-ignoring-all-the-merge-commits
-          hg export -r "branch('$(hg branch)') and not merge()" | less
+          hg export -r "branch('$(hg branch)') and not merge()" | pgd
           ;;
       svn) red_echo not implemented
           ;;
       *) red_echo unknown repository: $REPO
 
+  esac
+}
+
+# open all files modified in branch
+vbr () {
+  REPO=`what_is_repo_type`
+  local default=$(dbr)
+  case "$REPO" in
+      git)
+          local branch
+          if [ -z "$1" ]; then
+              branch=$(bra)
+          else
+              branch=$1
+          fi
+          if [[ "$branch" == "$default" ]]; then
+              red_echo not showing default branch
+          else
+              local cmd="git diff --name-only $(git merge-base $branch $default)..$branch"
+              echo v \`$cmd\`
+              v `eval $cmd`
+          fi
+          ;;
+      *) red_echo unknown repository: $REPO
   esac
 }
 
@@ -229,7 +253,7 @@ lgb () {
 
 # show stashed changes
 sho () {
-    git stash show -p $@
+    git stash show --patch-with-stat $@
 }
 
 # squash commits
@@ -457,11 +481,11 @@ dif () {
   case "$REPO" in
       git)
           local rel="`roo_rel`"
-          git diff --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@|less
+          git diff --patch-with-stat --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@|pgd
           ;;
-      mercurial) hg diff $@|less
+      mercurial) hg diff $@|pgd
           ;;
-      svn) svn diff $@|less
+      svn) svn diff $@|pgd
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -475,11 +499,11 @@ difp () {
           if [ ! -f $1 ]; then
               red_echo file $1 not found
           fi
-          git diff --color=never -r HEAD -- $@|less
+          git diff --color=never -r HEAD -- $@|pgd
           ;;
-      mercurial) hg diff --color=never $@|less
+      mercurial) hg diff --color=never $@|pgd
           ;;
-      svn) svn diff --color=never $@|less
+      svn) svn diff --color=never $@|pgd
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -491,11 +515,11 @@ pri () {
   local file="$2"
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git show "$rev:$file" | less -X
+      git) git show "$rev:$file" | pgd -X
           ;;
-      mercurial) hg cat -r $rev "$file" | less -X
+      mercurial) hg cat -r $rev "$file" | pgd -X
           ;;
-      svn) svn cat -r $rev "$file" | less -X
+      svn) svn cat -r $rev "$file" | pgd -X
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -519,11 +543,11 @@ lin () {
 pat () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git show --parents $@ | less
+      git) git show --parents --patch-with-stat $@ | pgd
           ;;
-      mercurial) hg diff -c $@ | less
+      mercurial) hg diff -c $@ | pgd
           ;;
-      svn) svn diff -c $@ | less
+      svn) svn diff -c $@ | pgd
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -538,11 +562,11 @@ pats () {
 patf () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git show --parents -U1000 $@ | less -X
+      git) git show --parents -U1000 $@ | pgd -X
           ;;
-      mercurial) hg diff -c $@ | less -X
+      mercurial) hg diff -c $@ | pgd -X
           ;;
-      svn) svn diff -c $@ | less -X
+      svn) svn diff -c $@ | pgd -X
           ;;
       *) red_echo unknown repository: $REPO
   esac
@@ -709,7 +733,7 @@ unstage () {
     if [ "$1" = "" ]; then
         git reset HEAD
     elif [ -f "$1" ]; then
-        git reset HEAD "$1"
+        git reset HEAD -- "$@"
     else
         red_echo unknown type of argument $1
         return 1

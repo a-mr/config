@@ -142,6 +142,11 @@ set auto-load safe-path /
 
 source ~/activity-public/computer-program-data/development/gdb-dashboard/.gdbinit
 
+define to
+    frame $arg0
+    dashboard
+end
+
 define dof
     dashboard -enabled off
 end

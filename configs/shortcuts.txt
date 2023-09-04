@@ -168,6 +168,7 @@ difp [FILE]           the same, in patch format (uncolored)
 difb [BRANCH]         show all changes in cur.branch[or BRANCH] (difb -- FILE)
 sta                   show statistics
 stab [BRANCH]         show changed files in current branch (or BRANCH)
+vbr  [BRANCH]         open files changed in current branch (or BRANCH)
 dat [REVISION]        print date of REVISION (or latest commit)
 datshort              the same, short version
 pat  [REVISION]       print patch [for REVISION]

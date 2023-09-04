@@ -434,6 +434,7 @@ if [[ $CURSHELL == zsh ]]; then
     "Nim"       "$apu/Nim/"
     "nim2"      "$apu/nim2/"
     "nimd"      "$apu/nim-devel/"
+    "nimd2"     "$apu/nim-devel2/"
     )
     } # end set_abbrevs
     set_abbrevs

@@ -459,6 +459,7 @@ nmap ga <Plug>(EasyAlign)
 imap <C-t> <Return>
 cmap <C-t> <Return>
 nmap <C-t> <C-f>
+vmap <C-t> <C-f>
 " in dvorus-layout `j` is placed at pinky, which creates too much stress on it
 noremap t j
 noremap j t

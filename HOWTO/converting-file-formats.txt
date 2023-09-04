@@ -42,3 +42,10 @@ paps --landscape --font="Nimbus Roman No9 L" --columns=2 my.txt >my.ps
 
 (old, without utf-8)
 mpage -1 -l -L70 file.txt > file.ps
+
+Crop mp3
+=========
+
+check in vlc where the last min:sec is and pass to `-t` option:
+
+    ffmpeg -i InputFile -vn -acodec copy -ss 00:00:00 -t 00:01:32 OutputFile

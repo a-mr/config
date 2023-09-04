@@ -785,7 +785,13 @@ a () {
 }
 
 o () {
-    xdg-open $@
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        open $@
+    elif [[ "$OSTYPE" == "msys" ]]; then # Git Bash on Windows 10
+        start $@
+    else
+        xdg-open $@
+    fi
     #if exist mimeopen; then
     #    mimeopen $@
     #elif exist xdg-open; then
@@ -839,6 +845,11 @@ pp () {
 pg () {
     # -S means don't wrap lines
     less -X -F -S
+}
+
+# pager showing current line number on the bottom (for long diffs)
+pgd () {
+    less -M $@
 }
 
 lsdirs () {
@@ -907,15 +918,7 @@ setb () {
     echo $@ > ~/tmp/buffer2
 }
 
-fp () {
-    local line=`fullpath $@`
-    echo $line
-    echo $line > ~/tmp/buffer2
-    if [ ! -z "$DISPLAY" ]; then
-        echo "\t...copying to clipboard..."
-        echo $line | xcl
-    fi
-}
+alias fp="fullpath"
 
 which () {
     local cmd
