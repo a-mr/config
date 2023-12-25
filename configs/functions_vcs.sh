@@ -1,6 +1,12 @@
 ##############################################################################
 # functions for working with version control repositories & others
 
+# force-fetch and checkout
+gfcou () {
+    git fetch origin --force "$1:$1"
+    git co "$1"
+}
+
 # fetch & checkout Github PR
 github () {
     git fetch origin pull/$1/head:pull/$1/head
@@ -59,17 +65,23 @@ inf () {
   esac
 }
 
+git_log_common () {
+    git log --graph --name-status --parents --abbrev-commit --decorate=full "$@"
+}
+
 logmy () {
-    git log --graph --name-status --parents \
-        --abbrev-commit --decorate=full \
-        --author `git config --get user.email` `dbr` | pg
+    git_log_common --author `git config --get user.email` `dbr` | pg
 }
 
 log () {
     REPO=`what_is_repo_type`
     case "$REPO" in
-        git) git log --graph --name-status \
-            --parents --abbrev-commit --decorate=full $@ | pg
+        git)
+            if [ "$1" = "" ]; then
+                git_log_common `bra` `dbr` | pg
+            else
+                git_log_common $@ | pg
+            fi
             ;;
         mercurial) hg log -v $@ | pg
             ;;
@@ -123,9 +135,8 @@ difb () {
   REPO=`what_is_repo_type`
   local default=$(dbr)
   case "$REPO" in
-      git) 
+      git)
           local rel="`roo_rel`"
-          # local rel_option="--src-prefix=\"a/$rel/\" --dst-prefix=\"b/$rel/\""
           local rel_option="--src-prefix=\"$rel/\" --dst-prefix=\"$rel/\""
           local branch
           local follow=""
@@ -155,6 +166,18 @@ difb () {
       *) red_echo unknown repository: $REPO
 
   esac
+}
+
+# show dif-branch including working copy changes
+difbc () {
+    local branch=$(bra)
+    local default=$(dbr)
+    local rel="`roo_rel`"
+    git diff --stat --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@
+    local rel_option="--src-prefix=\"$rel/\" --dst-prefix=\"$rel/\""
+    local cmd="git diff --patch-with-stat $rel_option $(git merge-base $branch $default) $@"
+    echo $cmd
+    eval $cmd | pgd
 }
 
 # open all files modified in branch
@@ -233,11 +256,9 @@ lgb () {
               shift 1
           fi
           if [[ "$branch" == "$default" ]]; then
-              git log --graph --name-status \
-              --parents --decorate=full --abbrev-commit $default $follow $@ | pg
+              git_log_common $default $follow $@ | pg
           else
-              local cmd="git log --graph --name-status \
-              --parents --decorate=full --abbrev-commit $(git merge-base $branch $default)..$branch $follow $@"
+              local cmd="git_log_common $(git merge-base $branch $default)..$branch $follow $@"
               echo $cmd
               eval $cmd | pg
           fi
@@ -251,9 +272,18 @@ lgb () {
   esac
 }
 
-# show stashed changes
+# show stashed change (last by default)
 sho () {
-    git stash show --patch-with-stat $@
+    git stash show --patch-with-stat $@ | pg
+}
+
+# show all the stashed change
+shoa () {
+    git stash list -p --stat | hgrep "stash@{.*" --color=always | pg
+}
+
+cdr () {
+    cd `roo`
 }
 
 # squash commits
@@ -462,7 +492,15 @@ lsf () {
 sta () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
+      git)
+          if [ "$1" = "" ]; then
+              git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
+          elif [ -e "$1" ]; then
+              # ensure always printing something
+              git status -s --ignored $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
+          else
+              red_echo file \"$1\" does not exist
+          fi
           ;;
       mercurial) hg status $@ | pb
           ;;
@@ -475,12 +513,15 @@ sta () {
 # colored diff
 dif () {
   REPO=`what_is_repo_type`
-  if [ ! -f "$1" -a ! -d "$1" ]; then
+  if [ ! "$1" = "" -a ! -e "$1" ]; then
       red_echo file/dir $1 not found
+      return
   fi
   case "$REPO" in
       git)
+          # prefixes don't really work at the moment for --stat:
           local rel="`roo_rel`"
+          git diff --stat --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@
           git diff --patch-with-stat --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@|pgd
           ;;
       mercurial) hg diff $@|pgd
@@ -632,7 +673,8 @@ com () {
       git) #git add -u :/ && 
           eval git commit $msg && \
                mydialog "push?[n|y|f]" "n green_echo Done" \
-               "y git push origin \"$(bra)\"" "f git push origin -f \"$(bra)\""
+               "y git push origin \"$(bra)\"" \
+               "f git push origin --force-with-lease \"$(bra)\""
           ;;
       mercurial) eval hg commit $msg && (
           if grep default `hg root`/.hg/hgrc > /dev/null 2>&1; then
@@ -687,13 +729,17 @@ pus () {
   esac
 }
 
-reb () {
+pusf () {
+    git push origin --force-with-lease "$(bra)" $@
+}
+
+rebd () {
     local def_br=$(dbr)
     local cur_br=$(bra)
     [[ $def_br = $cur_br ]] && red_echo On default branch && return 1
     git fetch origin "$def_br:$def_br" && git rebase "$def_br" &&
-        mydialog "push?[n|y|f]" "n green_echo Done" \
-        "y git push origin \"$cur_br\"" "f git push origin -f \"$cur_br\""
+        mydialog "push?[n|f]" "n green_echo Done" \
+        "f git push origin --force-with-lease \"$cur_br\""
 }
 
 gitlfspur () {
@@ -930,6 +976,10 @@ mov () {
       svn) svn mv $@
           ;;
   esac
+}
+
+grp () {
+    git grep $@ -- :/
 }
 
 # End VCS commands

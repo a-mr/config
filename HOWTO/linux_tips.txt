@@ -12,6 +12,10 @@ grub-install --root-directory=/mnt/disk --recheck /dev/disk
 
 ps -p PID -o etime
 
+=== Find what program consumes the most internet bandwidth ==================
+
+$ nethogs
+
 === download site by wget====================================================
 
 wget -m protocol://site
@@ -180,6 +184,7 @@ $ sudo update-initramfs -c -k $(uname -r)
 Install contrib:
 Tools -> Docsets -> Add feed
 input https://zealusercontributions.vercel.app/api/docsets/Nim.xml -> OK
+input https://zealusercontributions.vercel.app/api/docsets/Kotlin.xml -> OK
 
 To find other user's contributions: https://zealusercontributions.vercel.app/#docsets
 

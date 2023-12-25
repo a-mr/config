@@ -21,7 +21,7 @@ $INS parcellite
 $INS lua5.1 lua5.3 luajit python3-pip
 
 $INS jupyter-notebook
-$INS sdcv goldendict
+$INS sdcv goldendict pdfgrep
 
 #bluetooth headset
 $INS pulseaudio pulseaudio-module-bluetooth pavucontrol blueman

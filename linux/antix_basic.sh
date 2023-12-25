@@ -11,7 +11,7 @@ mx-repo-manager
 sudo apt update
 
 $INS zsh zsh-autosuggestions openssh-server autossh mosh
-$INS crudini tree dos2unix gawk aptitude python3-tk vim-gtk3 konsole qterminal kinit kio kio-extras kded5 ht ranger ueberzug screen
+$INS crudini tree dos2unix gawk aptitude python3-tk vim-gtk3 konsole qterminal kinit kio kio-extras kded5 ht ranger ueberzug screen ncdu
 # lfhex - no ubuntu
 
 #hardware tools:
@@ -20,7 +20,7 @@ $INS msr-tools lshw pciutils dmidecode gpm
 $INS exfatprogs exfat-fuse sshfs archivemount jmtpfs go-mtpfs partitionmanager inotify-tools nfs-common nfs-kernel-server
 
 #networking
-$INS iftop iotop fatrace ethtool net-tools traceroute
+$INS nethogs iftop iotop fatrace ethtool net-tools traceroute
 
 $INS curl wget
 

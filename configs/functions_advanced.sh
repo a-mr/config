@@ -251,6 +251,14 @@ if [[ $CURSHELL == zsh ]]; then
             ;;
     esac
 
+    function my_download_history () { 
+        fc -R
+        echo Updated history
+        zle reset-prompt
+    }
+    zle -N my_download_history
+    bindkey 'r' my_download_history
+
     function run_last_buffer () { 
         local line=`cat ~/tmp/buffer2`
         if [ ! -z "$BUFFER" ]; then

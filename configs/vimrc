@@ -4,6 +4,8 @@ set nocompatible
 "use mouse in terminal
 "set mouse=a
 
+set nofixendofline
+
 " always let some lines after cursor
 set scrolloff=10
 " 'start' to fix backspace on some systems

@@ -258,6 +258,8 @@ synd () {
     bold_echo rsync dry run
     # slash "/" after "$1" is essential
     rsync -rvCn --delete --size-only "$1/" "$2"
+    local exit_code=$?
+    [ $exit_code -ne 0 ] && return $exit_code
     mydialog -warning "Proceed? [y|n]" \
         "y rsync -rvC --delete --size-only \"$1/\" \"$2\"" \
         "n bold_echo doing nothing"
@@ -1002,17 +1004,17 @@ vv () {
     #echo \ \ fname:	$fname
     #echo \ \ lineN:	$lineNo
     if [[ "$lineNo" == "" ]]; then
-        bold_echo vim \'$fname\'
-        add_command vim \'$fname\'
-        eval vim \'$fname\'
+        bold_echo v \'$fname\'
+        add_command v \'$fname\'
+        eval v \'$fname\'
     elif is_number "$lineNo"; then
-        bold_echo vim \'$fname\' +$lineNo
-        add_command vim \'$fname\' +$lineNo
-        eval vim \'$fname\' +$lineNo
+        bold_echo v \'$fname\' +$lineNo
+        add_command v \'$fname\' +$lineNo
+        eval v \'$fname\' +$lineNo
     else
-        bold_echo vim -p \'$fname\' \'$lineNo\'
-        aux_command vim -p \'$fname\' \'$lineNo\'
-        eval vim -p \'$fname\' \'$lineNo\'
+        bold_echo v -p \'$fname\' \'$lineNo\'
+        aux_command v -p \'$fname\' \'$lineNo\'
+        eval v -p \'$fname\' \'$lineNo\'
     fi
 }
 

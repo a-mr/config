@@ -19,7 +19,7 @@ My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
   C-t  Return      t    go down __________| o10   open 10th line by xgd-open
 fp   get fullpath  A-b  add buffer2 to line    b  print buffer2
 cdb  cd to buffer2 location                   vb  vim to buffer2
-______________________________________________________________________________
+____________________________________________A-r   update history______________
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn
   zc  close fold(zC-rec)| zg  add word to dict         | C-w <>  resize le/ri
@@ -135,7 +135,7 @@ add F      add file F to staged area
 uad F      undo addition of new file
 unstage F  remove F from Git staged area preserving the changes
 rvr F      !!! revert changes to file F !!!
-pus        push the curr feat branch
+pus        push the curr feat branch            pusf   with --force-with-lease
 pul        fetch & update curr.feat.branch
 get [BR]   fetch changes (to BR-anch or both to def.branch & curr.feat.branch)
 upd        update to latest revision of curr.branch (Git fast forward)
@@ -148,12 +148,12 @@ uncom      uncommit Git preserving the changes
 cnt        continue rebase
 gitmerges  show merges to curr.feat.branch
 squ        squash commits on curr. feature branch
-reb        Git fetch default branch, rebase on it, and push -f
+rebd       Git fetch default branch, rebase on it, and push -f
 
-gra      graph for all branches         sho   show stashed changes
-grb      graph for current branch       sav   save to stash
-log      log of all branches            res   restore stashed
-logmy    all of my commits
+gra      graph for all branches          shoa     show all stashed changes
+grb      graph for current branch        sho [N]  show stashed change [N]
+log      log of all branches             sav      save to stash
+logmy    all of my commits               res      restore stashed
 lgb [BR] the same for branch BR (`lgb -- <file>` for current branch)
 
 lsb   list branches                     dbr   show default branch name
@@ -165,7 +165,8 @@ has REVISION BRANCH   check if BRANCH contains REVISION
 
 dif  [FILE]           diff w.r.t. latest commit
 difp [FILE]           the same, in patch format (uncolored)
-difb [BRANCH]         show all changes in cur.branch[or BRANCH] (difb -- FILE)
+difb [BRANCH] [-- F]  show all changes in cur.branch[or BRANCH] (difb -- FILE)
+difbc [FILE]          all changes but also including ones in working copy
 sta                   show statistics
 stab [BRANCH]         show changed files in current branch (or BRANCH)
 vbr  [BRANCH]         open files changed in current branch (or BRANCH)
@@ -183,6 +184,7 @@ lsf FILE              check if FILE in repository
 lsf DIRECTORY         list files in DIRECTORY
 lsf                   list files in whole repository
 mov NAME1 NAME2       rename file NAME1 to NAME2
+grp                   search in all current files of repo
 
 pur        purge: clean all extra files
 gitlfspur  remove all downloaded LFS files
@@ -190,6 +192,7 @@ gitlfspur  remove all downloaded LFS files
 clo REPO              clone repository REPO
 clb REPO BRANCH       clone specific BRANCH of REPO
 
+gfcou BRANCH          force-fetch and checkout BRANCH
 github NUMBER         fetch & checkout Github PR number
 ______________________________________________________________________________
 0 - admin/program start   2 - Web         4 - auxiliary work         6 - VMs

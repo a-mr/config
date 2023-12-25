@@ -24,7 +24,7 @@ $INS ibus-table-latex
 
 $INS psutils xournal xsane hplip-gui
 #pdf manipulation:
-$INS atril texlive-extra-utils texlive-latex-recommended pdftk
+$INS atril texlive-extra-utils texlive-latex-recommended libjs-katex pdftk
 
 # x tools
 $INS xbindkeys xvkbd xdotool gkrellm gkrellm-cpufreq
