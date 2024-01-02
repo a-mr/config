@@ -21,6 +21,7 @@ short_dir () {
 print_precmd () {
     local RESULT=$?
     local finish_time="`curtime`"
+    local num_jobs="`jobs | wc -l`"
     local exe_time
     if [[ $CURSHELL == zsh ]]; then
         exe_time=$((finish_time-start_time))
@@ -29,6 +30,9 @@ print_precmd () {
     fi
     local curdir=`dirs -p | head -n1`
     local info=$(printf "%s(%.2f)" "$(date +%H:%M:%S)" "$exe_time")
+    if [[ $num_jobs != "0" ]]; then
+        info+="  === $num_jobs === "
+    fi
     info+=" $curdir"
     #show repository branch if requested
     if [ "$wrepo" != "none" ]; then
