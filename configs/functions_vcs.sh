@@ -53,9 +53,9 @@ inf () {
   case "$REPO" in
       git) 
           local branch="${1:-$(bra)}"
-          git describe --all; git branch -vv | grep "$branch"; git remote -v
+          git describe --all; git branch -vv | grep "\\* $branch .*"; git remote -v
           dat "$branch"
-          git diff --stat
+          git diff --stat | cat
           ;;
       mercurial) hg id; hg paths
           ;;
@@ -152,9 +152,11 @@ difb () {
           if [[ "$branch" == "$default" ]]; then
               red_echo default branch was provided
           else
-              local cmd="git diff --patch-with-stat $rel_option $(git merge-base $branch $default)..$branch $follow $@"
-              echo $cmd
+              local branches="$(git merge-base $branch $default)..$branch"
+              local cmd="git diff --patch-with-stat $rel_option $branches $follow $@"
+              echo "$branches"
               eval $cmd | pgd
+              stab "$@"
           fi
           ;;
       mercurial)
@@ -173,11 +175,11 @@ difbc () {
     local branch=$(bra)
     local default=$(dbr)
     local rel="`roo_rel`"
-    git diff --stat --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@
     local rel_option="--src-prefix=\"$rel/\" --dst-prefix=\"$rel/\""
     local cmd="git diff --patch-with-stat $rel_option $(git merge-base $branch $default) $@"
     echo $cmd
     eval $cmd | pgd
+    git diff --name-status $rel_option $(git merge-base $branch $default) $@ | sed 's/\([A-Z]\+\)./ \1 : /' | pb
 }
 
 # open all files modified in branch
@@ -225,7 +227,6 @@ stab () {
               git diff --stat $default $@ | pb
           else
               local cmd="git diff --name-status $(git merge-base $branch $default)..$branch $follow $@ | sed -e 's/	/:\t/g'"
-              echo $cmd
               eval $cmd | pb
           fi
           ;;
@@ -494,10 +495,12 @@ sta () {
   case "$REPO" in
       git)
           if [ "$1" = "" ]; then
-              git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
+              # if given without directory, don't show too much non-tracked files:
+              git status -s --untracked-files=no $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
           elif [ -e "$1" ]; then
-              # ensure always printing something
-              git status -s --ignored $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
+              # ensure always printing something. If given root directory
+              # it will print all the untracked file in the repo
+              git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
           else
               red_echo file \"$1\" does not exist
           fi
@@ -521,8 +524,8 @@ dif () {
       git)
           # prefixes don't really work at the moment for --stat:
           local rel="`roo_rel`"
-          git diff --stat --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@
           git diff --patch-with-stat --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@|pgd
+          sta "$@"
           ;;
       mercurial) hg diff $@|pgd
           ;;
@@ -703,7 +706,9 @@ coma () {
   if [ "$1" != "" ]; then
       msg="-m \"$1\""
   fi
-  eval git commit --amend $msg
+  eval git commit --amend $msg && \
+      mydialog "push?[n|f]" "n green_echo Done" \
+      "f git push origin --force-with-lease \"$(bra)\""
 }
 
 # save changes
@@ -737,7 +742,7 @@ rebd () {
     local def_br=$(dbr)
     local cur_br=$(bra)
     [[ $def_br = $cur_br ]] && red_echo On default branch && return 1
-    git fetch origin "$def_br:$def_br" && git rebase "$def_br" &&
+    git fetch origin "$def_br:$def_br" && git rebase "$def_br" && \
         mydialog "push?[n|f]" "n green_echo Done" \
         "f git push origin --force-with-lease \"$cur_br\""
 }
