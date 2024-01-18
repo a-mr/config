@@ -22,6 +22,10 @@ hgvim () {
     vim `hg sta -m -a -r -n $@`
 }
 
+app () {
+    git apply -3 "$@"
+}
+
 hgfix () {
     hg commit -m "never-push work-in-progress `$DATE_COMMAND`. If you see this commit then please notify me about it."
 }
@@ -170,6 +174,32 @@ difb () {
   esac
 }
 
+# diff patch for branch (on a given list of files)
+difbp () {
+  local default=$(dbr)
+  local branch=$(bra)
+  if [[ "$branch" == "$default" ]]; then
+      red_echo default branch was provided
+  else
+      local branches="$(git merge-base $branch $default)..$branch"
+      echo git diff --color=never $branches $@
+      git diff --color=never $branches $@ | pgd
+  fi
+}
+
+difbcp () {
+  local default=$(dbr)
+  local branch=$(bra)
+  if [[ "$branch" == "$default" ]]; then
+      red_echo default branch was provided
+  else
+      local commit="$(git merge-base $branch $default)"
+      echo git diff --color=never $commit $@
+      git diff --color=never $commit $@ | pgd
+  fi
+}
+
+
 # show dif-branch including working copy changes
 difbc () {
     local branch=$(bra)
@@ -179,9 +209,19 @@ difbc () {
     local cmd="git diff --patch-with-stat $rel_option $(git merge-base $branch $default) $@"
     echo $cmd
     eval $cmd | pgd
-    git diff --name-status $rel_option $(git merge-base $branch $default) $@ | sed 's/\([A-Z]\+\)./ \1 : /' | pb
+    # show helpful list of modified files in the end
+    stabc
 }
 
+stabc () {
+    # Options like --src-prefix don't work
+    # git diff --name-status $rel_option $(git merge-base $branch $default) $@ | sed 's/\([A-Z]\+\)./ \1 : /' | pb
+    local branch=$(bra)
+    local default=$(dbr)
+    git diff --name-status $(git merge-base $branch $default) $@ | sed 's/\([A-Z]\+\)./ \1 : /' | pb
+}
+
+########################### Vim related ########################
 # open all files modified in branch
 vbr () {
   REPO=`what_is_repo_type`
@@ -198,13 +238,52 @@ vbr () {
               red_echo not showing default branch
           else
               local cmd="git diff --name-only $(git merge-base $branch $default)..$branch"
-              echo v \`$cmd\`
-              v `eval $cmd`
+              echo vr \`$cmd\`
+              vr `eval $cmd`
           fi
           ;;
       *) red_echo unknown repository: $REPO
   esac
 }
+
+# open currently modified files
+vac () {
+    vr `git diff --name-only` "$@"
+}
+
+# like vbr but only for current branch + additional files
+vab () {
+  local default=$(dbr)
+  local branch=$(bra)
+  if [ $# -gt 1 ]; then
+      shift 1
+  fi
+  if [[ "$branch" == "$default" ]]; then
+      red_echo "default branch"
+      return 1
+  else
+      echo vr $(git diff --name-only $(git merge-base $branch $default)..$branch) "$@"
+      vr $(git diff --name-only $(git merge-base $branch $default)..$branch) "$@"
+  fi
+}
+
+# like vab but including currently modified files
+vabc () {
+  local default=$(dbr)
+  local branch=$(bra)
+  if [ $# -gt 1 ]; then
+      shift 1
+  fi
+  if [[ "$branch" == "$default" ]]; then
+      red_echo "default branch"
+      return 1
+  else
+      echo vr $(git diff --name-only $(git merge-base $branch $default))
+      vr $(git diff --name-only $(git merge-base $branch $default)) "$@"
+  fi
+}
+
+#############################################################################
 
 # show changed files for specified branch
 stab () {
@@ -405,20 +484,6 @@ bra () {
       mercurial) hg branch
           ;;
       svn) svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'
-          ;;
-      *) echo -n $REPO
-  esac
-}
-
-# list branches
-lsb () {
-  REPO=`what_is_repo_type`
-  case "$REPO" in
-      git) git branch
-          ;;
-      mercurial) hg branches --active
-          ;;
-      svn) svn info | grep '^URL:'
           ;;
       *) echo -n $REPO
   esac
@@ -658,6 +723,17 @@ roo_rel () {
     realpath --relative-to=. $(git rev-parse --show-toplevel)
 }
 
+git_check_all_staged () {
+    echo Checking presence of unstaged files...
+    git diff --quiet
+    if [ $? -ne 0 ]; then
+        # show only unstaged changes
+        git diff --name-status
+        mydialog "Stage changes?[n|y]" "n green_echo Done" \
+            "y git add -u"
+    fi
+}
+
 com () {
   REPO=`what_is_repo_type`
   if [ "`dbr`" = "`bra`" ]; then
@@ -673,7 +749,8 @@ com () {
       msg="-m \"$1\""
   fi
   case "$REPO" in
-      git) #git add -u :/ && 
+      git)
+          git_check_all_staged
           eval git commit $msg && \
                mydialog "push?[n|y|f]" "n green_echo Done" \
                "y git push origin \"$(bra)\"" \
@@ -706,6 +783,7 @@ coma () {
   if [ "$1" != "" ]; then
       msg="-m \"$1\""
   fi
+  git_check_all_staged
   eval git commit --amend $msg && \
       mydialog "push?[n|f]" "n green_echo Done" \
       "f git push origin --force-with-lease \"$(bra)\""
@@ -905,6 +983,11 @@ get () {
   esac
 }
 
+# get default branch
+getd () {
+    get `dbr`
+}
+
 upd () {
   REPO=`what_is_repo_type`
   case "$REPO" in
@@ -928,9 +1011,9 @@ lbr () {
           git for-each-ref --sort=committerdate refs/heads/ \
               --format='%(committerdate:short): %(refname:short)' | pb
           ;;
-      mercurial) red_echo not implemented
+      mercurial) hg branches --active
           ;;
-      svn) red_echo not implemented
+      svn) svn info | grep '^URL:'
           ;;
   esac
 }

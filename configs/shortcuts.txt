@@ -136,7 +136,7 @@ uad F      undo addition of new file
 unstage F  remove F from Git staged area preserving the changes
 rvr F      !!! revert changes to file F !!!
 pus        push the curr feat branch            pusf   with --force-with-lease
-pul        fetch & update curr.feat.branch
+pul        fetch & update curr.feat.branch      getd   fetch default branch
 get [BR]   fetch changes (to BR-anch or both to def.branch & curr.feat.branch)
 upd        update to latest revision of curr.branch (Git fast forward)
 upd_master Git: move master to origin/master
@@ -156,7 +156,7 @@ log      log of all branches             sav      save to stash
 logmy    all of my commits               res      restore stashed
 lgb [BR] the same for branch BR (`lgb -- <file>` for current branch)
 
-lsb   list branches                     dbr   show default branch name
+dbr   show default branch name
 lbr   ~ the same, with dates!           bra   show curr.branch name
 inf   information about repo and curr.branch/revision
 roo   root directory of the repo - absolute path
@@ -167,14 +167,18 @@ dif  [FILE]           diff w.r.t. latest commit
 difp [FILE]           the same, in patch format (uncolored)
 difb [BRANCH] [-- F]  show all changes in cur.branch[or BRANCH] (difb -- FILE)
 difbc [FILE]          all changes but also including ones in working copy
+difbp & difbcp [FILE] the version of `difb` and `difbc` for forming patches
 sta                   show statistics
-stab [BRANCH]         show changed files in current branch (or BRANCH)
+stab [BRANCH] (stabc) show changed files in current branch (or BRANCH)
 vbr  [BRANCH]         open files changed in current branch (or BRANCH)
+vac & vab & vabc [ADDITIONAL FILES]
+                      open in vim: (c) currently w/copy (b) the branch
 dat [REVISION]        print date of REVISION (or latest commit)
 datshort              the same, short version
 pat  [REVISION]       print patch [for REVISION]
 pats [REVISION]       print list of files changed [for REVISION]
 patf [REVISION]       the same with 1000 lines of context
+app FILE              apply patch from FILE
 his FILE              history of all changes to FILE
 hisb [BRANCH]         log all file changes  (`hisb -- FILE` for only 1 file)
 lin LINENUM FILE      print history for LINENUM-ber of FILE
