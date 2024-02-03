@@ -36,7 +36,7 @@ print_precmd () {
     info+=" $curdir"
     #show repository branch if requested
     if [ "$wrepo" != "none" ]; then
-        info+=" '$(bra) $(datshort)'"
+        info+=" '$(bra -safe) $(datshort)'"
     fi
     if (( $RESULT == 0 )); then
         fill_echo $stout$cyan " $info"

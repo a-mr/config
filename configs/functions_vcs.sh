@@ -363,7 +363,7 @@ shoa () {
 }
 
 cdr () {
-    cd `roo`
+    cd "`roo`/$1"
 }
 
 # squash commits
@@ -479,7 +479,14 @@ wrepo () {
 bra () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git branch | grep \^\* | cut -d ' ' -f2-
+      git) local br=`git branch | grep \^\* | cut -d ' ' -f2-`
+          if echo $br | grep -q 'HEAD detached'; then
+              br=`git branch --contains HEAD | grep -v "HEAD detached" | tail -n1 | trim_spaces`
+              if [ "$1" = "-safe" ]; then
+                  br="!! $br !!"
+              fi
+          fi
+          echo $br
           ;;
       mercurial) hg branch
           ;;

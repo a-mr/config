@@ -1168,6 +1168,9 @@ ggc () {
          --exclude-dir=.hg -nr "$dir" $@ | p
 }
 
+# === nimgrep ===============================================================
+if exist nimgrep; then
+
 ngcommon () {
     nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
         --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" \
@@ -1188,7 +1191,7 @@ ng () {
         local dir="$2"
         shift 2
     fi
-    ngcommon -y --ext:nim\|nims $pattern $dir $@ | p
+    ngcommon -y --ext:nim\|nims "$pattern" "$dir" "$@" | p
 }
 
 # search using nimgrep
@@ -1222,7 +1225,24 @@ gi () {
         local dir="$2"
         shift 2
     fi
-    ngcommon -i $pattern $dir $@ | p
+    ngcommon -i "$pattern" "$dir" "$@" | p
+}
+
+# search using nimgrep, style-insensitive
+gy () {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    ngcommon -y "$pattern" "$dir" "$@" | p
 }
 
 g () {
@@ -1230,8 +1250,15 @@ g () {
         red_echo no search pattern
         return 1
     fi
-    nimgrep -i --color=$GREP_COLOR --colortheme:ack - $@ | p
+    nimgrep -i --color=$GREP_COLOR --colortheme:ack - "$@" | p
 }
+else #  no nimgrep available
+    gi () { ggi "$@" }
+    gc () { ggc "$@" }
+    g () { grep -i --color=$GREP_COLOR "$@" }
+fi
+
+# === end nimgrep ===========================================================
 
 # case-sensitive, with color, check that 2 strings are available in file:
 # g2c string1 "string2" directory
