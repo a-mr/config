@@ -476,7 +476,7 @@ tmux_try_start () {
 
 screen_try_attach () {
     local session_type=${1:-"("}
-    local session="`screen -list | grep "$session_type" | awk '{print $1}'`"
+    local session="`screen -list | grep -v '(Attached)'| grep "$session_type" | awk '{print $1}'`"
     if [ -z $session ]; then
         echo no session type $session_type
         return 1
@@ -499,7 +499,7 @@ screen_try_start () {
             ensure_ssh_agent
             echo Starting screen
             # display all the lines ('^') but highlight selected words
-            screen -list | grep --color=always -e '^' \
+            screen -list | grep -v '(Attached)' | grep --color=always -e '^' \
                 -e aux -e work -e Attached -e Detached
             mydialog "what to do?
        a - (default) Screen create auxillary session = throwaway =

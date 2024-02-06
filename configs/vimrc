@@ -394,13 +394,16 @@ set foldlevel=99
 " enable Markdown folding
 let g:markdown_folding = 1
 
-set foldmethod=expr
-  \ foldexpr=lsp#ui#vim#folding#foldexpr()
-  \ foldtext=lsp#ui#vim#folding#foldtext()
+" To use for files that have LSP support:
+" set foldmethod=expr
+"   \ foldexpr=lsp#ui#vim#folding#foldexpr()
+"   \ foldtext=lsp#ui#vim#folding#foldtext()
 
-" clangd does NOT support folding yet
-au FileType c,cpp setlocal foldmethod=indent
+" let's use indent for the most, and only adds exceptions for good
+" clangd-based options:
+set foldmethod=indent
 
+highlight Folded ctermbg=NONE
 
 "autocmd bufenter *.c,*.h,*.C,*.cxx,*.cpp,*.cc,*.hh,*.hxx,*.f,*.F,*.for set expandtab 
 "autocmd bufenter *.py,*.hs,*.nim setlocal expandtab
@@ -512,6 +515,9 @@ imap <C-s> <ESC><C-s>
 nmap <C-q> :q<Return>
 imap <C-q> <ESC><C-q>
 
+nmap q :qa<CR>
+imap q <Esc>:qa<CR>
+
 " highlight the current line until `:call clearmatches()`
 nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
 
@@ -567,8 +573,8 @@ inoremap b <Esc>b
 
 nmap ' ]'
 imap ' <Esc>]'
-nmap q ['
-imap q <Esc>['
+" nmap q ['
+" imap q <Esc>['
 " version control
 nmap j ]c
 imap j <Esc>]c
