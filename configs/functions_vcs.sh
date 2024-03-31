@@ -74,6 +74,7 @@ git_log_common () {
 }
 
 logmy () {
+    check_no_args "$@" || return
     git_log_common --author `git config --get user.email` `dbr` | pg
 }
 
@@ -359,6 +360,7 @@ sho () {
 
 # show all the stashed change
 shoa () {
+    check_no_args "$@" || return
     git stash list -p --stat | hgrep "stash@{.*" --color=always | pg
 }
 
@@ -368,6 +370,7 @@ cdr () {
 
 # squash commits
 squ () {
+    check_no_args "$@" || return
   local default=$(dbr)
   local branch=$(bra)
   echo git rebase -i $(git merge-base $branch $default)
@@ -428,6 +431,7 @@ function has {
 }
 
 cnt () {
+    check_no_args "$@" || return
     git rebase --continue
 }
 
@@ -735,7 +739,7 @@ git_check_all_staged () {
     git diff --quiet
     if [ $? -ne 0 ]; then
         # show only unstaged changes
-        git diff --name-status
+        git --no-pager diff --name-status
         mydialog "Stage changes?[n|y]" "n green_echo Done" \
             "y git add -u"
     fi
@@ -824,6 +828,7 @@ pusf () {
 }
 
 rebd () {
+    check_no_args "$@" || return
     local def_br=$(dbr)
     local cur_br=$(bra)
     [[ $def_br = $cur_br ]] && red_echo On default branch && return 1
@@ -862,6 +867,7 @@ pur () {
 
 # uncommit latest commit
 uncom () {
+    check_no_args "$@" || return
     git reset --soft HEAD~1
 }
 
@@ -1074,7 +1080,7 @@ mov () {
 }
 
 grp () {
-    git grep $@ -- :/
+    git --no-pager grep $@ -- :/
 }
 
 # End VCS commands

@@ -571,6 +571,7 @@ fi
 # tt _ 7     # move window to 7
 # tt Name 7  # move window to 7 and rename to "Name"
 tt () {
+local save_force_window_name=$force_window_name
 force_window_name=$1
 case "$TERM" in
   screen|screen.*)
@@ -594,6 +595,7 @@ case "$TERM" in
     fi
     tmux list-panes -aF "#{window_index}	#{pane_tty}	#{window_name}"
 esac
+echo $save_force_window_name
 }
 
 # tn: set Tab Number
@@ -605,6 +607,13 @@ case "$TERM" in
   *)
       tmux swap-window -t "$1"
 esac
+}
+
+check_no_args() {
+    if [ $# -ne 0 ]; then
+        echo "No arguments expected, but got $#" >&2
+        return 1
+    fi
 }
 
 rr () {
@@ -834,7 +843,7 @@ p () {
 
 # just print to buffer, but display new lines, exiting when reaching the end
 pb () {
-    # -E means exit at reaching EOF
+    # -E means exit at reaching EOF, -X means not clear the screen after
     tee ~/tmp/buffer | less -N -X -E
 }
 
@@ -845,8 +854,8 @@ pp () {
 
 # pager for graphical info (like git log --graph): preserving long lines
 pg () {
-    # -S means don't wrap lines
-    less -X -F -S
+    # -S means don't wrap lines, added -M to show line number on the bottom
+    less -X -F -S -M
 }
 
 # pager showing current line number on the bottom (for long diffs)
@@ -1253,9 +1262,15 @@ g () {
     nimgrep -i --color=$GREP_COLOR --colortheme:ack - "$@" | p
 }
 else #  no nimgrep available
-    gi () { ggi "$@" }
-    gc () { ggc "$@" }
-    g () { grep -i --color=$GREP_COLOR "$@" }
+    gi () {
+        ggi "$@"
+    }
+    gc () {
+        ggc "$@"
+    }
+    g () {
+        grep -i --color=$GREP_COLOR "$@"
+    }
 fi
 
 # === end nimgrep ===========================================================
@@ -1492,8 +1507,26 @@ zshow () {
     mydialog "show? [y|n]" "y zcat $@" "n echo OK"
 }
 
-diff () {
-    command diff --color=always $@
+# Always colorize `diff` output (if its version >= 3.4)
+installed_version=$(diff --version | grep -oP '^\D*\K\d+(\.\d+)?' | head -n1)
+minimum_version="3.4"
+if [ "$(printf '%s\n' "$installed_version" "$minimum_version" | sort -V | head -n1)" = "$minimum_version" ]; then
+    diff () {
+        command diff --color=always $@
+    }
+fi
+unset installed_version
+unset minimum_version
+
+# compare <file1> with the same file from different directory
+diffd () {
+    diff "$1" "$2/$1" | less -X
+}
+
+# Reverse order in `cp` command for using __after__ `diffd` command
+cpfrom () {
+    # `cpfrom $1 $2` ==
+    cp "$2/$1" "$1"
 }
 
 # print binary file one byte value per line
