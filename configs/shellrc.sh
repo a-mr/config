@@ -65,6 +65,9 @@ fi
 
 . ~/.functions_X11.sh
 
+# path priorities: my scripts, /usr/local/bin, default PATH, additional paths
+export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
+
 # Enforce correct locales from the beginning:
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -609,6 +612,10 @@ case "$TERM" in
 esac
 }
 
+after () {
+    additional_pre_cmd=$@
+}
+
 check_no_args() {
     if [ $# -ne 0 ]; then
         echo "No arguments expected, but got $#" >&2
@@ -1056,7 +1063,7 @@ loc () {
     locate -i $@ | p
 }
 
-l () {
+cl () {
     cd "$1" && ls -C -w "$COLUMNS" | less -F
 }
 
@@ -1818,9 +1825,6 @@ if [ -f  ~/local.sh ] ; then
     . ~/local.sh
 fi
 
-# path priorities: my scripts, /usr/local/bin, default PATH, additional paths
-export PATH=$HOME/bin:$HOME/activity-personal/computer-program-data/bin:$HOME/opt/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/usr/local/games:/usr/games:/opt/bin
-
 . ~/.functions_vcs.sh
 
 ts () {
@@ -1964,11 +1968,11 @@ my () {
 # [Section initial screen]
 ##############################################################################
 
-if false && exist /usr/lib/w3m/w3mimgdisplay && \
-   [ -d ~/activity-personal/computer-program-data/pictures ] && \
+if exist /usr/lib/w3m/w3mimgdisplay && \
+   [ -d ~/pictures/ ] && \
    [[ "$DISPLAY" != "" ]] ; then
     clear
-    dfile=`shuf -n1 -e ~/activity-personal/computer-program-data/pictures/*`
+    dfile=`shuf -n1 -e ~/pictures/*`
     w3disp.sh $dfile
 fi
 

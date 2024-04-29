@@ -7,7 +7,7 @@ Bash/Zsh                                  | my Bash/Zsh:
   !:0      name of prev cmd               |  psu  show my processes
   !* or !!1* or !!:1-$                    |  psa  show all processes
            all arguments to prev cmd      | nd D  mkdir D and cd D
-  !-2:0    name of cmd before previous    |  l D  cd directory D and ls D
+  !-2:0    name of cmd before previous    | cl D  cd directory D and ls D
                                           | A-a   zsh: execute auto suggestion
   cd -<N>  cd previous directory <N>      | A-p   append pager  A-v  vim pager
   $OLDPWD  previous directory #1          | A-k   run in man
@@ -16,10 +16,11 @@ Bash/Zsh                                  | my Bash/Zsh:
 __________________________________________|n10 c  open 10th line by `c` cmd
 My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
   A-e  escape      A-u  end-of-line       |       n10p : n10n     v10p : v10n
-  C-t  Return      t    go down __________| o10   open 10th line by xgd-open
-fp   get fullpath  A-b  add buffer2 to line    b  print buffer2
-cdb  cd to buffer2 location                   vb  vim to buffer2
-____________________________________________A-r   update history______________
+  C-t  Return      t    go down           | o10   open 10th line by xgd-open
+fp  get fullpath  A-b  add buffer2 to line|    b  print buffer2
+cdb cd to buffer2 location                |   vb  vim to buffer2
+after "cmd"  run `cmd` before earch prompt|  A-r  update history
+______________________________________________________________________________
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn
   zc  close fold(zC-rec)| zg  add word to dict         | C-w <>  resize le/ri
@@ -81,6 +82,33 @@ My Vim clangd:                  A-g  GOTO DEFINITION
   A-f  format code              A-h  show type hierarchy  A-v  cycle var usage
   A-a  apply suggestion action  A-s  SHOW SYMBOL INFO
   A-d  show definition <------> A-l  show declaration     A-r  next error
+______________________________________________________________________________
+Perl    Vim     Explanation of REGEXes
+----    ------- --------------------------------------------
+x?      x\=     Match 0 or 1 of x
+x+      x\+     Match 1 or more of x
+(xyz)   \(xyz\) Use brackets to group matches
+x{n,m}  x\{n,m} Match n to m of x
+x*?     x\{-}   Match 0 or more occurrences of x, non-greedy
+x+?     x\{-1,} Match 1 or more of x, non-greedy
+x??     x\{-,1} Match 0 or 1 of x, non-greedy
+\b      \< \>   Word boundaries
+$n      \n      Backreferences for previously grouped matches
+(?i)    \c      force case insensitivity
+(?-i)   \C      force case sensitivity
+(?:x)   \%(x\)  backref-less grouping
+(?=x)   x\@=    0-width match (positive lookahead)
+(?!x)   x\@!    0-width non-match (negative lookahead)
+(?<=x)  x\@<=   0-width preceding match
+(?!x)   x\@<!   0-width preceding non-match
+(?>x)   x\@>    match without retry
+-------------   -------------------------------------------------
+    \d          Match any digit (equivalent to [0-9])
+    \D          Match any non-digit (equivalent to [^0-9])
+    \s          Match any whitespace character
+    \S          Match any non-whitespace character
+    \w          Match any word character (alphanumeric plus underscore)
+    \W          Match any non-word character
 ______________________________________________________________________________
  Tmux                              Screen
       PRE ]  paste                   PRE ]    paste

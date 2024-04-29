@@ -21,6 +21,9 @@ short_dir () {
 print_precmd () {
     local RESULT=$?
     local finish_time="`curtime`"
+    if [ ! -z "$additional_pre_cmd" ]; then
+        eval $additional_pre_cmd
+    fi
     local num_jobs="`jobs | wc -l`"
     local exe_time
     if [[ $CURSHELL == zsh ]]; then
@@ -329,8 +332,20 @@ if [[ $CURSHELL == zsh ]]; then
 
     autoload -Uz compinit
     compinit
-    # complete 'd' function by directories
-    compctl -/ l
+
+    # Start to complete `cl` command by files & dirs immediately:
+    smart-complete-space() {
+        # Get the current command line input
+        local -r BUFFER_CONTENTS="${BUFFER}"
+        if [[ "${BUFFER_CONTENTS}" == cl* ]]; then
+            zle self-insert; zle complete-word _files
+        else
+            zle self-insert
+        fi
+    }
+    zle -N smart-complete-space
+    bindkey " " smart-complete-space
+
     # when completing use the same colors as ls does
     zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
     # skip identical commands
