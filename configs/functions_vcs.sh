@@ -720,6 +720,12 @@ add () {
   done
 }
 
+addr () {
+  for i in "$@"; do
+    git add `roo`/"$i"
+  done
+}
+
 roo () {
   REPO=`what_is_repo_type`
   case "$REPO" in

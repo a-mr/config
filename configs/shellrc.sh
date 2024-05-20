@@ -1064,7 +1064,7 @@ loc () {
 }
 
 cl () {
-    cd "$1" && ls -C -w "$COLUMNS" | less -F
+    cd "$1" && ls -C -w "$COLUMNS" | less -XF
 }
 
 lsp () {
