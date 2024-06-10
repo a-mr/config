@@ -892,10 +892,17 @@ gitmerges () {
     git log $1.."`dbr`" --ancestry-path --merges | less +G
 }
 
+rvrr () {
+  for i in "$@"; do
+    git reset --quiet -- "`roo`/$i" # remove file from staging area
+    git checkout -- "`roo`/$i"
+  done
+}
+
 rvr () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git reset -- $@ # remove file from staging area
+      git) git reset --quiet -- $@ # remove file from staging area
           git checkout -- $@
           #git reset --hard $@
           ;;
@@ -1037,6 +1044,18 @@ lbr () {
   esac
 }
 
+# return ancestor of current branch from default branch
+anc () {
+  local default=$(dbr)
+  local branch=$(bra)
+  git merge-base $branch $default
+}
+
+# restore the version of ancestor (commit from default branch)
+coa () {
+    git checkout `anc` -- "$@"
+}
+
 # checkout specified revision
 cou () {
   REPO=`what_is_repo_type`
@@ -1057,7 +1076,7 @@ cod () {
   case "$REPO" in
       git)
           echo git checkout "$default"
-          git checkout "$default"
+          git checkout "$default" "$@"
           ;;
       mercurial) hg co "$default"
           ;;
