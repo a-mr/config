@@ -141,8 +141,6 @@ difb () {
   local default=$(dbr)
   case "$REPO" in
       git)
-          local rel="`roo_rel`"
-          local rel_option="--src-prefix=\"$rel/\" --dst-prefix=\"$rel/\""
           local branch
           local follow=""
           if [ -z "$1" ]; then
@@ -158,7 +156,7 @@ difb () {
               red_echo default branch was provided
           else
               local branches="$(git merge-base $branch $default)..$branch"
-              local cmd="git diff --patch-with-stat $rel_option $branches $follow $@"
+              local cmd="git diff --patch-with-stat `_rel_prefixes` $branches $follow $@"
               echo "$branches"
               eval $cmd | pgd
               stab "$@"
@@ -205,9 +203,7 @@ difbcp () {
 difbc () {
     local branch=$(bra)
     local default=$(dbr)
-    local rel="`roo_rel`"
-    local rel_option="--src-prefix=\"$rel/\" --dst-prefix=\"$rel/\""
-    local cmd="git diff --patch-with-stat $rel_option $(git merge-base $branch $default) $@"
+    local cmd="git diff --patch-with-stat `_rel_prefixes` $(git merge-base $branch $default) $@"
     echo $cmd
     eval $cmd | pgd
     # show helpful list of modified files in the end
@@ -589,6 +585,11 @@ sta () {
   esac
 }
 
+_rel_prefixes () {
+  local rel="`roo_rel`"
+  echo --src-prefix="$rel/" --dst-prefix="$rel/"
+}
+
 # colored diff
 dif () {
   REPO=`what_is_repo_type`
@@ -599,8 +600,7 @@ dif () {
   case "$REPO" in
       git)
           # prefixes don't really work at the moment for --stat:
-          local rel="`roo_rel`"
-          git diff --patch-with-stat --src-prefix="$rel/" --dst-prefix="$rel/" -r HEAD -- $@|pgd
+          git diff --patch-with-stat `_rel_prefixes` -r HEAD -- $@|pgd
           sta "$@"
           ;;
       mercurial) hg diff $@|pgd
@@ -663,7 +663,9 @@ lin () {
 pat () {
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git show --parents --patch-with-stat $@ | pgd
+      git)
+          local rel="`roo_rel`"
+          git show --parents --patch-with-stat `_rel_prefixes` $@ | pgd
           ;;
       mercurial) hg diff -c $@ | pgd
           ;;
