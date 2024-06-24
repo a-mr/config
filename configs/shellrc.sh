@@ -1190,7 +1190,7 @@ if exist nimgrep; then
 ngcommon () {
     nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
         --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" \
-        --cols:$((COLUMNS-8)) --onlyAscii -j:4 "$@" | pg
+        --cols:$((COLUMNS-8)) --onlyAscii -j:4 "$@" | p
 }
 ngcommonl () {
     nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
