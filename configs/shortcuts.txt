@@ -28,8 +28,8 @@ Vim                     |Vim spellcheck                |Vim window
   zR    unfold all      | ]s  goto next misspelled     | C-w v   vertical pane
   zm/r  fold level +/-  |Paths_________________________| C-w |   maximize vert
   za  toggle fold       | %    current file in :!      | C-w _   maximize hor.
-  zA  toggle fold recur.| %:p  the same, full path     | C-w H   to vert.split
-                                                       | C-w K  to horiz.split
+f zA  toggle fold recur.| %:p  the same, full path     | C-w H   to vert.split
+_______________________________________________________| C-w K  to horiz.split
   R<C-r>"  replace-paste after yanking text |    ''  jump to prev.visited mark
   C-]      follow link (e.g. man mode)      |    '^  jump to prev.edited pos.
   |Normal mode:  C-e  move screen           |my: A-q  goto prev mark
@@ -78,6 +78,7 @@ My Vim:                   s     <Leader>              |vim-markgroup:
    F5    compile                     F6   compile & run        F7   call make
    F8    call SyncTex                F9   spell check          F10  encoding
   :S  do multiline search (if lines were wrapped)
+ :Ftab <pattern>  (for large logs) filter current file and open it in new tab
 My Vim clangd:                  A-g  GOTO DEFINITION
   A-f  format code              A-h  show type hierarchy  A-v  cycle var usage
   A-a  apply suggestion action  A-s  SHOW SYMBOL INFO
@@ -140,6 +141,8 @@ ______________________________________________________________________________
   g    nimgrep ignorecase from stdin  gg    gnu grep ignorecase from stdin
   gc   nimgrep case-sensitive         ggc   gnu grep case-sensitive
   ng   nimgrep nim-sensitive
+  gy   nimgrep style-insensitive (to case and `_`)
+  gil, gyl, gcl = group/no line cutting (for keeping Long lines)
 Ranger:  E/e edit        i  pager  <Enter>/l  xdg-open    s  run Shell cmd
          S  start Shell       yy yank    pp  paste     !  run cmd w/output
          ya  add file to %c   yr  remove from %c   uy  clear all files from %c

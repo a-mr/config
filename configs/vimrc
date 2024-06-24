@@ -93,6 +93,38 @@ vmap <S-F12> "zy:grep "<C-R>z"<CR><CR>zz/<C-R>z<CR>
 map <F12> :cn<CR>zz/<C-R>z<CR>
 map <C-F12> :cp<CR>zz/<C-R>z<CR>
 
+function! FilterToNewTab(pattern)
+    let curFt=&filetype
+    " Create a new tab
+    tabnew
+
+    " Get lines from the original file that match the pattern along with their line numbers
+    let l:all_lines = readfile(expand('#'))
+    let l:matched_lines = []
+    for i in range(len(l:all_lines))
+        if l:all_lines[i] =~ a:pattern
+            " Append line number and line content to matched_lines
+            call add(l:matched_lines, (i + 1) . ': ' . l:all_lines[i])
+        endif
+    endfor
+
+    " Check if there are matched lines
+    if empty(l:matched_lines)
+        echo "No lines match the pattern."
+        return
+    endif
+
+    " Set the lines in the new buffer
+    call setline(1, l:matched_lines)
+        setlocal buftype=nofile
+    setlocal bufhidden=hide
+    setlocal noswapfile
+    setlocal nomodifiable
+    setlocal nomodified
+    let &filetype = curFt
+endfunction
+command! -nargs=1 Ftab call FilterToNewTab(<q-args>)
+
 set virtualedit=all                         " Allow jump & move blocks over EOL
 " jump for the specified column to make comments
 let Comment="#"
@@ -149,8 +181,9 @@ function! UnHighlightWindow()
     "endif
 endfunction
 
-"highlight search
+" highlight search
 set hlsearch
+set incsearch
 "set encoding=koi8-r
 "set termencoding=koi8-r
 "íÅÎÀ ËÏÄÉÒÏ×ÏË
@@ -483,6 +516,8 @@ augroup end
 " timeout for leader and other key combination is 1000 [ms]:
 set timeout
 set timeoutlen=1000
+
+nmap f zA
 
 " Pressing <ESC>j in insert mode leads e.g. to accidental triggering of Alt-j.
 " Escape to normal mode without triggering alt keys accidentaly:

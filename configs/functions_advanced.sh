@@ -13,6 +13,8 @@ short_dir () {
         if [ ${#name} -gt 10 ]; then
             name="${name:0:4}~${name:0-4}"
         fi
+    else
+        name="|$name"
     fi
     echo $name
 }
@@ -91,7 +93,7 @@ print_preexec () {
             a="${a:0:5}"
         fi
         local dir_name=`short_dir`
-        local name="$dir_name|$a"
+        local name="$dir_name.$a"
         # See screen(1) "TITLES (naming windows)".
         # "\ek" and "\e\" are the delimiters for screen(1) window titles
         # set screen title

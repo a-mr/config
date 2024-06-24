@@ -1190,7 +1190,12 @@ if exist nimgrep; then
 ngcommon () {
     nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
         --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" \
-        --cols:$((COLUMNS-8)) --onlyAscii -j:4 $@
+        --cols:$((COLUMNS-8)) --onlyAscii -j:4 "$@" | pg
+}
+ngcommonl () {
+    nimgrep --color=$GREP_COLOR --colortheme:ack --recursive \
+        --excludeDir:"\.git$" --excludeDir:"\.hg$" --excludeDir:"\.svn$" \
+        -g --onlyAscii -j:4 "$@" | pg
 }
 
 # search in Nim files, style-insensitive (-y)
@@ -1207,7 +1212,7 @@ ng () {
         local dir="$2"
         shift 2
     fi
-    ngcommon -y --ext:nim\|nims "$pattern" "$dir" "$@" | p
+    ngcommon -y --ext:nim\|nims "$pattern" "$dir" "$@"
 }
 
 # search using nimgrep
@@ -1224,7 +1229,23 @@ gc () {
         local dir="$2"
         shift 2
     fi
-    ngcommon $pattern $dir $@ | p
+    ngcommon $pattern $dir "$@"
+}
+
+gcl () {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    ngcommonl $pattern $dir "$@"
 }
 
 # search using nimgrep, case-insensitive
@@ -1241,7 +1262,23 @@ gi () {
         local dir="$2"
         shift 2
     fi
-    ngcommon -i "$pattern" "$dir" "$@" | p
+    ngcommon -i "$pattern" "$dir" "$@"
+}
+
+gil () {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    ngcommonl -i "$pattern" "$dir" "$@"
 }
 
 # search using nimgrep, style-insensitive
@@ -1258,7 +1295,23 @@ gy () {
         local dir="$2"
         shift 2
     fi
-    ngcommon -y "$pattern" "$dir" "$@" | p
+    ngcommon -y "$pattern" "$dir" "$@"
+}
+
+gyl () {
+    if [[ "$1" == "" ]]; then
+        red_echo no search pattern
+        return 1
+    fi
+    local pattern="$1"
+    if [[ "$2" == "" ]]; then
+        local dir=.
+        shift 1
+    else
+        local dir="$2"
+        shift 2
+    fi
+    ngcommonl -y "$pattern" "$dir" "$@"
 }
 
 g () {
