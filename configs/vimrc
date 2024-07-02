@@ -517,7 +517,8 @@ augroup end
 set timeout
 set timeoutlen=1000
 
-nmap f zA
+nmap f za
+nmap F zA
 
 " Pressing <ESC>j in insert mode leads e.g. to accidental triggering of Alt-j.
 " Escape to normal mode without triggering alt keys accidentaly:

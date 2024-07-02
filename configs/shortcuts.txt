@@ -203,7 +203,8 @@ sta                   show statistics
 stab [BRANCH] (stabc) show changed files in current branch (or BRANCH)
 vbr  [BRANCH]         open files changed in current branch (or BRANCH)
 vac & vab & vabc [ADDITIONAL FILES]
-                      open in vim: (c) currently w/copy (b) the branch
+                      open in vim: (vac) currently modified files
+                      (vab) modified in current branch (vabc) both
 dat [REVISION]        print date of REVISION (or latest commit)
 datshort              the same, short version
 pat  [REVISION]       print patch [for REVISION]

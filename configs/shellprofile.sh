@@ -5,7 +5,9 @@ CURSHELL=`ps -p $$ | tail -1 | awk '{print $NF}'`
 if [ -z "$HOSTNAME" ]; then  # for Zsh
     export HOSTNAME=$HOST
 fi
-echo $DISPLAY > ~/.display-x11-$HOSTNAME
+if [ ! -z "$DISPLAY" ]; then
+    echo $DISPLAY > ~/.display-x11-$HOSTNAME
+fi
 
 # some systems provide their local settings here (it is not loaded if
 # .bash_profile is present)
