@@ -572,7 +572,7 @@ sta () {
           elif [ -e "$1" ]; then
               # ensure always printing something. If given root directory
               # it will print all the untracked file in the repo
-              git status -s $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
+              git status -s --ignored $@ | sed 's/\(.\{2\}\)./ \1 : /' | pb
           else
               red_echo file \"$1\" does not exist
           fi

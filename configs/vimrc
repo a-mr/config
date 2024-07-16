@@ -520,6 +520,21 @@ set timeoutlen=1000
 nmap f za
 nmap F zA
 
+let g:allFoldsClosed = 0
+function! ToggleFolds()
+    " Toggle folds based on current state
+    if g:allFoldsClosed
+        normal! zR
+        let g:allFoldsClosed = 0
+    else
+        normal! zM
+        let g:allFoldsClosed = 1
+    endif
+endfunction
+nnoremap <silent> <Space> :call ToggleFolds()<CR>
+autocmd FileType python setlocal foldignore=\
+autocmd FileType nim setlocal foldignore=\
+
 " Pressing <ESC>j in insert mode leads e.g. to accidental triggering of Alt-j.
 " Escape to normal mode without triggering alt keys accidentaly:
 imap e <ESC>:<CR>
@@ -648,7 +663,6 @@ imap <PageUp> <C-O><C-U><C-O><C-U>
 nmap <PageDown> <C-D><C-D>
 imap <PageDown> <C-O><C-D><C-O><C-D>
 
-nmap <Space> i_<Esc>:<CR>r
 "nmap <CR> o<Esc>
 
 function! CapitalizeCenterAndMoveDown()
