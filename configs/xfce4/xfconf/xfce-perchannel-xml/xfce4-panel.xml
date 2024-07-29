@@ -7,7 +7,7 @@
     <value type="int" value="2"/>
     <value type="int" value="3"/>
     <property name="panel-1" type="empty">
-      <property name="position" type="string" value="p=5;x=1376;y=496"/>
+      <property name="position" type="string" value="p=7;x=16;y=536"/>
       <property name="length" type="double" value="1"/>
       <property name="position-locked" type="bool" value="false"/>
       <property name="size" type="uint" value="32"/>
@@ -44,7 +44,7 @@
         <value type="uint" value="65535"/>
       </property>
       <property name="span-monitors" type="bool" value="false"/>
-      <property name="output-name" type="string" value=""/>
+      <property name="output-name" type="string" value="Primary"/>
       <property name="autohide-behavior" type="uint" value="1"/>
       <property name="enter-opacity" type="uint" value="100"/>
       <property name="icon-size" type="uint" value="0"/>
@@ -61,7 +61,7 @@
       <property name="position-locked" type="bool" value="true"/>
       <property name="disable-struts" type="bool" value="false"/>
       <property name="length-adjust" type="bool" value="true"/>
-      <property name="length" type="uint" value="1"/>
+      <property name="length" type="double" value="1"/>
       <property name="size" type="uint" value="22"/>
       <property name="background-style" type="uint" value="0"/>
       <property name="background-color" type="array">
@@ -85,29 +85,31 @@
       <property name="icon-size" type="uint" value="0"/>
       <property name="autohide-behavior" type="uint" value="0"/>
       <property name="nrows" type="uint" value="1"/>
+      <property name="output-name" type="string" value="Primary"/>
     </property>
     <property name="dark-mode" type="bool" value="false"/>
     <property name="panel-3" type="empty">
       <property name="position" type="string" value="p=8;x=2320;y=1026"/>
-      <property name="size" type="uint" value="70"/>
+      <property name="size" type="uint" value="34"/>
       <property name="plugin-ids" type="array">
         <value type="int" value="27"/>
         <value type="int" value="30"/>
       </property>
       <property name="length-adjust" type="bool" value="true"/>
       <property name="length" type="double" value="1"/>
-      <property name="nrows" type="uint" value="1"/>
+      <property name="nrows" type="uint" value="2"/>
       <property name="autohide-behavior" type="uint" value="1"/>
       <property name="position-locked" type="bool" value="true"/>
       <property name="leave-opacity" type="uint" value="60"/>
       <property name="mode" type="uint" value="0"/>
       <property name="background-style" type="uint" value="0"/>
+      <property name="output-name" type="string" value="Primary"/>
     </property>
   </property>
   <property name="plugins" type="empty">
     <property name="plugin-1" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-      <property name="mpris-players" type="string" value="chromium.instance10146;chromium.instance12274;chromium.instance12728;chromium.instance12934;chromium.instance13230;chromium.instance13387;chromium.instance16151;chromium.instance16774;chromium.instance17072;chromium.instance17551;chromium.instance18468;chromium.instance186858;chromium.instance21083;chromium.instance22088;chromium.instance22984;chromium.instance25300;chromium.instance2619;chromium.instance26388;chromium.instance2708;chromium.instance27435;chromium.instance27655;chromium.instance28472;chromium.instance2918;chromium.instance31009;chromium.instance31553;chromium.instance31851;chromium.instance36056;chromium.instance368635;chromium.instance5089;chromium.instance5144;chromium.instance5193;chromium.instance5244;chromium.instance5246;chromium.instance5262;chromium.instance5267;chromium.instance5285;chromium.instance5300;chromium.instance5318;chromium.instance5439;chromium.instance5456;chromium.instance5464;chromium.instance5489;chromium.instance5543;chromium.instance5726;chromium.instance5760;chromium.instance6036;chromium.instance653;chromium.instance6622;chromium.instance6773;chromium.instance6812;chromium.instance7411;chromium.instance7691;chromium.instance8806;chromium.instance9358;chromium.instance9816;firefox.instance10150;firefox.instance10292;firefox.instance10496;firefox.instance10590;firefox.instance10608;firefox.instance10796;firefox.instance10975;firefox.instance11030;firefox.instance11074;firefox.instance11621;firefox.instance1163;firefox.instance11646;firefox.instance11762;firefox.instance118249;firefox.instance11978;firefox.instance130357;firefox.instance13366;firefox.instance13611;firefox.instance13666;firefox.instance13944;firefox.instance14464;firefox.instance14628;firefox.instance162889;firefox.instance16628;firefox.instance16902;firefox.instance17070;firefox.instance17467;firefox.instance17665;firefox.instance18056;firefox.instance18568;firefox.instance18720;firefox.instance19092;firefox.instance19496;firefox.instance1954;firefox.instance19660;firefox.instance20505;firefox.instance21328;firefox.instance21898;firefox.instance226151;firefox.instance23020;firefox.instance23061;firefox.instance23450;firefox.instance23797;firefox.instance2382;firefox.instance23962;firefox.instance24276;firefox.instance25006;firefox.instance26340;firefox.instance26788;firefox.instance27051;firefox.instance2822;firefox.instance28783;firefox.instance28803;firefox.instance28869;firefox.instance28915;firefox.instance28994;firefox.instance29282;firefox.instance2935;firefox.instance29358;firefox.instance30045;firefox.instance30346;firefox.instance30642;firefox.instance31133;firefox.instance31452;firefox.instance32043;firefox.instance32262;firefox.instance33673;firefox.instance40919;firefox.instance4200;firefox.instance487253;firefox.instance5011;firefox.instance5170;firefox.instance517556;firefox.instance5184;firefox.instance5260;firefox.instance5318;firefox.instance5329;firefox.instance5334;firefox.instance5364;firefox.instance5383;firefox.instance5395;firefox.instance5438;firefox.instance5447;firefox.instance5528;firefox.instance5587;firefox.instance5605;firefox.instance5704;firefox.instance5730;firefox.instance5772;firefox.instance5809;firefox.instance5841;firefox.instance6243;firefox.instance6495;firefox.instance6808;firefox.instance6976;firefox.instance70194;firefox.instance7383;firefox.instance7537;firefox.instance754172;firefox.instance7666;firefox.instance7764;firefox.instance77808;firefox.instance7847;firefox.instance8064;firefox.instance8088;firefox.instance8239;firefox.instance827;firefox.instance8351;firefox.instance8759;firefox.instance8877;firefox.instance89845;firefox.instance9573;firefox.instance9898;firefox.instance9945;Gwenview;parole;rhythmbox;smplayer;vlc"/>
+      <property name="mpris-players" type="string" value="chromium.instance10146;chromium.instance12274;chromium.instance12728;chromium.instance12934;chromium.instance13230;chromium.instance13387;chromium.instance16151;chromium.instance16774;chromium.instance17072;chromium.instance17551;chromium.instance18468;chromium.instance186858;chromium.instance21083;chromium.instance22088;chromium.instance22984;chromium.instance25300;chromium.instance2619;chromium.instance26388;chromium.instance2708;chromium.instance27435;chromium.instance27655;chromium.instance28472;chromium.instance2918;chromium.instance31009;chromium.instance31553;chromium.instance31851;chromium.instance36056;chromium.instance368635;chromium.instance5089;chromium.instance5144;chromium.instance5193;chromium.instance5244;chromium.instance5246;chromium.instance5262;chromium.instance5267;chromium.instance5285;chromium.instance5300;chromium.instance5318;chromium.instance5439;chromium.instance5456;chromium.instance5464;chromium.instance5489;chromium.instance5543;chromium.instance5726;chromium.instance5760;chromium.instance6036;chromium.instance653;chromium.instance6622;chromium.instance6773;chromium.instance6812;chromium.instance7411;chromium.instance7691;chromium.instance8806;chromium.instance9358;chromium.instance9816;firefox.instance10150;firefox.instance10292;firefox.instance10496;firefox.instance10590;firefox.instance10608;firefox.instance10796;firefox.instance10975;firefox.instance11030;firefox.instance11074;firefox.instance11621;firefox.instance1163;firefox.instance11646;firefox.instance11762;firefox.instance118249;firefox.instance11978;firefox.instance130357;firefox.instance13366;firefox.instance13537;firefox.instance13611;firefox.instance13666;firefox.instance13944;firefox.instance14464;firefox.instance14628;firefox.instance162889;firefox.instance16628;firefox.instance16902;firefox.instance17070;firefox.instance17467;firefox.instance17665;firefox.instance18056;firefox.instance18568;firefox.instance18720;firefox.instance19092;firefox.instance19496;firefox.instance1954;firefox.instance19660;firefox.instance20505;firefox.instance21328;firefox.instance21898;firefox.instance226151;firefox.instance23020;firefox.instance23061;firefox.instance23450;firefox.instance23797;firefox.instance2382;firefox.instance23962;firefox.instance24276;firefox.instance25006;firefox.instance252653;firefox.instance26340;firefox.instance26788;firefox.instance27051;firefox.instance2822;firefox.instance28783;firefox.instance28803;firefox.instance28869;firefox.instance28915;firefox.instance28994;firefox.instance29282;firefox.instance2935;firefox.instance29358;firefox.instance30045;firefox.instance30346;firefox.instance30642;firefox.instance31133;firefox.instance31452;firefox.instance32043;firefox.instance32262;firefox.instance33673;firefox.instance4072;firefox.instance4073;firefox.instance4076;firefox.instance40919;firefox.instance4200;firefox.instance4267;firefox.instance4365;firefox.instance46534;firefox.instance487253;firefox.instance4896;firefox.instance4930;firefox.instance5011;firefox.instance5023;firefox.instance5091;firefox.instance5117;firefox.instance5149;firefox.instance5170;firefox.instance517556;firefox.instance5184;firefox.instance5204;firefox.instance5260;firefox.instance5318;firefox.instance5329;firefox.instance5334;firefox.instance5364;firefox.instance5383;firefox.instance5395;firefox.instance5416;firefox.instance5438;firefox.instance5447;firefox.instance5528;firefox.instance5587;firefox.instance5592;firefox.instance5605;firefox.instance5654;firefox.instance56728;firefox.instance5704;firefox.instance5730;firefox.instance5772;firefox.instance5809;firefox.instance5841;firefox.instance6243;firefox.instance6279;firefox.instance6495;firefox.instance6808;firefox.instance6976;firefox.instance70194;firefox.instance7383;firefox.instance7537;firefox.instance754172;firefox.instance7666;firefox.instance7750;firefox.instance7764;firefox.instance77808;firefox.instance7847;firefox.instance8064;firefox.instance8088;firefox.instance8239;firefox.instance827;firefox.instance8351;firefox.instance8500;firefox.instance8759;firefox.instance8877;firefox.instance89845;firefox.instance9573;firefox.instance9690;firefox.instance9898;firefox.instance9945;Gwenview;parole;rhythmbox;smplayer;vlc"/>
     </property>
     <property name="plugin-3" type="string" value="whiskermenu"/>
     <property name="plugin-4" type="string" value="launcher">
@@ -216,6 +218,9 @@
         <value type="string" value="yad"/>
       </property>
       <property name="known-items" type="array">
+        <value type="string" value="Zeal"/>
+        <value type="string" value="Skype1"/>
+        <value type="string" value="example-simple-client"/>
         <value type="string" value="join?action=join&amp;confno=8867316902&amp;confid=dXRpZD1VVElEXzRkOTAwMTFiYWIyODQzMjA4MTQ3NGIwNmIxNDExMTFkJnVzcz1aTC1IRGRLdWRROWNwQVZkd20xUU0tRGNLUURuRUo4OGxwOXdjeGZpaFZfSmx2N1lHc0xOTGI5c3BqNlVzZ3pYTkp4ZmhuV19RdTUtUWhfOURFdjhHYUZEYTJoMXdYa1BWZ3NFZnVjLWxhY2dzUFdILk5HaFExODRKSV9JQlNzaDcmdGlkPTZiYmJiYzZmNmVmODQzNjFhMTdkNGEyODEyMDQ3MGNm&amp;browser=firefox"/>
         <value type="string" value="chrome_status_icon_1"/>
         <value type="string" value="join?action=join&amp;confno=88320532423&amp;pwd=bmV5N1QrUFJqelZsaTZpRldqRGxtUT09&amp;confid=dXRpZD1VVElEX2Y2ZjQ0ZTc0NzgxMTRlNThhYzM4NGM4ZTQwNDNlMjUyJnVzcz1MNmxzQzY3NlB2QTZ6dXBNQ09zSGRYN0lfejU0SHd4akhlZ1U5ZG04MThEaFFYa2pOYzM0REs0NkowT0x4MHNjVEEza1BnVnBEcmtzQVA4bDcyZFpwWWpMVGVScy45azYzQWw2bTVWRzZBeGZYJnRpZD02YmJiYmM2ZjZlZjg0MzYxYTE3ZDRhMjgxMjA0NzBjZg%3D%3D&amp;browser=firefox"/>
@@ -246,6 +251,12 @@
         <value type="string" value="nm-applet"/>
       </property>
       <property name="known-legacy-items" type="array">
+        <value type="string" value="gxkb"/>
+        <value type="string" value="wi-fi network connection “villa8-3” active: villa8-3 (79%)"/>
+        <value type="string" value="wi-fi network connection “villa8-3” active: villa8-3 (81%)"/>
+        <value type="string" value="wi-fi network connection “villa8-3-5g” active: villa8-3-5g (77%)"/>
+        <value type="string" value="pasystray"/>
+        <value type="string" value="bluetooth enabled"/>
         <value type="string" value="deluge"/>
         <value type="string" value="gajim"/>
         <value type="string" value="thunar"/>
