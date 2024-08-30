@@ -1,6 +1,24 @@
 ##############################################################################
 # functions for working with version control repositories & others
 
+# example:
+# declare -a MY_REPOS=("path/to/repo1" "path/to/repo2")
+
+lsr () {
+    local show_branches=false
+    if [[ "$1" == -l ]]; then
+        show_branches=true
+    fi
+    local save_cwd=`command pwd`
+    for repo in "${MY_REPOS[@]}"; do
+        cd "$repo"
+        local dirty=`git diff --quiet -r HEAD || echo \[M\]`
+        echo ----------------- $(basename "$repo") "	" `bra -safe` $dirty
+        $show_branches && lbr
+    done
+    cd "$save_cwd"
+}
+
 # force-fetch and checkout
 gfcou () {
     git fetch origin --force "$1:$1"
@@ -245,7 +263,8 @@ vbr () {
 
 # open currently modified files
 vac () {
-    vr `git diff --name-only` "$@"
+    # using `-r HEAD` includes already staged files
+    vr `git diff --name-only -r HEAD` "$@"
 }
 
 # like vbr but only for current branch + additional files
@@ -847,7 +866,6 @@ rebd () {
 
 gitlfspur () {
     git lfs ls-files -n | xargs -d '\n' rm
-    rvr "${1:-.}"
 }
 
 pur () {
@@ -863,7 +881,7 @@ pur () {
   case "$REPO" in
       git) mydialog $msg "n green_echo skipped" "y git clean  -d  -f -x $arg $@"
           # (-d untracked directories, -f untracked files, -x also ignored files)
-          gitlfspur .
+          # gitlfspur
           ;;
       mercurial) mydialog $msg "n green_echo skipped" "y hg purge $arg $@"
           ;;
@@ -1036,8 +1054,9 @@ lbr () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git)
+          # not using pager to use in `lsr`
           git for-each-ref --sort=committerdate refs/heads/ \
-              --format='%(committerdate:short): %(refname:short)' | pb
+              --format='%(committerdate:short): %(refname:short)'
           ;;
       mercurial) hg branches --active
           ;;

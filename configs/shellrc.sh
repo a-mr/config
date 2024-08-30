@@ -416,7 +416,9 @@ set_display () {
         bold_echo Input display or press enter \[default: `cat ~/.display-x11-$HOSTNAME`\]
         local line
         read line
-        x $line
+        if [ ! -z "$line" ]; then
+            x $line
+        fi
     elif [ ! -z "$DISPLAY" ]; then
         x $DISPLAY
     else
@@ -718,7 +720,7 @@ psc () {
 
 # show file system hierarchy
 tree () {
-    command tree -C --charset utf8 $@ | less
+    command tree -C --charset utf8 $@ | less -XE
 }
 
 pwd () {
@@ -726,7 +728,7 @@ pwd () {
     echo $line
     echo $line > ~/tmp/buffer2
     if [ ! -z "$DISPLAY" ]; then
-        echo "\t...copying to clipboard..."
+        echo "    ...copying to clipboard..."
         echo $line | xcl
     fi
 }
@@ -950,7 +952,7 @@ which () {
     if [ `echo "$line" | wc -l` -eq 1 ]; then
         echo "$line" > ~/tmp/buffer2
         if [ ! -z "$DISPLAY" ]; then
-            echo "\t...copying to clipboard..."
+            echo "    ...copying to clipboard..."
             echo "$line" | xcl
         fi
     fi

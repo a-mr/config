@@ -81,15 +81,18 @@ command! -bang -nargs=* -complete=tag S call SearchMultiLine(<bang>0, <f-args>)|
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
-set grepprg=nimgrep\ --text\ --recursive\ --excludeDir=.git\ --excludeDir=.svn\ --excludeDir=.hg\ --excludeDir=nimcache\ --excludeDir:csources\ $*\ .
+
+" open results from quickfix window in new tab by default
+set switchbuf+=newtab
+
+set grepprg=nimgrep\ -i\ -j:4\ --text\ --recursive\ --excludeDir=.git\ --excludeDir=.svn\ --excludeDir=.hg\ --excludeDir=nimcache\ --excludeDir:csources\ $*\ .
 "set grepprg=grep\ -rnH\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=.hg\ $*\ .
 command! -nargs=+ Grep  execute 'silent grep! <args>'    | copen | let @z = '<args>'
 command! -nargs=+ Grepw execute 'silent grep! -w <args>' | copen | let @z = '<args>'
 "| execute 'silent /<args>'
 
-map <S-F12> "zyiw:grep "<C-R>z"<CR><CR>:copen<CR>zz/<C-R>z<CR>
-map <Leader>g "zyiw:grep "<C-R>z"<CR><CR>:copen<CR>zz/<C-R>z<CR>
-vmap <S-F12> "zy:grep "<C-R>z"<CR><CR>zz/<C-R>z<CR>
+map <Leader>g "zyiw:grep! "<C-R>z"<CR><CR>:exec 'copen ' . winheight('.')/3<CR>zz/<C-R>z<CR>
+vmap <Leader>g "zy:grep! "<C-R>z"<CR><CR>:exec 'copen ' . winheight('.')/3<CR>zz/<C-R>z<CR>
 map <F12> :cn<CR>zz/<C-R>z<CR>
 map <C-F12> :cp<CR>zz/<C-R>z<CR>
 
@@ -460,6 +463,10 @@ runtime macros/matchit.vim
 hi link EasyMotionTarget WarningMsg
 
 nmap s <Leader>
+vmap s <Leader>
+" does not work:
+" nnoremap s <Nop>
+" let mapleader = "s"
 
 " go to word beginning
 map sw <Plug>(easymotion-bd-w)
@@ -1187,6 +1194,11 @@ imap s <ESC>s
 let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": ":"}
 
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/
+if &diff
+    finish
+endif
+
 " plugins path
 set runtimepath+=~/activity-public/computer-program-data/vim/file-line/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-signify/
@@ -1202,7 +1214,6 @@ let g:markbar_peekaboo_apostrophe_mapping = 'm'
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-markbar/
 set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
-set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-ingo-library/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-mark/
 

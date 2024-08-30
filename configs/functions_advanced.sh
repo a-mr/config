@@ -74,7 +74,10 @@ print_preexec () {
 
     case "$TERM" in
       screen|screen.*)
-        export DISPLAY=`cat $HOME/.display-x11-$HOSTNAME`
+        DISPLAY=`cat $HOME/.display-x11-$HOSTNAME`
+        if [ ! -z "$DISPLAY" ]; then
+            export DISPLAY
+        fi
         local a=""
         if [[ $CURSHELL == bash ]]; then
           a="$1"
@@ -171,7 +174,11 @@ if [[ $CURSHELL == zsh ]]; then
     bindkey "o" history-beginning-search-backward
     bindkey "i" history-beginning-search-forward
     bindkey -s "e" '\e'
-    if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+        source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+        bindkey 'a' autosuggest-execute
+        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
+    elif [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
         source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
         bindkey 'a' autosuggest-execute
         ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
@@ -334,6 +341,8 @@ if [[ $CURSHELL == zsh ]]; then
 
     autoload -Uz compinit
     compinit
+    # immediately open completion choice menu
+    setopt no_list_ambiguous
 
     # Start to complete `cl` command by files & dirs immediately:
     smart-complete-space() {

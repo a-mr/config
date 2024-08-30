@@ -34,11 +34,12 @@ _______________________________________________________| C-w K  to horiz.split
   C-]      follow link (e.g. man mode)      |    '^  jump to prev.edited pos.
   |Normal mode:  C-e  move screen           |my: A-q  goto prev mark
   |              C-y  move screen           |    A-'  goto next mark
-  |              zz   curr.line ->center
+  |              zz   curr.line ->center    | <leader>g  grep word u/cursor
   :Man 2 fork  open man page in sec.2    C-y  insert chars above cursor
   @:  repeat substitution command (1st time repeat -- then use just @@)
   :set textwidth=72 <CR> gq    to make text fit into 72 characters
-______________________________________________________________________________
+vim-diff:        do   replace change under cursor from o_ther pane
+                 ]c   jump to next diff
   :%sort  or  :%!sort     sort the whole file (range=%), `-n` for numeric sort
   :g/PAT show lines matching PAT           :read <file>  paste <file> contents
   :match  Boolean   /paTTERN/   #add highlight grp 1 with paTTERN & color Bool

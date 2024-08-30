@@ -44,6 +44,7 @@
 [merge]
 	renameLimit = 999999
         tool = meld
+        conflictstyle = diff3
 [mergetool "meld"]
     cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 
