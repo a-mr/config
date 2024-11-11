@@ -383,6 +383,15 @@ cdr () {
     cd "`roo`/$1"
 }
 
+# Flexible cd: go to directory if it exists, otherwise use VCS-relative `cdr`
+cdf () {
+    if [ -d "$1" ]; then
+        cd "$1"
+    else
+        cdr "$1"
+    fi
+}
+
 # squash commits
 squ () {
     check_no_args "$@" || return

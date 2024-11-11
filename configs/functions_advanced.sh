@@ -464,6 +464,7 @@ if [[ $CURSHELL == zsh ]]; then
     "mt"	"mathematics-topology/"
     "mmp"	"mathematics-mathematical_physics/"
     "lit"	"$wpe/literature/"
+    "lan"	"$wpe/languages/"
     "mus"	"$wpe/Music/"
     "pic"       "$wpe/pictures/"
     "phot"	"$wpe/Photos/"
@@ -487,6 +488,17 @@ if [[ $CURSHELL == zsh ]]; then
 
     zle -N magic-abbrev-expand
     bindkey "^e" magic-abbrev-expand
+
+    function cd_expand_abbrev () { 
+        zle magic-abbrev-expand
+        if [ ! -z "$BUFFER" ]; then
+          BUFFER="cdf $BUFFER"
+          zle accept-line
+        fi
+    }
+    zle -N cd_expand_abbrev
+    bindkey "c" cd_expand_abbrev
+
     add_command () {
         print -sr $@
     }

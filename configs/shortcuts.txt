@@ -20,6 +20,7 @@ My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
 fp  get fullpath  A-b  add buffer2 to line|    b  print buffer2
 cdb cd to buffer2 location                |   vb  vim to buffer2
 after "cmd"  run `cmd` before earch prompt|  A-r  update history
+                  | A-c  input abbreviation, press this and it will `cd` there
 ______________________________________________________________________________
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn

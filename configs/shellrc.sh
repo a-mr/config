@@ -872,51 +872,31 @@ pgd () {
     less -M $@
 }
 
-lsdirs () {
-  ( fullpath; echo ./; echo ../; lsd ) | \
+ls_files_dirs () {
+  yellow_echo "$PWD"
+  echo $bold
+  find . -maxdepth 1 -not -type d | column
+  echo $normal
+  (echo ../; lsd ) | \
       tee ~/tmp/buffer | cat -n | less -X -F
 }
 
 ee () {
-  local dir=${1:-.}
-  cd "$dir"
-  lsdirs
   local num
   while true; do
-      echo -n "$bold =============================[q|ls|p|#]>$reset "
+      clear
+      ls_files_dirs
+      echo -n "$bold =============================[q|NUM]>$reset "
       read num
       case "$num" in
-        "") ls | p
-            return
+        "") continue
             ;;
         "q") return ;;
-        "ls") ls ;;
-        "p") lsdirs ;;
-        *) echo selected $num
-           break
-           # red_echo unknown command $num ;;
+        *) echo
+           local dir="$(cat ~/tmp/buffer|decolorize|head -n $num|tail -n 1)"
+           cd "$dir"
       esac
   done
-  local line2="$(cat ~/tmp/buffer|decolorize|head -n $num|tail -n 1)"
-  ee "$line2"
-}
-
-eea () {
-  local dir=${1:-.}
-  cd "$dir"
-  (fullpath; lsda) | tee ~/tmp/buffer | cat -n | less -X -F
-  echo -n "$bold =============================>$reset "
-  local num
-  read num
-  if [[ $num == "" ]]; then
-      ls -a
-      return
-  fi
-  if [[ $num == "q" ]]; then
-      return
-  fi
-  local line2="$(cat ~/tmp/buffer|decolorize|head -n $num|tail -n 1)"
-  eea "$line2"
 }
 
 # use ~/tmp/buffer2 for passing one-line information from
