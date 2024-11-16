@@ -92,20 +92,21 @@ print_preexec () {
           a=$(print -Pn "$a" | tr -d "\t\n\v\f\r")  # remove fancy whitespace
           a=${(V)a//\%/\%\%}  # escape non-visibles and print specials
         fi
+        local short_cmd=$a
         if [ ${#a} -gt 10 ]; then
-            a="${a:0:5}"
+            short_cmd="${a:0:5}"
         fi
         local dir_name=`short_dir`
-        local name="$dir_name.$a"
+        local name="$dir_name.$short_cmd"
         # See screen(1) "TITLES (naming windows)".
         # "\ek" and "\e\" are the delimiters for screen(1) window titles
         # set screen title
         echo -ne "\ek$name\e\\"
         # must (re)set xterm title
-        echo -ne "\e]0;${PWD##*/}> $1\a"
+        echo -ne "\e]0;${PWD##*/}> $a\a"
         ;;
       rxvt|rxvt-256color|rxvt-unicode|xterm|xterm-color|xterm-256color)
-        echo -ne "\e]0;${PWD##*/}> $1\a"
+        echo -ne "\e]0;${PWD##*/}> $a\a"
         ;;
     esac
 }
