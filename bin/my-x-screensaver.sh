@@ -8,9 +8,9 @@ while true; do
     t=$((t/1000))
     #echo $t
     if [ $t -gt $SWITCH_TIMEOUT ]; then
-        if [ -d ~/nfs/s ]; then  # home computer
+        if [ -d ~/nfs ]; then  # home computer
             xset dpms force off
-        else                     # work computer
+        else                   # work computer
             # light-locker-command -l
             xflock4
         fi

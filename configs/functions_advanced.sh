@@ -54,7 +54,7 @@ print_precmd () {
     local name=`short_dir`
     # set the titles to last path component of working directory
     case "$TERM" in
-      screen|screen.*)
+      screen*)
         # set screen title
         echo -ne "\ek${name}\e\\"
         # must (re)set xterm title
@@ -73,7 +73,7 @@ print_preexec () {
     start_time="`curtime`"
 
     case "$TERM" in
-      screen|screen.*)
+      screen*)
         DISPLAY=`cat $HOME/.display-x11-$HOSTNAME`
         if [ ! -z "$DISPLAY" ]; then
             export DISPLAY
@@ -151,18 +151,19 @@ if [[ $CURSHELL == zsh ]]; then
 
     # Control-h also deletes the previous char
     bindkey "^U" kill-whole-line
-    # home/end in gnome terminal
-    bindkey  "^[[H"   beginning-of-line
-    bindkey  "^[[F"   end-of-line
-    bindkey -M vicmd "y" beginning-of-line
-    bindkey -M vicmd "u" end-of-line
     # swap t and j:
     bindkey -M vicmd "j" vi-find-next-char-skip
-    bindkey -M vicmd "t" down-line-or-history                      
+    bindkey -M vicmd "t" down-line-or-history
     # bind C-t to Return
     bindkey "^T" accept-line
     bindkey -M vicmd "^T" accept-line
 
+    # home/end in gnome terminal
+    bindkey  "^[[H"   beginning-of-line
+    bindkey  "^[[F"   end-of-line
+    # my convenience keybindings
+    bindkey -M vicmd "y" beginning-of-line
+    bindkey -M vicmd "u" end-of-line
     bindkey -v "y" beginning-of-line
     bindkey -v "u" end-of-line
     # in putty:
@@ -322,6 +323,19 @@ if [[ $CURSHELL == zsh ]]; then
     zle -N run_pb_pager
     bindkey "n" run_pb_pager
 
+    function run_cd_previous () { 
+        if [ -z "$BUFFER" ]; then
+            BUFFER="cd -"
+            zle accept-line
+        else
+            echo
+            echo line is not empty
+            zle reset-prompt
+        fi
+    }
+    zle -N run_cd_previous
+    bindkey "^o" run_cd_previous
+
     function run_help_pager () { 
         if [ ! -z "$BUFFER" ]; then
           BUFFER="$BUFFER --help 2>&1 | less"
@@ -416,66 +430,79 @@ if [[ $CURSHELL == zsh ]]; then
     local apu="$share_root/activity-public"
     local ape="$share_root/activity-personal"
     local wpe="$share_root/works-personal"
+    local dpu="$share_root/docs-public"
     typeset -Ag abbreviations
     abbreviations=()
 
     abbreviations+=(
+    "cpd"	"$lapu/computer-program-data/"
+    )
+    if [ -d ~/nfs ]; then
+    abbreviations+=(
+    # general directories
     "s"         "$share_root/"
     "apu"	"$apu/"
     "lapu"	"$lapu/"
     "ape"	"$ape/"
     "lape"	"$lape/"
+    "wpe"	"$wpe/"
+    # software to save so that it's not lost
+    "soft"      "$share_root/software/"
+    # VBox virtual machines
+    "vbox"      "$share_root/vbox/"
+    # my artifacts and projects
     "draf"	"$ape/draft_mak/"
     "wpu"	"$share_root/works-public/"
-    "wpe"	"$wpe/"
-    "dpu"	"$share_root/docs-public/"
-    "dau"	"$share_root/docs-aux/"
-    "dpe"	"$share_root/docs-personal/"
-    "ppe"	"physics-particle-experiment/"
-    "ppt"	"physics-particle-theory/"
-    "qm"	"quantum_mechanics/"
-    "qft"	"quantum_field_theory/"
-    "pc"	"physics-common/"
-    "cml"	"computer-machine_learning/"
-    "nlp"	"computer-speech\&natural_languages-processing/"
-    "cnm"	"computer-numerical_methods/"
-    "cpc"	"computer-program-common/"
-    "cps"	"computer-program-system/"
-    "cpla"	"computer-program-languages/"
-    "cpd"	"$lapu/computer-program-data/"
-    "cpdo"	"$lapu/computer-program-doc/"
-    "cpli"	"computer-program-libraries/"
-    "cpads"	"computer-program-algorithms_and_data_structures/"
-    "capp"	"computer-applications/"
-    "cpp"	"computer-program-proof/"
-    "csym"	"computer-symbolic_calculations_computer_algebra/"
-    "cvis"	"computer-visualization/"
-    "eng"	"$ape/english/"
-    "soft"      "$share_root/software/"
-    "vbox"      "$share_root/vbox/"
-    "mal"	"mathematics-algebra-linear/"
-    "mc"	"mathematics-common/"
-    "mca"	"mathematics-complex_analysis/"
-    "md"	"mathematics-discrete/"
-    "mfa"	"mathematics-functional_analysis/"
-    "mgt"	"mathematics-group_theory/"
-    "ml"	"mathematics-logic/"
-    "ms"	"mathematics-statistics/"
-    "msdp"	"mathematics-statistics&data_processing/"
-    "mt"	"mathematics-topology/"
-    "mmp"	"mathematics-mathematical_physics/"
-    "lit"	"$wpe/literature/"
-    "lan"	"$wpe/languages/"
-    "mus"	"$wpe/Music/"
-    "pic"       "$wpe/pictures/"
-    "phot"	"$wpe/Photos/"
     "nims"      "$apu/nim-stable/"
     "nim1"      "$apu/nim-stable-1-0/"
     "Nim"       "$apu/Nim/"
     "nim2"      "$apu/nim2/"
     "nimd"      "$apu/nim-devel/"
     "nimd2"     "$apu/nim-devel2/"
+    # personal materials/literature
+    # # misc specifications
+    "dau"	"$share_root/docs-aux/"
+    # # bueraucratic
+    "dpe"	"$share_root/docs-personal/"
+    "lit"	"$wpe/literature/"
+    "lan"	"$wpe/languages/"
+    "mus"	"$wpe/Music/"
+    "pic"       "$wpe/pictures/"
+    "phot"	"$wpe/Photos/"
+    # documents
+    "dpu"	"$dpu"
+    "nlp"	"$dpu/computer-speech\&natural_languages-processing/"
+    "cpc"	"$dpu/computer-program-common/"
+    "cps"	"$dpu/computer-program-system/"
+    "cpli"	"$dpu/computer-program-libraries/"
+    "algo"	"$dpu/computer-program-algorithms_and_data_structures/"
     )
+    fi
+    # historical abbreviations:
+    #"cpla"	"$dpu/computer-program-languages/"
+    #"eng"	"$ape/english/"
+    #"ppe"	"physics-particle-experiment/"
+    #"ppt"	"physics-particle-theory/"
+    #"qm"	"quantum_mechanics/"
+    #"qft"	"quantum_field_theory/"
+    #"pc"	"physics-common/"
+    #"cml"	"computer-machine_learning/"
+    #"cnm"	"computer-numerical_methods/"
+    #"capp"	"computer-applications/"
+    #"cpp"	"computer-program-proof/"
+    #"csym"	"computer-symbolic_calculations_computer_algebra/"
+    #"cvis"	"computer-visualization/"
+    #"mal"	"mathematics-algebra-linear/"
+    #"mc"	"mathematics-common/"
+    #"mca"	"mathematics-complex_analysis/"
+    #"md"	"mathematics-discrete/"
+    #"mfa"	"mathematics-functional_analysis/"
+    #"mgt"	"mathematics-group_theory/"
+    #"ml"	"mathematics-logic/"
+    #"ms"	"mathematics-statistics/"
+    #"msdp"	"mathematics-statistics&data_processing/"
+    #"mt"	"mathematics-topology/"
+    #"mmp"	"mathematics-mathematical_physics/"
     } # end set_abbrevs
     set_abbrevs
 
@@ -492,8 +519,12 @@ if [[ $CURSHELL == zsh ]]; then
 
     function cd_expand_abbrev () { 
         zle magic-abbrev-expand
-        if [ ! -z "$BUFFER" ]; then
-          BUFFER="cdf $BUFFER"
+        if [ -z "$BUFFER" ]; then
+            echo
+            printf "%s\n" ${(k)abbreviations} | sort | column
+            zle reset-prompt
+        else
+          BUFFER="cdf $BUFFER && ls"
           zle accept-line
         fi
     }

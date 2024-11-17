@@ -59,6 +59,10 @@ fi
 # ~/.functions.sh
 . ~/.functions.sh
 
+if [[ "$TERM" == "xterm" ]]; then
+    # help GNU screen
+    export TERM=xterm-256color
+fi
 if [ -z "$DISPLAY" ]; then
     setfont FullCyrAsia-Terminus32x16
 fi
@@ -579,7 +583,7 @@ tt () {
 local save_force_window_name=$force_window_name
 force_window_name=$1
 case "$TERM" in
-  screen|screen.*)
+  screen*)
       if [ ! -z "$2" ]; then
           screen -X number "$2"
       fi
@@ -606,7 +610,7 @@ echo $save_force_window_name
 # tn: set Tab Number
 tn () {
 case "$TERM" in
-  screen|screen.*)
+  screen*)
       screen -X number "$1"
       ;;
   *)

@@ -271,9 +271,6 @@ vac () {
 vab () {
   local default=$(dbr)
   local branch=$(bra)
-  if [ $# -gt 1 ]; then
-      shift 1
-  fi
   if [[ "$branch" == "$default" ]]; then
       red_echo "default branch"
       return 1
@@ -287,14 +284,11 @@ vab () {
 vabc () {
   local default=$(dbr)
   local branch=$(bra)
-  if [ $# -gt 1 ]; then
-      shift 1
-  fi
   if [[ "$branch" == "$default" ]]; then
       red_echo "default branch"
       return 1
   else
-      echo vr $(git diff --name-only $(git merge-base $branch $default))
+      echo vr $(git diff --name-only $(git merge-base $branch $default)) "$@"
       vr $(git diff --name-only $(git merge-base $branch $default)) "$@"
   fi
 }

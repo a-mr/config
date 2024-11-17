@@ -64,6 +64,10 @@ if &term == "screen.xterm-256color"
     set t_ts=k
     set t_fs=\
 endif
+if &term == "screen-256color"
+    set t_ts=k
+    set t_fs=\
+endif
 
 " jump to the last position when reopening a file
 if has("autocmd")
@@ -187,6 +191,9 @@ endfunction
 " highlight search
 set hlsearch
 set incsearch
+" sometimes colors of search highlight are too bright:
+"hi Search cterm=NONE ctermbg=darkyellow
+
 "set encoding=koi8-r
 "set termencoding=koi8-r
 "íÅÎÀ ËÏÄÉÒÏ×ÏË
@@ -415,7 +422,7 @@ endif
 
 syntax on
 " disable it for files > 10 MB
-autocmd BufReadPre * if getfsize(expand("%")) > 10000000 | syntax off | endif
+autocmd BufReadPre * if getfsize(expand("%")) > 10000000 | set syntax=off | endif
 set ts=8
 set shiftwidth=4
 set softtabstop=4 "delete 4 spaces by backspace

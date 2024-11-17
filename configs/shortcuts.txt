@@ -20,7 +20,7 @@ My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
 fp  get fullpath  A-b  add buffer2 to line|    b  print buffer2
 cdb cd to buffer2 location                |   vb  vim to buffer2
 after "cmd"  run `cmd` before earch prompt|  A-r  update history
-                  | A-c  input abbreviation, press this and it will `cd` there
+    | C-o  cd -   | A-c  input abbreviation, press this and it will `cd` there
 ______________________________________________________________________________
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn
@@ -31,6 +31,7 @@ Vim                     |Vim spellcheck                |Vim window
   za  toggle fold       | %    current file in :!      | C-w _   maximize hor.
 f zA  toggle fold recur.| %:p  the same, full path     | C-w H   to vert.split
 _______________________________________________________| C-w K  to horiz.split
+  yiw   ->    viwp     yank/substitute word |
   R<C-r>"  replace-paste after yanking text |    ''  jump to prev.visited mark
   C-]      follow link (e.g. man mode)      |    '^  jump to prev.edited pos.
   |Normal mode:  C-e  move screen           |my: A-q  goto prev mark
@@ -39,6 +40,8 @@ _______________________________________________________| C-w K  to horiz.split
   :Man 2 fork  open man page in sec.2    C-y  insert chars above cursor
   @:  repeat substitution command (1st time repeat -- then use just @@)
   :set textwidth=72 <CR> gq    to make text fit into 72 characters
+  :set wrap   force automatic line wrapping (in vimdiff)
+  :mksession <filename>  save tab layout -> load it by `vim -S <filename>`
 vim-diff:        do   replace change under cursor from o_ther pane
                  ]c   jump to next diff
   :%sort  or  :%!sort     sort the whole file (range=%), `-n` for numeric sort
@@ -81,6 +84,7 @@ My Vim:                   s     <Leader>              |vim-markgroup:
    F8    call SyncTex                F9   spell check          F10  encoding
   :S  do multiline search (if lines were wrapped)
  :Ftab <pattern>  (for large logs) filter current file and open it in new tab
+ DON'T use " in pattern, just :Ftab sentence with spaces
 My Vim clangd:                  A-g  GOTO DEFINITION
   A-f  format code              A-h  show type hierarchy  A-v  cycle var usage
   A-a  apply suggestion action  A-s  SHOW SYMBOL INFO
