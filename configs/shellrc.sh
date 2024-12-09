@@ -1040,6 +1040,10 @@ for i in `seq 1 999`; do alias n${i}a="nn $i 'cut -f2- -d: | trim_spaces' git ad
 for i in `seq 1 999`; do alias v$i="vv $i"; done
 for i in `seq 1 999`; do alias v${i}p="vv $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias v${i}n="vv $i 'cut -f2- -d: | trim_spaces'"; done
+# open all files from current ~/tmp/buffer
+va () {
+    cat ~/tmp/buffer | decolorize | ~/bin/extract_files.py | xargs -0 --open-tty vim -p
+}
 
 nd () {
     mkdir -p "$1" && cd "$1"

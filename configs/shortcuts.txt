@@ -18,7 +18,7 @@ My Vim/Bash/Zsh:   A-y  beginning-of-line | v10   open 10th line by vim
   A-e  escape      A-u  end-of-line       |       n10p : n10n     v10p : v10n
   C-t  Return      t    go down           | o10   open 10th line by xgd-open
 fp  get fullpath  A-b  add buffer2 to line|    b  print buffer2
-cdb cd to buffer2 location                |   vb  vim to buffer2
+cdb cd to buffer2 location                |   vb  vim to buffer2  va  open all
 after "cmd"  run `cmd` before earch prompt|  A-r  update history
     | C-o  cd -   | A-c  input abbreviation, press this and it will `cd` there
 ______________________________________________________________________________

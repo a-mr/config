@@ -17,5 +17,5 @@ echo "$result" > ~/tmp/buffer2
 if [ ! -z "$DISPLAY" ]
 then
         echo "  ...copying to clipboard..."
-        echo "$result" | xcl
+        echo "'$result'" | xcl
 fi
