@@ -307,7 +307,7 @@ if [[ $CURSHELL == zsh ]]; then
 
     function run_vim_pager () { 
         if [ ! -z "$BUFFER" ]; then
-          BUFFER="$BUFFER 2>&1 | vim -c \"setlocal buftype=nofile bufhidden=hide noswapfile\" -"
+          BUFFER="$BUFFER 2>&1 | decolorize | vim -c \"setlocal buftype=nofile bufhidden=hide noswapfile\" -"
           zle accept-line
         fi
     }

@@ -21,6 +21,7 @@ fp  get fullpath  A-b  add buffer2 to line|    b  print buffer2
 cdb cd to buffer2 location                |   vb  vim to buffer2  va  open all
 after "cmd"  run `cmd` before earch prompt|  A-r  update history
     | C-o  cd -   | A-c  input abbreviation, press this and it will `cd` there
+                  | n 10 command  apply command to line 10 of buffer
 ______________________________________________________________________________
 Vim                     |Vim spellcheck                |Vim window
   zo  open fold (zO-rec)| <F9> or set spell/set nospell| C-w +-  resize up/dn
@@ -42,6 +43,7 @@ _______________________________________________________| C-w K  to horiz.split
   :set textwidth=72 <CR> gq    to make text fit into 72 characters
   :set wrap   force automatic line wrapping (in vimdiff)
   :mksession <filename>  save tab layout -> load it by `vim -S <filename>`
+  /\%Vpattern  search the most recent visual selection (select it then <ESC>)
 vim-diff:        do   replace change under cursor from o_ther pane
                  ]c   jump to next diff
   :%sort  or  :%!sort     sort the whole file (range=%), `-n` for numeric sort
@@ -236,6 +238,9 @@ clb REPO BRANCH       clone specific BRANCH of REPO
 
 gfcou BRANCH          force-fetch and checkout BRANCH
 github NUMBER         fetch & checkout Github PR number
+______________________________________________________________________________
+gdb cheatsheet
+info sym $pc
 ______________________________________________________________________________
 0 - admin/program start   2 - Web         4 - auxiliary work         6 - VMs
 1 - e-mail/messagers      3 - main work   5 - remote work (ssh...)

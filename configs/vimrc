@@ -1202,6 +1202,7 @@ let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": ":"}
 
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-noscrollbar/
+set runtimepath+=~/activity-public/computer-program-data/vim/vim-mark/
 if &diff
     finish
 endif
@@ -1222,7 +1223,6 @@ set runtimepath+=~/activity-public/computer-program-data/vim/vim-markbar/
 set runtimepath+=~/activity-public/computer-program-data/vim/nim.vim/
 "set runtimepath+=~/activity-public/computer-program-data/vim/nvim-vim/
 set runtimepath+=~/activity-public/computer-program-data/vim/vim-ingo-library/
-set runtimepath+=~/activity-public/computer-program-data/vim/vim-mark/
 
 " Set ultisnips triggers
 let g:UltiSnipsExpandTrigger="<tab>"

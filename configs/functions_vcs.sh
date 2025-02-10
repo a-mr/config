@@ -96,6 +96,11 @@ logmy () {
     git_log_common --author `git config --get user.email` `dbr` | pg
 }
 
+logv () {
+    check_no_args "$@" || return
+    git log --oneline --decorate-full --no-walk --tags `bra` `dbr` | pg
+}
+
 log () {
     REPO=`what_is_repo_type`
     case "$REPO" in
@@ -200,7 +205,7 @@ difbp () {
   else
       local branches="$(git merge-base $branch $default)..$branch"
       echo git diff --color=never $branches $@
-      git diff --color=never $branches $@ | pgd
+      git --no-pager diff --color=never $branches $@
   fi
 }
 
@@ -212,7 +217,7 @@ difbcp () {
   else
       local commit="$(git merge-base $branch $default)"
       echo git diff --color=never $commit $@
-      git diff --color=never $commit $@ | pgd
+      git diff --color=never $commit $@
   fi
 }
 
@@ -364,13 +369,14 @@ lgb () {
 
 # show stashed change (last by default)
 sho () {
-    git stash show --patch-with-stat $@ | pg
+    git stash show --patch-with-stat $@
 }
 
 # show all the stashed change
 shoa () {
     check_no_args "$@" || return
-    git stash list -p --stat | hgrep "stash@{.*" --color=always | pg
+    # git stash list -p --stat | hgrep "stash@{.*" --color=always
+    git stash list -p --stat
 }
 
 cdr () {
@@ -448,9 +454,20 @@ function has {
   esac
 }
 
+_my_propose_push() {
+    mydialog "push?[n|y|f]" "n green_echo Done" \
+               "y git push origin \"$(bra)\"" \
+               "f git push origin --force-with-lease \"$(bra)\""
+}
+_my_propose_pushf() {
+    mydialog "push?[n|f]" "n green_echo Done" \
+      "f git push origin --force-with-lease \"$(bra)\""
+}
+
 cnt () {
     check_no_args "$@" || return
     git rebase --continue
+    _my_propose_pushf
 }
 
 # history of all changes to file(s)
@@ -461,7 +478,7 @@ his () {
   fi
   REPO=`what_is_repo_type`
   case "$REPO" in
-      git) git log --decorate=full --follow -p -- $@|p
+      git) git log --decorate=full --follow -p -- $@
           ;;
       mercurial) hg record $@|p
           ;;
@@ -622,8 +639,7 @@ dif () {
   case "$REPO" in
       git)
           # prefixes don't really work at the moment for --stat:
-          git diff --patch-with-stat `_rel_prefixes` -r HEAD -- $@|pgd
-          sta "$@"
+          git diff --patch-with-stat `_rel_prefixes` -r HEAD -- $@
           ;;
       mercurial) hg diff $@|pgd
           ;;
@@ -641,7 +657,7 @@ difp () {
           if [ ! -f $1 ]; then
               red_echo file $1 not found
           fi
-          git diff --color=never -r HEAD -- $@|pgd
+          git diff --color=never -r HEAD -- $@
           ;;
       mercurial) hg diff --color=never $@|pgd
           ;;
@@ -687,7 +703,7 @@ pat () {
   case "$REPO" in
       git)
           local rel="`roo_rel`"
-          git show --parents --patch-with-stat `_rel_prefixes` $@ | pgd
+          git show --parents --patch-with-stat `_rel_prefixes` $@
           ;;
       mercurial) hg diff -c $@ | pgd
           ;;
@@ -792,10 +808,7 @@ com () {
   case "$REPO" in
       git)
           git_check_all_staged
-          eval git commit $msg && \
-               mydialog "push?[n|y|f]" "n green_echo Done" \
-               "y git push origin \"$(bra)\"" \
-               "f git push origin --force-with-lease \"$(bra)\""
+          eval git commit $msg && _my_propose_push
           ;;
       mercurial) eval hg commit $msg && (
           if grep default `hg root`/.hg/hgrc > /dev/null 2>&1; then
@@ -812,6 +825,7 @@ com () {
 
 # git commit --amend
 coma () {
+  check_no_args || return
   if [ "`dbr`" = "`bra`" ]; then
       bold_echo "Commit to default branch? [n|y]"
       local answer
@@ -825,9 +839,7 @@ coma () {
       msg="-m \"$1\""
   fi
   git_check_all_staged
-  eval git commit --amend $msg && \
-      mydialog "push?[n|f]" "n green_echo Done" \
-      "f git push origin --force-with-lease \"$(bra)\""
+  eval git commit --amend $msg && _my_propose_pushf
 }
 
 # save changes
@@ -862,9 +874,7 @@ rebd () {
     local def_br=$(dbr)
     local cur_br=$(bra)
     [[ $def_br = $cur_br ]] && red_echo On default branch && return 1
-    git fetch origin "$def_br:$def_br" && git rebase "$def_br" && \
-        mydialog "push?[n|f]" "n green_echo Done" \
-        "f git push origin --force-with-lease \"$cur_br\""
+    git fetch origin "$def_br:$def_br" && git rebase "$def_br" && _my_propose_pushf
 }
 
 gitlfspur () {
@@ -923,6 +933,7 @@ rvrr () {
 }
 
 rvr () {
+  check_1plus_args || return
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git reset --quiet -- $@ # remove file from staging area
@@ -1129,7 +1140,7 @@ mov () {
 }
 
 grp () {
-    git --no-pager grep $@ -- :/
+    git --no-pager grep --line-number --color=always $@ -- :/
 }
 
 # End VCS commands

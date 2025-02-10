@@ -16,7 +16,7 @@
 	commitEncoding = utf8
 [core]
 	quotepath = false
-	pager = cat
+	pager = delta
 [github]
 	user = a-mr
 [difftool.latex]

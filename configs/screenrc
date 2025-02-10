@@ -18,3 +18,5 @@ markkeys ^F=^T:j=t
 ignorecase on
 altscreen on
 
+# this just say to set env.variable, it will make sense if screen is compiled with --enable-256colors
+term screen-256color

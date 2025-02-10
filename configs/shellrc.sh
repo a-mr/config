@@ -629,6 +629,13 @@ check_no_args() {
     fi
 }
 
+check_1plus_args() {
+    if [ $# -eq 0 ]; then
+        echo "At least 1 argument expected" >&2
+        return 1
+    fi
+}
+
 rr () {
     local CMD="`fc -ln -1`"
     $XTERMINAL -e $CURSHELL -i -c "$CMD ; bold_echo 'press <Enter> to close the terminal' ; getch" &
@@ -1029,6 +1036,11 @@ trim_spaces () {
 # > b111 command
 #process all line
 for i in `seq 1 999`; do alias n$i="nn $i ''"; done
+n () {
+    local num=$1
+    shift 1
+    nn "$num" '' "$@"
+}
 for i in `seq 1 999`; do alias o$i="nn $i '' o"; done
 #process first field, e.g. 'x' in 'x:y'
 for i in `seq 1 999`; do alias n${i}p="nn $i 'cut -f1  -d: | trim_spaces'"; done
@@ -1042,7 +1054,8 @@ for i in `seq 1 999`; do alias v${i}p="vv $i 'cut -f1  -d: | trim_spaces'"; done
 for i in `seq 1 999`; do alias v${i}n="vv $i 'cut -f2- -d: | trim_spaces'"; done
 # open all files from current ~/tmp/buffer
 va () {
-    cat ~/tmp/buffer | decolorize | ~/bin/extract_files.py | xargs -0 --open-tty vim -p
+    cat ~/tmp/buffer | decolorize | ~/bin/extract_files.py > ~/tmp/buffer4
+    xargs -0 -a ~/tmp/buffer4 vim -p
 }
 
 nd () {

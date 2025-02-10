@@ -9,6 +9,10 @@ INS="red_command sudo apt-get install -y $1"
 #Version control:
 $INS cvs subversion mercurial tortoisehg bzr git git-lfs gitk gitweb git-email libemail-valid-perl libmailtools-perl libauthen-sasl-perl darcs
 
+wget https://github.com/dandavison/delta/releases/download/0.18.2/git-delta_0.18.2_amd64.deb
+dpkg -i git-delta_0.18.2_amd64.deb
+rm git-delta_0.18.2_amd64.deb
+
 # misc
 $INS m4 libev-dev cputool rlwrap python3-pygments python3-venv rst2pdf meld manpages-dev speedcrunch parallel time
 # $INS linux-tools-generic linux-tools-common # for perf
