@@ -98,7 +98,7 @@ logmy () {
 
 logv () {
     check_no_args "$@" || return
-    git log --oneline --decorate-full --no-walk --tags `bra` `dbr` | pg
+    git log --oneline --decorate=full --no-walk --tags `bra` `dbr` | pg
 }
 
 log () {
