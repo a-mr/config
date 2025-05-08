@@ -636,6 +636,13 @@ check_1plus_args() {
     fi
 }
 
+check_1_arg() {
+    if [ $# -ne 1 ]; then
+        echo "Exactly 1 argument expected" >&2
+        return 1
+    fi
+}
+
 rr () {
     local CMD="`fc -ln -1`"
     $XTERMINAL -e $CURSHELL -i -c "$CMD ; bold_echo 'press <Enter> to close the terminal' ; getch" &
@@ -1055,7 +1062,7 @@ for i in `seq 1 999`; do alias v${i}n="vv $i 'cut -f2- -d: | trim_spaces'"; done
 # open all files from current ~/tmp/buffer
 va () {
     cat ~/tmp/buffer | decolorize | ~/bin/extract_files.py > ~/tmp/buffer4
-    xargs -0 -a ~/tmp/buffer4 vim -p
+    xargs -0 -a ~/tmp/buffer4 sh -c "echo vim -p \"\$0\" \"\$@\" $@; vim -p \"\$0\" \"\$@\" $@"
 }
 
 nd () {
@@ -1076,6 +1083,15 @@ lsp () {
 
 llp () {
     ll|p
+}
+
+fast_rm () {
+    mkdir -p _Trash
+    for i in "$@"; do
+        local TMP="$i.`uuidgen`"
+        echo mv "$i" "_Trash/$TMP" \&\& rm -rf "_Trash/$TMP"
+        mv "$i" "_Trash/$TMP" && rm -rf "_Trash/$TMP" &
+    done
 }
 
 #TODO: where is fork bomb hidden here in situations:

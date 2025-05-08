@@ -20,3 +20,6 @@ altscreen on
 
 # this just say to set env.variable, it will make sense if screen is compiled with --enable-256colors
 term screen-256color
+
+bind a select 10
+bind b select 11

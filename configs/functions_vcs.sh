@@ -41,7 +41,7 @@ hgvim () {
 }
 
 app () {
-    git apply -3 "$@"
+    git apply -v -3 "$@"
 }
 
 hgfix () {
@@ -74,9 +74,12 @@ inf () {
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) 
+          bold_echo Current commit:
           local branch="${1:-$(bra)}"
+          dat "$branch"
           git describe --all; git branch -vv | grep "\\* $branch .*"; git remote -v
           dat "$branch"
+          bold_echo Current work copy:
           git diff --stat | cat
           ;;
       mercurial) hg id; hg paths
@@ -181,7 +184,7 @@ difb () {
               local branches="$(git merge-base $branch $default)..$branch"
               local cmd="git diff --patch-with-stat `_rel_prefixes` $branches $follow $@"
               echo "$branches"
-              eval $cmd | pgd
+              eval $cmd
               stab "$@"
           fi
           ;;
@@ -228,7 +231,7 @@ difbc () {
     local default=$(dbr)
     local cmd="git diff --patch-with-stat `_rel_prefixes` $(git merge-base $branch $default) $@"
     echo $cmd
-    eval $cmd | pgd
+    eval $cmd
     # show helpful list of modified files in the end
     stabc
 }
@@ -321,6 +324,7 @@ stab () {
               git diff --stat $default $@ | pb
           else
               local cmd="git diff --name-status $(git merge-base $branch $default)..$branch $follow $@ | sed -e 's/	/:\t/g'"
+              echo $cmd
               eval $cmd | pb
           fi
           ;;
@@ -377,6 +381,14 @@ shoa () {
     check_no_args "$@" || return
     # git stash list -p --stat | hgrep "stash@{.*" --color=always
     git stash list -p --stat
+}
+# the same for all repos MY_REPOS
+shoaa() {
+    for repo in "$MY_REPOS[@]"; do
+        echo "================================================================= $repo"
+        cd "$repo"
+        shoa | cat
+    done | less
 }
 
 cdr () {
@@ -466,8 +478,7 @@ _my_propose_pushf() {
 
 cnt () {
     check_no_args "$@" || return
-    git rebase --continue
-    _my_propose_pushf
+    git rebase --continue && _my_propose_pushf
 }
 
 # history of all changes to file(s)
@@ -522,7 +533,7 @@ bra () {
           if echo $br | grep -q 'HEAD detached'; then
               br=`git branch --contains HEAD | grep -v "HEAD detached" | tail -n1 | trim_spaces`
               if [ "$1" = "-safe" ]; then
-                  br="!! $br !!"
+                  br="!! $br `git rev-parse --short HEAD` !!"
               fi
           fi
           echo $br
@@ -657,7 +668,7 @@ difp () {
           if [ ! -f $1 ]; then
               red_echo file $1 not found
           fi
-          git diff --color=never -r HEAD -- $@
+          git diff --color=never -r HEAD -- $@ | less
           ;;
       mercurial) hg diff --color=never $@|pgd
           ;;
@@ -933,7 +944,7 @@ rvrr () {
 }
 
 rvr () {
-  check_1plus_args || return
+  check_1plus_args "$@" || return
   REPO=`what_is_repo_type`
   case "$REPO" in
       git) git reset --quiet -- $@ # remove file from staging area
@@ -1043,6 +1054,13 @@ get () {
   esac
 }
 
+getf () {
+    check_1_arg "$@" || return
+    local branch="$1"
+    echo git fetch --force --recurse-submodules origin $branch:$branch
+    git fetch --force --recurse-submodules origin $branch:$branch
+}
+
 # get default branch
 getd () {
     get `dbr`
@@ -1140,7 +1158,7 @@ mov () {
 }
 
 grp () {
-    git --no-pager grep --line-number --color=always $@ -- :/
+    git --no-pager grep --line-number --color=always $@ -- :/ | pb
 }
 
 # End VCS commands
